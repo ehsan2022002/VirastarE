@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40209D02-3E2D-42D0-BE9A-1EBBF34DDD9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BrozoyaEntitys</RootNamespace>
+    <AssemblyName>BrozoyaEntitys</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>BorzoyaEntitySN.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntityData\PS_Dictionary_FA.cs" />
+    <Compile Include="EntityData\PS_MOKASSAR_FA.cs" />
+    <Compile Include="EntityData\PS_PATTERN_FA.cs" />
+    <Compile Include="EntityData\PS_PersianWordFrequency.cs" />
+    <Compile Include="EntityData\PS_StopWord.cs" />
+    <Compile Include="EntityData\PS_VERB_FA.cs" />
+    <Compile Include="EntityData\SC_DIC_FA.cs" />
+    <Compile Include="EntityData\T_PARA.cs" />
+    <Compile Include="EntityOpratins\DataUtil.cs" />
+    <Compile Include="EntityOpratins\DocOpration.cs" />
+    <Compile Include="EntityOpratins\DocTreeOpration.cs" />
+    <Compile Include="EntityOpratins\ParaOpration.cs" />
+    <Compile Include="EntityOpratins\PS_Dictionary_FAOpration.cs" />
+    <Compile Include="EntityOpratins\PS_MOKASSAR_FAOpration.cs" />
+    <Compile Include="EntityOpratins\PS_PATTERN_FAOpration.cs" />
+    <Compile Include="EntityOpratins\PS_PersianWordFrequencyOpration.cs" />
+    <Compile Include="EntityOpratins\PS_StopWordOpration.cs" />
+    <Compile Include="EntityOpratins\PS_VERB_FAOpration.cs" />
+    <Compile Include="EntityOpratins\SC_DIC_FAOpration.cs" />
+    <Compile Include="GetBySQL.cs" />
+    <Compile Include="GetBySQLLight.cs" />
+    <Compile Include="EntityOpratins\SettingOprtion.cs" />
+    <Compile Include="EntityData\T_Doc.cs" />
+    <Compile Include="EntityData\T_DocTree.cs" />
+    <Compile Include="EntityData\T_Setting.cs" />
+    <Compile Include="EntityData\T_Similarity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\System.Data.SQLite\System.Data.SQLite.csproj">
+      <Project>{f1653f20-d47d-4f29-8c55-3c835542af5f}</Project>
+      <Name>System.Data.SQLite</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BorzoyaEntitySN.snk" />
+    <None Include="db\borzoya" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

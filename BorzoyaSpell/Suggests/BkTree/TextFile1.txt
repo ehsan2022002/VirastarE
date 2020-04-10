@@ -1,0 +1,39 @@
+﻿ _stringMatcher.Add("0123456789", "10 digit long string");
+            _stringMatcher.Add("012345678", "9 digit long string");
+            _stringMatcher.Add("01234567", "8 digit long string");
+            _stringMatcher.Add("0123456", "7 digit long string");
+            _stringMatcher.Add("012345", "6 digit long string");
+            _stringMatcher.Add("01234", "5 digit long string");
+            _stringMatcher.Add("0123", "4 digit long string");
+            _stringMatcher.Add("012", "3 digit long string");
+            _stringMatcher.Add("01", "2 digit long string");
+            _stringMatcher.Add("0", "1 digit long string");
+
+            _stringMatcher.Add("Test", "String with uppercase char");
+            _stringMatcher.Add("test", "String with all lowercase chars");
+
+            _stringMatcher.Add("This is a test", "Multiple word string");
+
+            _stringMatcher.Add("Cat", "Short string");
+            _stringMatcher.Add("Bats", "Slightly longer short string");
+        }
+
+        [TestMethod]
+        public void TestOneHundredPercentMatching()
+        {
+            SearchResultList<String> results = _stringMatcher.Search("01234", 100.0f);
+
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("01234", results[0].Keyword);
+        }
+
+        [TestMethod]
+        public void TestSeventyFivePercentMatching()
+        {
+            SearchResultList<String> results = _stringMatcher.Search("0123456789", 75.0f);
+
+            Assert.AreEqual(3, results.Count);
+            Assert.IsTrue(results.ContainsKeyword("0123456789"));
+            Assert.IsTrue(results.ContainsKeyword("012345678"));
+            Assert.IsTrue(results.ContainsKeyword("01234567"));
+        }

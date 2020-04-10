@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{94C43C23-7D66-4657-A67F-34335223B190}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TextSummarize</RootNamespace>
+    <AssemblyName>TextSummarize</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>TextSummarizeSN.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSummary.Designer.cs">
+      <DependentUpon>frmSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Resources\english.tagger" />
+    <None Include="Resources\Models\Coref\acronyms" />
+    <None Include="Resources\Models\Coref\cmodel.nbin" />
+    <None Include="Resources\Models\Coref\cmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\defmodel.nbin" />
+    <None Include="Resources\Models\Coref\defmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\fmodel.nbin" />
+    <None Include="Resources\Models\Coref\fmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\gen.fem" />
+    <None Include="Resources\Models\Coref\gen.mal" />
+    <None Include="Resources\Models\Coref\gen.nbin" />
+    <None Include="Resources\Models\Coref\imodel.nbin" />
+    <None Include="Resources\Models\Coref\imodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\num.nbin" />
+    <None Include="Resources\Models\Coref\plmodel.nbin" />
+    <None Include="Resources\Models\Coref\plmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\pmodel.nbin" />
+    <None Include="Resources\Models\Coref\pmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\pnmodel.nbin" />
+    <None Include="Resources\Models\Coref\pnmodel_nr.nbin" />
+    <None Include="Resources\Models\Coref\sim.nbin" />
+    <None Include="Resources\Models\Coref\tmodel.nbin" />
+    <None Include="Resources\Models\Coref\tmodel_nr.nbin" />
+    <None Include="Resources\Models\EnglishChunk.nbin" />
+    <None Include="Resources\Models\EnglishPOS.nbin" />
+    <None Include="Resources\Models\EnglishSD.nbin" />
+    <None Include="Resources\Models\EnglishTok.nbin" />
+    <None Include="Resources\Models\NameFind\date.nbin" />
+    <None Include="Resources\Models\NameFind\location.nbin" />
+    <None Include="Resources\Models\NameFind\money.nbin" />
+    <None Include="Resources\Models\NameFind\organization.nbin" />
+    <None Include="Resources\Models\NameFind\percentage.nbin" />
+    <None Include="Resources\Models\NameFind\person.nbin" />
+    <None Include="Resources\Models\NameFind\time.nbin" />
+    <None Include="Resources\Models\organization.nbin" />
+    <None Include="Resources\Models\Parser\build.nbin" />
+    <None Include="Resources\Models\Parser\check.nbin" />
+    <None Include="Resources\Models\Parser\chunk.nbin" />
+    <None Include="Resources\Models\Parser\date.nbin" />
+    <None Include="Resources\Models\Parser\head_rules" />
+    <None Include="Resources\Models\Parser\tag.nbin" />
+    <None Include="Resources\Models\Parser\tagdict" />
+    <None Include="Resources\persian.tagger" />
+    <None Include="Resources\WordNet\dict\adj.exc" />
+    <None Include="Resources\WordNet\dict\adv.exc" />
+    <None Include="Resources\WordNet\dict\cntlist" />
+    <None Include="Resources\WordNet\dict\cntlist.rev" />
+    <None Include="Resources\WordNet\dict\data.adj" />
+    <None Include="Resources\WordNet\dict\data.adv" />
+    <None Include="Resources\WordNet\dict\data.noun" />
+    <None Include="Resources\WordNet\dict\data.verb" />
+    <None Include="Resources\WordNet\dict\frames.vrb" />
+    <None Include="Resources\WordNet\dict\index.adj" />
+    <None Include="Resources\WordNet\dict\index.adv" />
+    <None Include="Resources\WordNet\dict\index.noun" />
+    <None Include="Resources\WordNet\dict\index.sense" />
+    <None Include="Resources\WordNet\dict\index.verb" />
+    <None Include="Resources\WordNet\dict\log.grind.2.1" />
+    <None Include="Resources\WordNet\dict\noun.exc" />
+    <None Include="Resources\WordNet\dict\sentidx.vrb" />
+    <None Include="Resources\WordNet\dict\sents.vrb" />
+    <None Include="Resources\WordNet\dict\verb.exc" />
+    <None Include="Resources\WordNet\dict\verb.Framestext" />
+    <None Include="TextSummarizeSN.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TextRank\TextRank.csproj">
+      <Project>{223d7b57-1366-4ce6-b09b-8973c40d66c3}</Project>
+      <Name>TextRank</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmSummary.resx">
+      <DependentUpon>frmSummary.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

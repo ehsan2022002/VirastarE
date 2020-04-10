@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2403EE11-4702-4FDD-8871-0118065F2F69}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BorzoyaSpell</RootNamespace>
+    <AssemblyName>BorzoyaSpell</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>borzoyaSpellsn.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CheakSpell.cs" />
+    <Compile Include="FarsiNormalizer.cs" />
+    <Compile Include="MakeTrans.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PunchPattern.cs" />
+    <Compile Include="PunctuationCkeak.cs" />
+    <Compile Include="RegexPattern.cs" />
+    <Compile Include="Suggests\BkTree\EditDistanceCalculator.cs" />
+    <Compile Include="Suggests\BkTree\MatchingOption.cs" />
+    <Compile Include="Suggests\BkTree\SearchResult.cs" />
+    <Compile Include="Suggests\BkTree\SearchResultList.cs" />
+    <Compile Include="Suggests\BkTree\StringMatcher.cs" />
+    <Compile Include="Suggests\Norvig\NorvigSpellChecker.cs" />
+    <Compile Include="Suggests\Soundex\Soundex.cs" />
+    <Compile Include="UserDicOpration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrozoyaEntitys\BrozoyaEntitys.csproj">
+      <Project>{40209d02-3e2d-42d0-be9a-1ebbf34ddd9a}</Project>
+      <Name>BrozoyaEntitys</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Suggests\BkTree\TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="borzoyaSpellsn.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--PLEASE NOTE: The CustomUI_OnLoad method is a virtual member of the COMAddin base class -->
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="CustomUI_OnLoad">
+  <ribbon>
+    <tabs>
+      <tab id="VirastarE" label="VirastarE">
+        <group id="group1" label="خصوصیات">
+          <!--<button id="AboutButton" label="درباره" imageMso="CreateFormBlankForm" size="large" onAction="AboutButton_Click" />-->
+          <button id="btnSetting" label="تنظیمات" imageMso="GridSettings" size="large" onAction="btnSetting_Click" /> 
+        </group>
+        <group id="Edit" label="ویرایش"  >
+          <button id="btnNormalizaer" label="اصلاح فاصله و حروف" imageMso="MarginsAdjust" size="large" onAction="btnNormalizaer_Click" />
+          <button id="btnspell" label="برسی املا" imageMso="SpellingAndGrammar" size="large" onAction="btnSpell_Click" />
+          <button id="btnpunc" label="برسی نگارش" imageMso="Grammar" size="large" onAction="btnPunctuation_Click" />
+        </group >
+        <group id="Explor" label="کاوشگر متن">          
+          <button id="btnSummerizer" label="خلاصه" imageMso="FunctionWizard" size="large" onAction="btnSummerizer_Click" />
+        </group >
+        
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
