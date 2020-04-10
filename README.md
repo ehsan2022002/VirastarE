@@ -12,8 +12,13 @@ https://drive.google.com/file/d/1F2mGRKvT410IwkH9FxASBs6TPUA2TBEJ/view
 
 
 <br>
+<br>
+
+<img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot3.png" alt="virstarE">
 <hr>
 <br>
+
+
 BorzoyaSpell <br>
  برای برسی و اصلاح لغات فارسی با الگوریتمهای  نورونگ و ساندکس فارسی
  <br>
