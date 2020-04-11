@@ -1,5 +1,5 @@
 # VirastarE <br>
-
+<div dir="rtl">
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot2.png" alt="virstarE">
 <br>
 
@@ -32,3 +32,4 @@ PersianStemmer<br>
 Balloon.NET<br>
 برای رابط کاربری ایجاد شده است
 <br>
+</div>
