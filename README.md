@@ -5,13 +5,14 @@
 
 افزونه مایکروسافت ورد برای ویراستاری و خلاصه سازی
 این پروژه شامل سیزده زیر پروژه مختلف میباشد که برخی از آنها در زیر توضیح داده شده است برای اجرا به حداقل دات نت چهار و شش نیاز است
+<a href="https://github.com/ehsan2022002/VirastarE/wiki"> برای اطلاعات بیشتر ویکی را ببینید </a>
+
 <br>
 جهت دانلود برنامه آماده و نصب به آدرس زیر بروید
 <br>
 https://drive.google.com/file/d/1F2mGRKvT410IwkH9FxASBs6TPUA2TBEJ/view
 <br>
 <br>
-<a href="https://github.com/ehsan2022002/VirastarE/wiki">برای اطلاعات بیشتر ویکی را ببینید</a>
 <br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot3.png" alt="virstarE">
 <br>
