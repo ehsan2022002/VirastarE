@@ -10,7 +10,7 @@
 <br>
 جهت دانلود برنامه آماده و نصب به آدرس زیر بروید
 <br>
-https://drive.google.com/file/d/1F2mGRKvT410IwkH9FxASBs6TPUA2TBEJ/view
+https://drive.google.com/file/d/11Y-xVHWyiZqxZ6wel68MwN8C7cS7eU41/view?usp=sharing
 <br>
 <br>
 <br>
