@@ -1,6 +1,5 @@
 # VirastarE <br>
 <div dir="rtl">
-<img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot2.png" alt="virstarE">
 <br>
 
 افزونه مایکروسافت ورد برای ویراستاری و خلاصه سازی
@@ -10,7 +9,7 @@
 <br>
 جهت دانلود برنامه آماده و نصب به آدرس زیر بروید
 <br>
-https://drive.google.com/file/d/11Y-xVHWyiZqxZ6wel68MwN8C7cS7eU41/view?usp=sharing
+https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing
 <br>
 <br>
 <br>
