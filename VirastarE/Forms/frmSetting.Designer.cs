@@ -28,36 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSetting));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.resultLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblErr = new System.Windows.Forms.Label();
+            this.txtIgnoreList = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblTackval = new System.Windows.Forms.Label();
+            this.chkIgnoreEnglish = new System.Windows.Forms.CheckBox();
+            this.chkStemSpell = new System.Windows.Forms.CheckBox();
+            this.lblTackbar = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.chkPunkRec = new System.Windows.Forms.CheckBox();
+            this.chkRecSpell = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(543, 292);
+            this.tabControl1.Size = new System.Drawing.Size(543, 317);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.resultLabel);
             this.tabPage1.Controls.Add(this.textBox1);
@@ -66,10 +84,20 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(535, 263);
+            this.tabPage1.Size = new System.Drawing.Size(535, 288);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "واژه نامه";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(403, 220);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(124, 35);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "نمایش پوشه";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -115,6 +143,139 @@
             this.listBox1.Size = new System.Drawing.Size(519, 164);
             this.listBox1.TabIndex = 0;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.lblErr);
+            this.tabPage3.Controls.Add(this.txtIgnoreList);
+            this.tabPage3.Controls.Add(this.label3);
+            this.tabPage3.Controls.Add(this.lblTackval);
+            this.tabPage3.Controls.Add(this.chkIgnoreEnglish);
+            this.tabPage3.Controls.Add(this.chkStemSpell);
+            this.tabPage3.Controls.Add(this.lblTackbar);
+            this.tabPage3.Controls.Add(this.trackBar1);
+            this.tabPage3.Controls.Add(this.chkPunkRec);
+            this.tabPage3.Controls.Add(this.chkRecSpell);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(535, 288);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "تنظیمات";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lblErr
+            // 
+            this.lblErr.AutoSize = true;
+            this.lblErr.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.lblErr.ForeColor = System.Drawing.Color.Salmon;
+            this.lblErr.Location = new System.Drawing.Point(184, 262);
+            this.lblErr.Name = "lblErr";
+            this.lblErr.Size = new System.Drawing.Size(0, 13);
+            this.lblErr.TabIndex = 10;
+            // 
+            // txtIgnoreList
+            // 
+            this.txtIgnoreList.Location = new System.Drawing.Point(109, 233);
+            this.txtIgnoreList.Name = "txtIgnoreList";
+            this.txtIgnoreList.Size = new System.Drawing.Size(219, 23);
+            this.txtIgnoreList.TabIndex = 9;
+            this.txtIgnoreList.TextChanged += new System.EventHandler(this.txtIgnoreList_TextChanged);
+            this.txtIgnoreList.Validating += new System.ComponentModel.CancelEventHandler(this.txtIgnoreList_Validating);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(334, 236);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(172, 16);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "این کاراکترها نادیده گرفته شود";
+            this.toolTip1.SetToolTip(this.label3, "کاراکترهای زیر را میتوان برای املا نادیده فرض کرد\r\n!:\\.،؛؟»\\]\\)\\}«\\[\\(\\{-_&^#");
+            // 
+            // lblTackval
+            // 
+            this.lblTackval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTackval.AutoSize = true;
+            this.lblTackval.Location = new System.Drawing.Point(334, 121);
+            this.lblTackval.Name = "lblTackval";
+            this.lblTackval.Size = new System.Drawing.Size(0, 16);
+            this.lblTackval.TabIndex = 7;
+            // 
+            // chkIgnoreEnglish
+            // 
+            this.chkIgnoreEnglish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkIgnoreEnglish.AutoSize = true;
+            this.chkIgnoreEnglish.Location = new System.Drawing.Point(276, 191);
+            this.chkIgnoreEnglish.Name = "chkIgnoreEnglish";
+            this.chkIgnoreEnglish.Size = new System.Drawing.Size(229, 20);
+            this.chkIgnoreEnglish.TabIndex = 6;
+            this.chkIgnoreEnglish.Text = "لغات یا حروف انگلیسی را اشکال نگیر";
+            this.chkIgnoreEnglish.UseVisualStyleBackColor = true;
+            this.chkIgnoreEnglish.CheckedChanged += new System.EventHandler(this.chkIgnoreEnglish_CheckedChanged);
+            // 
+            // chkStemSpell
+            // 
+            this.chkStemSpell.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkStemSpell.AutoSize = true;
+            this.chkStemSpell.Location = new System.Drawing.Point(187, 165);
+            this.chkStemSpell.Name = "chkStemSpell";
+            this.chkStemSpell.Size = new System.Drawing.Size(318, 20);
+            this.chkStemSpell.TabIndex = 5;
+            this.chkStemSpell.Text = "اگر در لغتنامه یافت نشد ریشه کلمه هم مقایسه شود";
+            this.chkStemSpell.UseVisualStyleBackColor = true;
+            this.chkStemSpell.CheckedChanged += new System.EventHandler(this.chkStemSpell_CheckedChanged);
+            // 
+            // lblTackbar
+            // 
+            this.lblTackbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTackbar.AutoSize = true;
+            this.lblTackbar.Location = new System.Drawing.Point(370, 121);
+            this.lblTackbar.Name = "lblTackbar";
+            this.lblTackbar.Size = new System.Drawing.Size(138, 16);
+            this.lblTackbar.TabIndex = 4;
+            this.lblTackbar.Text = "میزان حساسیت املایی\r\n";
+            this.toolTip1.SetToolTip(this.lblTackbar, "1.آزمایشگاه ویراستاری\r\n2.ویکی پیدیا اصلاح شده\r\n3.سایتهای خبری\r\n4.ویکی پیدیا با لغ" +
+        "ات فارسی اضافه شده\r\n5.ویکی پیدیا");
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(68, 112);
+            this.trackBar1.Maximum = 5;
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(260, 45);
+            this.trackBar1.TabIndex = 3;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.toolTip1.SetToolTip(this.trackBar1, "1.آزمایشگاه ویراستاری\r\n2.ویکی اصلاح شده\r\n3.سایتهای خبری اصلاح شده\r\n4.ویکی و سایته" +
+        "ای خبری اصلاخ شده\r\n5 ویکی");
+            this.trackBar1.Value = 1;
+            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            // 
+            // chkPunkRec
+            // 
+            this.chkPunkRec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkPunkRec.AutoSize = true;
+            this.chkPunkRec.Location = new System.Drawing.Point(314, 60);
+            this.chkPunkRec.Name = "chkPunkRec";
+            this.chkPunkRec.Size = new System.Drawing.Size(191, 20);
+            this.chkPunkRec.TabIndex = 2;
+            this.chkPunkRec.Text = "انشای متن مرتبا بازبینی شود";
+            this.chkPunkRec.UseVisualStyleBackColor = true;
+            this.chkPunkRec.CheckedChanged += new System.EventHandler(this.chkPunkRec_CheckedChanged);
+            // 
+            // chkRecSpell
+            // 
+            this.chkRecSpell.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkRecSpell.AutoSize = true;
+            this.chkRecSpell.Location = new System.Drawing.Point(320, 34);
+            this.chkRecSpell.Name = "chkRecSpell";
+            this.chkRecSpell.Size = new System.Drawing.Size(185, 20);
+            this.chkRecSpell.TabIndex = 0;
+            this.chkRecSpell.Text = "املای متن مرتبا بازبینی شود";
+            this.chkRecSpell.UseVisualStyleBackColor = true;
+            this.chkRecSpell.CheckedChanged += new System.EventHandler(this.chkRecSpell_CheckedChanged);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.label2);
@@ -122,7 +283,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(535, 263);
+            this.tabPage2.Size = new System.Drawing.Size(535, 288);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "درباره";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -146,11 +307,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 50000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            // 
             // frmSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 292);
+            this.ClientSize = new System.Drawing.Size(543, 317);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -164,6 +331,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -182,5 +352,18 @@
         private System.Windows.Forms.Label resultLabel;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.CheckBox chkRecSpell;
+        private System.Windows.Forms.CheckBox chkPunkRec;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label lblTackbar;
+        private System.Windows.Forms.CheckBox chkStemSpell;
+        private System.Windows.Forms.CheckBox chkIgnoreEnglish;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label lblTackval;
+        private System.Windows.Forms.TextBox txtIgnoreList;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblErr;
     }
 }

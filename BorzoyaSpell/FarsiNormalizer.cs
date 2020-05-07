@@ -46,7 +46,7 @@ namespace BorzoyaSpell
                     // remove extra spaces
                     this._characterRefinementPatterns.Add(new RegexPattern(" +", " "));
                     // remove extra newlines
-                    this._characterRefinementPatterns.Add(new RegexPattern(@"\n\n+", "\n\n"));
+                    //this._characterRefinementPatterns.Add(new RegexPattern(@"\n\n+", "\n\n"));
                     // replace 3 dots
                     this._characterRefinementPatterns.Add(new RegexPattern(@" ?\.\.\.", " …"));
                 }

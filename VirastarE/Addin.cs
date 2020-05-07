@@ -1,21 +1,22 @@
 ﻿using Balloon.NET;
 using BorzoyaSpell;
-using NetOffice.OfficeApi.Tools;
-using NetOffice.OutlookApi.Tools;
 using NetOffice.Tools;
+//using NetOffice.OutlookApi.Tools;
+//using NetOffice.Tools;
 using NetOffice.WordApi.Enums;
 using NetOffice.WordApi.Tools;
-//using NetSpell.SpellChecker.Dictionary;
-//using NetSpell.SpellChecker;
-using Stemming.Persian;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Office = NetOffice.OfficeApi;
 using Word = NetOffice.WordApi;
+using NetOffice.OfficeApi.Tools;
+using NetOffice.OfficeApi;
+using System.Threading;
+using LDA;
 
 namespace VirastarE
 {
@@ -25,82 +26,126 @@ namespace VirastarE
 	public class Addin : Word.Tools.COMAddin
 	{
 
-        CPPSPell cpSpellForm;
-        //WordDictionary _dictionary;
-        //Spelling _SpellChecker;
+        
+        bool IgnoreAllSpell = false;
 
         CheakSpell _BcheakSpell; 
-
-        bool IgnoreAllSpell = false;
-        Stemmer stm;
+        
         List<PunchPattern> lpck;
         PunchPattern currentPuncPattern;
 
-        BackgroundWorker m_oWorkerPunch;
-        BackgroundWorker m_oWorkerSpell;
+        //BackgroundWorker m_oWorkerPunch;
+        //BackgroundWorker m_oWorkerSpell;
+
+        System.Globalization.PersianCalendar persiancalendar ;
+
+        CPPPunctuation cpPuncForm;
+        CPPSPell cpSpellForm;
+
+
+        //threading 
+        Thread bgThread;
+        Thread SpellThread;
+        Thread PuncThread;
+        bool isrunningSpellThread;
+        bool isrunningPuncThread;
+
         public Addin()
 		{
-			this.OnStartupComplete += new OnStartupCompleteEventHandler(Addin_OnStartupComplete);
-			this.OnDisconnection += new OnDisconnectionEventHandler(Addin_OnDisconnection);
-            m_oWorkerSpell = new BackgroundWorker();
-            m_oWorkerSpell.DoWork += new DoWorkEventHandler(m_oWorker_DoWork);
-            m_oWorkerSpell.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_oWorkerSpell_RunWorkerCompleted);
 
-            m_oWorkerPunch = new BackgroundWorker();
-            m_oWorkerPunch.DoWork += new DoWorkEventHandler(m_oWorkerDoWork2);
-            m_oWorkerPunch.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_oWorkerPunch_RunWorkerCompleted);
+                this.OnStartupComplete += new OnStartupCompleteEventHandler(Addin_OnStartupComplete);
+                this.OnDisconnection += new OnDisconnectionEventHandler(Addin_OnDisconnection);
+                
+                //m_oWorkerSpell = new BackgroundWorker();
+                //m_oWorkerSpell.DoWork += new DoWorkEventHandler(m_oWorker_DoWork);
+                //m_oWorkerSpell.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_oWorkerSpell_RunWorkerCompleted);
 
+                //m_oWorkerPunch = new BackgroundWorker();
+                //m_oWorkerPunch.DoWork += new DoWorkEventHandler(m_oWorkerDoWork2);
+                //m_oWorkerPunch.RunWorkerCompleted += new RunWorkerCompletedEventHandler(m_oWorkerPunch_RunWorkerCompleted);
+
+                persiancalendar = new System.Globalization.PersianCalendar();
         }
 
-        private void m_oWorkerPunch_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Application.StatusBar = " برسی نگارش انجام شد " + GetShamsiDate_Now();
-        }
 
-        private void m_oWorkerSpell_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Application.StatusBar = " برسی املایی انجام شد " + GetShamsiDate_Now();
-        }
+
+        #region BackGroundProcess
         
-        private void m_oWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Application.StatusBar = " برسی املا ... ";
-            CheakSpellDoc();
-            
-        }
-
-        private void m_oWorkerDoWork2(object sender, DoWorkEventArgs e)
-        {
-            Application.StatusBar = " برسی نگارش ... ";
-            CheakPunctuation(true);
-            //Application.StatusBar = " برسی نگارش انجام شد " + GetShamsiDate_Now();
-        }
-
         private string GetShamsiDate_Now()
         {
-            System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
-            return pc.GetYear(DateTime.Now) + "/" +
-                   pc.GetMonth(DateTime.Now) + "/" +
-                   pc.GetDayOfMonth(DateTime.Now) + " " + DateTime.Now.ToString("HH:mm:ss"); ;   
+            
+            return persiancalendar.GetYear(DateTime.Now) + "/" +
+                   persiancalendar.GetMonth(DateTime.Now) + "/" +
+                   persiancalendar.GetDayOfMonth(DateTime.Now) + " " + DateTime.Now.ToString("HH:mm:ss"); ;   
         }
+
+        #endregion BackGroundProcess
+
         private void Addin_OnStartupComplete(ref Array custom)
 		{
-			Console.WriteLine("Addin started in {0}", Application.InstanceFriendlyName);
-            //TaskPanes[0].Visible = false;
+            try
+            {
 
             this.Application.NewDocumentEvent += Application_NewDocumentEvent;
-            this.Application.DocumentBeforeCloseEvent += Application_DocumentBeforeCloseEvent;
-            this.Application.DocumentBeforeSaveEvent += Application_DocumentBeforeSaveEvent;
-            this.Application.DocumentBeforePrintEvent += Application_DocumentBeforePrintEvent;
+            //this.Application.DocumentBeforeCloseEvent += Application_DocumentBeforeCloseEvent;
+            //this.Application.DocumentBeforeSaveEvent += Application_DocumentBeforeSaveEvent;
+            //this.Application.DocumentBeforePrintEvent += Application_DocumentBeforePrintEvent;
             this.Application.DocumentOpenEvent += Application_DocumentOpenEvent;
 
+            this.Application.WindowBeforeDoubleClickEvent += Application_WindowBeforeDoubleClickEvent;
             this.Application.WindowBeforeRightClickEvent += Application_WindowBeforeRightClickEvent;
-
-            GlobalClass.myword = this.Application;
-            ///
 
             setupSpell();
             setupKeyBoardHooks();
+            SetupBgThread();
+                
+                
+
+                try
+                {  //welcome page not show
+                    GlobalClass.myword = this.Application;
+                    GlobalClass.mydoc = this.Application.ActiveDocument;
+                }
+                catch { }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "/n" + ex.InnerException);
+            }
+
+        }
+
+
+        private void SetupBgThread()
+        {
+            bgThread = new Thread(chkTask);
+            bgThread.IsBackground = true;
+            bgThread.SetApartmentState(System.Threading.ApartmentState.STA);
+            bgThread.Priority = ThreadPriority.Lowest;
+            bgThread.Start();
+
+        }
+
+       
+        public void chkTask()
+        {
+            while (true)
+            {
+                Thread.Sleep(8000);
+                if (RegistaryApplicationSetting.GetRegistaryKey("chkRecSpell") == "1" && isrunningSpellThread ==false)
+                    btnSpell_Click(null);
+
+                Thread.Sleep(8000);
+                if (RegistaryApplicationSetting.GetRegistaryKey("chkPunkRec") == "1" && isrunningPuncThread==false)
+                    btnPunctuation_Click(null);
+            }
+        }
+
+
+        private void Application_WindowBeforeDoubleClickEvent(Word.Selection sel, ref bool cancel)
+        {
+            //throw new NotImplementedException();
         }
 
         private void setupKeyBoardHooks()
@@ -128,17 +173,14 @@ namespace VirastarE
         {
             Application.Options.AutoFormatReplaceQuotes = false;
             Application.Options.AutoFormatAsYouTypeReplaceQuotes = false;
-
-            //_dictionary = new WordDictionary();
-            //_dictionary.DictionaryFolder = @"";
-            //_dictionary.DictionaryFile = "fa_IR_netspell.dic";
-            //_dictionary.Initialize();
-
-            
+                                    
             _BcheakSpell = new CheakSpell();
-            //_cheakSpell.Initialize(); 
+            _BcheakSpell.IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey("chkIgnoreEnglish") == "1" ? true : false;
+            _BcheakSpell.SpellLavel = int.Parse(RegistaryApplicationSetting.GetRegistaryKey("trackBar1") == "" ? "1" : RegistaryApplicationSetting.GetRegistaryKey("trackBar1"));
+            _BcheakSpell.CheakSteem = RegistaryApplicationSetting.GetRegistaryKey("chkStemSpell") == "1" ? true : false;
+            _BcheakSpell.IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey("txtIgnoreList");
+            //stm = new Stemmer();
 
-            stm = new Stemmer();
         }
 
 
@@ -152,7 +194,7 @@ namespace VirastarE
 
             var x = sel.Range.Words[1].Text;
             var s = sel.Range.Words.Count;
-            ///////
+            
             PunchPattern pp = null;
             if (lpck != null)
                 pp = lpck.Find(t => t.IndexStart <= sel.Range.Start && t.IndexEnd >= sel.Range.End);
@@ -162,7 +204,7 @@ namespace VirastarE
             {
                 cancel = true;
                 currentPuncPattern = pp;
-                CPPPunctuation cpPuncForm = new CPPPunctuation();
+                cpPuncForm = new CPPPunctuation();
                 cpPuncForm.Deactivate += CpPuncForm_Deactivate;
 
                 cpPuncForm.ShowBallonScreen(new Point(left, top));
@@ -173,19 +215,12 @@ namespace VirastarE
             {
                 //else spell        
                 var b = _BcheakSpell.Cheak_Spell(x.Trim());
-                bool b2 =false; 
-
-                if (b == false)
-                {                     
-                    b2 = _BcheakSpell.Cheak_Spell(stm.run(x.Trim()));
-                }
-
-                if ((x.Trim().Length > 1) && (s == 1) && (b == false && b2 == false))
+                
+                if ((x.Trim().Length > 1) && (s == 1) && (b == false))
                 {
                     cancel = true;
                     cpSpellForm = new CPPSPell();
                     cpSpellForm.Deactivate += cpSpellForm_Deactivate;
-
 
                     cpSpellForm.ShowBallonScreen(new Point(left, top));
 
@@ -206,38 +241,46 @@ namespace VirastarE
         }
         private void CheakPunctuation(bool ReCheak)
         {
-            //string s = "برای تست ) نوشته میشود";
-            //var pr = PunctuationCkeak.PunctuationChk(s);
 
-            //paragrapth
-            Application.UndoRecord.StartCustomRecord();
+            if (GlobalClass.mydoc == null)
+                return;
 
-            string p = GlobalClass.mydoc.Content.Text;
-            if (p.Trim().Length > 4)
+            isrunningPuncThread = true;
+            try
             {
+                //paragrapth
+                Application.UndoRecord.StartCustomRecord();
 
-                if (ReCheak == true)
-                    lpck = PunctuationCkeak.PunctuationChk(p);
-
-                Word.Range rng = GlobalClass.mydoc.Range();
-
-                GlobalClass.mydoc.Range().Font.Underline = WdUnderline.wdUnderlineNone;
-                GlobalClass.mydoc.Range().Font.UnderlineColor = WdColor.wdColorWhite;
-
-                foreach (var pr in lpck)
+                string p = GlobalClass.mydoc.Content.Text;
+                if (p.Trim().Length > 4)
                 {
-                    if (pr.ErrorCode > 0)
+
+                    if (ReCheak == true)
+                        lpck = PunctuationCkeak.PunctuationChk(p);
+
+                    Word.Range rng = GlobalClass.mydoc.Range();
+
+                    GlobalClass.mydoc.Range().Font.Underline = WdUnderline.wdUnderlineNone;
+                    GlobalClass.mydoc.Range().Font.UnderlineColor = WdColor.wdColorWhite;
+
+                    foreach (var pr in lpck)
                     {
-                        rng.Start = pr.IndexStart;
-                        rng.End = (pr.IndexStart + pr.IndexLenght);
-                        rng.Font.Underline = WdUnderline.wdUnderlineWavy;
-                        rng.Font.UnderlineColor = WdColor.wdColorLightBlue;
+                        if (pr.ErrorCode > 0)
+                        {
+                            rng.Start = pr.IndexStart;
+                            rng.End = (pr.IndexStart + pr.IndexLenght);
+                            rng.Font.Underline = WdUnderline.wdUnderlineWavy;
+                            rng.Font.UnderlineColor = WdColor.wdColorLightBlue;
+                        }
                     }
-                }
-            }//if
+                }//if
 
-            Application.UndoRecord.EndCustomRecord();
-
+                Application.UndoRecord.EndCustomRecord();
+            }
+            catch { }
+            finally{
+                isrunningPuncThread = false;
+            }
         }
         private void cpSpellForm_Deactivate(object sender, EventArgs e)
         {
@@ -256,7 +299,7 @@ namespace VirastarE
 
             }
 
-            if (isWordingored == true)
+            if (isWordingored == true || IgnoreAllSpell == true)
             {
                 _BcheakSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
                 GlobalClass.myselection.Range.Words[1].Font.UnderlineColor = WdColor.wdColorWhite;
@@ -272,7 +315,8 @@ namespace VirastarE
 
             if (IgnoreAllSpell == true)
             {
-                CheakSpellDoc();
+                //CheakSpellDoc();
+                btnSpell_Click(null);
             }
 
         }
@@ -281,6 +325,7 @@ namespace VirastarE
         private void CheakSpellDoc()
         {
             // FarsiNormalizer farsiNormalizer = new FarsiNormalizer();
+            isrunningSpellThread = true;
 
             try
             {
@@ -290,17 +335,17 @@ namespace VirastarE
                     var doc = GlobalClass.myword.ActiveDocument;
                     //doc.Content.Text = farsiNormalizer.Run(doc.Content.Text);
 
-
-                    for (int i = 1; i < GlobalClass.mydoc.Words.Count ; i++)
+                    for (int i = 1; i < GlobalClass.mydoc.Words.Count; i++)
                     {
+
                         var s = doc.Content.Words[i].Text.Trim();
-                        var ss = stm.run(s);
+                        //var ss = stm.run(s);
 
                         bool b1 = _BcheakSpell.Cheak_Spell(s);
                         bool b2 = _BcheakSpell.isInIgnoreList(s);
-                        bool b3 = _BcheakSpell.Cheak_Spell(ss);  //b3=b1
+                        //bool b3 = _BcheakSpell.Cheak_Spell(ss);  //b3=b1
 
-                        if (((b1 == false && b3 == false) && b2 == false) && (IgnoreAllSpell == false))
+                        if (((b1 == false) && b2 == false))
                         {
                             doc.Content.Words[i].Underline = WdUnderline.wdUnderlineWavy;
                             doc.Content.Words[i].Font.UnderlineColor = WdColor.wdColorRed;
@@ -309,116 +354,125 @@ namespace VirastarE
                         {
                             doc.Content.Words[i].Underline = WdUnderline.wdUnderlineNone;
                             doc.Content.Words[i].Font.UnderlineColor = WdColor.wdColorWhite;
-
                         }
-                    }
-                    Application.UndoRecord.EndCustomRecord();
-                    IgnoreAllSpell = false;
 
+                    }
+
+                    Application.UndoRecord.EndCustomRecord();
+                    //IgnoreAllSpell = false;
                 }
             }
             catch (Exception ex)
             { }
-        }
-
-
-        private void Application_DocumentBeforeCloseEvent(Word.Document Doc, ref bool Cancel)
-        {
-            if (Cancel == false)
-            {
-                Console.WriteLine(string.Format("{0} Addin Document is closing.. {1}", "AppName", Doc.Name));
+            finally {
+                isrunningSpellThread = false;
             }
         }
 
-        private void Application_DocumentBeforePrintEvent(Word.Document Doc, ref bool Cancel)
-        {
-            if (Cancel == false)
-            {
-                Console.WriteLine(string.Format("{0} Addin Document {1} is printing", "AppName", Doc.Name));
-            }
-        }
 
+        
         private void Application_DocumentOpenEvent(Word.Document doc)
         {
-            Console.WriteLine(doc.FullName);
+            //Console.WriteLine(doc.FullName);
             GlobalClass.mydoc = doc;
         }
 
         private void Application_NewDocumentEvent(Word.Document doc)
         {
-            Console.WriteLine(doc.FullName);
+            //Console.WriteLine(doc.FullName);
             GlobalClass.mydoc = doc;
-
-            doc.ContentControlOnEnterEvent += Doc_ContentControlOnEnterEvent;
+            //doc.ContentControlOnEnterEvent += Doc_ContentControlOnEnterEvent;
         }
-        private void Doc_ContentControlOnEnterEvent(Word.ContentControl contentControl)
-        {
-
-        }
-
-        private void Application_DocumentBeforeSaveEvent(Word.Document Doc, ref bool SaveAsUI, ref bool Cancel)
-        {
-            if (Cancel == false)
-            {
-                Console.WriteLine(string.Format("{0} Addin Document {1} is saving", "AppName", Doc.Name));
-            }
-        }
-
+               
         private void Addin_OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
 		{
+            try
+            {
+                if (bgThread !=null && bgThread.IsAlive )
+                    this.bgThread.Abort();
 
-		}
+                if (SpellThread != null && SpellThread.IsAlive)
+                    this.SpellThread.Abort();
 
-        public void AboutButton_Click(Office.IRibbonControl control)
-        {
-            
-            Utils.Dialog.ShowAbout("VirastarE", "https://github.com/ehsan2022002",
-                "Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) " + Environment.NewLine +
-                "Ehsan Bagheri 4/3/2020"
-                );
+                if (PuncThread != null && PuncThread.IsAlive)
+                    this.PuncThread.Abort();
+            }
+            catch { }
+
         }
 
-		//public bool TooglePaneVisibleButton_GetPressed(Office.IRibbonControl control)
-		//{
-		//	//return TaskPanes.Count > 0 ? TaskPanes[0].Visible : false;
-		//}
+        
 
-		//public void TooglePaneVisibleButton_Click(Office.IRibbonControl control, bool pressed)
-		//{
-		//	//if(TaskPanes.Count > 0)
-		//	//	TaskPanes[0].Visible = pressed;
-		//}
-
-
-
+		
 		protected override void OnError(ErrorMethodKind methodKind, System.Exception exception)
 		{
-            Utils.Dialog.ShowError(exception, "An error occurend in " + methodKind.ToString());
+            MessageBox.Show(methodKind.ToString() + " " + exception.Message);
+
+            //Utils.Dialog.ShowError(exception, "An error occurend in " + methodKind.ToString());
 		}
 
 		[RegisterErrorHandler]
 		public static void RegisterErrorHandler(RegisterErrorMethodKind methodKind, System.Exception exception)
 		{
-			Office.Tools.Contribution.DialogUtils.ShowRegisterError("VirastarE", methodKind, exception);
+            MessageBox.Show(methodKind.ToString() + " " + exception.Message);
+            //Office.Tools.Contribution.DialogUtils.ShowRegisterError("VirastarE", methodKind, exception);
 		}
 
 
-
-        public void btnSpell_Click(Office.IRibbonControl control)
+        private static object _syncSpellThread = new object();
+        public void btnSpell_Click(IRibbonControl control)
         {
-            if (!m_oWorkerSpell.IsBusy)
-                m_oWorkerSpell.RunWorkerAsync();
-                        
+
+
+            if (SpellThread == null ||
+              (SpellThread.ThreadState != System.Threading.ThreadState.Running &&
+                SpellThread.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
+             )
+            {
+                lock (_syncSpellThread)
+                {
+                    SpellThread = new Thread(SpellDoWork);
+                    SpellThread.IsBackground = true;
+                    SpellThread.Start();
+                }
+            }
         }
 
-        public void btnPunctuation_Click(Office.IRibbonControl control)
+
+        public void SpellDoWork()
         {
-            if (!m_oWorkerPunch.IsBusy)
-                m_oWorkerPunch.RunWorkerAsync();
-            
+            Application.StatusBar = " بازبینی املا ... ";
+            CheakSpellDoc();
+            Application.StatusBar = " بازبینی املایی انجام شد " + GetShamsiDate_Now();
         }
 
-        public void btnNormalizaer_Click(Office.IRibbonControl control)
+        private static object _syncPuncThread = new object();
+        public void btnPunctuation_Click(IRibbonControl control)
+        {
+
+            if (PuncThread == null ||
+              (PuncThread.ThreadState != System.Threading.ThreadState.Running &&
+                PuncThread.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
+             )
+            {
+                lock (_syncPuncThread)
+                {
+                    PuncThread = new Thread(PunchDoWork);
+                    PuncThread.IsBackground = true;
+                    PuncThread.Start();
+                }
+            }
+                                  
+        }
+
+        public void PunchDoWork()
+        {
+            Application.StatusBar = " بازبینی نگارش ... ";
+            CheakPunctuation(true);
+            Application.StatusBar = " بازبینی نگارش انجام شد " + GetShamsiDate_Now();
+        }
+
+        public void btnNormalizaer_Click(IRibbonControl control)
         {
             FarsiNormalizer farsiNormalizer = new FarsiNormalizer();
             var doc = GlobalClass.myword.ActiveDocument;
@@ -430,8 +484,7 @@ namespace VirastarE
 
 
         }
-
-        public void btnSummerizer_Click(Office.IRibbonControl control)
+        public void btnSummerizer_Click(IRibbonControl control)
         {
             string sent = string.Empty;
             var doc = GlobalClass.myword.ActiveDocument;
@@ -446,14 +499,21 @@ namespace VirastarE
             
             frm.Show();
         }
-        public void btnSetting_Click(Office.IRibbonControl control)
+        public void btnSetting_Click(IRibbonControl control)
         {
             var frm = new Forms.frmSetting(_BcheakSpell);
             frm.Show();
             Application.StatusBar = "تنظیمات";
-               
+            
         }
-        
+
+        public void btnSLDA_Click(IRibbonControl control)
+        {
+            var frm = new frmLDA();
+            frm.Show();
+            Application.StatusBar = "تاپیک مدلینگ";
+        }
+
 
     }
 }

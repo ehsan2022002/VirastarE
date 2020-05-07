@@ -81,7 +81,7 @@ namespace TextSummarize
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.InnerException.Message);
+               /// MessageBox.Show(ex.Message + ex.InnerException.Message);
             }
 
             //Report 100% completion on operation completed
@@ -98,6 +98,12 @@ namespace TextSummarize
             if (this.sentance.Trim().Length > 5000)
             {
                 lblStatus.Text = "اندازه متن بیشتر از حد مجاز است";
+                return;
+            }
+
+            if (this.sentance.Trim().Length < 50)
+            {
+                lblStatus.Text = "اندازه متن کمتر از حد مجاز است";
                 return;
             }
 

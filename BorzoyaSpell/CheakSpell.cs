@@ -1,7 +1,10 @@
 ﻿using BorzoyaSpell.Suggests;
+using BrozoyaEntitys.EntityData;
 using BrozoyaEntitys.EntityOpratins;
+using Stemming.Persian;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -15,15 +18,59 @@ namespace BorzoyaSpell
         static List<string> StopWordList;
         static List<string> UserDic;
         static List<string> IgnoreList;
+        static List<char> IgnoreCharList; 
 
+        
 
         Soundex sundex;
         NorvigSpellChecker norvan;
-        //StringMatcher<String> strmatch;
+        ////StringMatcher<String> strmatch;
         PS_PersianWordFrequencyOpration pwfo;
-        
+        Stemmer stm;
 
-        //private static StringMatcher<String> _stringMatcher = new StringMatcher<String>();
+
+        int m_SpellLavel = 1;
+        public int SpellLavel
+        { 
+            get { return m_SpellLavel; }
+            set 
+            {
+                if (value!= m_SpellLavel)
+                {
+                    m_SpellLavel = value;
+                    GlobalDic.Clear();
+
+                    List<PS_PersianWordFrequency> l_pwfo;
+                    var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
+                    l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);
+
+                    foreach (var item in l_pwfo.Where(x => x.Lavel == (m_SpellLavel )))
+                    {
+                        GlobalDic.Add(item.Val1.Trim());
+                    }
+
+                    sundex.PS_DIC_List = l_pwfo;
+                    norvan.FillDic(l_pwfo);
+                    stm.FillStm(l_pwfo);
+
+                } //change if
+            }
+        }
+
+        public string IgnoreChars
+        {
+            get { 
+                    return new string(IgnoreCharList.ToArray());
+                }
+            set {
+                    IgnoreCharList.Clear();
+                    IgnoreCharList.AddRange(value.ToCharArray());
+                }
+        }
+
+        public bool CheakSteem;
+        public bool IgnoreEnglish;
+
         public CheakSpell()
         {
             try
@@ -32,37 +79,47 @@ namespace BorzoyaSpell
                 UserDic = new List<string>();
                 IgnoreList = new List<string>();
                 StopWordList = new List<string>();
+                IgnoreCharList = new List<char>();
 
-                var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
+                //var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
+                //l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);
+
                 var lsStop = new PS_StopWordOpration();
 
-                sundex = new Soundex();
-                norvan = new NorvigSpellChecker();
-                //strmatch = new StringMatcher<String>();
-                
-                foreach (var item in pwfo.GetAll())
-                {
-                    GlobalDic.Add(item.Val1.Trim());
-                }
+                sundex = new Soundex(); // l_pwfo.Where(x => x.Sundex.Length >0).ToList() );
+                norvan = new NorvigSpellChecker(); // (l_pwfo);
 
+                stm = new Stemmer(); // (l_pwfo);
+
+                
                 foreach (var item in lsStop.GetAll())
                 {
                     StopWordList.Add(item.Val1.Trim());
                 }
+
+                UserDicOpration udo = new UserDicOpration();
+                UserDic = udo.LoadAll();
 
             }
             catch (Exception ex)
             { }
         }
 
-        public bool Cheak_Spell(string word)
+        public bool Cheak_Spell(string mword  )
         {
             bool b_return =false;
+            bool stemmr = CheakSteem;
+            string word = RemoveIjnoreChar(mword); 
+
 
             if (String.IsNullOrEmpty(word.Trim())) b_return = true;
 
             if (word.Any(char.IsDigit) ) b_return = true;
+
             if (isHtmlTag(word)) b_return = true;
+
+            if (b_return == false)
+                if (IgnoreEnglish==true && Regex.IsMatch(word, "^[a-zA-Z0-9]*$")) b_return = true;
 
             if (b_return == false)
                 b_return = StopWordList.Contains(word);
@@ -72,6 +129,10 @@ namespace BorzoyaSpell
 
             if (b_return == false)
                 b_return = UserDic.Contains(word);
+
+            if (b_return == false && stemmr==true) //stemmrt
+                b_return = GlobalDic.Contains(stm.run(word));
+
             return b_return;
         }
 
@@ -81,6 +142,15 @@ namespace BorzoyaSpell
             // Match the regular expression pattern against a text string.
             MatchCollection m = r.Matches(word);
             return (m.Count > 0);
+        }
+
+        private string RemoveIjnoreChar(string word)
+        {
+            if (IgnoreChars.Count() > 0)
+            {
+                return  string.Concat(word.Where(c => !IgnoreChars.ToArray().Contains(c)));
+            }
+                return word;
         }
 
         public List<string> Suggest(string word)
@@ -101,16 +171,17 @@ namespace BorzoyaSpell
 
         public void AddtoUserDic(string word)
         {
-            UserDic.Add(word.Trim());
-
-            UserDicOpration udo = new UserDicOpration();
-
-            udo.Add(word.Trim());
+            if (!UserDic.Contains(word) && word.Trim().Length>0)
+            {
+                UserDic.Add(word.Trim());
+                UserDicOpration udo = new UserDicOpration();
+                udo.Add(word.Trim());
+            }
         }
 
         public bool isInIgnoreList(string word)
         {
-            return IgnoreList.Contains(word);            
+            return IgnoreList.Where (x=>x.Contains(word)).Count() > 0 ;            
         }
 
         public void DeletebyName(string word)
@@ -120,7 +191,7 @@ namespace BorzoyaSpell
             UserDic.Remove(word); 
         }
 
-        public List<string> GetByName(string word)
+        public List<string> GetUserDIcByName(string word)
         {            
             //l = GlobalDic.AsParallel().Where(s => s.Contains(word)).ToList();
 

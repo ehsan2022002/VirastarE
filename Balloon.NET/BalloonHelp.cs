@@ -363,7 +363,7 @@ namespace Balloon.NET
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.closeButton.Image = ((System.Drawing.Image)(resources.GetObject("closeButton.Image")));
-            this.closeButton.Location = new System.Drawing.Point(504, 0);
+            this.closeButton.Location = new System.Drawing.Point(520, 0);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(14, 14);
             this.closeButton.TabIndex = 0;
@@ -386,7 +386,7 @@ namespace Balloon.NET
             // BalloonHelp
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(518, 276);
+            this.ClientSize = new System.Drawing.Size(534, 292);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.closeButton);
             this.Name = "BalloonHelp";

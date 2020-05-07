@@ -62,7 +62,7 @@
             "____________________",
             "اضافه شود",
             "نادیده گرفتن",
-            "همه نادیده گرفته شود"});
+            "نادیده گرفتن و برسی از ابتدا"});
             this.listBox1.Location = new System.Drawing.Point(9, 115);
             this.listBox1.Name = "listBox1";
             this.listBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;

@@ -1,4 +1,5 @@
 ﻿using BrozoyaEntitys;
+using BrozoyaEntitys.EntityData;
 using BrozoyaEntitys.EntityOpratins;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace BorzoyaSpell.Suggests
         private Dictionary<String, int> _dictionary = new Dictionary<String, int>();
         //private static Regex _wordRegex = new Regex("[a-z]+", RegexOptions.Compiled);
 
-        public NorvigSpellChecker()
+        public NorvigSpellChecker(List<PS_PersianWordFrequency> wordList)
         {
             //add frequency word num
             // _dictionary.Add(trimmedWord, 1);
@@ -36,14 +37,23 @@ namespace BorzoyaSpell.Suggests
             //}
 
 
-            var DicFa = new PS_PersianWordFrequencyOpration();
-            var wordList = DicFa.GetAll();
+            //var DicFa = new PS_PersianWordFrequencyOpration();
+            //var wordList = DicFa.GetAll();
+            FillDic(wordList);
+        }
+
+        public NorvigSpellChecker()
+        {
+        }
+
+        public void FillDic(List<PS_PersianWordFrequency> wordList)
+        {
+            _dictionary.Clear();
             foreach (var word in wordList)
             {
                 _dictionary.Add(word.Val1, int.Parse(word.Val2));
             }
         }
-         
 
         public string Correct(string word)
         {

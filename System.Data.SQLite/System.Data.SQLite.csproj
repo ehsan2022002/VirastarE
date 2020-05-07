@@ -40,6 +40,27 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>sqllightSNK.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRUE;NDEBUG;SQLITE_ASCII;SQLITE_DISABLE_LFS;SQLITE_ENABLE_OVERSIZE_CELL_CHECK;SQLITE_MUTEX_OMIT;SQLITE_OMIT_AUTHORIZATION;SQLITE_OMIT_DEPRECATED;SQLITE_OMIT_GET_TABLE;SQLITE_OMIT_INCRBLOB;SQLITE_OMIT_LOOKASIDE;SQLITE_OMIT_SHARED_CACHE;SQLITE_OMIT_UTF16;SQLITE_OMIT_WAL;SQLITE_OS_WIN;SQLITE_SYSTEM_MALLOC;VDBE_PROFILE_OFF;SQLITE_DEFAULT_FOREIGN_KEYS</DefineConstants>
+    <NoWarn>0168;0169;0414;0618;0649;0219;0162;0429</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRUE;NDEBUG;SQLITE_ASCII;SQLITE_DISABLE_LFS;SQLITE_ENABLE_OVERSIZE_CELL_CHECK;SQLITE_MUTEX_OMIT;SQLITE_OMIT_AUTHORIZATION;SQLITE_OMIT_DEPRECATED;SQLITE_OMIT_GET_TABLE;SQLITE_OMIT_INCRBLOB;SQLITE_OMIT_LOOKASIDE;SQLITE_OMIT_SHARED_CACHE;SQLITE_OMIT_UTF16;SQLITE_OMIT_WAL;SQLITE_OS_WIN;SQLITE_SYSTEM_MALLOC;VDBE_PROFILE_OFF;SQLITE_DEFAULT_FOREIGN_KEYS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>0168;0169;0414;0618;0649;0219;0162;0429</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\alter_c.cs" />
     <Compile Include="src\analyze_c.cs" />

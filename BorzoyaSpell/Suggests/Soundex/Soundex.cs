@@ -1,4 +1,5 @@
 ﻿using BrozoyaEntitys;
+using BrozoyaEntitys.EntityData;
 using BrozoyaEntitys.EntityOpratins;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,19 @@ namespace BorzoyaSpell.Suggests
     public class Soundex
     {
 
-        public List<PS_Dictionary_FA> PS_DIC_List; //
+        public List<PS_PersianWordFrequency> PS_DIC_List; //
             
+        public Soundex(List<PS_PersianWordFrequency> PS_DIC_F)
+        {
+            PS_DIC_List = new List<PS_PersianWordFrequency>();
+
+            //var ls = new PS_Dictionary_FAOpration();
+            PS_DIC_List = PS_DIC_F;
+
+        }
+
         public Soundex()
         {
-            PS_DIC_List = new List<PS_Dictionary_FA>();
-
-            var ls = new PS_Dictionary_FAOpration();
-            PS_DIC_List = ls.GetAll();
-
         }
 
         public List<string> GetSuggest(string word)

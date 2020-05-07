@@ -1,10 +1,6 @@
-// Copyright 2001, Joshua Heyer
-// Copyright 2002, Rama Krishna (C# version)
 
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;

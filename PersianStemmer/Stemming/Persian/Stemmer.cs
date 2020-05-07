@@ -1,4 +1,5 @@
 using BrozoyaEntitys;
+using BrozoyaEntitys.EntityData;
 using BrozoyaEntitys.EntityOpratins;
 using Stemming;
 using System;
@@ -51,36 +52,48 @@ namespace Stemming.Persian
         }
 
 
-        public Stemmer(string sBase = "data\\") {
+        public Stemmer(List<PS_PersianWordFrequency> pwfList)
+        {
             //dataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, sBase); 
-            dataPath = Path.Combine(GetAssemblyDirectory(), sBase);
+            //dataPath = Path.Combine(GetAssemblyDirectory(), sBase);
 
-            try {
+            FillStm(pwfList);
+        }
+
+        public Stemmer()
+        {
+        }
+
+        public void FillStm(List<PS_PersianWordFrequency> pwfList)
+        {
+            try
+            {
                 loadRule();
-                loadLexicon();
+                loadLexicon(pwfList.Where(x => x.Lavel == 1).ToList());
                 loadMokassarDic();
-                if (enableVerb) 
+                if (enableVerb)
                     loadVerbDic();
             }
-            catch (Exception ex) {
-                throw new Exception (ex.ToString());
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
 
                 //System.Console.WriteLine(ex.ToString());  
-            }      
+            }
         }
 
-        private string[] loadData(string resourceName)
-        {
-            //try
-            //{
-                return File.ReadAllLines(dataPath + resourceName).Where(q => !string.IsNullOrWhiteSpace(q)).ToArray();
-            //}
-            //catch (Exception ex) {
-            //    System.Console.WriteLine(ex.ToString()); 
-            //}
+        //private string[] loadData(string resourceName)
+        //{
+        //    //try
+        //    //{
+        //        return File.ReadAllLines(dataPath + resourceName).Where(q => !string.IsNullOrWhiteSpace(q)).ToArray();
+        //    //}
+        //    //catch (Exception ex) {
+        //    //    System.Console.WriteLine(ex.ToString()); 
+        //    //}
 
-           // return null;
-        }
+        //   // return null;
+        //}
 
         private void loadVerbDic()
         {
@@ -120,14 +133,14 @@ namespace Stemming.Persian
             }
         }
 
-        private void loadLexicon()
+        private void loadLexicon(List<PS_PersianWordFrequency> pwfList)
         {
-            var ls = new PS_Dictionary_FAOpration();
+            //var lsLexicon = new PS_Dictionary_FAOpration();
              
             if (!lexicon.IsEmpty())
                 return;
             
-            foreach (var sLine in ls.GetAll())
+            foreach (var sLine in pwfList)
             {
                 lexicon.Add(sLine.Val1.Trim(), 1);
             }
@@ -401,7 +414,7 @@ namespace Stemming.Persian
         private string getVerb(string input)
         {
             var tmpNode = verbDic.FindNode(input);
-            if (tmpNode != null)
+            if (tmpNode != null && !string.IsNullOrEmpty(tmpNode.Key) )
             {
                 Verb vs = tmpNode.Value;
                 if (validation(vs.getPresent()))

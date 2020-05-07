@@ -40,27 +40,32 @@
     <RegisterForComInterop>true</RegisterForComInterop>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Word, Version=1.7.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetOffice\WordApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Outlook, Version=1.7.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetOffice\OutlookApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Office, Version=1.7.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetOffice\OfficeApi.dll</HintPath>
-    </Reference>
-    <Reference Include="VBIDE, Version=1.7.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetOffice\VBIDEApi.dll</HintPath>
-    </Reference>
-    <Reference Include="NetOffice, Version=1.7.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetOffice\NetOffice.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -77,6 +82,7 @@
     </Compile>
     <Compile Include="GlobalClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistaryApplicationSetting.cs" />
     <Compile Include="ShortcutManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,9 +100,29 @@
       <Project>{2403ee11-4702-4fdd-8871-0118065f2f69}</Project>
       <Name>BorzoyaSpell</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PersianStemmer\PersianStemmer.csproj">
-      <Project>{04c2e7c2-a6a1-47ae-8cd8-d513a26fa7b1}</Project>
-      <Name>PersianStemmer</Name>
+    <ProjectReference Include="..\LDA\LDA.csproj">
+      <Project>{FE7931ED-CEB5-491A-962B-55FF3C573F81}</Project>
+      <Name>LDA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Office\NetOffice\NetOffice.csproj">
+      <Project>{65442327-d01f-4ecb-8c39-6d5c7622a80f}</Project>
+      <Name>NetOffice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Office\Office\OfficeApi.csproj">
+      <Project>{79b19a83-a79f-446c-9b7e-9b595e918e40}</Project>
+      <Name>OfficeApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Office\Outlook\OutlookApi.csproj">
+      <Project>{98de103a-f036-4814-a740-9b4de13001ff}</Project>
+      <Name>OutlookApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Office\VBIDE\VBIDEApi.csproj">
+      <Project>{acd7db2e-ddb2-4bbb-bdb9-c2fd953585c4}</Project>
+      <Name>VBIDEApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Office\Word\WordApi.csproj">
+      <Project>{5c457066-d488-4bc1-b7f8-1e90f2a80648}</Project>
+      <Name>WordApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Summary\TextSummarizer\TextSummarize\TextSummarize.csproj">
       <Project>{94c43c23-7d66-4657-a67f-34335223b190}</Project>
@@ -107,6 +133,10 @@
     <None Include="virastarEsn.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
