@@ -6,13 +6,14 @@
 این پروژه شامل پروژهای مختلفی میباشد که برخی از آنها در زیر توضیح داده شده است  
 <br>
 نسخه فعلی جهت دانلود 2.2 کاندید سوم نسخه اصلی میباشد
-<br>
+<br><br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot5.png" alt="virstarE">
 <br>
 <a href="https://github.com/ehsan2022002/VirastarE/wiki"> .برای نیازهای سیستمی و اطلاعات بیشتر ویکی را ببینید </a>
 جهت دانلود برنامه آماده و نصب به آدرس زیر بروید 
 <br>
-https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing
+<a href="https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing"> جهت دانلود برنامه نصب از گوگل درایو کلیک کنید</a>
+
 <br>
 <br>
 <br>
