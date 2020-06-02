@@ -1,7 +1,9 @@
 # VirastarE  <br>
 <div dir="rtl">
 <br>
+ <b>
 افزونه مایکروسافت ورد برای ویراستاری و خلاصه سازی
+<br></b>
 این پروژه شامل پروژهای مختلفی میباشد که برخی از آنها در زیر توضیح داده شده است  
 <br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot5.png" alt="virstarE">
