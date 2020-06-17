@@ -52,12 +52,17 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblSysinfo = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -65,6 +70,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -145,6 +151,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage3.Controls.Add(this.lblErr);
             this.tabPage3.Controls.Add(this.txtIgnoreList);
             this.tabPage3.Controls.Add(this.label3);
@@ -161,7 +168,6 @@
             this.tabPage3.Size = new System.Drawing.Size(535, 288);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "تنظیمات";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // lblErr
             // 
@@ -230,26 +236,28 @@
             // 
             this.lblTackbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTackbar.AutoSize = true;
-            this.lblTackbar.Location = new System.Drawing.Point(370, 121);
+            this.lblTackbar.Location = new System.Drawing.Point(200, 121);
             this.lblTackbar.Name = "lblTackbar";
-            this.lblTackbar.Size = new System.Drawing.Size(138, 16);
+            this.lblTackbar.Size = new System.Drawing.Size(306, 16);
             this.lblTackbar.TabIndex = 4;
-            this.lblTackbar.Text = "میزان حساسیت املایی\r\n";
+            this.lblTackbar.Text = "واژه نامه املایی (سایتهای خبری - واژه نامه ویراستاری)";
             this.toolTip1.SetToolTip(this.lblTackbar, "1.آزمایشگاه ویراستاری\r\n2.ویکی پیدیا اصلاح شده\r\n3.سایتهای خبری\r\n4.ویکی پیدیا با لغ" +
         "ات فارسی اضافه شده\r\n5.ویکی پیدیا");
+            this.lblTackbar.Visible = false;
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(68, 112);
-            this.trackBar1.Maximum = 5;
+            this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
+            this.trackBar1.Location = new System.Drawing.Point(47, 106);
+            this.trackBar1.Maximum = 2;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(260, 45);
+            this.trackBar1.Size = new System.Drawing.Size(134, 45);
             this.trackBar1.TabIndex = 3;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.toolTip1.SetToolTip(this.trackBar1, "1.آزمایشگاه ویراستاری\r\n2.ویکی اصلاح شده\r\n3.سایتهای خبری اصلاح شده\r\n4.ویکی و سایته" +
-        "ای خبری اصلاخ شده\r\n5 ویکی");
+            this.toolTip1.SetToolTip(this.trackBar1, "1.سایتهای خبری\r\n2.فرهنگ نامه آزمایشگاه ویراستاری");
             this.trackBar1.Value = 1;
+            this.trackBar1.Visible = false;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
             // chkPunkRec
@@ -292,20 +300,50 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label2.Location = new System.Drawing.Point(390, 30);
+            this.label2.Location = new System.Drawing.Point(298, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 16);
+            this.label2.Size = new System.Drawing.Size(183, 16);
             this.label2.TabIndex = 1;
-            this.label2.Text = "نسخه آزمایشی";
+            this.label2.Text = "کاندید نسخه اصلی ویرایش 3";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(24, 46);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(457, 160);
+            this.label1.Size = new System.Drawing.Size(457, 176);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.pictureBox1);
+            this.tabPage4.Controls.Add(this.lblSysinfo);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(535, 288);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "سیستم";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::VirastarE.Properties.Resources.loading_gears_animation_10;
+            this.pictureBox1.Location = new System.Drawing.Point(360, 163);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(172, 122);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
+            // lblSysinfo
+            // 
+            this.lblSysinfo.AutoSize = true;
+            this.lblSysinfo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.lblSysinfo.Location = new System.Drawing.Point(57, 45);
+            this.lblSysinfo.Name = "lblSysinfo";
+            this.lblSysinfo.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lblSysinfo.Size = new System.Drawing.Size(0, 16);
+            this.lblSysinfo.TabIndex = 3;
             // 
             // toolTip1
             // 
@@ -336,6 +374,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -365,5 +406,8 @@
         private System.Windows.Forms.TextBox txtIgnoreList;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblErr;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label lblSysinfo;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

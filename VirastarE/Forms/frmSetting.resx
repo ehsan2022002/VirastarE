@@ -117,28 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="label1.Text" xml:space="preserve">
     <value>
-این برنامه برای استفاده شخصی ایجاد شده تمامی حقوق محفوظ است
+این برنامه برای استفاده شخصی ایجاد شده تمامی حقوق محفوظ است و حق
 استفاده از این نرم افزار تحت مجوز نصب استفاده و اشاعه رایگان قرار دارد
 همچنین مجوز تغیرات و  کامپایل مجدد برای تولید کننده نرم افزار انحصاری میباشد
 مشکلات و پیشنهادات و حمایت مالی خود  را در آدرس زیر ثبت نمایید
 https://github.com/ehsan2022002/VirastarE
-نسخه 1.6 (درخانه) -فروردین 1399        
+نسخه 2.2
+(کاروانسرای جهان) -خرداد 1399        
 
 Attribution-NonCommercial-NoDerivatives 4.0 International - CC BY-NC-ND 4.0 
-Ehsan Bagheri 4/17/2020
+Ehsan Bagheri 5/6/2020
 </value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>45</value>
   </metadata>

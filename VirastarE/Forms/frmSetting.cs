@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,8 +28,94 @@ namespace VirastarE.Forms
             this.chkIgnoreEnglish.Checked = RegistaryApplicationSetting.GetRegistaryKey(chkIgnoreEnglish.Name) == "1" ? true : false;
 
             txtIgnoreList.Text = RegistaryApplicationSetting.GetRegistaryKey("txtIgnoreList");
-            
+
+
+            string screenWidth = Screen.PrimaryScreen.Bounds.Width.ToString();
+            string screenHeight = Screen.PrimaryScreen.Bounds.Height.ToString();
+            OperatingSystem os = Environment.OSVersion;
+            Version ver = os.Version;
+
+            lblSysinfo.Text = SystemInformation.ComputerName + Environment.NewLine
+                                + SystemInformation.UserName + Environment.NewLine +
+                                 ("Resolution: " + screenWidth + "x" + screenHeight) + Environment.NewLine +
+                                 "max DotNet Version:" + GetVersionFromRegistry() + Environment.NewLine +
+                                 os.VersionString + " " + os.Platform.ToString() + " " + ver.Major.ToString();
+
         }
+
+
+        private static string GetVersionFromRegistry()
+        {
+            String maxDotNetVersion = "";
+            // Opens the registry key for the .NET Framework entry.
+            using (RegistryKey ndpKey = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, "")
+                                            .OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\"))
+            {
+                // As an alternative, if you know the computers you will query are running .NET Framework 4.5 
+                // or later, you can use:
+                // using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, 
+                // RegistryView.Registry32).OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\"))
+                foreach (string versionKeyName in ndpKey.GetSubKeyNames())
+                {
+                    if (versionKeyName.StartsWith("v"))
+                    {
+                        RegistryKey versionKey = ndpKey.OpenSubKey(versionKeyName);
+                        string name = (string)versionKey.GetValue("Version", "");
+                        string sp = versionKey.GetValue("SP", "").ToString();
+                        string install = versionKey.GetValue("Install", "").ToString();
+                        if (install == "") //no install info, must be later.
+                        {
+                            Console.WriteLine(versionKeyName + "  " + name);
+                            if (String.Compare(maxDotNetVersion, name) < 0) maxDotNetVersion = name;
+                        }
+                        else
+                        {
+                            if (sp != "" && install == "1")
+                            {
+                                Console.WriteLine(versionKeyName + "  " + name + "  SP" + sp);
+                                if (String.Compare(maxDotNetVersion, name) < 0) maxDotNetVersion = name;
+                            }
+
+                        }
+                        if (name != "")
+                        {
+                            continue;
+                        }
+                        foreach (string subKeyName in versionKey.GetSubKeyNames())
+                        {
+                            RegistryKey subKey = versionKey.OpenSubKey(subKeyName);
+                            name = (string)subKey.GetValue("Version", "");
+                            if (name != "")
+                            {
+                                sp = subKey.GetValue("SP", "").ToString();
+                            }
+                            install = subKey.GetValue("Install", "").ToString();
+                            if (install == "")
+                            {
+                                //no install info, must be later.
+                                Console.WriteLine(versionKeyName + "  " + name);
+                                if (String.Compare(maxDotNetVersion, name) < 0) maxDotNetVersion = name;
+                            }
+                            else
+                            {
+                                if (sp != "" && install == "1")
+                                {
+                                    Console.WriteLine("  " + subKeyName + "  " + name + "  SP" + sp);
+                                    if (String.Compare(maxDotNetVersion, name) < 0) maxDotNetVersion = name;
+                                }
+                                else if (install == "1")
+                                {
+                                    Console.WriteLine("  " + subKeyName + "  " + name);
+                                    if (String.Compare(maxDotNetVersion, name) < 0) maxDotNetVersion = name;
+                                } // if
+                            } // if
+                        } // for
+                    } // if
+                } // foreach
+            } // using
+            return maxDotNetVersion;
+        }
+
         private void Button1_Click(object sender, EventArgs e)
         {
             //_ck = new BorzoyaSpell.CheakSpell();
@@ -92,8 +179,7 @@ namespace VirastarE.Forms
 
         private void chkIgnoreEnglish_CheckedChanged(object sender, EventArgs e)
         {
-            string value = chkIgnoreEnglish.Checked ? "1" : "0";
-            
+            string value = chkIgnoreEnglish.Checked ? "1" : "0";            
             _ck.IgnoreEnglish = chkIgnoreEnglish.Checked;
         }
 

@@ -35,25 +35,26 @@ namespace BorzoyaSpell
             get { return m_SpellLavel; }
             set 
             {
-                if (value!= m_SpellLavel)
-                {
-                    m_SpellLavel = value;
-                    GlobalDic.Clear();
+                /// temp code for Corpus Prepration , now there
+                //if (value!= m_SpellLavel)
+                //{
+                //    m_SpellLavel = 1; /// value;  //backward compatible
+                //    GlobalDic.Clear();
 
-                    List<PS_PersianWordFrequency> l_pwfo;
-                    var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
-                    l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);
+                //    List<PS_PersianWordFrequency> l_pwfo;
+                //    var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
+                //    l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);
 
-                    foreach (var item in l_pwfo.Where(x => x.Lavel == (m_SpellLavel )))
-                    {
-                        GlobalDic.Add(item.Val1.Trim());
-                    }
+                //    foreach (var item in l_pwfo.Where(x => x.Lavel == (m_SpellLavel )))
+                //    {
+                //        GlobalDic.Add(item.Val1.Trim());
+                //    }
 
-                    sundex.PS_DIC_List = l_pwfo;
-                    norvan.FillDic(l_pwfo);
-                    stm.FillStm(l_pwfo);
+                //    sundex.PS_DIC_List = l_pwfo;
+                //    norvan.FillDic(l_pwfo);
+                //    stm.FillStm(l_pwfo);
 
-                } //change if
+                //} //change if
             }
         }
 
@@ -81,17 +82,23 @@ namespace BorzoyaSpell
                 StopWordList = new List<string>();
                 IgnoreCharList = new List<char>();
 
-                //var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
-                //l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);
+                var pwfo = new PS_PersianWordFrequencyOpration(); //load from DB
+                List<PS_PersianWordFrequency> l_pwfo;
+
+
+                l_pwfo = pwfo.GetAllByLavel(m_SpellLavel);                
+                sundex = new Soundex(l_pwfo.Where(x => x.Sundex.Length >0).ToList() );
+                norvan = new NorvigSpellChecker(l_pwfo);
+                stm = new Stemmer(l_pwfo);
+                foreach (var item in l_pwfo)
+                {
+                    GlobalDic.Add(item.Val1.Trim());
+                }
+
 
                 var lsStop = new PS_StopWordOpration();
 
-                sundex = new Soundex(); // l_pwfo.Where(x => x.Sundex.Length >0).ToList() );
-                norvan = new NorvigSpellChecker(); // (l_pwfo);
 
-                stm = new Stemmer(); // (l_pwfo);
-
-                
                 foreach (var item in lsStop.GetAll())
                 {
                     StopWordList.Add(item.Val1.Trim());
@@ -105,13 +112,12 @@ namespace BorzoyaSpell
             { }
         }
 
-        public bool Cheak_Spell(string mword  )
-        {
+        public bool Cheak_Spell(string mword )
+       {
             bool b_return =false;
             bool stemmr = CheakSteem;
             string word = RemoveIjnoreChar(mword); 
-
-
+            
             if (String.IsNullOrEmpty(word.Trim())) b_return = true;
 
             if (word.Any(char.IsDigit) ) b_return = true;
