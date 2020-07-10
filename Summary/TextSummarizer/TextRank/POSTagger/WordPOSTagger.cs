@@ -30,7 +30,7 @@ namespace TextRank.POSTagger
         }
 
 
-        public static IList<Tuple<string, string>> GetPosTaggedTokens(string sentence)
+        public static IList<Tuple<string, string>> GetPosTaggedTokens(string sentence, string lang)
         {
             //var posTagger =
             //    new EnglishMaximumEntropyPosTagger(ModelPath + "/EnglishPOS.nbin", ModelPath + @"/Parser/tagdict");
@@ -43,7 +43,7 @@ namespace TextRank.POSTagger
             //    tagged.Add(Tuple.Create(tokens[i], taggedList[i]));
             //}
 
-            var x1 = FarsiPOSTagger.POSTagger.getTags(sentence);
+            var x1 = FarsiPOSTagger.POSTagger.getTags(sentence, lang);
 
             //return GetFilteredTokens(tagged);
             return x1;

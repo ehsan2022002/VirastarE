@@ -155,6 +155,7 @@ namespace VirastarE.Forms
         private void chkRecSpell_CheckedChanged(object sender, EventArgs e)
         {
             string value = chkRecSpell.Checked ? "1" : "0";
+
             RegistaryApplicationSetting.SetRegistaryKey(chkRecSpell.Name, value);
         }
 

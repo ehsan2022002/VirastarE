@@ -38,10 +38,14 @@ namespace TextRank
                     index++;
 
                 }
+
                 if (wordCount < wordLength) index--;
+
 
                 top_sentences = rankedSentencesList.Take(index).ToList();
 
+                //if (top_sentences.Count == 0 )
+                //    top_sentences = rankedSentencesList.Take(1).ToList();
             }
 
             StringBuilder summry = new StringBuilder("");

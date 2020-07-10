@@ -15,17 +15,18 @@ namespace FarsiPOSTagger
     public static class POSTagger
     {
 
-        public static IList<Tuple<string, string>> getTags(string santance )
+        public static IList<Tuple<string, string>> getTags(string santance, string lang)
         {
             MaxentTagger tagger;
-            string lng = "persian";
+            string lng = lang;
+            
             try
             {
 
-            if ( Regex.IsMatch(santance, @"^[\u0000-\u007F]+$"))
-            {
-                    lng = "english";
-            }
+            //if ( Regex.IsMatch(santance, @"^[\u0000-\u007F]+$"))
+            //{
+            //        lng = "english";
+            //}
             
             //tagger = new MaxentTagger(@"Resources/"+ lng +".tagger");
 

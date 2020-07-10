@@ -8,7 +8,6 @@ using NetOffice.WordApi.Tools;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -105,6 +104,7 @@ namespace VirastarE
                 {  //welcome page not show
                     GlobalClass.myword = this.Application;
                     GlobalClass.mydoc = this.Application.ActiveDocument;
+
                 }
                 catch { }
                 
@@ -161,9 +161,10 @@ namespace VirastarE
                 btnSpell_Click(null);
             }
 
-            if (e.KeyCode == Keys.F10)
+            if (e.KeyCode == Keys.F9)
             {
-               // Console.WriteLine("control F10");
+                // Console.WriteLine("control F10");
+                btnNormalizaer_Click(null);
             }
 
             //throw new NotImplementedException();
@@ -176,7 +177,7 @@ namespace VirastarE
                                     
             _BcheakSpell = new CheakSpell();
             _BcheakSpell.IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey("chkIgnoreEnglish") == "1" ? true : false;
-            _BcheakSpell.SpellLavel = int.Parse(RegistaryApplicationSetting.GetRegistaryKey("trackBar1") == "" ? "1" : RegistaryApplicationSetting.GetRegistaryKey("trackBar1"));
+            _BcheakSpell.SpellLavel = 1; // int.Parse(RegistaryApplicationSetting.GetRegistaryKey("trackBar1") == "" ? "1" : RegistaryApplicationSetting.GetRegistaryKey("trackBar1"));
             _BcheakSpell.CheakSteem = RegistaryApplicationSetting.GetRegistaryKey("chkStemSpell") == "1" ? true : false;
             _BcheakSpell.IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey("txtIgnoreList");
             //stm = new Stemmer();
@@ -249,7 +250,7 @@ namespace VirastarE
             try
             {
                 //paragrapth
-                Application.UndoRecord.StartCustomRecord();
+                Application.UndoRecord.StartCustomRecord("VirastarE Punc");
 
                 string p = GlobalClass.mydoc.Content.Text;
                 if (p.Trim().Length > 4)
@@ -293,6 +294,8 @@ namespace VirastarE
 
             if (isWordSelect == true)
             {
+                _BcheakSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
+
                 GlobalClass.myselection.Range.Words[1].Underline = WdUnderline.wdUnderlineNone;
                 GlobalClass.myselection.Range.Words[1].Font.UnderlineColor = WdColor.wdColorWhite;
                 GlobalClass.myselection.Range.Words[1].Text = selectedWord + " ";                
@@ -331,10 +334,12 @@ namespace VirastarE
             {
                 if (GlobalClass.myword.ActiveDocument != null)
                 {
-                    Application.UndoRecord.StartCustomRecord();
+                   
                     var doc = GlobalClass.myword.ActiveDocument;
                     //doc.Content.Text = farsiNormalizer.Run(doc.Content.Text);
 
+                    
+                    Application.UndoRecord.StartCustomRecord("VirastarE Spell");
                     for (int i = 1; i < GlobalClass.mydoc.Words.Count; i++)
                     {
 
@@ -345,6 +350,7 @@ namespace VirastarE
                         bool b2 = _BcheakSpell.isInIgnoreList(s);
                         //bool b3 = _BcheakSpell.Cheak_Spell(ss);  //b3=b1
 
+                        
                         if (((b1 == false) && b2 == false))
                         {
                             doc.Content.Words[i].Underline = WdUnderline.wdUnderlineWavy;
@@ -355,6 +361,7 @@ namespace VirastarE
                             doc.Content.Words[i].Underline = WdUnderline.wdUnderlineNone;
                             doc.Content.Words[i].Font.UnderlineColor = WdColor.wdColorWhite;
                         }
+                        
 
                     }
 
@@ -477,7 +484,7 @@ namespace VirastarE
             FarsiNormalizer farsiNormalizer = new FarsiNormalizer();
             var doc = GlobalClass.myword.ActiveDocument;
             
-            if (doc.ActiveWindow.Selection.Text.Trim().Length > 0)
+            if (doc.ActiveWindow.Selection.Text.Trim().Length > 1)
                 doc.ActiveWindow.Selection.Text = farsiNormalizer.Run(doc.ActiveWindow.Selection.Text);
             else
                 doc.Content.Text = farsiNormalizer.Run(doc.Content.Text);

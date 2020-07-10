@@ -102,10 +102,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpWordNet, Version=1.0.2435.492, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharpWordNet\obj\Debug\SharpWordNet.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -531,6 +527,10 @@
     <ProjectReference Include="..\SharpEntropy\SharpEntropy.csproj">
       <Project>{bf0bf8b0-1894-4edf-bf51-f370b063797e}</Project>
       <Name>SharpEntropy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpWordNet\SharpWordNet.csproj">
+      <Project>{4c78c577-d001-45ea-9893-f5570bab16c0}</Project>
+      <Name>SharpWordNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

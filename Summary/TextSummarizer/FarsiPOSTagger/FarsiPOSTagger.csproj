@@ -198,6 +198,7 @@
     <None Include="App.config" />
     <None Include="FarsiPOSTaggersn.snk" />
     <None Include="packages.config" />
+    <None Include="Resources\arabic.tagger" />
     <None Include="Resources\english.tagger" />
     <None Include="Resources\persian.tagger" />
   </ItemGroup>

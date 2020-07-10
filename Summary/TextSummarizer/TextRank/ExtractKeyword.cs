@@ -14,9 +14,9 @@ namespace TextRank
     {
         public static ExtractKeyword Extract { get; } = new ExtractKeyword();
 
-        public List<string> GetKeyWordsList(string sentence)
+        public List<string> GetKeyWordsList(string sentence, string lang)
         {
-            var taggedList = WordPOSTagger.GetPosTaggedTokens(sentence);
+            var taggedList = WordPOSTagger.GetPosTaggedTokens(sentence,lang);
             var directedGraph = GraphUtil.GraphInstance.BuildPOSGraph<string>(taggedList);
             var rank = new PageRank<string>();
             var rankedDictionary = rank.Rank(directedGraph);

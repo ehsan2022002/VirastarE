@@ -6,9 +6,9 @@ namespace TextRank
     public class ExtractKeyPhrases
     {
 
-        public Tuple<string, List<string>> Extract(string sentence, int wordLength = 100)
+        public Tuple<string, List<string>> Extract(string sentence, string lang,int wordLength = 100)
         {
-            var keyWords = ExtractKeyword.Extract.GetKeyWordsList(sentence);
+            var keyWords = ExtractKeyword.Extract.GetKeyWordsList(sentence, lang);
 
             var summary = ExtractSummary.Extract.ExtractParagraphSummary(sentence, wordLength);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageDetection;
+using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -12,7 +13,8 @@ namespace TextSummarize
         BackgroundWorker m_oWorker;
         string strSummary;
         string strKeywords;
-            
+        string lang;
+
         public frmSummary(string s)
         {
             InitializeComponent();
@@ -27,6 +29,25 @@ namespace TextSummarize
                     (m_oWorker_RunWorkerCompleted);
             m_oWorker.WorkerReportsProgress = true;
             m_oWorker.WorkerSupportsCancellation = true;
+
+            setLangusateDetect();
+        }
+
+        private void setLangusateDetect()
+        {
+            if (this.sentance.Trim().Length < 10)
+                 return; 
+
+            try
+            {
+                cmbLang.Items.Clear();
+                cmbLang.Items.AddRange(FindLanguage.GetTraindLanguage().ToArray());
+
+                var Dlang = FindLanguage.Detect(this.sentance);
+                cmbLang.Text = Dlang;
+            }
+            catch (Exception ex)
+            { }
 
         }
 
@@ -51,7 +72,8 @@ namespace TextSummarize
                 txtSummary.Text = strSummary;
                 txtKeywords.Text = strKeywords;
             }
-
+            
+            
             //Change the status of the buttons on the UI accordingly
             btnStartAsyncOperation.Enabled = true;
             btnCancel.Enabled = false;
@@ -59,19 +81,20 @@ namespace TextSummarize
 
         private void m_oWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            
-            progressBar1.Value = e.ProgressPercentage;
-            lblStatus.Text = "پردازش در حال انجام است زمان بسته به مقدار متن دارد..." + progressBar1.Value.ToString() + "%";
+                         
+            lblStatus.Text = "پردازش در حال انجام است زمان بسته به مقدار متن دارد..." ;
         }
 
         private void m_oWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            
+            
             m_oWorker.ReportProgress(10);
             try
             {
                 var extractKeyPhrases = new ExtractKeyPhrases();
 
-                var x = extractKeyPhrases.Extract(sentance);
+                var x = extractKeyPhrases.Extract(sentance, lang);
 
                 m_oWorker.ReportProgress(90);
                 
@@ -95,6 +118,8 @@ namespace TextSummarize
        
         private void BtnStartAsyncOperation_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
+            lang = cmbLang.Text;
             if (this.sentance.Trim().Length > 5000)
             {
                 lblStatus.Text = "اندازه متن بیشتر از حد مجاز است";
@@ -112,6 +137,12 @@ namespace TextSummarize
 
             // Kickoff the worker thread to begin it's DoWork function.
             m_oWorker.RunWorkerAsync();
+            m_oWorker.RunWorkerCompleted += M_oWorker_RunWorkerCompleted;
+        }
+
+        private void M_oWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            pictureBox1.Visible = false;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

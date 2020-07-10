@@ -9,8 +9,8 @@
           <button id="btnSetting" label="تنظیمات" imageMso="GridSettings" size="large" onAction="btnSetting_Click" /> 
         </group>
         <group id="Edit" label="ویرایش"  >
-          <button id="btnNormalizaer" label="اصلاح فاصله و حروف" imageMso="MarginsAdjust" size="large" onAction="btnNormalizaer_Click" />
-          <button id="btnspell" label="بازبینی املا" imageMso="SpellingAndGrammar" size="large" onAction="btnSpell_Click" />
+          <button id="btnNormalizaer" label="اصلاح فاصله و حروف" imageMso="MarginsAdjust" size="large" screentip="F9" onAction="btnNormalizaer_Click" />
+          <button id="btnspell" label="بازبینی املا" imageMso="SpellingAndGrammar" size="large"  screentip="F11" onAction="btnSpell_Click" />
           <button id="btnpunc" label="بازبینی نگارش" imageMso="Grammar" size="large" onAction="btnPunctuation_Click" />
         </group >
         <group id="Explor" label="کاوشگر متن">          

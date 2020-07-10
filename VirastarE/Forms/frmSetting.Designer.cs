@@ -269,6 +269,8 @@
             this.chkPunkRec.Size = new System.Drawing.Size(191, 20);
             this.chkPunkRec.TabIndex = 2;
             this.chkPunkRec.Text = "انشای متن مرتبا بازبینی شود";
+            this.toolTip1.SetToolTip(this.chkPunkRec, "فعال کردن این گرینه ممکن است اطلاعات بازگشت فعالیتها\r\nدر برنامه را بلااستفاده کنی" +
+        "د و باید با دقت استفاده گردد\r\n");
             this.chkPunkRec.UseVisualStyleBackColor = true;
             this.chkPunkRec.CheckedChanged += new System.EventHandler(this.chkPunkRec_CheckedChanged);
             // 
@@ -281,6 +283,8 @@
             this.chkRecSpell.Size = new System.Drawing.Size(185, 20);
             this.chkRecSpell.TabIndex = 0;
             this.chkRecSpell.Text = "املای متن مرتبا بازبینی شود";
+            this.toolTip1.SetToolTip(this.chkRecSpell, "فعال کردن این گرینه ممکن است اطلاعات بازگشت فعالیتها\r\nدر برنامه را بلااستفاده کند" +
+        " و باید با دقت استفاده گردد");
             this.chkRecSpell.UseVisualStyleBackColor = true;
             this.chkRecSpell.CheckedChanged += new System.EventHandler(this.chkRecSpell_CheckedChanged);
             // 
@@ -304,7 +308,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(183, 16);
             this.label2.TabIndex = 1;
-            this.label2.Text = "کاندید نسخه اصلی ویرایش 3";
+            this.label2.Text = "کاندید نسخه اصلی ویرایش 4";
             // 
             // label1
             // 
@@ -329,7 +333,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::VirastarE.Properties.Resources.loading_gears_animation_10;
-            this.pictureBox1.Location = new System.Drawing.Point(360, 163);
+            this.pictureBox1.Location = new System.Drawing.Point(363, 170);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(172, 122);
             this.pictureBox1.TabIndex = 4;
