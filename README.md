@@ -12,7 +12,7 @@
 <a href="https://github.com/ehsan2022002/VirastarE/wiki"> .برای نیازهای سیستمی و اطلاعات بیشتر ویکی را ببینید </a>
 <br>
 <a href="https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing"> جهت دانلود برنامه نصب از گوگل درایو کلیک کنید</a>  
-نسخه فعلی جهت دانلود  RC3
+نسخه فعلی جهت دانلود  RC4
 <br>
 <br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot3.png" alt="virstarE">
