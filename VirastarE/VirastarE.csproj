@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="RegistaryApplicationSetting.cs" />
     <Compile Include="ShortcutManager.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmSetting.resx">
