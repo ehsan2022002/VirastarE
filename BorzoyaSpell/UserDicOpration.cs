@@ -2,44 +2,33 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BorzoyaSpell
 {
     public class UserDicOpration
     {
-        //string locationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) 
+        //string _fileLocationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) 
         //                        + @"\db\" + Environment.UserName + "_txt";
 
-        string Dirloc = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\VirastarE\";
-        string locationPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                               @"\VirastarE\" + Environment.UserName + "_txt";
+        private readonly string _dirlocationPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                                         @"\VirastarE\";
+
+        private readonly string _fileLocationPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                                               @"\VirastarE\" + Environment.UserName + "_txt";
 
         public void Add(string word)
         {
-            FileInfo fi = new FileInfo(locationPath);
+            var fileInfo = new FileInfo(_fileLocationPath);
 
-            if (Directory.Exists(Dirloc) == false)
-            {
-                Directory.CreateDirectory(Dirloc);
-            }
+            if (Directory.Exists(_dirlocationPath) == false) Directory.CreateDirectory(_dirlocationPath);
 
-            if (fi.Exists)
-            {
-                File.AppendAllText(locationPath, word + Environment.NewLine);
-            }
+            if (fileInfo.Exists)
+                File.AppendAllText(_fileLocationPath, word + Environment.NewLine);
             else
-            {
-                using (StreamWriter sw = fi.CreateText())
+                using (var streamWriter = fileInfo.CreateText())
                 {
-                    sw.WriteLine(word + Environment.NewLine);                    
+                    streamWriter.WriteLine(word + Environment.NewLine);
                 }
-            }
-
-            
         }
 
         public void Remove(string word)
@@ -47,27 +36,24 @@ namespace BorzoyaSpell
             try
             {
                 var tempFile = Path.GetTempFileName();
-                var linesToKeep = File.ReadLines(locationPath).Where(l => l != word);
+                var linesToKeep = File.ReadLines(_fileLocationPath).Where(l => l != word);
 
                 File.WriteAllLines(tempFile, linesToKeep);
 
-                File.Delete(locationPath);
-                File.Move(tempFile, locationPath);
+                File.Delete(_fileLocationPath);
+                File.Move(tempFile, _fileLocationPath);
             }
-            catch { }
-
+            catch (Exception)
+            {
+            }
         }
 
         public List<string> LoadAll()
         {
-            List<string> list = new List<string>();
+            var list = new List<string>();
 
-            if (File.Exists(locationPath))
-            {
-                list = File.ReadLines(locationPath).ToList();
-            }
+            if (File.Exists(_fileLocationPath)) list = File.ReadLines(_fileLocationPath).ToList();
             return list;
-                     
         }
     }
 }

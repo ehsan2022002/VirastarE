@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace BorzoyaSpell
 {
-    class MakeTrans
+    internal class MakeTrans
     {
-        private readonly Dictionary<char, char> d;
+        private readonly Dictionary<char, char> _dic;
 
         public MakeTrans(string intab, string outab)
         {
-            d = Enumerable.Range(0, intab.Length).ToDictionary(i => intab[i], i => outab[i]);
-            //d = new Dictionary<char, char>();
-            //for (int i = 0; i < intab.Length; i++)
-            //    d[intab[i]] = outab[i];
+            _dic = Enumerable.Range(0, intab.Length).ToDictionary(i => intab[i], i => outab[i]);
         }
 
         public string Translate(string src)
         {
-            System.Text.StringBuilder sb = new StringBuilder(src.Length);
-            foreach (char src_c in src)
-                sb.Append(d.ContainsKey(src_c) ? d[src_c] : src_c);
+            var sb = new StringBuilder(src.Length);
+            foreach (var srcC in src)
+                sb.Append(_dic.ContainsKey(srcC) ? _dic[srcC] : srcC);
             return sb.ToString();
         }
     }

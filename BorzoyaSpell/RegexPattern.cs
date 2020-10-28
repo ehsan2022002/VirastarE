@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace BorzoyaSpell
 {
@@ -15,12 +11,12 @@ namespace BorzoyaSpell
 
         public RegexPattern(Regex pattern, string replace)
         {
-            this.Pattern = pattern;
-            this.Replace = replace;
+            Pattern = pattern;
+            Replace = replace;
         }
 
-        public Regex Pattern { get; private set; }
-        public string Replace { get; private set; }
+        public Regex Pattern { get; }
+        public string Replace { get; }
 
         public string Apply(string text)
         {

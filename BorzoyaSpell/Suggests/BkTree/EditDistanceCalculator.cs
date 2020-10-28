@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FastFuzzyStringMatcher
+namespace BorzoyaSpell.Suggests.BkTree
 {
     /// <summary>
     /// <para/>Calculates the number of operations it takes to turn one string into another.
@@ -33,17 +33,17 @@ namespace FastFuzzyStringMatcher
         /// <returns>The number of edits required to transform str1 into str2</returns>
         public int CalculateEditDistance(String str1, String str2)
         {
-            if(str1 == null || str2 == null)
+            if (str1 == null || str2 == null)
             {
                 throw new ArgumentNullException("Strings cannot be null");
             }
 
-            if(str1.Length == 0)
+            if (str1.Length == 0)
             {
                 return str2.Length;
             }
 
-            if(str2.Length == 0)
+            if (str2.Length == 0)
             {
                 return str1.Length;
             }

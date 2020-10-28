@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FastFuzzyStringMatcher
+namespace BorzoyaSpell.Suggests.BkTree
 {
     /// <summary>
     /// A result returned after searching using the string matcher.

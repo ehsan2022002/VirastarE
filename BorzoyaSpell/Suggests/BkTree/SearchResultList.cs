@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FastFuzzyStringMatcher
+namespace BorzoyaSpell.Suggests.BkTree
 {
     /// <summary>
     /// A class for returning results from the string matcher.
@@ -20,11 +20,11 @@ namespace FastFuzzyStringMatcher
             this.Sort(new SortByClosestMatchComparer());
         }
 
-        private class SortByClosestMatchComparer: IComparer<SearchResult<T>>
+        private class SortByClosestMatchComparer : IComparer<SearchResult<T>>
         {
             public int Compare(SearchResult<T> a, SearchResult<T> b)
             {
-                if(a.MatchPercentage < b.MatchPercentage)
+                if (a.MatchPercentage < b.MatchPercentage)
                 {
                     return 1;
                 }

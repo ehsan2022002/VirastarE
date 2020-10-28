@@ -1,13 +1,9 @@
-﻿using BrozoyaEntitys;
-using BrozoyaEntitys.EntityData;
-using BrozoyaEntitys.EntityOpratins;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+using BrozoyaEntitys.EntityData;
 
-namespace BorzoyaSpell.Suggests
+namespace BorzoyaSpell.Suggests.Norvig
 {
     class NorvigSpellChecker
     {
@@ -49,10 +45,20 @@ namespace BorzoyaSpell.Suggests
         public void FillDic(List<PS_PersianWordFrequency> wordList)
         {
             _dictionary.Clear();
+
             foreach (var word in wordList)
             {
-                _dictionary.Add(word.Val1, int.Parse(word.Val2));
+                try
+                {
+
+                    _dictionary.Add(word.Val1.Trim(), int.Parse(word.Val2));
+                }
+                catch
+                {
+                    // ignored
+                }
             }
+
         }
 
         public string Correct(string word)

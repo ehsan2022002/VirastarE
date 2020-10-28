@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VirastarE
@@ -60,7 +56,7 @@ namespace VirastarE
 
             Keys keyx = (Keys)keys;
             KeyEventArgs kArg = new KeyEventArgs(keyx);
-            KeyDown(null, kArg);
+            if (KeyDown != null) KeyDown(null, kArg);
 
             if (checkModifiers() && (checkKey(Keys.Enter) || checkKey(Keys.Return)))
             {
@@ -69,7 +65,7 @@ namespace VirastarE
                 //Worksheet ws = Globals.ThisAddIn.Application.ActiveSheet;
                 //Range cell = ws.Cells[1, 1];
                 //cell.Interior.Color = 0xFF0000;
-            }///
+            }
 
         }
         static bool IsKeyDown(Keys keys)

@@ -33,7 +33,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.FindParsonalDic = new System.Windows.Forms.Button();
             this.resultLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,8 +45,6 @@
             this.lblTackval = new System.Windows.Forms.Label();
             this.chkIgnoreEnglish = new System.Windows.Forms.CheckBox();
             this.chkStemSpell = new System.Windows.Forms.CheckBox();
-            this.lblTackbar = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.chkPunkRec = new System.Windows.Forms.CheckBox();
             this.chkRecSpell = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -59,7 +57,6 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -82,7 +79,7 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.button2);
+            this.tabPage1.Controls.Add(this.FindParsonalDic);
             this.tabPage1.Controls.Add(this.resultLabel);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.button1);
@@ -105,15 +102,15 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button2
+            // FindParsonalDic
             // 
-            this.button2.Location = new System.Drawing.Point(119, 21);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "جستجو";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            this.FindParsonalDic.Location = new System.Drawing.Point(119, 21);
+            this.FindParsonalDic.Name = "FindParsonalDic";
+            this.FindParsonalDic.Size = new System.Drawing.Size(75, 23);
+            this.FindParsonalDic.TabIndex = 5;
+            this.FindParsonalDic.Text = "جستجو";
+            this.FindParsonalDic.UseVisualStyleBackColor = true;
+            this.FindParsonalDic.Click += new System.EventHandler(this.FindParsonalDic_Click);
             // 
             // resultLabel
             // 
@@ -158,8 +155,6 @@
             this.tabPage3.Controls.Add(this.lblTackval);
             this.tabPage3.Controls.Add(this.chkIgnoreEnglish);
             this.tabPage3.Controls.Add(this.chkStemSpell);
-            this.tabPage3.Controls.Add(this.lblTackbar);
-            this.tabPage3.Controls.Add(this.trackBar1);
             this.tabPage3.Controls.Add(this.chkPunkRec);
             this.tabPage3.Controls.Add(this.chkRecSpell);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -232,34 +227,6 @@
             this.chkStemSpell.UseVisualStyleBackColor = true;
             this.chkStemSpell.CheckedChanged += new System.EventHandler(this.chkStemSpell_CheckedChanged);
             // 
-            // lblTackbar
-            // 
-            this.lblTackbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTackbar.AutoSize = true;
-            this.lblTackbar.Location = new System.Drawing.Point(200, 121);
-            this.lblTackbar.Name = "lblTackbar";
-            this.lblTackbar.Size = new System.Drawing.Size(306, 16);
-            this.lblTackbar.TabIndex = 4;
-            this.lblTackbar.Text = "واژه نامه املایی (سایتهای خبری - واژه نامه ویراستاری)";
-            this.toolTip1.SetToolTip(this.lblTackbar, "1.آزمایشگاه ویراستاری\r\n2.ویکی پیدیا اصلاح شده\r\n3.سایتهای خبری\r\n4.ویکی پیدیا با لغ" +
-        "ات فارسی اضافه شده\r\n5.ویکی پیدیا");
-            this.lblTackbar.Visible = false;
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.BackColor = System.Drawing.SystemColors.Control;
-            this.trackBar1.Location = new System.Drawing.Point(47, 106);
-            this.trackBar1.Maximum = 2;
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(134, 45);
-            this.trackBar1.TabIndex = 3;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.toolTip1.SetToolTip(this.trackBar1, "1.سایتهای خبری\r\n2.فرهنگ نامه آزمایشگاه ویراستاری");
-            this.trackBar1.Value = 1;
-            this.trackBar1.Visible = false;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            // 
             // chkPunkRec
             // 
             this.chkPunkRec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -283,8 +250,8 @@
             this.chkRecSpell.Size = new System.Drawing.Size(185, 20);
             this.chkRecSpell.TabIndex = 0;
             this.chkRecSpell.Text = "املای متن مرتبا بازبینی شود";
-            this.toolTip1.SetToolTip(this.chkRecSpell, "فعال کردن این گرینه ممکن است اطلاعات بازگشت فعالیتها\r\nدر برنامه را بلااستفاده کند" +
-        " و باید با دقت استفاده گردد");
+            this.toolTip1.SetToolTip(this.chkRecSpell, "فعال کردن این گرینه ممکن است اطلاعات بازگشت فعالیتها\r\nدر برنامه را بلااستفاده کنی" +
+        "د و باید با دقت استفاده گردد");
             this.chkRecSpell.UseVisualStyleBackColor = true;
             this.chkRecSpell.CheckedChanged += new System.EventHandler(this.chkRecSpell_CheckedChanged);
             // 
@@ -361,7 +328,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 317);
             this.Controls.Add(this.tabControl1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSetting";
@@ -375,7 +341,6 @@
             this.tabPage1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -395,14 +360,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label resultLabel;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button FindParsonalDic;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox chkRecSpell;
         private System.Windows.Forms.CheckBox chkPunkRec;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Label lblTackbar;
         private System.Windows.Forms.CheckBox chkStemSpell;
         private System.Windows.Forms.CheckBox chkIgnoreEnglish;
         private System.Windows.Forms.ToolTip toolTip1;

@@ -1,13 +1,13 @@
 ﻿
 
-namespace FastFuzzyStringMatcher
+namespace BorzoyaSpell.Suggests.BkTree
 {
     /// <summary>
     /// Options that can be used when searching/comparing strings.
     /// </summary>
     public enum MatchingOption
     {
-        None,
-        RemoveSpacingAndLinebreaks
+        none,
+        removeSpacingAndLinebreaks
     }
 }

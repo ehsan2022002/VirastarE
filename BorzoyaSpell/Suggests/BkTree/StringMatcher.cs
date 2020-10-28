@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace FastFuzzyStringMatcher
+namespace BorzoyaSpell.Suggests.BkTree
 {
     /// <summary>
     /// <para/>Builds a tree based on edit distance that allows quick fuzzy searching of string keywords, case insensitive.
@@ -45,7 +45,7 @@ namespace FastFuzzyStringMatcher
     {
         private Node _root;
         private EditDistanceCalculator _distanceCalculator = new EditDistanceCalculator();
-        private MatchingOption _matchingOption = MatchingOption.None;
+        private MatchingOption _matchingOption = MatchingOption.none;
 
         public StringMatcher() { }
 
@@ -56,19 +56,19 @@ namespace FastFuzzyStringMatcher
 
         public void Add(String keyword, T associatedData)
         {
-            if(keyword == null)
+            if (keyword == null)
             {
                 throw new ArgumentNullException("Strings must not be null");
             }
 
-            if(keyword.Length == 0)
+            if (keyword.Length == 0)
             {
                 throw new ArgumentException("Strings must not be empty");
             }
 
             String normalizedKeyword = GetNormalizedKeyword(keyword);
 
-            if(_root == null)
+            if (_root == null)
             {
                 _root = new Node(keyword, normalizedKeyword, associatedData);
             }
@@ -78,12 +78,12 @@ namespace FastFuzzyStringMatcher
                 Node current = _root;
                 int editDistance = _distanceCalculator.CalculateEditDistance(current.NormalizedKeyword, keyword);
 
-                while(current.ContainsChildWithDistance(editDistance))
+                while (current.ContainsChildWithDistance(editDistance))
                 {
                     current = current.getChild(editDistance);
                     editDistance = _distanceCalculator.CalculateEditDistance(current.NormalizedKeyword, keyword);
 
-                    if(editDistance == 0)
+                    if (editDistance == 0)
                     {
                         return; // Duplicate (String already exists in tree)
                     }
@@ -95,7 +95,7 @@ namespace FastFuzzyStringMatcher
 
         private String GetNormalizedKeyword(String str)
         {
-            if (_matchingOption == MatchingOption.RemoveSpacingAndLinebreaks)
+            if (_matchingOption == MatchingOption.removeSpacingAndLinebreaks)
             {
                 return RemoveSpacesAndLinebreaks(str);
             }
@@ -110,7 +110,7 @@ namespace FastFuzzyStringMatcher
             return Regex.Replace(str, @"\s+", string.Empty);
         }
 
-    	// Search using % matching.
+        // Search using % matching.
         // More user-friendly and robust when searching strings of variable length,
         // but may lead to strings slightly less than the matchPercentage being returned due to rounding.
         public SearchResultList<T> Search(String keyword, float matchPercentage)
@@ -123,7 +123,7 @@ namespace FastFuzzyStringMatcher
 
         private int ConvertPercentageToEditDistance(String keyword, float matchPercentage)
         {
-            return keyword.Length - (int)(Math.Round((keyword.Length * matchPercentage)/100.0f));
+            return keyword.Length - (int)(Math.Round((keyword.Length * matchPercentage) / 100.0f));
         }
 
         // Search using edit distance (chars different).
@@ -152,7 +152,7 @@ namespace FastFuzzyStringMatcher
         {
             int currentDistance = _distanceCalculator.CalculateEditDistance(node.NormalizedKeyword, keyword);
 
-            if(currentDistance <= distanceThreshold)
+            if (currentDistance <= distanceThreshold)
             {
                 // Match found
                 float percentageDifference = GetPercentageDifference(node.NormalizedKeyword, keyword, currentDistance);
@@ -166,7 +166,7 @@ namespace FastFuzzyStringMatcher
 
             List<int> childKeysWithinDistanceThreshold = node.GetChildKeysWithinDistance(minDistance, maxDistance);
 
-            foreach(int childKey in childKeysWithinDistanceThreshold)
+            foreach (int childKey in childKeysWithinDistanceThreshold)
             {
                 Node child = node.getChild(childKey);
                 SearchTree(child, keyword, distanceThreshold, results);
@@ -204,7 +204,7 @@ namespace FastFuzzyStringMatcher
 
             public Node getChild(int key)
             {
-                if(ContainsChildWithDistance(key))
+                if (ContainsChildWithDistance(key))
                 {
                     return _children[key];
                 }
@@ -221,7 +221,7 @@ namespace FastFuzzyStringMatcher
 
             public List<int> GetChildKeysWithinDistance(int minDistance, int maxDistance)
             {
-                if(_children == null)
+                if (_children == null)
                 {
                     return new List<int>(0);
                 }
@@ -233,7 +233,7 @@ namespace FastFuzzyStringMatcher
 
             public void AddChild(int key, String keyword, String normalizedKeyword, T associatedData)
             {
-                if(_children == null)
+                if (_children == null)
                 {
                     _children = new Dictionary<int, Node>();
                 }
@@ -249,16 +249,16 @@ namespace FastFuzzyStringMatcher
 
             public void PrintHierarchy(int level)
             {
-                for(int i = 0; i < level; i++)
+                for (int i = 0; i < level; i++)
                 {
                     Debug.Write("\t");
                 }
 
                 Debug.WriteLine($"-- {OriginalKeyword}");
 
-                if(_children != null)
+                if (_children != null)
                 {
-                    foreach(Node child in _children.Values)
+                    foreach (Node child in _children.Values)
                     {
                         child.PrintHierarchy(level + 1);
                     }

@@ -1,24 +1,21 @@
-﻿using BrozoyaEntitys;
-using BrozoyaEntitys.EntityData;
-using BrozoyaEntitys.EntityOpratins;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BrozoyaEntitys.EntityData;
 
-namespace BorzoyaSpell.Suggests
+namespace BorzoyaSpell.Suggests.Soundex
 {
     public class Soundex
     {
 
-        public List<PS_PersianWordFrequency> PS_DIC_List; //
-            
-        public Soundex(List<PS_PersianWordFrequency> PS_DIC_F)
+        public List<PS_PersianWordFrequency> psDICList; //
+
+        public Soundex(List<PS_PersianWordFrequency> psDICWordFreq)
         {
-            PS_DIC_List = new List<PS_PersianWordFrequency>();
+            psDICList = new List<PS_PersianWordFrequency>();
 
             //var ls = new PS_Dictionary_FAOpration();
-            PS_DIC_List = PS_DIC_F;
+            psDICList = psDICWordFreq;
 
         }
 
@@ -28,16 +25,16 @@ namespace BorzoyaSpell.Suggests
 
         public List<string> GetSuggest(string word)
         {
-            string Wordsound = FA_Computeintial2(word,8);
+            string wordsound = FA_Computeintial2(word, 8);
 
-            return PS_DIC_List.Where(x => x.Sundex == Wordsound).Select(y => y.Val1).ToList();
+            return psDICList.Where(x => x.Sundex == wordsound).Select(y => y.Val1).ToList();
 
         }
 
         public string FA_Computeintial2(string word, int length)
         {
             // Value to return
-            string value = "";
+            string value = string.Empty;
 
             //delete first latter A
             //switch (word[0])
@@ -82,7 +79,7 @@ namespace BorzoyaSpell.Suggests
                         case 'آ':
                         case 'ح':
                         case 'خ':
-                        
+
                         case 'ه':
                         case 'ع':
                         case 'غ':
@@ -128,7 +125,7 @@ namespace BorzoyaSpell.Suggests
                             currCode = 6;
                             break;
                     }
-                    
+
                     // Check to see if the current code is the same as the last one
                     if (currCode != prevCode)
                     {

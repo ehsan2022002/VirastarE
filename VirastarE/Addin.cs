@@ -1,90 +1,87 @@
-﻿namespace VirastarE
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
+using Balloon.NET;
+using BorzoyaSpell;
+using LDA;
+using NetOffice.OfficeApi;
+using NetOffice.OfficeApi.Tools;
+using NetOffice.Tools;
+using NetOffice.WordApi.Enums;
+using TextSummarize;
+using VirastarE.Forms;
+using COMAddin = NetOffice.WordApi.Tools.COMAddin;
+
+namespace VirastarE
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Globalization;
-    using System.Runtime.InteropServices;
-    using System.Threading;
-    using System.Windows.Forms;
-    using Balloon.NET;
-    using BorzoyaSpell;
-    using LDA;
-    using NetOffice.OfficeApi;
-    using NetOffice.OfficeApi.Tools;
-    using NetOffice.Tools;
-    using NetOffice.WordApi.Enums;
-    using NetOffice.WordApi.Tools;
     using Word = NetOffice.WordApi;
 
-    [COMAddin("VirastarE", "farsi spell checker", LoadBehavior.LoadAtStartup), ProgId("VirastarE.Addin"), Guid("51CFA53D-03D0-4192-8380-85A811807747"), Codebase]
-    [RegistryLocation(RegistrySaveLocation.InstallScopeCurrentUser), CustomUI("RibbonUI.xml", true)]
+    [COMAddin("VirastarE", "farsi spell checker", LoadBehavior.LoadAtStartup)]
+    [ProgId("VirastarE.Addin")]
+    [Guid("51CFA53D-03D0-4192-8380-85A811807747")]
+    [Codebase]
+    [RegistryLocation(RegistrySaveLocation.InstallScopeCurrentUser)]
+    [CustomUI("RibbonUI.xml", true)]
     [MultiRegister(RegisterIn.Word, RegisterIn.Outlook)]
-    public class Addin : Word.Tools.COMAddin
+    public class Addin : COMAddin
     {
         private static object locksyncPuncThread = new object();
         private static object locksyncSpellThread = new object();
-        private Thread bgthread;
-        private CheakSpell chkSpell;
-        private CPPPunctuation cpuncForm;
-        private CPPSPell cspellForm;
-        private PunchPattern currentPuncPattern;
-        private bool ignoreAllSpell = false;
-        private bool isrunningPuncThread;
-        private bool isrunningSpellThread;
-        private List<PunchPattern> listpukPattern;
-        private Util utilclass = new Util();
-        private Thread puncthread;
-        private Thread spellthread;
+        private Thread _bgthread;
+        private CheakSpell _chkSpell;
+        private CPPPunctuation _cpuncForm;
+        private CPPSPell _cspellForm;
+        private PunchPattern _currentPuncPattern;
+        private bool _ignoreAllSpell;
+        private bool _isrunningPuncThread;
+        private bool _isrunningSpellThread;
+        private List<PunchPattern> _listpukPattern;
+        private Thread _puncthread;
+        private Thread _spellthread;
+        private readonly Util _utilclass = new Util();
 
         public Addin()
         {
-            this.OnStartupComplete += new OnStartupCompleteEventHandler(this.Addin_OnStartupComplete);
-            this.OnDisconnection += new OnDisconnectionEventHandler(this.Addin_OnDisconnection);            
+            OnStartupComplete += Addin_OnStartupComplete;
+            OnDisconnection += Addin_OnDisconnection;
         }
 
         [RegisterErrorHandler]
-        public static void RegisterErrorHandler(RegisterErrorMethodKind methodKind, System.Exception exception)
+        public static void RegisterErrorHandler(RegisterErrorMethodKind methodKind, Exception exception)
         {
-            MessageBox.Show(methodKind.ToString() + " " + exception.Message);            
+            MessageBox.Show(methodKind + Environment.NewLine + exception.Message);
         }
 
         public void btnNormalizaer_Click(IRibbonControl control)
         {
-            FarsiNormalizer farsiNormalizer = new FarsiNormalizer();
+            var farsiNormalizer = new FarsiNormalizer();
             var currentdoc = GlobalClass.myword.ActiveDocument;
 
             if (currentdoc.ActiveWindow.Selection.Text.Trim().Length > 1)
-            {
                 currentdoc.ActiveWindow.Selection.Text = farsiNormalizer.Run(currentdoc.ActiveWindow.Selection.Text);
-            }
             else
-            {
                 currentdoc.Content.Text = farsiNormalizer.Run(currentdoc.Content.Text);
-            }
         }
-        
+
         public void btnPunctuation_Click(IRibbonControl control)
         {
-            if (this.puncthread == null ||
-                    (
-                        this.puncthread.ThreadState != System.Threading.ThreadState.Running &&
-                        this.puncthread.ThreadState != System.Threading.ThreadState.WaitSleepJoin
-                    )
-                )
-            {
+            if (_puncthread == null ||
+                _puncthread.ThreadState != ThreadState.Running &&
+                _puncthread.ThreadState != ThreadState.WaitSleepJoin
+            )
                 lock (locksyncPuncThread)
                 {
-                    this.puncthread = new Thread(this.PunchDoWork);
-                    this.puncthread.IsBackground = true;
-                    this.puncthread.Start();
+                    _puncthread = new Thread(PunchDoWork) {IsBackground = true};
+                    _puncthread.Start();
                 }
-            }
         }
 
         public void btnSetting_Click(IRibbonControl control)
         {
-            var frmsetting = new Forms.frmSetting(this.chkSpell);
+            var frmsetting = new frmSetting(_chkSpell);
             frmsetting.Show();
             Application.StatusBar = Util.UtilMessagesEnum.ToolbarMessageSetting;
         }
@@ -98,35 +95,25 @@
 
         public void btnSpell_Click(IRibbonControl control)
         {
-            if (this.spellthread == null ||
-                    (this.spellthread.ThreadState != System.Threading.ThreadState.Running &&
-                    this.spellthread.ThreadState != System.Threading.ThreadState.WaitSleepJoin)
-                )
-            {
+            if (_spellthread == null ||
+                _spellthread.ThreadState != ThreadState.Running &&
+                _spellthread.ThreadState != ThreadState.WaitSleepJoin
+            )
                 lock (locksyncSpellThread)
                 {
-                    this.spellthread = new Thread(this.SpellDoWork);
-                    this.spellthread.IsBackground = true;
-                    this.spellthread.Start();
+                    _spellthread = new Thread(SpellDoWork) {IsBackground = true};
+                    _spellthread.Start();
                 }
-            }
         }
 
         public void btnSummerizer_Click(IRibbonControl control)
         {
-            string texttosend = string.Empty;
-            var currntdoc = GlobalClass.myword.ActiveDocument;
+            var textToSend = string.Empty;
+            var currntDoc = GlobalClass.myword.ActiveDocument;
 
-            if (currntdoc.ActiveWindow.Selection.Text.Trim().Length > 0)
-            {
-                texttosend = currntdoc.ActiveWindow.Selection.Text;
-            }
-            else
-            { 
-                texttosend = currntdoc.Content.Text;
-            }
+            textToSend = currntDoc.ActiveWindow.Selection.Text.Trim().Length > 0 ? currntDoc.ActiveWindow.Selection.Text : currntDoc.Content.Text;
 
-            Form frmSummary = new TextSummarize.frmSummary(texttosend);
+            Form frmSummary = new frmSummary(textToSend);
             frmSummary.Show();
         }
 
@@ -136,62 +123,52 @@
             {
                 Thread.Sleep(8000);
 
-                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkRecSpell).Equals(Util.UtilSystemEnum.OnKey)
-                    && (!this.isrunningSpellThread))
-                {
-                    this.btnSpell_Click(null);
-                }
+                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkRecSpell)
+                        .Equals(Util.UtilSystemEnum.OnKey)
+                    && !_isrunningSpellThread)
+                    btnSpell_Click(null);
 
                 Thread.Sleep(8000);
 
-                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkPunkRec).Equals(Util.UtilSystemEnum.OnKey)
-                    && (!this.isrunningPuncThread))
-                {
-                    this.btnPunctuation_Click(null);
-                }
+                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkPunkRec)
+                        .Equals(Util.UtilSystemEnum.OnKey)
+                    && !_isrunningPuncThread)
+                    btnPunctuation_Click(null);
             }
         }
 
         public void PunchDoWork()
         {
-            this.Application.StatusBar = Util.UtilMessagesEnum.ChkPuncInProcess;
-            this.CheakPunctuation(true);
-            this.Application.StatusBar = Util.UtilMessagesEnum.ChkPuncProcessCompilite + this.utilclass.GetShamsiDateNow();
+            Application.StatusBar = Util.UtilMessagesEnum.ChkPuncInProcess;
+            CheakPunctuation(true);
+            Application.StatusBar = Util.UtilMessagesEnum.ChkPuncProcessCompilite + _utilclass.GetShamsiDateNow();
         }
 
         public void SpellDoWork()
         {
-            this.Application.StatusBar = Util.UtilMessagesEnum.ChkSpellInProcess;
-            this.CheakSpellDoc();
-            this.Application.StatusBar = Util.UtilMessagesEnum.ChkSpellProcessCompilite + this.utilclass.GetShamsiDateNow();
+            Application.StatusBar = Util.UtilMessagesEnum.ChkSpellInProcess;
+            CheakSpellDoc();
+            Application.StatusBar = Util.UtilMessagesEnum.ChkSpellProcessCompilite + _utilclass.GetShamsiDateNow();
         }
 
-        protected override void OnError(ErrorMethodKind methodKind, System.Exception exception)
+        protected override void OnError(ErrorMethodKind methodKind, Exception exception)
         {
-            MessageBox.Show(methodKind.ToString() + " " + exception.Message);
+            MessageBox.Show(methodKind + Environment.NewLine + exception.Message);
         }
 
-        private void Addin_OnDisconnection(ext_DisconnectMode RemoveMode, ref Array custom)
+        private void Addin_OnDisconnection(ext_DisconnectMode removeMode, ref Array custom)
         {
             try
             {
-                if (this.bgthread != null && this.bgthread.IsAlive)
-                {
-                    this.bgthread.Abort();
-                }
+                if (_bgthread != null && _bgthread.IsAlive) _bgthread.Abort();
 
-                if (this.spellthread != null && this.spellthread.IsAlive)
-                {
-                    this.spellthread.Abort();
-                }
+                if (_spellthread != null && _spellthread.IsAlive) _spellthread.Abort();
 
-                if (this.puncthread != null && this.puncthread.IsAlive)
-                {
-                    this.puncthread.Abort();
-                }
+                if (_puncthread != null && _puncthread.IsAlive) _puncthread.Abort();
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -200,21 +177,23 @@
             try
             {
                 // this.Application.WindowBeforeDoubleClickEvent += this.Application_WindowBeforeDoubleClickEvent;
-                this.Application.NewDocumentEvent += this.Application_NewDocumentEvent;
-                this.Application.DocumentOpenEvent += this.Application_DocumentOpenEvent;
-                this.Application.WindowBeforeRightClickEvent += this.Application_WindowBeforeRightClickEvent;
+                Application.NewDocumentEvent += Application_NewDocumentEvent;
+                Application.DocumentOpenEvent += Application_DocumentOpenEvent;
+                Application.WindowBeforeRightClickEvent += Application_WindowBeforeRightClickEvent;
 
-                this.SetupSpell();
-                this.SetupKeyBoardHooks();
-                this.SetupBackgroundThread();
+                SetupSpell();
+                SetupKeyBoardHooks();
+                SetupBackgroundThread();
 
                 try
-                {  // welcome page not show
-                    GlobalClass.myword = this.Application;
-                    GlobalClass.mydoc = this.Application.ActiveDocument;
-                }
-                catch
                 {
+                    // welcome page not show
+                    GlobalClass.myword = Application;
+                    GlobalClass.mydoc = Application.ActiveDocument;
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
             catch (Exception ex)
@@ -224,19 +203,19 @@
         }
 
         private void Application_DocumentOpenEvent(Word.Document doc)
-        {            
+        {
             GlobalClass.mydoc = doc;
         }
 
         private void Application_NewDocumentEvent(Word.Document doc)
-        {            
-            GlobalClass.mydoc = doc;            
+        {
+            GlobalClass.mydoc = doc;
         }
 
         private void Application_WindowBeforeRightClickEvent(Word.Selection curselection, ref bool cancel)
         {
             GlobalClass.myselection = curselection;
-            Word.Range wordrange = GlobalClass.myword.Selection.Range;
+            var wordrange = GlobalClass.myword.Selection.Range;
 
             int left, top, width, height;
             GlobalClass.myword.ActiveWindow.GetPoint(out left, out top, out width, out height, wordrange);
@@ -244,35 +223,35 @@
             var curword = curselection.Range.Words[1].Text;
             var curwordcount = curselection.Range.Words.Count;
 
-            PunchPattern punckpattern = null;
-            if (this.listpukPattern != null)
-            {
-                punckpattern = listpukPattern.Find(t => t.IndexStart <= curselection.Range.Start && t.IndexEnd >= curselection.Range.End);
-            }
+            PunchPattern punckPattern = null;
+            if (_listpukPattern != null)
+                punckPattern = _listpukPattern.Find(t =>
+                    t.IndexStart <= curselection.Range.Start && t.IndexEnd >= curselection.Range.End);
 
-            if (punckpattern != null && punckpattern.ErrorCode > 0)
+            if (punckPattern != null && punckPattern.ErrorCode > 0)
             {
                 cancel = true;
-                this.currentPuncPattern = punckpattern;
-                this.cpuncForm = new CPPPunctuation();
-                this.cpuncForm.Deactivate += this.CpPuncForm_Deactivate;
-                this.cpuncForm.ShowBallonScreen(new Point(left, top));
-                this.cpuncForm.ShowFormWithMessage = punckpattern.ErroMessage + Environment.NewLine + punckpattern.ErrorCorrection;
+                _currentPuncPattern = punckPattern;
+                _cpuncForm = new CPPPunctuation();
+                _cpuncForm.Deactivate += CpPuncForm_Deactivate;
+                _cpuncForm.ShowBallonScreen(new Point(left, top));
+                _cpuncForm.ShowFormWithMessage =
+                    punckPattern.ErroMessage + Environment.NewLine + punckPattern.ErrorCorrection;
             }
             else
             {
                 // else spell
-                bool isspelliscorrect = chkSpell.Cheak_Spell(curword.Trim());
+                var isSpellisCorrect = _chkSpell.Cheak_Spell(curword.Trim());
 
-                if ((curword.Trim().Length > 1) && (curwordcount == 1) && (isspelliscorrect == false))
+                if (curword.Trim().Length > 1 && curwordcount == 1 && isSpellisCorrect == false)
                 {
                     cancel = true;
-                    this.cspellForm = new CPPSPell();
-                    this.cspellForm.Deactivate += cpSpellForm_Deactivate;
-                    this.cspellForm.ShowBallonScreen(new Point(left, top));
+                    _cspellForm = new CPPSPell();
+                    _cspellForm.Deactivate += cpSpellForm_Deactivate;
+                    _cspellForm.ShowBallonScreen(new Point(left, top));
 
-                    var suggestlist = chkSpell.Suggest(curword);
-                    this.cspellForm.ShowDlg(suggestlist);                    
+                    var suggestList = _chkSpell.Suggest(curword);
+                    _cspellForm.ShowDlg(suggestList);
                 }
             }
         }
@@ -282,66 +261,63 @@
             if (GlobalClass.mydoc == null)
                 return;
 
-            isrunningPuncThread = true;
+            _isrunningPuncThread = true;
             try
             {
                 // paragrapth
                 Application.UndoRecord.StartCustomRecord(Util.UtilSystemEnum.StartCustomRecordPunc);
 
-                string currenttext = GlobalClass.mydoc.Content.Text;
+                var currenttext = GlobalClass.mydoc.Content.Text;
                 if (currenttext.Trim().Length > 4)
                 {
-                    if (recheak == true)
-                    {
-                        listpukPattern = PunctuationCkeak.PunctuationChk(currenttext);
-                    }
+                    if (recheak) _listpukPattern = PunctuationCkeak.PunctuationChk(currenttext);
 
-                    Word.Range curentrang = GlobalClass.mydoc.Range();
+                    var curentrang = GlobalClass.mydoc.Range();
 
                     GlobalClass.mydoc.Range().Font.Underline = WdUnderline.wdUnderlineNone;
                     GlobalClass.mydoc.Range().Font.UnderlineColor = WdColor.wdColorWhite;
 
-                    foreach (var punkpattern in listpukPattern)
-                    {
+                    foreach (var punkpattern in _listpukPattern)
                         if (punkpattern.ErrorCode > 0)
                         {
                             curentrang.Start = punkpattern.IndexStart;
-                            curentrang.End = (punkpattern.IndexStart + punkpattern.IndexLenght);
+                            curentrang.End = punkpattern.IndexStart + punkpattern.IndexLenght;
                             curentrang.Font.Underline = WdUnderline.wdUnderlineWavy;
                             curentrang.Font.UnderlineColor = WdColor.wdColorLightBlue;
                         }
-                    }
                 } // if
 
                 Application.UndoRecord.EndCustomRecord();
             }
-            catch {
+            catch
+            {
+                // ignored
             }
             finally
             {
-                this.isrunningPuncThread = false;
+                _isrunningPuncThread = false;
             }
         }
 
         private void CheakSpellDoc()
         {
             // FarsiNormalizer farsiNormalizer = new FarsiNormalizer();
-            this.isrunningSpellThread = true;
+            _isrunningSpellThread = true;
 
             try
             {
                 if (GlobalClass.myword.ActiveDocument != null)
                 {
                     var currentdoc = GlobalClass.myword.ActiveDocument;
-                    
+
                     Application.UndoRecord.StartCustomRecord(Util.UtilSystemEnum.StartCustomRecordSpell);
-                    for (int i = 1; i < GlobalClass.mydoc.Words.Count; i++)
+                    for (var i = 1; i < GlobalClass.mydoc.Words.Count; i++)
                     {
-                        var currenttext = currentdoc.Content.Words[i].Text.Trim();                        
-                        bool isspelliscorrect = chkSpell.Cheak_Spell(currenttext);
-                        bool isinignorelist = chkSpell.isInIgnoreList(currenttext);
-                        
-                        if (((isspelliscorrect == false) && isinignorelist == false))
+                        var currenttext = currentdoc.Content.Words[i].Text.Trim();
+                        var isspelliscorrect = _chkSpell.Cheak_Spell(currenttext);
+                        var isinignorelist = _chkSpell.IsInIgnoreList(currenttext);
+
+                        if (isspelliscorrect == false && isinignorelist == false)
                         {
                             currentdoc.Content.Words[i].Underline = WdUnderline.wdUnderlineWavy;
                             currentdoc.Content.Words[i].Font.UnderlineColor = WdColor.wdColorRed;
@@ -353,69 +329,66 @@
                         }
                     }
 
-                    Application.UndoRecord.EndCustomRecord();                    
+                    Application.UndoRecord.EndCustomRecord();
                 }
             }
-            catch
-            { 
+            catch (Exception)
+            {
+                // ignored
             }
             finally
             {
-                isrunningSpellThread = false;
+                _isrunningSpellThread = false;
             }
         }
 
         private void CpPuncForm_Deactivate(object sender, EventArgs e)
         {
-            listpukPattern.Remove(currentPuncPattern);
+            _listpukPattern.Remove(_currentPuncPattern);
             CheakPunctuation(false);
         }
 
         private void cpSpellForm_Deactivate(object sender, EventArgs e)
         {
             // read selected value from baloon form
-            bool isWordingored = this.cspellForm.IsIgnored;
-            bool isWordAdd = this.cspellForm.IsAdd;
-            bool isWordSelect = this.cspellForm.IsSelect;
-            string selectedWord = this.cspellForm.SelectedWord;
-            ignoreAllSpell = this.cspellForm.IsIgnoreAll;
+            var isWordingored = _cspellForm.IsIgnored;
+            var isWordAdd = _cspellForm.IsAdd;
+            var isWordSelect = _cspellForm.IsSelect;
+            var selectedWord = _cspellForm.SelectedWord;
+            _ignoreAllSpell = _cspellForm.IsIgnoreAll;
 
             if (isWordSelect)
             {
-                chkSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
+                _chkSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
 
                 GlobalClass.myselection.Range.Words[1].Underline = WdUnderline.wdUnderlineNone;
                 GlobalClass.myselection.Range.Words[1].Font.UnderlineColor = WdColor.wdColorWhite;
                 GlobalClass.myselection.Range.Words[1].Text = selectedWord + " ";
             }
 
-            if (isWordingored || ignoreAllSpell)
+            if (isWordingored || _ignoreAllSpell)
             {
-                chkSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
+                _chkSpell.AddToIgnoreList(GlobalClass.myselection.Range.Words[1].Text);
                 GlobalClass.myselection.Range.Words[1].Font.UnderlineColor = WdColor.wdColorWhite;
                 GlobalClass.myselection.Range.Words[1].Underline = WdUnderline.wdUnderlineNone;
             }
 
             if (isWordAdd)
             {
-                chkSpell.AddtoUserDic(GlobalClass.myselection.Range.Words[1].Text);
+                _chkSpell.AddtoUserDic(GlobalClass.myselection.Range.Words[1].Text);
                 GlobalClass.myselection.Range.Words[1].Font.UnderlineColor = WdColor.wdColorWhite;
                 GlobalClass.myselection.Range.Words[1].Underline = WdUnderline.wdUnderlineNone;
             }
 
-            if (ignoreAllSpell)
-            {
-                btnSpell_Click(null);
-            }
+            if (_ignoreAllSpell) btnSpell_Click(null);
         }
 
         private void SetupBackgroundThread()
         {
-            this.bgthread = new Thread(this.ChkingTask);
-            this.bgthread.IsBackground = true;
-            this.bgthread.SetApartmentState(System.Threading.ApartmentState.STA);
-            this.bgthread.Priority = ThreadPriority.Lowest;
-            this.bgthread.Start();
+            _bgthread = new Thread(ChkingTask) {IsBackground = true};
+            _bgthread.SetApartmentState(ApartmentState.STA);
+            _bgthread.Priority = ThreadPriority.Lowest;
+            _bgthread.Start();
         }
 
         private void SetupKeyBoardHooks()
@@ -429,24 +402,25 @@
             Application.Options.AutoFormatReplaceQuotes = false;
             Application.Options.AutoFormatAsYouTypeReplaceQuotes = false;
 
-            this.chkSpell = new CheakSpell();
-            this.chkSpell.IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey("chkIgnoreEnglish") == "1" ? true : false;
-            this.chkSpell.SpellLavel = 1; // int.Parse(RegistaryApplicationSetting.GetRegistaryKey("trackBar1") == "" ? "1" : RegistaryApplicationSetting.GetRegistaryKey("trackBar1"));
-            this.chkSpell.CheakSteem = RegistaryApplicationSetting.GetRegistaryKey("chkStemSpell") == "1" ? true : false;
-            this.chkSpell.IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey("txtIgnoreList");
+            _chkSpell = new CheakSpell
+            {
+                IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkIgnoreEnglish) ==
+                                Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false,
+                CheakSteem = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkStemSpell) ==
+                             Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false,
+                IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.txtIgnoreList)
+            };
         }
 
         private void ShortcutManager_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F11)
-            {
-                this.btnSpell_Click(null);
-            }
+            if (e.KeyCode == Keys.F11) btnSpell_Click(null);
 
-            if (e.KeyCode == Keys.F9)
-            {
-                this.btnNormalizaer_Click(null);
-            }
+            if (e.KeyCode == Keys.F9) btnNormalizaer_Click(null);
         }
     }
 }
