@@ -1,65 +1,74 @@
-namespace Stemming.Persian
+namespace PersianStemmer.Stemming.Persian
 {
     public class Rule
     {
+        private string _body;
+
+        private byte _minLength;
+
+        private char _poS;
+
+        private bool _state;
+
+        private string _substitution;
 
         public Rule(string sBody, string sSubstitution, char sPoS, byte iMinLength, bool bState)
         {
-            this.setBody(sBody);
-            this.setSubstitution(sSubstitution);
-            this.setPoS(sPoS);
-            this.setMinLength(iMinLength);
-            this.setState(bState);
+            SetBody(sBody);
+            SetSubstitution(sSubstitution);
+            SetPoS(sPoS);
+            SetMinLength(iMinLength);
+            SetState(bState);
         }
 
-        private string body;
-        public string getBody()
+        public string GetBody()
         {
-            return body;
-        }
-        public void setBody(string value)
-        {
-            body = value;
+            return _body;
         }
 
-        private string substitution;
-        public string getSubstitution()
+        public void SetBody(string value)
         {
-            return substitution;
-        }
-        public void setSubstitution(string value)
-        {
-            substitution = value;
+            _body = value;
         }
 
-        private char poS;
-        public char getPoS()
+        public string GetSubstitution()
         {
-            return poS;
-        }
-        public void setPoS(char value)
-        {
-            poS = value;
+            return _substitution;
         }
 
-        private byte minLength;
-        public byte getMinLength()
+        public void SetSubstitution(string value)
         {
-            return minLength;
-        }
-        public void setMinLength(byte value)
-        {
-            minLength = value;
+            _substitution = value;
         }
 
-        private bool state;
-        public bool getState()
+        public char GetPoS()
         {
-            return state;
+            return _poS;
         }
-        public void setState(bool value)
+
+        public void SetPoS(char value)
         {
-            state = value;
+            _poS = value;
+        }
+
+        public byte GetMinLength()
+        {
+            return _minLength;
+        }
+
+        public void SetMinLength(byte value)
+        {
+            _minLength = value;
+        }
+
+        public bool GetState()
+        {
+            return _state;
+        }
+
+        public void SetState(bool value)
+        {
+            _state = value;
         }
     }
 }

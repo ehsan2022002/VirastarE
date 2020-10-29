@@ -5,28 +5,28 @@ namespace Stemming.Persian
 
         public Verb(string sPast, string sPresent)
         {
-            this.setPresent(sPresent);
-            this.setPast(sPast);
+            this.SetPresent(sPresent);
+            this.SetPast(sPast);
 
         }
-        private string present;
-        public string getPresent()
+        private string _present;
+        public string GetPresent()
         {
-            return present;
+            return _present;
         }
-        public void setPresent(string value)
+        public void SetPresent(string value)
         {
-            present = value;
+            _present = value;
         }
 
-        private string past;
-        public string getPast()
+        private string _past;
+        public string GetPast()
         {
-            return past;
+            return _past;
         }
-        public void setPast(string value)
+        public void SetPast(string value)
         {
-            past = value;
+            _past = value;
         }
     }
 }

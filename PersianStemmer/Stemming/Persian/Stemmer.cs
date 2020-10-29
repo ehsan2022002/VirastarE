@@ -1,7 +1,3 @@
-using BrozoyaEntitys;
-using BrozoyaEntitys.EntityData;
-using BrozoyaEntitys.EntityOpratins;
-using Stemming;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,47 +5,44 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using BrozoyaEntitys;
+using BrozoyaEntitys.EntityData;
+using BrozoyaEntitys.EntityOpratins;
+using Stemming;
+using Stemming.Persian;
 
-
-namespace Stemming.Persian
+namespace PersianStemmer.Stemming.Persian
 {
     public class Stemmer
     {
-        //private static readonly ILog log = LogManager.GetLogger(typeof(Stemmer));
-        private string dataPath { get; set; }
-
         public static Trie<int> lexicon = new Trie<int>();
         public static Trie<string> mokassarDic = new Trie<string>();
         public static Trie<string> cache = new Trie<string>();
         public static Trie<Verb> verbDic = new Trie<Verb>();
         public static List<Rule> _ruleList = new List<Rule>();
 
-        private static readonly string[] verbAffix = { "*ش", "*نده", "*ا", "*ار", "وا*", "اثر*", "فرو*", "پیش*", "گرو*", "*ه", "*گار", "*ن" };
-        private static readonly string[] suffix = { "كار", "ناك", "وار", "آسا", "آگین", "بار", "بان", "دان", "زار", "سار", "سان", "لاخ", "مند", "دار", "مرد", "کننده", "گرا", "نما", "متر" };
-        private static readonly string[] prefix = { "بی", "با", "پیش", "غیر", "فرو", "هم", "نا", "یک" };
-        private static readonly string[] prefixException = { "غیر" };
-        private static readonly string[] suffixZamir = { "م", "ت", "ش" };
-        private static readonly string[] suffixException = { "ها", "تر", "ترین", "ام", "ات", "اش" };
+        private static readonly string[] VerbAffix =
+            {"*ش", "*نده", "*ا", "*ار", "وا*", "اثر*", "فرو*", "پیش*", "گرو*", "*ه", "*گار", "*ن"};
+
+        private static readonly string[] Suffix =
+        {
+            "كار", "ناك", "وار", "آسا", "آگین", "بار", "بان", "دان", "زار", "سار", "سان", "لاخ", "مند", "دار", "مرد",
+            "کننده", "گرا", "نما", "متر"
+        };
+
+        private static readonly string[] Prefix = {"بی", "با", "پیش", "غیر", "فرو", "هم", "نا", "یک"};
+        private static readonly string[] PrefixException = {"غیر"};
+        private static readonly string[] SuffixZamir = {"م", "ت", "ش"};
+        private static readonly string[] SuffixException = {"ها", "تر", "ترین", "ام", "ات", "اش"};
 
         //private static readonly string PATTERN_FILE_NAME = "Patterns.fa";
         //private static readonly string VERB_FILE_NAME = "VerbList.fa";
         //private static readonly string DIC_FILE_NAME = "Dictionary.fa";
         //private static readonly string MOKASSAR_FILE_NAME = "Mokassar.fa";
-        
-        private static  int patternCount = 1;
-        private static  bool enableCache = true;
-        private static  bool enableVerb = true;
 
-
-        public static string GetAssemblyDirectory()
-        {
-           
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-         
-        }
+        private static readonly int patternCount = 1;
+        private static readonly bool enableCache = true;
+        private static readonly bool enableVerb = true;
 
 
         public Stemmer(List<PS_PersianWordFrequency> pwfList)
@@ -64,12 +57,24 @@ namespace Stemming.Persian
         {
         }
 
+        //private static readonly ILog log = LogManager.GetLogger(typeof(Stemmer));
+        private string DataPath { get; set; }
+
+
+        public static string GetAssemblyDirectory()
+        {
+            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var uri = new UriBuilder(codeBase);
+            var path = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(path);
+        }
+
         public void FillStm(List<PS_PersianWordFrequency> pwfList)
         {
             try
             {
                 loadRule();
-                loadLexicon(pwfList.Where(x => x.Lavel == 1).ToList());
+                loadLexicon(pwfList.Where(x => x.Lexi == 1).ToList());
                 loadMokassarDic();
                 if (enableVerb)
                     loadVerbDic();
@@ -105,67 +110,54 @@ namespace Stemming.Persian
             var ls = new PS_VERB_FAOpration();
 
             foreach (var item in ls.GetAll())
-            {
                 //string[] arr = sLine.Split('\t');
                 try
                 {
                     verbDic.Add(item.Val1.Trim(), new Verb(item.Val2.Trim(), item.Val3.Trim()));
-                   
                 }
                 catch
                 {
                     //log.Warn("Verb " + sLine + " cannot be added. Is it duplicated?");
                 }
-            }
         }
 
         private void loadRule()
         {
-            if ( _ruleList.Count!=0)
+            if (_ruleList.Count != 0)
                 return;
 
             var ls = new PS_PATTERN_FAOpration();
-            
+
             foreach (var sLine in ls.GetAll())
-            {
                 _ruleList.Add(new Rule(sLine.Val1, sLine.Val2, sLine.Val3[0],
-                    byte.Parse(sLine.Val4), bool.Parse(sLine.Val5)));                
-            }
+                    byte.Parse(sLine.Val4), bool.Parse(sLine.Val5)));
         }
 
         private void loadLexicon(List<PS_PersianWordFrequency> pwfList)
         {
             //var lsLexicon = new PS_Dictionary_FAOpration();
-             
+
             if (!lexicon.IsEmpty())
                 return;
-            
-            foreach (var sLine in pwfList)
-            {
-                lexicon.Add(sLine.Val1.Trim(), 1);
-            }
+
+            foreach (var sLine in pwfList) lexicon.Add(sLine.Val1.Trim(), 1);
         }
 
         private void loadMokassarDic()
         {
             var ls = new PS_MOKASSAR_FAOpration();
-            
+
             if (!mokassarDic.IsEmpty())
                 return;
 
             //string[] sLines = loadData(MOKASSAR_FILE_NAME);
-            foreach (var item in ls.GetAll())
-            {
-                mokassarDic.Add(item.Val1.Trim() , item.Val2.Trim());
-                
-            }
+            foreach (var item in ls.GetAll()) mokassarDic.Add(item.Val1.Trim(), item.Val2.Trim());
         }
 
         private string normalization(string s)
         {
-            StringBuilder newString = new StringBuilder();
-            for (int i = 0; i < s.Length; i++)
-            {
+            var newString = new StringBuilder();
+            for (var i = 0; i < s.Length; i++)
                 switch (s[i])
                 {
                     case 'ي':
@@ -204,9 +196,8 @@ namespace Stemming.Persian
                         newString.Append(s[i]);
                         break;
                 }
-            }
-            return newString.ToString();
 
+            return newString.ToString();
         }
 
         private bool validation(string sWord)
@@ -214,27 +205,27 @@ namespace Stemming.Persian
             return lexicon.Contains(sWord);
         }
 
-        private string isMokassar(string sInput, bool bState)
+        private string IsMokassar(string sInput, bool bState)
         {
-            string sRule = "^(?<stem>.+?)((?<=(ا|و))ی)?(ها)?(ی)?((ات)?( تان|تان| مان|مان| شان|شان)|ی|م|ت|ش|ء)$";
+            var sRule = "^(?<stem>.+?)((?<=(ا|و))ی)?(ها)?(ی)?((ات)?( تان|تان| مان|مان| شان|شان)|ی|م|ت|ش|ء)$";
             if (bState)
                 sRule = "^(?<stem>.+?)((?<=(ا|و))ی)?(ها)?(ی)?(ات|ی|م|ت|ش| تان|تان| مان|مان| شان|شان|ء)$";
 
             return extractStem(sInput, sRule);
         }
 
-        private string getMokassarStem(string sWord)
+        private string GetMokassarStem(string sWord)
         {
             var sTemp = mokassarDic.ContainsKey(sWord);
-            if (String.IsNullOrEmpty(sTemp))
+            if (string.IsNullOrEmpty(sTemp))
             {
-                string sNewWord = isMokassar(sWord, true);
+                var sNewWord = IsMokassar(sWord, true);
                 sTemp = mokassarDic.ContainsKey(sNewWord);
-                if (String.IsNullOrEmpty(sTemp))
+                if (string.IsNullOrEmpty(sTemp))
                 {
-                    sNewWord = isMokassar(sWord, false);
+                    sNewWord = IsMokassar(sWord, false);
                     sTemp = mokassarDic.ContainsKey(sNewWord);
-                    if (!String.IsNullOrEmpty(sTemp))
+                    if (!string.IsNullOrEmpty(sTemp))
                         return sTemp;
                 }
                 else
@@ -250,25 +241,21 @@ namespace Stemming.Persian
             return "";
         }
 
-        private string verbValidation(string sWord)
+        private string VerbValidation(string sWord)
         {
             if (sWord.IndexOf(' ') > -1)
                 return "";
 
-            for (int j = 0; j < verbAffix.Length; j++)
+            for (var j = 0; j < VerbAffix.Length; j++)
             {
-                string sTemp = "";
+                var sTemp = "";
                 if (j == 0 && (sWord[sWord.Length - 1] == 'ا' || sWord[sWord.Length - 1] == 'و'))
-                {
-                    sTemp = verbAffix[j].Replace("*", sWord + "ی");
-                }
+                    sTemp = VerbAffix[j].Replace("*", sWord + "ی");
                 else
-                {
-                    sTemp = verbAffix[j].Replace("*", sWord);
-                }
+                    sTemp = VerbAffix[j].Replace("*", sWord);
 
-                if (normalizeValidation(sTemp, true))
-                    return verbAffix[j];
+                if (NormalizeValidation(sTemp, true))
+                    return VerbAffix[j];
             }
 
             return "";
@@ -276,67 +263,49 @@ namespace Stemming.Persian
 
         private bool inRange(int d, int from, int to)
         {
-            return (d >= from && d <= to);
+            return d >= from && d <= to;
         }
 
         private string getPrefix(string sWord)
         {
-            foreach (string sPrefix in Stemmer.prefix)
-            {
+            foreach (var sPrefix in Prefix)
                 if (sWord.StartsWith(sPrefix))
                     return sPrefix;
-            }
 
             return "";
         }
 
         private string getPrefixException(string sWord)
         {
-            foreach (string sPrefix in Stemmer.prefixException)
-            {
+            foreach (var sPrefix in PrefixException)
                 if (sWord.StartsWith(sPrefix))
                     return sPrefix;
-            }
 
             return "";
         }
 
         private string getSuffix(string sWord)
         {
-            foreach (string sSuffix in Stemmer.suffix)
-            {
+            foreach (var sSuffix in Suffix)
                 if (sWord.EndsWith(sSuffix))
                     return sSuffix;
-            }
 
             return "";
         }
 
-        private bool normalizeValidation(string sWord, bool bRemoveSpace)
+        private bool NormalizeValidation(string sWord, bool bRemoveSpace)
         {
-            int l = sWord.Trim().Length - 2;
+            var l = sWord.Trim().Length - 2;
             sWord = sWord.Trim();
-            bool result = validation(sWord);
+            var result = validation(sWord);
 
-            if (!result && sWord.IndexOf('ا') == 0)
-            {
-                result = validation(replaceFirst(sWord, "ا", "آ"));
-            }
+            if (!result && sWord.IndexOf('ا') == 0) result = validation(replaceFirst(sWord, "ا", "آ"));
 
-            if (!result && inRange(sWord.IndexOf('ا'), 1, l))
-            {
-                result = validation(sWord.Replace('ا', 'أ'));
-            }
+            if (!result && inRange(sWord.IndexOf('ا'), 1, l)) result = validation(sWord.Replace('ا', 'أ'));
 
-            if (!result && inRange(sWord.IndexOf('ا'), 1, l))
-            {
-                result = validation(sWord.Replace('ا', 'إ'));
-            }
+            if (!result && inRange(sWord.IndexOf('ا'), 1, l)) result = validation(sWord.Replace('ا', 'إ'));
 
-            if (!result && inRange(sWord.IndexOf("ئو"), 1, l))
-            {
-                result = validation(sWord.Replace("ئو", "ؤ"));
-            }
+            if (!result && inRange(sWord.IndexOf("ئو"), 1, l)) result = validation(sWord.Replace("ئو", "ؤ"));
 
             if (!result && sWord.EndsWith("ء"))
                 result = validation(sWord.Replace("ء", ""));
@@ -345,24 +314,22 @@ namespace Stemming.Persian
                 result = validation(sWord.Replace("ئ", "ی"));
 
             if (bRemoveSpace)
-            {
                 if (!result && inRange(sWord.IndexOf(' '), 1, l))
-                {
                     result = validation(sWord.Replace(" ", ""));
-                }
-            }
             // دیندار
             // دین دار
             if (!result)
             {
-                string sSuffix = getSuffix(sWord);
+                var sSuffix = getSuffix(sWord);
                 if (!string.IsNullOrEmpty(sSuffix))
-                    result = validation(sSuffix == ("مند") ? sWord.Replace(sSuffix, "ه " + sSuffix) : sWord.Replace(sSuffix, " " + sSuffix));
+                    result = validation(sSuffix == "مند"
+                        ? sWord.Replace(sSuffix, "ه " + sSuffix)
+                        : sWord.Replace(sSuffix, " " + sSuffix));
             }
 
             if (!result)
             {
-                string sPrefix = getPrefix(sWord);
+                var sPrefix = getPrefix(sWord);
                 if (!string.IsNullOrEmpty(sPrefix))
                 {
                     if (sWord.StartsWith(sPrefix + " "))
@@ -374,11 +341,11 @@ namespace Stemming.Persian
 
             if (!result)
             {
-                string sPrefix = getPrefixException(sWord);
+                var sPrefix = getPrefixException(sWord);
                 if (!string.IsNullOrEmpty(sPrefix))
                 {
                     if (sWord.StartsWith(sPrefix + " "))
-                        result = validation(replaceFirst(sWord,sPrefix + " ", ""));
+                        result = validation(replaceFirst(sWord, sPrefix + " ", ""));
                     else
                         result = validation(replaceFirst(sWord, sPrefix, ""));
                 }
@@ -386,13 +353,11 @@ namespace Stemming.Persian
 
             return result;
         }
+
         public string replaceFirst(string word, string oldValue, string newValue)
         {
-            int i = word.IndexOf(oldValue);
-            if (i >= 0)
-            {
-                return word.Substring(0, i) + newValue + word.Substring(i + oldValue.Length);
-            }
+            var i = word.IndexOf(oldValue);
+            if (i >= 0) return word.Substring(0, i) + newValue + word.Substring(i + oldValue.Length);
             return word;
         }
 
@@ -414,13 +379,13 @@ namespace Stemming.Persian
         private string getVerb(string input)
         {
             var tmpNode = verbDic.FindNode(input);
-            if (tmpNode != null && !string.IsNullOrEmpty(tmpNode.Key) )
+            if (tmpNode != null && !string.IsNullOrEmpty(tmpNode.Key))
             {
-                Verb vs = tmpNode.Value;
-                if (validation(vs.getPresent()))
-                    return vs.getPresent();
+                var vs = tmpNode.Value;
+                if (validation(vs.GetPresent()))
+                    return vs.GetPresent();
 
-                return vs.getPast();
+                return vs.GetPast();
             }
 
             return "";
@@ -428,97 +393,86 @@ namespace Stemming.Persian
 
         private bool PatternMatching(string input, List<string> stemList)
         {
-            bool terminate = false;
-            string s = "";
-            string sTemp = "";
-            foreach (Rule rule in _ruleList)
+            var terminate = false;
+            var s = "";
+            var sTemp = "";
+            foreach (var rule in _ruleList)
             {
                 if (terminate)
                     return terminate;
 
-                 string[] sReplace = rule.getSubstitution().Split(';');
-                string pattern = rule.getBody();
+                var sReplace = rule.GetSubstitution().Split(';');
+                var pattern = rule.GetBody();
 
                 if (!isMatch(input, pattern))
                     continue;
 
-                int k = 0;
-                foreach (string t in sReplace)
+                var k = 0;
+                foreach (var t in sReplace)
                 {
                     if (k > 0)
                         break;
 
                     s = extractStem(input, pattern, t);
-                    if (s.Length < rule.getMinLength())
+                    if (s.Length < rule.GetMinLength())
                         continue;
 
-                    switch (rule.getPoS())
+                    switch (rule.GetPoS())
                     {
                         case 'K': // Kasre Ezafe
-                            if (stemList.Count==0)
+                            if (stemList.Count == 0)
                             {
-                                sTemp = getMokassarStem(s);
-                                if (!string.IsNullOrEmpty( sTemp))
+                                sTemp = GetMokassarStem(s);
+                                if (!string.IsNullOrEmpty(sTemp))
                                 {
-                                    stemList.Add(sTemp);//, pattern + " [جمع مکسر]");
+                                    stemList.Add(sTemp); //, pattern + " [جمع مکسر]");
                                     k++;
                                 }
-                                else if (normalizeValidation(s, true))
+                                else if (NormalizeValidation(s, true))
                                 {
-                                    stemList.Add(s);//, pattern);
+                                    stemList.Add(s); //, pattern);
                                     k++;
-                                }
-                                else
-                                {
-                                    //addToLog("", pattern + " : {" + s + "}");
                                 }
                             }
+
                             break;
                         case 'V': // Verb
 
-                            sTemp = verbValidation(s);
+                            sTemp = VerbValidation(s);
                             if (!string.IsNullOrEmpty(sTemp))
                             {
-                                stemList.Add(s/* pattern + " : [" + sTemp + "]"*/);
+                                stemList.Add(s /* pattern + " : [" + sTemp + "]"*/);
                                 k++;
                             }
-                            else
-                            {
-                                //addToLog("", pattern + " : {تمام وندها}");
-                            }
+
                             break;
                         default:
-                            if (normalizeValidation(s, true))
+                            if (NormalizeValidation(s, true))
                             {
-                                stemList.Add(s/*, pattern*/);
-                                if (rule.getState())
+                                stemList.Add(s /*, pattern*/);
+                                if (rule.GetState())
                                     terminate = true;
                                 k++;
                             }
-                            else
-                            {
-                                //addToLog("", pattern + " : {" + s + "}");
-                            }
+
                             break;
                     }
                 }
             }
+
             return terminate;
         }
 
 
         public List<string> runList(List<string> ls)
         {
-            List<string> nsl = new List<string>();
-             
-            foreach (var item in ls)
-            {
-                nsl.Add(this.run(item));
-            }
+            var nsl = new List<string>();
+
+            foreach (var item in ls) nsl.Add(run(item));
 
             return nsl;
         }
-        
+
         public string run(string input)
         {
             input = normalization(input).Trim();
@@ -527,24 +481,26 @@ namespace Stemming.Persian
                 return "";
 
             //Integer or english 
-            if (Utils.isEnglish(input) || Utils.isNumber(input) || (input.Length <= 2))
+            if (Utils.IsEnglish(input) || Utils.IsNumber(input) || input.Length <= 2)
                 return input;
 
-            if (enableCache) {
+            if (enableCache)
+            {
                 var stm = cache.ContainsKey(input);
-                if (!String.IsNullOrEmpty(stm))
+                if (!string.IsNullOrEmpty(stm))
                     return stm;
             }
 
-            string s = getMokassarStem(input);
-            if (normalizeValidation(input, false))
+            var s = GetMokassarStem(input);
+            if (NormalizeValidation(input, false))
             {
                 //stemList.add(input/*, "[فرهنگ لغت]"*/);
                 if (enableCache)
                     cache.Add(input, input);
                 return input;
             }
-            else if (!string.IsNullOrEmpty(s))
+
+            if (!string.IsNullOrEmpty(s))
             {
                 //addToLog(s/*, "[جمع مکسر]"*/);
                 //stemList.add(s);
@@ -553,8 +509,8 @@ namespace Stemming.Persian
                 return s;
             }
 
-            List<string> stemList = new List<string>();
-            bool terminate = PatternMatching(input, stemList);
+            var stemList = new List<string>();
+            var terminate = PatternMatching(input, stemList);
 
             if (enableVerb)
             {
@@ -566,22 +522,20 @@ namespace Stemming.Persian
                 }
             }
 
-            if (stemList.Count==0)
+            if (stemList.Count == 0)
             {
-                if (normalizeValidation(input, true))
+                if (NormalizeValidation(input, true))
                 {
                     //stemList.add(input, "[فرهنگ لغت]");
                     if (enableCache)
                         cache.Add(input, input); //stemList.get(0));
-                    return input;//stemList.get(0);
+                    return input; //stemList.get(0);
                 }
-                stemList.Add(input);//, "");            
+
+                stemList.Add(input); //, "");            
             }
 
-            if (terminate && stemList.Count > 1)
-            {
-                return nounValidation(stemList);
-            }
+            if (terminate && stemList.Count > 1) return nounValidation(stemList);
 
             const int I = 0;
             if (patternCount != 0)
@@ -591,11 +545,9 @@ namespace Stemming.Persian
                 else
                     stemList.Sort();
 
-                while (I < stemList.Count && (stemList.Count > Math.Abs(patternCount)))
-                {
+                while (I < stemList.Count && stemList.Count > Math.Abs(patternCount))
                     stemList.RemoveAt(I);
-                    //patternList.remove(I);
-                }
+                //patternList.remove(I);
             }
 
             if (enableCache)
@@ -612,21 +564,15 @@ namespace Stemming.Persian
             //patternList.add(sRule);
         }    */
 
-        public int stem(char[] s, int len) /*throws Exception*/ {
-
-            StringBuilder input = new StringBuilder();
-            for (int i = 0; i < len; i++)
-            {
-                input.Append(s[i]);
-            }
-            string sOut = this.run(input.ToString());
+        public int stem(char[] s, int len) /*throws Exception*/
+        {
+            var input = new StringBuilder();
+            for (var i = 0; i < len; i++) input.Append(s[i]);
+            var sOut = run(input.ToString());
 
             if (sOut.Length > s.Length)
                 s = new char[sOut.Length];
-            for (int i = 0; i < sOut.Length; i++)
-            {
-                s[i] = sOut[i];
-            }
+            for (var i = 0; i < sOut.Length; i++) s[i] = sOut[i];
             /*try {
                 for (int i=0; i< Math.min(sOut.length(), s.length); i++) {
                     s[i] = sOut.charAt(i);
@@ -637,25 +583,20 @@ namespace Stemming.Persian
             }*/
 
             return sOut.Length;
-
         }
 
         private string nounValidation(List<string> stemList)
         {
             stemList.Sort();
-            int lastIdx = stemList.Count - 1;
-            string lastStem = stemList[lastIdx];
+            var lastIdx = stemList.Count - 1;
+            var lastStem = stemList[lastIdx];
 
-            if (lastStem.EndsWith("ان"))
-            {
-                return lastStem;
-            }
-            else
-            {
-                string firstStem = stemList[0];
-                string secondStem = stemList[1].Replace(" ", "");
+            if (lastStem.EndsWith("ان")) return lastStem;
 
-                /*if (secondStem.equals(firstStem.concat("م"))) {
+            var firstStem = stemList[0];
+            var secondStem = stemList[1].Replace(" ", "");
+
+            /*if (secondStem.equals(firstStem.concat("م"))) {
                     return firstStem;
                 }
                 else if (secondStem.equals(firstStem.concat("ت"))) {
@@ -665,12 +606,9 @@ namespace Stemming.Persian
                     return firstStem;
                 }*/
 
-                foreach (string sSuffix in Stemmer.suffixZamir)
-                {
-                    if (secondStem.Equals(firstStem + sSuffix))
-                        return firstStem;
-                }
-            }
+            foreach (var sSuffix in SuffixZamir)
+                if (secondStem.Equals(firstStem + sSuffix))
+                    return firstStem;
             return lastStem;
         }
     }

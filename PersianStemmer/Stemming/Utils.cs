@@ -6,7 +6,7 @@ namespace Stemming
     public class Utils
     {
 
-        public static string exactMatch(string q)
+        public static string ExactMatch(string q)
         {
             q = q.Replace("\"", "");
             /*if (!q.startsWith("\""))
@@ -18,31 +18,31 @@ namespace Stemming
             return q;
         }
 
-        public static bool isAdvanceQuery(string input)
+        public static bool IsAdvanceQuery(string input)
         {
             //return input.matches(".*[+:-].*");
             return Regex.IsMatch(input, ".*[+:-].*");
         }
 
-        public static bool isPhraseQuery(string input)
+        public static bool IsPhraseQuery(string input)
         {
             //return input.matches("\".+\"");
             return Regex.IsMatch(input, "\".+\"");
         }
 
-        public static bool isEnglish(string input)
+        public static bool IsEnglish(string input)
         {
             //return input.matches("[a-z,:/`;'\\?A-Z *+~!@#=\\[\\]{}\\$%^&*().0-9]+");
             return Regex.IsMatch(input, "[a-z,:/`;'\\?A-Z*+~!@#=\\[\\]{}\\$%^&*().0-9]+");
         }
 
-        public static bool isNumber(string input)
+        public static bool IsNumber(string input)
         {
             //return input.matches("[0-9,.]+");
             return Regex.IsMatch(input, "[0-9,.]+"); // what about "^[-+]?[0-9]*\.?[0-9]*$"   ?
         }
 
-        public static int wordCount(string input)
+        public static int WordCount(string input)
         {
             //return string.IsNullOrEmpty(input.Trim()) ? 0 : input.Trim().Split("\\s+").length;
             char[] delimiters = new char[] { ' ', '\r', '\n' };
