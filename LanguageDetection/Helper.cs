@@ -8,15 +8,10 @@ namespace LanguageDetection
     {
         public static string Clean(this string text, int maxLength = int.MaxValue)
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return null; //there is no text, return null
-            }
+            if (string.IsNullOrWhiteSpace(text)) return null; //there is no text, return null
 
             if (text.Length > maxLength) //shorten the text, because MaxLength is a good enough size
-            {
                 text = text.Substring(0, maxLength);
-            }
 
             text = Regex.Replace(text, @"[^\w\s]", string.Empty); //remove everything that is not a word or a space
 

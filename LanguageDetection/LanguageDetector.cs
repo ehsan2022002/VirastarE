@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LanguageDetection
 {
@@ -24,15 +23,12 @@ namespace LanguageDetection
             //score = 0;
             //var text = String.Empty;
 
-            
+
             var ngramBuilder = new NgramBuilder(MaxLength, true);
 
             var ngrams = ngramBuilder.Get(text); //create an ngram dictionary
 
-            if (ngrams == null)
-            {
-                return null;
-            }
+            if (ngrams == null) return null;
 
             var shortestDistance = int.MaxValue;
 
@@ -61,10 +57,7 @@ namespace LanguageDetection
                         distance += MaxPenalty;
                     }
 
-                    if (distance > shortestDistance)
-                    {
-                        break;
-                    }
+                    if (distance > shortestDistance) break;
                 }
 
                 if (distance < shortestDistance)

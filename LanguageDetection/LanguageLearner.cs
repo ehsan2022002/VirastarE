@@ -15,10 +15,7 @@ namespace LanguageDetection
 
             var ngrams = ngramBuilder.Get(text);
 
-            if (targetPath == null)
-            {
-                return ngrams;
-            }
+            if (targetPath == null) return ngrams;
 
             Save(languageCode, ngrams, targetPath);
 
@@ -35,7 +32,7 @@ namespace LanguageDetection
             {
                 var contents = Helper.GetFileContents(path);
 
-                lines = contents.Split(new[] { '\r', '\n' }).ToList();
+                lines = contents.Split('\r', '\n').ToList();
 
                 for (var i = 0; i < lines.Count; i++)
                 {
@@ -59,13 +56,9 @@ namespace LanguageDetection
             var newLine = languageCode + ":" + string.Join("_", ngrams.Keys.ToArray());
 
             if (existingIndex > -1)
-            {
                 lines[existingIndex] = newLine;
-            }
             else
-            {
                 lines.Add(newLine);
-            }
 
             File.WriteAllLines(path, lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray(), Encoding.Unicode);
         }
@@ -92,4 +85,3 @@ namespace LanguageDetection
         }
     }
 }
-

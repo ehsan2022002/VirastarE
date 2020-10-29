@@ -7,14 +7,11 @@ namespace LanguageDetection
 {
     public class FindLanguage
     {
-        static string knownLanguagesFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Resources\known_languages.txt";
+        static string _knownLanguagesFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Resources\known_languages.txt";
 
-        public FindLanguage()
-        {
-
-        }
         static void Learn(string languageCode, string newLanguageFile, string knownLanguagesFile)
-        {
+        { 
+            //if you want add language
             var learner = new LanguageLearner();
 
             learner.Learn(languageCode, newLanguageFile, knownLanguagesFile);
@@ -22,35 +19,35 @@ namespace LanguageDetection
             Console.WriteLine("The language '{0}' has been learned!", languageCode);
         }
 
-        public static string Detect(string InputString)
+        public static string Detect(string inputString)
         {
 
             
             var learner = new LanguageLearner();
-            var knownLanguages = learner.Remember(knownLanguagesFile);
+            var knownLanguages = learner.Remember(_knownLanguagesFile);
             var detector = new LanguageDetector(knownLanguages);
 
 
-            return detector.Detect(InputString);
+            return detector.Detect(inputString);
 
             //Console.WriteLine("The language code of the detected language is: {0}", languageCode);
         }
 
         public static List<string> GetTraindLanguage()
         {
-            string line;
-            List<string> r = new List<string>();
+            List<string> traindLanguageList = new List<string>();
 
-            using (var reader = new StreamReader(knownLanguagesFile))
+            using (var reader = new StreamReader(_knownLanguagesFile))
             {
+                string line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     var model = line.Split(':');
-                    r.Add(model[0].Trim());
+                    traindLanguageList.Add(model[0].Trim());
                 }
             }
 
-            return r;
+            return traindLanguageList;
         }
 
     }
