@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BrozoyaEntitys.EntityOpratins
 {
@@ -19,7 +16,7 @@ namespace BrozoyaEntitys.EntityOpratins
         {
             List<PS_MOKASSAR_FA> tl = new List<PS_MOKASSAR_FA>();
             DataTable dt = gt.GetTableBySQL("SELECT ID,VAL1,VAL2 FROM PS_MOKASSAR_FA");
-            
+
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
                 var x = new PS_MOKASSAR_FA();

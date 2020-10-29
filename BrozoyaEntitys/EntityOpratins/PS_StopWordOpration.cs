@@ -1,9 +1,5 @@
-﻿using BrozoyaEntitys.EntityData;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BrozoyaEntitys.EntityOpratins
 {
@@ -24,8 +20,8 @@ namespace BrozoyaEntitys.EntityOpratins
             {
                 PS_StopWord RSC_STOPWORD = new PS_StopWord();
 
-               
-                RSC_STOPWORD.Val1 = item["Val1"].ToString();                
+
+                RSC_STOPWORD.Val1 = item["Val1"].ToString();
 
                 tl.Add(RSC_STOPWORD);
             }

@@ -16,10 +16,10 @@ namespace BrozoyaEntitys.EntityOpratins
             gt = new GetBySQLLight();
         }
 
-        public List<PS_PersianWordFrequency> GetAllByLavel(int lv)
+        public List<PS_PersianWordFrequency> GetAll()
         {
             List<PS_PersianWordFrequency> tl = new List<PS_PersianWordFrequency>();
-            DataTable dt = gt.GetTableBySQL("select * from PS_PersianWordFrequency where Lavel=" + lv.ToString() );
+            DataTable dt = gt.GetTableBySQL("select * from PS_PersianWordFrequency " );
 
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
@@ -29,6 +29,7 @@ namespace BrozoyaEntitys.EntityOpratins
                 DIC_PSWF.Val2 = item["Val2"].ToString().Trim();
                 DIC_PSWF.Sundex = item["SUNDEX"].ToString().Trim();
                 DIC_PSWF.Lavel = int.Parse(item["Lavel"].ToString().Trim());
+                DIC_PSWF.Lexi = int.Parse(item["lexi"].ToString().Trim());
 
                 tl.Add(DIC_PSWF);
             }
@@ -43,8 +44,10 @@ namespace BrozoyaEntitys.EntityOpratins
                 var strsql = "delete from PS_PersianWordFrequency where val1='" + word.Replace("'", "") + "'";
                 gt.SetBySQL(strsql);
             }
-            catch (Exception ex)
-            { }
+            catch
+            {
+
+            }
 
         }
 
@@ -52,12 +55,15 @@ namespace BrozoyaEntitys.EntityOpratins
         {
             try
             {
-                
-                var strsql = "INSERT INTO PS_PersianWordFrequency (val1, val2) VALUES ('" + word.Replace("'","") + "', '1')";
+
+                var strsql = "INSERT INTO PS_PersianWordFrequency (val1, val2) VALUES ('" + word.Replace("'", "") +
+                             "', '1')";
                 gt.SetBySQL(strsql);
             }
-            catch (Exception ex)
-            { }
+            catch
+            {
+
+            }
         }
         public List<PS_PersianWordFrequency> GetByName(string word)
         {

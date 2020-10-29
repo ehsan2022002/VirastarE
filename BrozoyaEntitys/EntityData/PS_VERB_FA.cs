@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BrozoyaEntitys
+﻿namespace BrozoyaEntitys
 {
     public class PS_VERB_FA
     {
@@ -12,6 +7,6 @@ namespace BrozoyaEntitys
         public string Val2 { set; get; }
         public string Val3 { set; get; }
         public string Val4 { set; get; }
-        
+
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace BrozoyaEntitys
 {
@@ -20,7 +17,7 @@ namespace BrozoyaEntitys
         {
             List<PS_PATTERN_FA> tl = new List<PS_PATTERN_FA>();
             DataTable dt = gt.GetTableBySQL("SELECT * FROM PS_PATTERN_FA");
-            
+
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
                 var x = new PS_PATTERN_FA();

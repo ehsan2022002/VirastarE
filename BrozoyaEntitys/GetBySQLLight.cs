@@ -14,7 +14,7 @@ namespace BrozoyaEntitys
         public GetBySQLLight()
         {
             //ConnString = @"data source="\\db\\borzoya"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
-            ConnString = @"data source="+ Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\db\borzoya";
+            ConnString = @"data source=" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\db\borzoya";
         }
 
         public DataTable GetTableBySQL(string SQL)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BrozoyaEntitys.EntityData
+﻿namespace BrozoyaEntitys.EntityData
 {
     public class PS_PersianWordFrequency
     {
@@ -12,6 +7,8 @@ namespace BrozoyaEntitys.EntityData
 
         public int Lavel { set; get; }
         public string Sundex { set; get; }
+
+        public int Lexi { set; get; }
 
 
     }
