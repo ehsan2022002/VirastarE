@@ -27,10 +27,10 @@ namespace LDA
                 txtinput.Text = Dirloc;
                 txtoutput.Text = Dirloc;
             }
-            catch { 
-            
+            catch
+            {
+                // ignored
             }
-
         }
 
         private void btnRun_Click(object sender, EventArgs e)
@@ -44,10 +44,10 @@ namespace LDA
             try
             {
                 //parser.ParseArguments(args, opt);
-                LDAGibbsSampling model = new LDAGibbsSampling();
+                LdaGibbsSampling model = new LdaGibbsSampling();
 
 
-                model.OnIterate += new ProgressEventHandler(LDAProcessEvent);
+                model.OnIterate += new ProgressEventHandler(LdaProcessEvent);
                 progressBar1.Maximum = opt.niters;
                 progressBar1.Value = 1;
                 progressBar1.Visible = true;
@@ -66,7 +66,7 @@ namespace LDA
             }
         }
 
-        private void LDAProcessEvent(object source, LDAProcessEventArgs e)
+        private void LdaProcessEvent(object source, LdaProcessEventArgs e)
         {
             Console.WriteLine(e.GetInfo());
             progressBar1.Value = int.Parse(e.GetInfo());
@@ -97,7 +97,7 @@ namespace LDA
 
         private void btnInFiel_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "(*.txt)|*.txt";
+            openFileDialog1.Filter = @"(*.txt)|*.txt";
             openFileDialog1.InitialDirectory = Dirloc;
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)

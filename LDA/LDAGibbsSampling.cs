@@ -9,14 +9,14 @@ namespace LDA
 {
 
 	public delegate void EventHandler();
-	public delegate void ProgressEventHandler(object source, LDAProcessEventArgs e);
+	public delegate void ProgressEventHandler(object source, LdaProcessEventArgs e);
 
-	public class LDAProcessEventArgs : EventArgs
+	public class LdaProcessEventArgs : EventArgs
 	{
 		private string EventInfo;
-		public LDAProcessEventArgs(string Text)
+		public LdaProcessEventArgs(string text)
 		{
-			EventInfo = Text;
+			EventInfo = text;
 		}
 		public string GetInfo()
 		{
@@ -26,36 +26,36 @@ namespace LDA
 
 
 
-	public class LDAGibbsSampling : LDA
+	public class LdaGibbsSampling : LDA
 	{
 
 		public event ProgressEventHandler OnIterate;
 
 
-		protected int[][] nw;
-		protected int[][] nd;
-		protected int[] nwsum;
-		protected int[] ndsum;
-		protected double[] p;
+		protected int[][] Nw;
+		protected int[][] Nd;
+		protected int[] Nwsum;
+		protected int[] Ndsum;
+		protected double[] P;
 
-		protected int savestep;
-		protected int niters;
+		protected int Savestep;
+		protected int Niters;
 
-		protected string outputfile;
-		protected int twords;
+		protected string Outputfile;
+		protected int Twords;
 
-		Corpora cor;
-
-
+		Corpora _cor;
 
 
-		public LDAGibbsSampling()
+
+
+		public LdaGibbsSampling()
 		{
 			M = 0;
 			V = 0;
 			K = 10;
-			alpha = 0.1;
-			beta = 0.1;
+			Alpha = 0.1;
+			Beta = 0.1;
 		}
 
 		public void InitOption(CommandLineOption opt)
@@ -63,78 +63,78 @@ namespace LDA
 			try
 			{
 				K = opt.topics;
-				alpha = opt.alpha;
-				beta = opt.beta;
-				savestep = opt.savestep;
-				niters = opt.niters;
-				outputfile = opt.outputfile;
-				twords = opt.twords;
+				Alpha = opt.alpha;
+				Beta = opt.beta;
+				Savestep = opt.savestep;
+				Niters = opt.niters;
+				Outputfile = opt.outputfile;
+				Twords = opt.twords;
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				throw;
 			}
 
 		}
 
 		private void InitModel(Corpora cor)
 		{
-			this.cor = cor;
+			this._cor = cor;
 
 			M = cor.totalDocuments;
 			V = cor.MaxWordID();
 
-			p = new double[K];
+			P = new double[K];
 			Random rnd = new Random();
 
-			nw = new int[V][];
-			nd = new int[M][];
+			Nw = new int[V][];
+			Nd = new int[M][];
 			for (int w = 0; w < V; w++)
 			{
-				nw[w] = new int[K];
+				Nw[w] = new int[K];
 			}
 			for (int m = 0; m < M; m++)
 			{
-				nd[m] = new int[K];
+				Nd[m] = new int[K];
 			}
 
-			nwsum = new int[K];
-			ndsum = new int[M];
+			Nwsum = new int[K];
+			Ndsum = new int[M];
 
-			words = new int[cor.totalWords];
-			doc = new int[cor.totalWords];
-			z = new int[cor.totalWords];
-			wn = 0;
+			Words = new int[cor.totalWords];
+			Doc = new int[cor.totalWords];
+			Z = new int[cor.totalWords];
+			Wn = 0;
 			for (int i = 0; i < M; i++)
 			{
 				int l = cor.Docs[i].Length;
 				for (int j = 0; j < l; j++)
 				{
-					words[wn] = cor.Docs[i].Words[j];
-					doc[wn] = i;
-					wn++;
+					Words[Wn] = cor.Docs[i].Words[j];
+					Doc[Wn] = i;
+					Wn++;
 				}
-				ndsum[i] = l;
+				Ndsum[i] = l;
 			}
-			for (int i = 0; i < wn; i++)
+			for (int i = 0; i < Wn; i++)
 			{
 
 				int topic = rnd.Next(K);
-				nw[words[i]][topic] += 1;
-				nd[doc[i]][topic] += 1;
-				nwsum[topic] += 1;
-				z[i] = topic;
+				Nw[Words[i]][topic] += 1;
+				Nd[Doc[i]][topic] += 1;
+				Nwsum[topic] += 1;
+				Z[i] = topic;
 			}
 
-			theta = new double[M][];
+			Theta = new double[M][];
 			for (int m = 0; m < M; m++)
 			{
-				theta[m] = new double[K];
+				Theta[m] = new double[K];
 			}
-			phi = new double[K][];
+			Phi = new double[K][];
 			for (int k = 0; k < K; k++)
 			{
-				phi[k] = new double[V];
+				Phi[k] = new double[V];
 			}
 
 		}
@@ -144,18 +144,18 @@ namespace LDA
 			InitOption(opt);
 			InitModel(cor);
 			PrintModelInfo();
-			GibbsSampling(niters);
+			GibbsSampling(Niters);
 		}
 
 		public void PrintModelInfo()
 		{
-			Console.WriteLine("Aplha: " + alpha.ToString());
-			Console.WriteLine("Beta: " + beta.ToString());
-			Console.WriteLine("M: " + M);
-			Console.WriteLine("K: " + K);
-			Console.WriteLine("V: " + V);
-			Console.WriteLine("Total iterations:" + niters);
-			Console.WriteLine("Save at: " + savestep);
+			Console.WriteLine(@"Aplha: " + Alpha.ToString());
+			Console.WriteLine(@"Beta: " + Beta.ToString());
+			Console.WriteLine(@"M: " + M);
+			Console.WriteLine(@"K: " + K);
+			Console.WriteLine(@"V: " + V);
+			Console.WriteLine(@"Total iterations:" + Niters);
+			Console.WriteLine(@"Save at: " + Savestep);
 			Console.WriteLine();
 		}
 
@@ -163,67 +163,67 @@ namespace LDA
 		{
 			for (int iter = 1; iter <= totalIter; iter++)
 			{
-				Console.Write("Iteration " + iter + ":");
+				Console.Write(@"Iteration " + iter + @":");
 				if (OnIterate != null)
-					OnIterate(this, new LDAProcessEventArgs(iter.ToString()));
+					OnIterate(this, new LdaProcessEventArgs(iter.ToString()));
 
 
 				var stopWatch = new Stopwatch();
 				stopWatch.Start();
-				for (int i = 0; i < wn; i++)
+				for (int i = 0; i < Wn; i++)
 				{
 					int topic = DoSampling(i);
-					z[i] = topic;
+					Z[i] = topic;
 				}
 
 				stopWatch.Stop();
-				Console.WriteLine(stopWatch.ElapsedMilliseconds / 1000.0 + " seconds");
-				if (iter % savestep == 0)
+				Console.WriteLine(stopWatch.ElapsedMilliseconds / 1000.0 + @" seconds");
+				if (iter % Savestep == 0)
 				{
-					SaveModel(outputfile + "." + iter.ToString() + ".json");
-					SaveTopWords(outputfile + "." + iter.ToString() + ".topwords");
-					Console.WriteLine("LogLikelihood= " + LogLikelihood);
+					SaveModel(Outputfile + "." + iter.ToString() + ".json");
+					SaveTopWords(Outputfile + "." + iter.ToString() + ".topwords");
+					Console.WriteLine(@"LogLikelihood= " + LogLikelihood);
 				}
 			}
 		}
 
 		private int DoSampling(int i)
 		{
-			int oldZ = z[i];
-			int w = words[i];
-			int m = doc[i];
+			int oldZ = Z[i];
+			int w = Words[i];
+			int m = Doc[i];
 
-			nw[w][oldZ] -= 1;
-			nd[m][oldZ] -= 1;
-			nwsum[oldZ] -= 1;
-			ndsum[m] -= 1;
+			Nw[w][oldZ] -= 1;
+			Nd[m][oldZ] -= 1;
+			Nwsum[oldZ] -= 1;
+			Ndsum[m] -= 1;
 
-			double Vbeta = V * beta;
-			double Kalpha = K * alpha;
+			double vbeta = V * Beta;
+			double kalpha = K * Alpha;
 			for (int k = 0; k < K; k++)
 			{
-				p[k] = (nw[w][k] + beta) / (nwsum[k] + Vbeta) * (nd[m][k] + alpha) / (ndsum[m] + Kalpha);
+				P[k] = (Nw[w][k] + Beta) / (Nwsum[k] + vbeta) * (Nd[m][k] + Alpha) / (Ndsum[m] + kalpha);
 			}
 			for (int k = 1; k < K; k++)
 			{
-				p[k] += p[k - 1];
+				P[k] += P[k - 1];
 			}
 			Random rnd = new Random();
-			double cp = rnd.NextDouble() * p[K - 1];
+			double cp = rnd.NextDouble() * P[K - 1];
 
 			int newZ;
 			for (newZ = 0; newZ < K; newZ++)
 			{
-				if (p[newZ] > cp)
+				if (P[newZ] > cp)
 				{
 					break;
 				}
 			}
 			if (newZ == K) newZ--;
-			nw[w][newZ] += 1;
-			nd[m][newZ] += 1;
-			nwsum[newZ] += 1;
-			ndsum[m] += 1;
+			Nw[w][newZ] += 1;
+			Nd[m][newZ] += 1;
+			Nwsum[newZ] += 1;
+			Ndsum[m] += 1;
 			return newZ;
 		}
 
@@ -231,7 +231,7 @@ namespace LDA
 		public void SaveModel(string modelpath)
 		{
 			CalcParameter();
-			string jstr = GetJSONString();
+			string jstr = GetJsonString();
 			using (System.IO.StreamWriter sw = new System.IO.StreamWriter(modelpath))
 			{
 				sw.WriteLine(jstr);
@@ -246,7 +246,7 @@ namespace LDA
 
 		public void SaveTopWords(string modelpath)
 		{
-			int tw = twords > V ? V : twords;
+			int tw = Twords > V ? V : Twords;
 
 			using (System.IO.StreamWriter sw = new System.IO.StreamWriter(modelpath))
 			{
@@ -256,13 +256,13 @@ namespace LDA
 
 					for (int w = 0; w < V; w++)
 					{
-						wordsProbsList.Add(w, phi[k][w]);
+						wordsProbsList.Add(w, Phi[k][w]);
 					}
 
 					double ans = 0;
 					for (int w = 0; w < V; w++)
 					{
-						ans += phi[k][w];
+						ans += Phi[k][w];
 					}
 					if (Math.Abs(ans - 1.00) > 0.1)
 					{
@@ -270,11 +270,12 @@ namespace LDA
 					}
 
 					sw.Write("Topic " + k + "th:\n");
-					var wordsProbsListOrdered = wordsProbsList.OrderBy(e => -e.Value).ToList();
+					List<KeyValuePair<int, double>> wordsProbsListOrdered;
+                    wordsProbsListOrdered = wordsProbsList.OrderBy(e => -e.Value).ToList();
 
-					for (int i = 0; i < tw; i++)
+                    for (int i = 0; i < tw; i++)
 					{
-						string word = cor.GetStringByID(wordsProbsListOrdered[i].Key);
+						string word = _cor.GetStringByID(wordsProbsListOrdered[i].Key);
 						sw.WriteLine("\t" + word + " " + wordsProbsListOrdered[i].Value);
 					}
 				}
@@ -288,7 +289,7 @@ namespace LDA
 			{
 				for (int k = 0; k < K; k++)
 				{
-					theta[m][k] = (nd[m][k] + alpha) / (ndsum[m] + K * alpha);
+					Theta[m][k] = (Nd[m][k] + Alpha) / (Ndsum[m] + K * Alpha);
 				}
 			}
 
@@ -296,7 +297,7 @@ namespace LDA
 			{
 				for (int w = 0; w < V; w++)
 				{
-					phi[k][w] = (nw[w][k] + beta) / (nwsum[k] + V * beta);
+					Phi[k][w] = (Nw[w][k] + Beta) / (Nwsum[k] + V * Beta);
 				}
 			}
 		}
