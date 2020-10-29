@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -10,35 +11,44 @@ namespace BorzoyaSpell
         {
             PunchPattern pattern;
             var punchPatternsList = new List<PunchPattern>();
-            var pp = InitPuctuation();
+            var puctuationList = InitPuctuation();
 
 
             if (!IsBalanced(inputValue))
             {
                 pattern = new PunchPattern(0)
                 {
-                    ErroMessage = "پرانتز یا کروشه یا آکولاد باز بدون بستن",
+                    ErroMessage = @"پرانتز یا کروشه یا آکولاد باز بدون بستن",
                     ErrorCode = 80,
-                    ErrorCorrection = "علامتهای باز و بسته را برسی کنید"
+                    ErrorCorrection = @"علامتهای باز و بسته را برسی کنید"
                 };
                 punchPatternsList.Add(pattern);
             }
 
-            foreach (var t in pp)
+            try
             {
-                //var xAll = Regex.Matches(inputValue, t.Regax, RegexOptions.IgnoreCase);
-                var matchesList =
-                    (from Match m in Regex.Matches(inputValue, t.Regax, RegexOptions.IgnoreCase) select m).ToList();
-                foreach (var x in matchesList)
-                    if (x.Success)
-                    {
-                        pattern = new PunchPattern(0);
-                        pattern = t;
-                        pattern.IndexStart = x.Index;
-                        pattern.IndexLenght = x.Length;
-                        punchPatternsList.Add(pattern);
-                    }
+                foreach (var punchPattern in puctuationList)
+                {
+                    //var xAll = Regex.Matches(inputValue, t.Regax, RegexOptions.IgnoreCase);
+                    var matchesList =
+                        (from Match m in Regex.Matches(inputValue, punchPattern.Regax, RegexOptions.IgnoreCase)
+                            select m).ToList();
+                    foreach (var x in matchesList)
+                        if (x.Success)
+                        {
+                            pattern = new PunchPattern(0);
+                            pattern = punchPattern;
+                            pattern.IndexStart = x.Index;
+                            pattern.IndexLenght = x.Length;
+                            punchPatternsList.Add(pattern);
+                        }
+                }
             }
+            catch (Exception ex)
+            {
+                // ignored
+            }
+
 
             return punchPatternsList;
         }
@@ -75,10 +85,6 @@ namespace BorzoyaSpell
                         else
                             // if not, its an unbalanced string
                             return false;
-                    }
-                    else
-                        // continue looking
-                    {
                     }
             }
             catch
@@ -199,14 +205,11 @@ namespace BorzoyaSpell
                 new PunchPattern(
                     @"([\u0621-\u0655\u067E\u0686\u0698\u06AF\u06A9\u0643\u06AA\uFED9\uFEDA\u06CC\uFEF1\uFEF2])([\u0002])([^ \.!؟\;,\)\]\»])",
                     "فاصله بعد از پاورقي لازم است", "بعد از پاورقي فاصله بگذاريد", 52),
-                new PunchPattern(@"([^\(\)\»\«\inputValue])([\u0001])", "فاصله قبل از فرمول لازم است",
+                new PunchPattern(@"([^\(\)\»\«\\inputValue])([\u0001])", "فاصله قبل از فرمول لازم است",
                     "قبل از فرمول فاصله بگذاريد", 53),
-                new PunchPattern(@"[ ]([\u0001])([^\(\)\»\«\inputValue,\;;,!؟\?!])", "فاصله بعد از فرمول لازم است",
+                new PunchPattern(@"[ ]([\u0001])([^\(\)\»\«\\inputValue,\;;,!؟\?!])", "فاصله بعد از فرمول لازم است",
                     "بعد از پاورقي فاصله بگذاريد", 54)
             };
-
-
-
 
 
             //
