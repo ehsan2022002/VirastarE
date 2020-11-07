@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BorzoyaSpell.Suggests;
 using BorzoyaSpell.Suggests.Norvig;
 using BorzoyaSpell.Suggests.Soundex;
+using BrozoyaEntitys.EntityData;
 using BrozoyaEntitys.EntityOpratins;
 using PersianStemmer.Stemming.Persian;
+using Stemming.Persian;
 
 namespace BorzoyaSpell
 {
@@ -16,9 +19,7 @@ namespace BorzoyaSpell
         private static List<string> _userDic;
         private static List<string> _ignoreList;
         private static List<char> _ignoreCharList;
-
         private readonly NorvigSpellChecker _norvan;
-
         //private PS_PersianWordFrequencyOpration _parsianWordFreqOpratiom;
         private readonly Stemmer _stemmr;
 
@@ -131,8 +132,7 @@ namespace BorzoyaSpell
         {
             var suggestList = new List<string> {_norvan.Correct(word)};
 
-            suggestList.AddRange(_sundex.GetSuggest(word).Where(x => x.StartsWith(word.Substring(0, 2))).Take(4)
-                .Except(suggestList));
+            suggestList.AddRange(_sundex.GetSuggest(word).Where(x => x.StartsWith(word.Substring(0, 2))).Take(4).Except(suggestList));
 
             return suggestList;
         }

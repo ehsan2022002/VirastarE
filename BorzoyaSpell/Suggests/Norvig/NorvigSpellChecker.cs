@@ -11,7 +11,7 @@ namespace BorzoyaSpell.Suggests.Norvig
         private Dictionary<String, int> _dictionary = new Dictionary<String, int>();
         //private static Regex _wordRegex = new Regex("[a-z]+", RegexOptions.Compiled);
 
-        public NorvigSpellChecker(List<PS_PersianWordFrequency> wordList)
+        public NorvigSpellChecker(List<PsPersianWordFrequency> wordList)
         {
             //add frequency word num
             // _dictionary.Add(trimmedWord, 1);
@@ -42,7 +42,7 @@ namespace BorzoyaSpell.Suggests.Norvig
         {
         }
 
-        public void FillDic(List<PS_PersianWordFrequency> wordList)
+        public void FillDic(List<PsPersianWordFrequency> wordList)
         {
             _dictionary.Clear();
 

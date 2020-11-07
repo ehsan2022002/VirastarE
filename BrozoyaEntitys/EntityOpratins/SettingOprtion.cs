@@ -2,51 +2,46 @@
 {
     public class SettingOprtion
     {
-        GetBySQLLight gt;
+        private readonly GetBySQLLight gt;
 
         public SettingOprtion()
         {
             gt = new GetBySQLLight();
         }
 
-        public string GetValueByKey(string Key)
+        public string GetValueByKey(string key)
         {
-            return gt.GetScalerBySQL("select Value from T_Setting where [Key]='" + Key + "'");
+            return gt.GetScalerBySql("select Value from T_Setting where [Key]='" + key + "'");
         }
 
-        public bool GetValueByKeyChk(string Key)
+        public bool GetValueByKeyChk(string key)
         {
-            var t = gt.GetScalerBySQL("select Value from T_Setting where [Key]='" + Key + "'");
+            var t = gt.GetScalerBySql("select Value from T_Setting where [Key]='" + key + "'");
 
             if (t == "1")
                 return true;
-            else
-                return false;
-
+            return false;
         }
 
-        public void SetValueByKey(string Key, string Value)
+        public void SetValueByKey(string key, string value)
         {
-            string s = string.Empty;
-            s = "update T_Setting set Value='" + Value + "' where key='" + Key + "'";
-            gt.SetBySQL(s);
+            var s = string.Empty;
+            s = "update T_Setting set Value='" + value + "' where key='" + key + "'";
+            gt.SetBySql(s);
         }
 
-        public void SetValueByKey(string Key, bool Value)
+        public void SetValueByKey(string key, bool value)
         {
-            string t = string.Empty;
-            if (Value == true)
+            var t = string.Empty;
+            if (value)
                 t = "1";
             else
                 t = "0";
 
 
-            string s = string.Empty;
-            s = "update T_Setting set Value='" + t + "' where key='" + Key + "'";
-            gt.SetBySQL(s);
+            var s = string.Empty;
+            s = "update T_Setting set Value='" + t + "' where key='" + key + "'";
+            gt.SetBySql(s);
         }
-
-
-
     }
 }

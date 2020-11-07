@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using BrozoyaEntitys.EntityData;
 
 namespace BrozoyaEntitys.EntityOpratins
 {
@@ -11,14 +12,14 @@ namespace BrozoyaEntitys.EntityOpratins
             gt = new GetBySQLLight();
         }
 
-        public List<PS_StopWord> GetAll()
+        public List<PsStopWord> GetAll()
         {
-            List<PS_StopWord> tl = new List<PS_StopWord>();
-            DataTable dt = gt.GetTableBySQL("select * from PS_StopWord");
+            List<PsStopWord> tl = new List<PsStopWord>();
+            DataTable dt = gt.GetTableBySql("select * from PS_StopWord");
 
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
-                PS_StopWord RSC_STOPWORD = new PS_StopWord();
+                PsStopWord RSC_STOPWORD = new PsStopWord();
 
 
                 RSC_STOPWORD.Val1 = item["Val1"].ToString();

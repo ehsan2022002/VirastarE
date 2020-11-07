@@ -1,11 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace BrozoyaEntitys
+namespace BrozoyaEntitys.EntityOpratins
 {
     public class DataUtil
     {
-        GetBySQLLight gt;
+        private readonly GetBySQLLight gt;
 
         public DataUtil()
         {
@@ -13,32 +12,31 @@ namespace BrozoyaEntitys
         }
 
         //////////////////////
-        public void initSimilarityCash()
+        public void InitSimilarityCash()
         {
             //read all data and save in list
         }
-        public string GetWordSimilarity(string Wrold, int Lavel)
+
+        public string GetWordSimilarity(string wrold, int lavel)
         {
             //if similaritycash.count =0 use sql   
-            string r = gt.GetScalerBySQL("select ifnull([key],'') as key from T_similarity_pos where value ='" + Wrold + "' AND lavel=" + Lavel);
+            var r = gt.GetScalerBySql("select ifnull([key],'') as key from T_similarity_pos where value ='" + wrold +
+                                      "' AND lavel=" + lavel);
             //elseS
             //use cash 
             if (r.Trim().Length == 0)
-                r = Wrold;
+                r = wrold;
 
             return r;
         }
-        public List<string> GetWordSimilarityList(List<string> Wrolds, int Lavel)
+
+        public List<string> GetWordSimilarityList(List<string> wrolds, int lavel)
         {
             var l = new List<string>();
 
-            foreach (var item in Wrolds)
-            {
-                l.Add(GetWordSimilarity(item, Lavel));
-            }
+            foreach (var item in wrolds) l.Add(GetWordSimilarity(item, lavel));
 
             return l;
         }
-
     }
 }

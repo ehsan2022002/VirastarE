@@ -183,7 +183,7 @@
             this.lblbeta.Name = "lblbeta";
             this.lblbeta.Size = new System.Drawing.Size(29, 13);
             this.lblbeta.TabIndex = 35;
-            this.lblbeta.Text = "Beta";
+            this.lblbeta.Text = "beta";
             // 
             // txtalpha
             // 
@@ -200,7 +200,7 @@
             this.lblalpha.Name = "lblalpha";
             this.lblalpha.Size = new System.Drawing.Size(33, 13);
             this.lblalpha.TabIndex = 33;
-            this.lblalpha.Text = "Alpha";
+            this.lblalpha.Text = "alpha";
             // 
             // groupBox1
             // 

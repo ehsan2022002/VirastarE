@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using BrozoyaEntitys.EntityData;
 
 namespace BrozoyaEntitys.EntityOpratins
 {
@@ -12,14 +13,14 @@ namespace BrozoyaEntitys.EntityOpratins
             gt = new GetBySQLLight();
         }
 
-        public List<PS_MOKASSAR_FA> GetAll()
+        public List<PsMokassarFa> GetAll()
         {
-            List<PS_MOKASSAR_FA> tl = new List<PS_MOKASSAR_FA>();
-            DataTable dt = gt.GetTableBySQL("SELECT ID,VAL1,VAL2 FROM PS_MOKASSAR_FA");
+            List<PsMokassarFa> tl = new List<PsMokassarFa>();
+            DataTable dt = gt.GetTableBySql("SELECT ID,VAL1,VAL2 FROM PS_MOKASSAR_FA");
 
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
-                var x = new PS_MOKASSAR_FA();
+                var x = new PsMokassarFa();
                 x.Val1 = item["VAL1"].ToString();
                 x.Val2 = item["VAL2"].ToString();
 

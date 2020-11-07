@@ -45,7 +45,7 @@ namespace PersianStemmer.Stemming.Persian
         private static readonly bool enableVerb = true;
 
 
-        public Stemmer(List<PS_PersianWordFrequency> pwfList)
+        public Stemmer(List<PsPersianWordFrequency> pwfList)
         {
             //dataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, sBase); 
             //dataPath = Path.Combine(GetAssemblyDirectory(), sBase);
@@ -69,7 +69,7 @@ namespace PersianStemmer.Stemming.Persian
             return Path.GetDirectoryName(path);
         }
 
-        public void FillStm(List<PS_PersianWordFrequency> pwfList)
+        public void FillStm(List<PsPersianWordFrequency> pwfList)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace PersianStemmer.Stemming.Persian
                     byte.Parse(sLine.Val4), bool.Parse(sLine.Val5)));
         }
 
-        private void loadLexicon(List<PS_PersianWordFrequency> pwfList)
+        private void loadLexicon(List<PsPersianWordFrequency> pwfList)
         {
             //var lsLexicon = new PS_Dictionary_FAOpration();
 

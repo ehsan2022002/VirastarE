@@ -1,6 +1,6 @@
-﻿namespace BrozoyaEntitys
+﻿namespace BrozoyaEntitys.EntityData
 {
-    public class T_Setting
+    public class Setting
     {
         public int Id { set; get; }
         public string Key { set; get; }

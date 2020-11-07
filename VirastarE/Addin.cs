@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -81,7 +82,7 @@ namespace VirastarE
 
         public void btnSetting_Click(IRibbonControl control)
         {
-            var frmsetting = new frmSetting(_chkSpell);
+            var frmsetting = new Setting(_chkSpell);
             frmsetting.Show();
             Application.StatusBar = Util.UtilMessagesEnum.ToolbarMessageSetting;
         }
@@ -137,14 +138,14 @@ namespace VirastarE
             }
         }
 
-        public void PunchDoWork()
+        private void PunchDoWork()
         {
             Application.StatusBar = Util.UtilMessagesEnum.ChkPuncInProcess;
             CheakPunctuation(true);
             Application.StatusBar = Util.UtilMessagesEnum.ChkPuncProcessCompilite + _utilclass.GetShamsiDateNow();
         }
 
-        public void SpellDoWork()
+        private void SpellDoWork()
         {
             Application.StatusBar = Util.UtilMessagesEnum.ChkSpellInProcess;
             CheakSpellDoc();
@@ -185,8 +186,22 @@ namespace VirastarE
                 SetupKeyBoardHooks();
                 SetupBackgroundThread();
 
+
                 try
                 {
+                    NagScreen nagScreen = new NagScreen();
+                    nagScreen.StartPosition= FormStartPosition.Manual;
+
+                    var mySecondScreen = Screen.AllScreens.FirstOrDefault();
+
+                    if (mySecondScreen != null)
+                    {
+                        nagScreen.Left = mySecondScreen.Bounds.Right - nagScreen.Width -10;
+                        nagScreen.Top = mySecondScreen.Bounds.Bottom - nagScreen.Width - 10;
+                    }
+
+                    nagScreen.Show();
+
                     // welcome page not show
                     GlobalClass.myword = Application;
                     GlobalClass.mydoc = Application.ActiveDocument;
@@ -289,7 +304,7 @@ namespace VirastarE
 
                 Application.UndoRecord.EndCustomRecord();
             }
-            catch
+            catch (Exception)
             {
                 // ignored
             }

@@ -7,16 +7,14 @@ namespace BorzoyaSpell.Suggests.Soundex
 {
     public class Soundex
     {
+        public List<PsPersianWordFrequency> PsDicList; //
 
-        public List<PS_PersianWordFrequency> psDICList; //
-
-        public Soundex(List<PS_PersianWordFrequency> psDICWordFreq)
+        public Soundex(List<PsPersianWordFrequency> psDicWordFreq)
         {
-            psDICList = new List<PS_PersianWordFrequency>();
+            PsDicList = new List<PsPersianWordFrequency>();
 
             //var ls = new PS_Dictionary_FAOpration();
-            psDICList = psDICWordFreq;
-
+            PsDicList = psDicWordFreq;
         }
 
         public Soundex()
@@ -25,16 +23,15 @@ namespace BorzoyaSpell.Suggests.Soundex
 
         public List<string> GetSuggest(string word)
         {
-            string wordsound = FA_Computeintial2(word, 8);
+            var wordsound = FA_Computeintial2(word, 8);
 
-            return psDICList.Where(x => x.Sundex == wordsound).Select(y => y.Val1).ToList();
-
+            return PsDicList.Where(x => x.Sundex == wordsound).Select(y => y.Val1).ToList();
         }
 
         public string FA_Computeintial2(string word, int length)
         {
             // Value to return
-            string value = string.Empty;
+            var value = string.Empty;
 
             //delete first latter A
             //switch (word[0])
@@ -51,25 +48,24 @@ namespace BorzoyaSpell.Suggests.Soundex
             //}
 
             // Size of the word to process
-            int size = word.Length;
+            var size = word.Length;
             // Make sure the word is at least two characters in length
             if (size > 1)
             {
-
                 // Convert the word to character array for faster processing
-                char[] chars = word.ToCharArray();
+                var chars = word.ToCharArray();
                 // Buffer to build up with character codes
-                StringBuilder buffer = new StringBuilder();
+                var buffer = new StringBuilder();
                 buffer.Length = 0;
                 // The current and previous character codes
-                int prevCode = 0;
-                int currCode = 0;
+                var prevCode = 0;
+                var currCode = 0;
                 // Ignore first character and replace it with fixed value
 
                 buffer.Append('x');
 
                 // Loop through all the characters and convert them to the proper character code
-                for (int i = 1; i < size; i++)
+                for (var i = 1; i < size; i++)
                 {
                     switch (chars[i])
                     {
@@ -128,27 +124,26 @@ namespace BorzoyaSpell.Suggests.Soundex
 
                     // Check to see if the current code is the same as the last one
                     if (currCode != prevCode)
-                    {
                         // Check to see if the current code is 0 (a vowel); do not process vowels
                         if (currCode != 0)
                             buffer.Append(currCode);
-                    }
                     // Set the new previous character code
                     prevCode = currCode;
                     // If the buffer size meets the length limit, then exit the loop
                     if (buffer.Length == length)
                         break;
                 }
+
                 // Pad the buffer, if required
                 size = buffer.Length;
                 if (size < length)
-                    buffer.Append('0', (length - size));
+                    buffer.Append('0', length - size);
                 // Set the value to return
                 value = buffer.ToString();
             }
+
             // Return the value
             return value;
         }
-
     }
 }

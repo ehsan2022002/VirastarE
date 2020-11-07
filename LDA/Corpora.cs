@@ -9,19 +9,19 @@ namespace LDA
 {
 	public class Corpora
 	{
-		public int totalWords;
-		public int totalDocuments;
+		public int TotalWords;
+		public int TotalDocuments;
 		public Document[] Docs;
 		public WordDictionary WD;
 
 		public Corpora()
 		{
 			WD = new WordDictionary();
-			totalDocuments = 0;
-			totalWords = 0;
+			TotalDocuments = 0;
+			TotalWords = 0;
 		}
 
-		public int MaxWordID()
+		public int MaxWordId()
 		{
 			return WD.Count;
 		}
@@ -34,13 +34,13 @@ namespace LDA
 			try
 			{
                 string[] f = File.ReadAllLines(file, encoding);
-				totalDocuments = f.Length;
-				Docs = new Document[totalDocuments];
-				for (int i = 0; i < totalDocuments; i++)
+				TotalDocuments = f.Length;
+				Docs = new Document[TotalDocuments];
+				for (int i = 0; i < TotalDocuments; i++)
 				{
 					Docs[i] = new Document();
 					Docs[i].Init(f[i], WD);
-					totalWords += Docs[i].Length;
+					TotalWords += Docs[i].Length;
 				}
 			}
 			catch (Exception ex)
@@ -48,7 +48,7 @@ namespace LDA
 				throw ex;
 			}
 		}
-		public string GetStringByID(int id)
+		public string GetStringById(int id)
 		{
 			return WD.GetString(id);
 		}

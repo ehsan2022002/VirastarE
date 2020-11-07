@@ -1,6 +1,6 @@
 ﻿namespace BrozoyaEntitys.EntityData
 {
-    public class PS_PersianWordFrequency
+    public class PsPersianWordFrequency
     {
         public string Val1 { set; get; }
         public string Val2 { set; get; }

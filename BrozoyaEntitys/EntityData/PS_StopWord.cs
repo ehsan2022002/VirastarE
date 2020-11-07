@@ -1,6 +1,6 @@
-﻿namespace BrozoyaEntitys
+﻿namespace BrozoyaEntitys.EntityData
 {
-    public class PS_StopWord
+    public class PsStopWord
     {
         public string Val1 { set; get; }
     }

@@ -44,7 +44,7 @@ namespace BorzoyaSpell
                         }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignored
             }

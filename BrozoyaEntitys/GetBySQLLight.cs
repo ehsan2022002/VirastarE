@@ -6,52 +6,51 @@ using System.Reflection;
 
 namespace BrozoyaEntitys
 {
-    class GetBySQLLight
+    internal class GetBySQLLight
     {
         //String ConnString = @"data source=db\archive"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
-        String ConnString = "";
+        private readonly string _connString = string.Empty;
 
         public GetBySQLLight()
         {
             //ConnString = @"data source="\\db\\borzoya"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
-            ConnString = @"data source=" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\db\borzoya";
+            _connString = @"data source=" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                         @"\db\borzoya";
         }
 
-        public DataTable GetTableBySQL(string SQL)
+        public DataTable GetTableBySql(string sql)
         {
-
-
-            SQLiteDataAdapter adapter = new SQLiteDataAdapter();
-            DataTable myDataTable = new DataTable();
+            var adapter = new SQLiteDataAdapter();
+            var myDataTable = new DataTable();
             try
             {
-
-                using (SQLiteConnection conn = new SQLiteConnection(ConnString))
+                using (var conn = new SQLiteConnection(_connString))
                 {
-                    adapter.SelectCommand = new SQLiteCommand(SQL, conn);
+                    adapter.SelectCommand = new SQLiteCommand(sql, conn);
                     adapter.Fill(myDataTable);
 
                     if (conn.State == ConnectionState.Open)
                         conn.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // ignored
             }
-            return myDataTable;
 
+            return myDataTable;
         }
 
 
-        public string GetScalerBySQL(string SQL)
+        public string GetScalerBySql(string sql)
         {
             //String ConnString = @"data source=db\borzoya"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();           
-            string s = string.Empty;
+            var s = string.Empty;
             object obj;
 
-            using (SQLiteConnection cnn = new SQLiteConnection(ConnString))
+            using (var cnn = new SQLiteConnection(_connString))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(cnn))
+                using (var cmd = new SQLiteCommand(cnn))
                 {
                     try
                     {
@@ -59,13 +58,13 @@ namespace BrozoyaEntitys
                             cnn.Open();
 
                         ///cmd.Connection = cnn;
-                        cmd.CommandText = SQL + " ORDER BY ID ASC LIMIT 1";
+                        cmd.CommandText = sql + " ORDER BY ID ASC LIMIT 1";
 
                         obj = cmd.ExecuteScalar();
                         if (obj != null)
                             s = obj.ToString();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         s = "";
                     }
@@ -76,15 +75,16 @@ namespace BrozoyaEntitys
                     }
                 }
             }
+
             return s;
         }
 
-        public string GetLastInsertID(string TableName)
+        public string GetLastInsertId(string tableName)
         {
-            string s = string.Empty;
-            using (SQLiteConnection cnn = new SQLiteConnection(ConnString))
+            var s = string.Empty;
+            using (var cnn = new SQLiteConnection(_connString))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(cnn))
+                using (var cmd = new SQLiteCommand(cnn))
                 {
                     try
                     {
@@ -92,10 +92,10 @@ namespace BrozoyaEntitys
                             cnn.Open();
 
                         ///cmd.Connection = cnn;
-                        cmd.CommandText = "SELECT rowid from " + TableName + " order by ROWID DESC limit 1";
+                        cmd.CommandText = "SELECT rowid from " + tableName + " order by ROWID DESC limit 1";
                         s = cmd.ExecuteScalar().ToString();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         s = "";
                     }
@@ -106,18 +106,19 @@ namespace BrozoyaEntitys
                     }
                 }
             }
+
             return s;
         }
 
 
-        public int? SetBySQL(string SQL)
+        public int? SetBySql(string sql)
         {
-            SQLiteConnection cnn = new SQLiteConnection(ConnString);
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
+            var cnn = new SQLiteConnection(_connString);
+            var cmd = new SQLiteCommand(cnn);
 
             cnn.Open();
             //cmd.Connection = cnn;
-            cmd.CommandText = SQL;
+            cmd.CommandText = sql;
 
             cmd.ExecuteNonQuery();
             cnn.Close();
@@ -126,9 +127,9 @@ namespace BrozoyaEntitys
 
         public void SetBlob(string sql, byte[] blob)
         {
-            SQLiteConnection cnn = new SQLiteConnection(ConnString);
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
-            SQLiteParameter pr = new SQLiteParameter();
+            var cnn = new SQLiteConnection(_connString);
+            var cmd = new SQLiteCommand(cnn);
+            var pr = new SQLiteParameter();
 
             cnn.Open();
             cmd.CommandText = sql;
@@ -147,23 +148,5 @@ namespace BrozoyaEntitys
 
             cnn.Close();
         }
-
-        public byte[] GetBlobByID(string sql)
-        {
-            SQLiteConnection cnn = new SQLiteConnection(ConnString);
-            SQLiteCommand cmd = new SQLiteCommand(cnn);
-
-            cnn.Open();
-
-            cmd.CommandText = sql; // "SELECT Data FROM Images WHERE Id=1";
-            byte[] data = (byte[])cmd.ExecuteScalar();
-
-            cnn.Close();
-
-            return data;
-        }
-
-
-
     }
 }

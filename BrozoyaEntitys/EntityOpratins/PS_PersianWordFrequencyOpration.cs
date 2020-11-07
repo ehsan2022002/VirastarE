@@ -16,14 +16,14 @@ namespace BrozoyaEntitys.EntityOpratins
             gt = new GetBySQLLight();
         }
 
-        public List<PS_PersianWordFrequency> GetAll()
+        public List<PsPersianWordFrequency> GetAll()
         {
-            List<PS_PersianWordFrequency> tl = new List<PS_PersianWordFrequency>();
-            DataTable dt = gt.GetTableBySQL("select * from PS_PersianWordFrequency " );
+            List<PsPersianWordFrequency> tl = new List<PsPersianWordFrequency>();
+            DataTable dt = gt.GetTableBySql("select * from PS_PersianWordFrequency " );
 
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
-                PS_PersianWordFrequency DIC_PSWF = new PS_PersianWordFrequency();
+                PsPersianWordFrequency DIC_PSWF = new PsPersianWordFrequency();
 
                 DIC_PSWF.Val1 = item["Val1"].ToString().Trim();
                 DIC_PSWF.Val2 = item["Val2"].ToString().Trim();
@@ -42,7 +42,7 @@ namespace BrozoyaEntitys.EntityOpratins
             try
             {
                 var strsql = "delete from PS_PersianWordFrequency where val1='" + word.Replace("'", "") + "'";
-                gt.SetBySQL(strsql);
+                gt.SetBySql(strsql);
             }
             catch
             {
@@ -58,21 +58,21 @@ namespace BrozoyaEntitys.EntityOpratins
 
                 var strsql = "INSERT INTO PS_PersianWordFrequency (val1, val2) VALUES ('" + word.Replace("'", "") +
                              "', '1')";
-                gt.SetBySQL(strsql);
+                gt.SetBySql(strsql);
             }
             catch
             {
 
             }
         }
-        public List<PS_PersianWordFrequency> GetByName(string word)
+        public List<PsPersianWordFrequency> GetByName(string word)
         {
-            List<PS_PersianWordFrequency> tl = new List<PS_PersianWordFrequency>();
-            DataTable dt = gt.GetTableBySQL("select * from PS_PersianWordFrequency where val1 ='" + word + "' " );
+            List<PsPersianWordFrequency> tl = new List<PsPersianWordFrequency>();
+            DataTable dt = gt.GetTableBySql("select * from PS_PersianWordFrequency where val1 ='" + word + "' " );
 
             foreach (DataRow item in dt.Rows)  //loop through the columns. 
             {
-                PS_PersianWordFrequency DIC_FA = new PS_PersianWordFrequency();
+                PsPersianWordFrequency DIC_FA = new PsPersianWordFrequency();
 
                 DIC_FA.Val1 = item["Val1"].ToString().Trim();
                 DIC_FA.Val2 = item["Val2"].ToString().Trim();

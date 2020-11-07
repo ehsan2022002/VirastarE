@@ -1,6 +1,6 @@
-﻿namespace BrozoyaEntitys
+﻿namespace BrozoyaEntitys.EntityData
 {
-    public class PS_VERB_FA
+    public class PsVerbFa
     {
         public int Id { set; get; }
         public string Val1 { set; get; }

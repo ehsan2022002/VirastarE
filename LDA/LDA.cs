@@ -1,49 +1,49 @@
-﻿using System;
-using Newtonsoft.Json;
-
-
+﻿using Newtonsoft.Json;
+using System;
 namespace LDA
 {
-    [Serializable]
-    public class LDA
-    {
-        public double Alpha; // Dirichlet Prior Parameter for Document->Topic
-        public double Beta; // Dirichlet Prior Parameter for Topic->Word
-        protected int[] Doc;
-        public int K; //#Topics
-        public int M; //#Documents
-        public double[][] Phi; // Topic->Word Distributions
-
-        public double[][] Theta; //Document -> Topic Distributions
-        public int V; //#Words
-        protected int Wn;
-
-        protected int[] Words;
-        protected int[] Z;
+	[Serializable]
+	public class LDA
+	{
+		public int M; //#Documents
+		public int V; //#Words
+		public int K; //#Topics
+		public double alpha; // Dirichlet Prior Parameter for Document->Topic
+		public double beta; // Dirichlet Prior Parameter for Topic->Word
 
 
-        public double LogLikelihood
-        {
-            get
-            {
-                double ans = 0;
-                for (var i = 0; i < Wn; i++)
-                {
-                    var w = Words[i];
-                    var m = Doc[i];
-                    double tmp = 0;
-                    for (var k = 0; k < K; k++) tmp += Phi[k][w] * Theta[m][k];
-                    ans += Math.Log(tmp);
-                }
+		public double LogLikelihood
+		{
+			get
+			{
+				double ans = 0;
+				for (int i = 0; i < wn; i++)
+				{
+					int w = words[i];
+					int m = doc[i];
+					double tmp = 0;
+					for (int k = 0; k < K; k++)
+					{
+						tmp += phi[k][w] * theta[m][k];
+					}
+					ans += Math.Log(tmp);
+				}
+				return ans;
+			}
+		}
 
-                return ans;
-            }
-        }
+		public double[][] theta; //Document -> Topic Distributions
+		public double[][] phi; // Topic->Word Distributions
+
+		protected int[] words;
+		protected int wn;
+		protected int[] doc;
+		protected int[] z;
 
 
-        public string GetJsonString()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-    }
+		public string GetJSONString()
+		{
+			return JsonConvert.SerializeObject(this, Formatting.Indented);
+		}
+	}
 }

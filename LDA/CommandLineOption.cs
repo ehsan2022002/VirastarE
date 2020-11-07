@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace LDA
+﻿namespace LDA
 {
-	public class CommandLineOption
-	{
-		public int topics { get; set; }
+    public class CommandLineOption
+    {
+        public int Topics { get; set; }
 
-		public int savestep { get; set; }
+        public int Savestep { get; set; }
 
-		public double alpha { get; set; }
+        public double Alpha { get; set; }
 
-		public double beta { get; set; }
+        public double Beta { get; set; }
 
-		public int niters { get; set; }
+        public int Niters { get; set; }
 
-		public string input { get; set; }
+        public string Input { get; set; }
 
-		public string outputfile { get; set; }
+        public string Outputfile { get; set; }
 
-		public int twords { get; set; }
-	}
+        public int Twords { get; set; }
+    }
 }

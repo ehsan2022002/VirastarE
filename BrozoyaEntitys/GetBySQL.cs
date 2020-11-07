@@ -1,23 +1,20 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace BrozoyaEntitys
 {
-
-    class GetBySQL
+    internal class GetBySql
     {
         public DataTable GetTableBySQL(string SQL)
         {
+            var ConnString =
+                "Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
 
-            String ConnString = "Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
-
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            DataTable myDataTable = new DataTable();
+            var adapter = new SqlDataAdapter();
+            var myDataTable = new DataTable();
             try
             {
-
-                using (SqlConnection conn = new SqlConnection(ConnString))
+                using (var conn = new SqlConnection(ConnString))
                 {
                     adapter.SelectCommand = new SqlCommand(SQL, conn);
                     adapter.Fill(myDataTable);
@@ -28,24 +25,24 @@ namespace BrozoyaEntitys
             }
             catch
             {
+                // ignored
             }
-            return myDataTable;
 
+            return myDataTable;
         }
 
-        public string GetScalerBySQL(string SQL)
+        public string GetScalerBySql(string sql)
         {
-
-
-            String ConnString = "Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
-            SqlConnection cnn = new SqlConnection(ConnString);
-            SqlCommand cmd = new SqlCommand();
+            var ConnString =
+                "Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True"; // ConfigurationManager.AppSettings["ConnectionString"].ToString();
+            var cnn = new SqlConnection(ConnString);
+            var cmd = new SqlCommand();
             string s;
             try
             {
                 cnn.Open();
                 cmd.Connection = cnn;
-                cmd.CommandText = SQL;
+                cmd.CommandText = sql;
 
                 s = cmd.ExecuteScalar().ToString();
                 cnn.Close();
@@ -59,24 +56,19 @@ namespace BrozoyaEntitys
         }
 
 
-
-        public int? SetBySQL(string SQL)
+        public int? SetBySql(string sql)
         {
-            SqlConnection cnn = new SqlConnection("Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True");
-            SqlCommand cmd = new SqlCommand();
+            var cnn = new SqlConnection("Data Source=WIN-P6B57G49ND9;Initial Catalog=TestDB;Integrated Security=True");
+            var cmd = new SqlCommand();
 
             cnn.Open();
             cmd.Connection = cnn;
-            cmd.CommandText = SQL;
+            cmd.CommandText = sql;
 
             cmd.ExecuteNonQuery();
             cnn.Close();
 
             return 0;
         }
-
-
-
-
     }
 }

@@ -74,11 +74,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addin.cs" />
-    <Compile Include="Forms\frmSetting.cs">
+    <Compile Include="Forms\NagScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmSetting.Designer.cs">
-      <DependentUpon>frmSetting.cs</DependentUpon>
+    <Compile Include="Forms\NagScreen.Designer.cs">
+      <DependentUpon>NagScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Setting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Setting.Designer.cs">
+      <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,8 +98,11 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\frmSetting.resx">
-      <DependentUpon>frmSetting.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\NagScreen.resx">
+      <DependentUpon>NagScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Setting.resx">
+      <DependentUpon>Setting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -144,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\loading-gears-animation-10.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\virastari_3_final.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

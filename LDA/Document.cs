@@ -12,23 +12,16 @@ namespace LDA
 		public int[] Words;
 		public int Length;
 
-		public void Init(string str, WordDictionary WD)
-		{
-			try
-			{
-				string sp = @"\s+";
-				string[] doc = Regex.Split(str, sp);
-				Words = new int[doc.Length];
-				Length = doc.Length;
-				for (int i = 0; i < Length; i++)
-				{
-					Words[i] = WD.GetWords(doc[i]);
-				}
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+		public void Init(string str, WordDictionary wd)
+        {
+            string sp = @"\s+";
+            string[] doc = Regex.Split(str, sp);
+            Words = new int[doc.Length];
+            Length = doc.Length;
+            for (int i = 0; i < Length; i++)
+            {
+                Words[i] = wd.GetWords(doc[i]);
+            }
+        }
 	}
 }
