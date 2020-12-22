@@ -2,7 +2,7 @@
 <div dir="rtl">
 <br>
  <b>
-افزونه مایکروسافت ورد برای ویراستاری و خلاصه سازی
+افزونه مایکروسافت ورد برای ویراستاری - خلاصه سازی - نویسه خوانی فارسی
 <br></b>
 این پروژه شامل پروژهای مختلفی میباشد که برخی از آنها در زیر توضیح داده شده است  
 <br><br>
@@ -12,7 +12,7 @@
 <a href="https://github.com/ehsan2022002/VirastarE/wiki"> .برای نیازهای سیستمی و اطلاعات بیشتر ویکی را ببینید </a>
 <br>
 <a href="https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing"> جهت دانلود برنامه نصب از گوگل درایو کلیک کنید</a>  
-نسخه فعلی جهت دانلود(آبان 99)  R1
+نسخه فعلی جهت دانلود(دیماه 99)  R2
 <br>
 <br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot3.png" alt="virstarE">
@@ -20,6 +20,8 @@
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot4.png" alt="virstarE">
 <br>
 
+<img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot7.png" alt="virstarE">
+<br>
 <hr>
 <br>
 
