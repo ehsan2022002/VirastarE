@@ -26,8 +26,8 @@ namespace BorzoyaSpell
 
         private readonly Soundex _sundex;
 
-        public bool CheakSteem;
-        public bool IgnoreEnglish;
+        public bool CheakSteem { get; set; }
+        public bool IgnoreEnglish { get; set; }
 
         public CheakSpell()
         {
@@ -135,6 +135,12 @@ namespace BorzoyaSpell
             suggestList.AddRange(_sundex.GetSuggest(word).Where(x => x.StartsWith(word.Substring(0, 2))).Take(4).Except(suggestList));
 
             return suggestList;
+        }
+
+        public string SuggestOne(string word)
+        {
+            var suggest = _norvan.Correct(word);
+            return suggest;
         }
 
         public void AddToIgnoreList(string word)

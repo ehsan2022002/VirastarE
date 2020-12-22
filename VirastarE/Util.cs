@@ -22,8 +22,10 @@ namespace VirastarE
             public const string ToolbarMessageSetting = "تنظیمات";
             public const string ToolbarMessageLDA = "تاپیک مدلینگ";
             public const string NotValid = " معتبر نیست ";
+            public const string Processing = " در حال پردازش ";
+            public const string ProcessingCompilite = " پردازش نویسه خوان انجام شد ";
         }
-    
+
 
         public static class UtilSystemEnum
         {

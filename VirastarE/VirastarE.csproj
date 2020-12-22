@@ -123,6 +123,10 @@
       <Project>{FE7931ED-CEB5-491A-962B-55FF3C573F81}</Project>
       <Name>LDA</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OCR\ImageOpration\ImageOpration.csproj">
+      <Project>{08a03e3e-643b-4dd2-8a2c-e1dd2b0f457d}</Project>
+      <Name>ImageOpration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Office\NetOffice\NetOffice.csproj">
       <Project>{65442327-d01f-4ecb-8c39-6d5c7622a80f}</Project>
       <Name>NetOffice</Name>

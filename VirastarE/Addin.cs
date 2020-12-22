@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,6 +16,7 @@ using NetOffice.WordApi.Enums;
 using TextSummarize;
 using VirastarE.Forms;
 using COMAddin = NetOffice.WordApi.Tools.COMAddin;
+using ThreadState = System.Threading.ThreadState;
 
 namespace VirastarE
 {
@@ -67,6 +69,45 @@ namespace VirastarE
                 currentdoc.Content.Text = farsiNormalizer.Run(currentdoc.Content.Text);
         }
 
+        public void btnOpticalC_Click(IRibbonControl control)
+        {
+            Form imageopration = new ImageOpration.ImageSelector();
+            imageopration.ShowDialog();
+            string correctedSentance = string.Empty;
+
+            if (ImageOpration.Results.OcrResult.Trim().Length !=0)
+            {
+                Application.StatusBar = Util.UtilMessagesEnum.Processing;
+                if (ImageOpration.Results.AutoCorrect)
+                {
+                    var words = ImageOpration.Results.OcrResult.Split(' ' );
+             
+                    foreach (var word in words)
+                    {
+                        if (_chkSpell.Cheak_Spell(word) == false)
+                        {
+                            correctedSentance += " " +_chkSpell.SuggestOne(word);
+                        }
+                        else
+                        {
+                            correctedSentance += " " + word;
+                        }
+                    }
+                }
+                else
+                {
+                    correctedSentance = ImageOpration.Results.OcrResult;
+                }
+
+                var currentdoc = GlobalClass.myword.ActiveDocument;
+                currentdoc.Content.Text += Environment.NewLine + correctedSentance;
+
+                ImageOpration.Results.OcrResult = string.Empty;
+                Application.StatusBar = Util.UtilMessagesEnum.ProcessingCompilite;
+            }
+        }
+
+
         public void btnPunctuation_Click(IRibbonControl control)
         {
             if (_puncthread == null ||
@@ -114,7 +155,7 @@ namespace VirastarE
 
             textToSend = currntDoc.ActiveWindow.Selection.Text.Trim().Length > 0 ? currntDoc.ActiveWindow.Selection.Text : currntDoc.Content.Text;
 
-            Form frmSummary = new frmSummary(textToSend);
+            Form frmSummary = new Summary(textToSend);
             frmSummary.Show();
         }
 

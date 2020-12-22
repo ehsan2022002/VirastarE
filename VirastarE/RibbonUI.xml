@@ -14,11 +14,11 @@
           <button id="btnpunc" label="بازبینی نگارش" imageMso="Grammar" size="large" onAction="btnPunctuation_Click" />
         </group >
         <group id="Explor" label="کاوشگر متن">          
+          
+          <button id="btnOptical" label="نویسه خوان" imageMso="CrossReferenceInsert" size="large" screentip="او سی ار فارسی" onAction="btnOpticalC_Click" />
           <button id="btnSummerizer" label="خلاصه" imageMso="FunctionWizard" size="large" onAction="btnSummerizer_Click" />
           <button id="btnLDA" label="عناوین" imageMso="PivotChartLegendShowHide" size="large" onAction="btnSLDA_Click" />
-          <!--<button id="AboutButton" label="درباره" imageMso="CreateFormBlankForm" size="large" onAction="AboutButton_Click" />-->
         </group >
-        
       </tab>
     </tabs>
   </ribbon>
