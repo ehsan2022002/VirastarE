@@ -1,10 +1,8 @@
-using System.Diagnostics;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2007 August 27
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -28,7 +26,7 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "btreeInt.h"
+        //#include "btreeInt.h"
 #if !SQLITE_OMIT_SHARED_CACHE
 #if SQLITE_THREADSAFE
 
@@ -299,5 +297,5 @@ if( p ){
 #endif //* if SQLITE_THREADSAFE */
 #endif //* ifndef SQLITE_OMIT_SHARED_CACHE */
 
-	}
+    }
 }

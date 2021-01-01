@@ -33,26 +33,24 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenNLP.Tools.SentenceDetect
 {
-	/// <summary>
-	/// The default end of sentence scanner implements all of the
-	/// EndOfSentenceScanner methods in terms of the GetPositions(char[])
-	/// method.
-	/// It scans for '.', '?', '!', '"'
-	/// </summary>
-	public class DefaultEndOfSentenceScanner : IEndOfSentenceScanner
-	{
-        private static readonly List<char> defaultEndOfSentenceCharacters = new List<char>(){'?','!','.'};
-        
-	    /// <summary> 
-	    /// Creates a new <code>DefaultEndOfSentenceScanner</code> instance.
-	    /// </summary>
-	    public DefaultEndOfSentenceScanner(){}
+    /// <summary>
+    /// The default end of sentence scanner implements all of the
+    /// EndOfSentenceScanner methods in terms of the GetPositions(char[])
+    /// method.
+    /// It scans for '.', '?', '!', '"'
+    /// </summary>
+    public class DefaultEndOfSentenceScanner : IEndOfSentenceScanner
+    {
+        private static readonly List<char> defaultEndOfSentenceCharacters = new List<char>() { '?', '!', '.' };
+
+        /// <summary> 
+        /// Creates a new <code>DefaultEndOfSentenceScanner</code> instance.
+        /// </summary>
+        public DefaultEndOfSentenceScanner() { }
 
 
         public List<char> GetPotentialEndOfSentenceCharacters()
@@ -61,26 +59,26 @@ namespace OpenNLP.Tools.SentenceDetect
         }
 
         public virtual List<int> GetPositions(string input)
-		{
-			return GetPositions(input.ToCharArray());
-		}
+        {
+            return GetPositions(input.ToCharArray());
+        }
 
         public virtual List<int> GetPositions(System.Text.StringBuilder buffer)
-		{
-			return GetPositions(buffer.ToString().ToCharArray());
-		}
-		
-		public virtual List<int> GetPositions(char[] charBuffer)
-		{
+        {
+            return GetPositions(buffer.ToString().ToCharArray());
+        }
+
+        public virtual List<int> GetPositions(char[] charBuffer)
+        {
             var positionList = new List<int>();
-			
-			for (int currentChar = 0; currentChar < charBuffer.Length; currentChar++)
-			{
-			    if (this.GetPotentialEndOfSentenceCharacters().Contains(charBuffer[currentChar]))
-			    {
-			        positionList.Add(currentChar);
-			    }
-				/*switch (charBuffer[currentChar])
+
+            for (int currentChar = 0; currentChar < charBuffer.Length; currentChar++)
+            {
+                if (this.GetPotentialEndOfSentenceCharacters().Contains(charBuffer[currentChar]))
+                {
+                    positionList.Add(currentChar);
+                }
+                /*switch (charBuffer[currentChar])
 				{	
 					case '.': 
 					case '?': 
@@ -90,14 +88,14 @@ namespace OpenNLP.Tools.SentenceDetect
 					default: 
 						break;
 				}*/
-			}
-			return positionList;
-		}
+            }
+            return positionList;
+        }
 
 
-	    public static List<char> GetDefaultEndOfSentenceCharacters()
-	    {
-	        return defaultEndOfSentenceCharacters;
-	    }
-	}
+        public static List<char> GetDefaultEndOfSentenceCharacters()
+        {
+            return defaultEndOfSentenceCharacters;
+        }
+    }
 }

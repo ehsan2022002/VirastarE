@@ -33,38 +33,36 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
 
-using System;
-
 namespace SharpEntropy
 {
-	/// <summary>
-	/// Generate contexts for maxent decisions, assuming that the input
-	/// given to the GetContext() method is a string containing contextual
-	/// predicates separated by spaces, e.g:
-	/// <p>
-	/// cp_1 cp_2 ... cp_n
-	/// </p>
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>based on BasicContextGenerator.java, $Revision: 1.2 $, $Date: 2002/04/30 08:48:35 $
-	/// </version>
-	public class BasicContextGenerator : IContextGenerator<string>
-	{
-		/// <summary>
-		/// Builds up the list of contextual predicates given a string.
-		/// </summary>
-		/// <param name="input">
-		/// string with contextual predicates separated by spaces.
-		/// </param>
-		/// <returns>string array of contextual predicates.</returns>
-		public virtual string[] GetContext(string input)
-		{
-			return input.Split(' ');
-		}
-	}
+    /// <summary>
+    /// Generate contexts for maxent decisions, assuming that the input
+    /// given to the GetContext() method is a string containing contextual
+    /// predicates separated by spaces, e.g:
+    /// <p>
+    /// cp_1 cp_2 ... cp_n
+    /// </p>
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>based on BasicContextGenerator.java, $Revision: 1.2 $, $Date: 2002/04/30 08:48:35 $
+    /// </version>
+    public class BasicContextGenerator : IContextGenerator<string>
+    {
+        /// <summary>
+        /// Builds up the list of contextual predicates given a string.
+        /// </summary>
+        /// <param name="input">
+        /// string with contextual predicates separated by spaces.
+        /// </param>
+        /// <returns>string array of contextual predicates.</returns>
+        public virtual string[] GetContext(string input)
+        {
+            return input.Split(' ');
+        }
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2007 August 28
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -34,7 +34,7 @@ namespace System.Data.SQLite
 		*/
 
 
-		/*
+        /*
 		** Figure out what version of the code to use.  The choices are
 		**
 		**   SQLITE_MUTEX_OMIT         No mutex logic.  Not even stubs.  The
@@ -53,20 +53,20 @@ namespace System.Data.SQLite
 		**   SQLITE_MUTEX_OS2          For multi-threaded applications on OS/2.
 		*/
 
-		//#if !SQLITE_THREADSAFE
-		//# define SQLITE_MUTEX_OMIT
-		//#endif
-		//#if SQLITE_THREADSAFE && !defined(SQLITE_MUTEX_NOOP)
-		//#  if SQLITE_OS_UNIX
-		//#    define SQLITE_MUTEX_PTHREADS
-		//#  elif SQLITE_OS_WIN
-		//#    define SQLITE_MUTEX_W32
-		//#  elif SQLITE_OS_OS2
-		//#    define SQLITE_MUTEX_OS2
-		//#  else
-		//#    define SQLITE_MUTEX_NOOP
-		//#  endif
-		//#endif
+        //#if !SQLITE_THREADSAFE
+        //# define SQLITE_MUTEX_OMIT
+        //#endif
+        //#if SQLITE_THREADSAFE && !defined(SQLITE_MUTEX_NOOP)
+        //#  if SQLITE_OS_UNIX
+        //#    define SQLITE_MUTEX_PTHREADS
+        //#  elif SQLITE_OS_WIN
+        //#    define SQLITE_MUTEX_W32
+        //#  elif SQLITE_OS_OS2
+        //#    define SQLITE_MUTEX_OS2
+        //#  else
+        //#    define SQLITE_MUTEX_NOOP
+        //#  endif
+        //#endif
 
 #if WINDOWS_PHONE && SQLITE_THREADSAFE
 #error  Cannot compile with both WINDOWS_PHONE and SQLITE_THREADSAFE
@@ -93,49 +93,49 @@ namespace System.Data.SQLite
 #endif
 
 #if SQLITE_MUTEX_OMIT
-		/*
+        /*
 ** If this is a no-op implementation, implement everything as macros.
 */
-		public class sqlite3_mutex
-		{
-		}
-		static sqlite3_mutex mutex = null;  //sqlite3_mutex sqlite3_mutex;
-		static sqlite3_mutex sqlite3MutexAlloc(int iType)
-		{
-			return new sqlite3_mutex();
-		}//#define sqlite3MutexAlloc(X)      ((sqlite3_mutex*)8)
-		static sqlite3_mutex sqlite3_mutex_alloc(int iType)
-		{
-			return new sqlite3_mutex();
-		}//#define sqlite3_mutex_alloc(X)    ((sqlite3_mutex*)8)
-		static void sqlite3_mutex_free(sqlite3_mutex m)
-		{
-		}          //#define sqlite3_mutex_free(X)
-		static void sqlite3_mutex_enter(sqlite3_mutex m)
-		{
-		}            //#define sqlite3_mutex_enter(X)
-		static int sqlite3_mutex_try(int iType)
-		{
-			return SQLITE_OK;
-		}   //#define sqlite3_mutex_try(X)      SQLITE_OK
-		static void sqlite3_mutex_leave(sqlite3_mutex m)
-		{
-		}            //#define sqlite3_mutex_leave(X)
-		static bool sqlite3_mutex_held(sqlite3_mutex m)
-		{
-			return true;
-		}//#define sqlite3_mutex_held(X)     ((void)(X),1)
-		static bool sqlite3_mutex_notheld(sqlite3_mutex m)
-		{
-			return true;
-		}   //#define sqlite3_mutex_notheld(X)  ((void)(X),1)
-		static int sqlite3MutexInit()
-		{
-			return SQLITE_OK;
-		}              //#define sqlite3MutexInit()        SQLITE_OK
-		static void sqlite3MutexEnd()
-		{
-		}                                //#define sqlite3MutexEnd()
+        public class sqlite3_mutex
+        {
+        }
+        static sqlite3_mutex mutex = null;  //sqlite3_mutex sqlite3_mutex;
+        static sqlite3_mutex sqlite3MutexAlloc(int iType)
+        {
+            return new sqlite3_mutex();
+        }//#define sqlite3MutexAlloc(X)      ((sqlite3_mutex*)8)
+        static sqlite3_mutex sqlite3_mutex_alloc(int iType)
+        {
+            return new sqlite3_mutex();
+        }//#define sqlite3_mutex_alloc(X)    ((sqlite3_mutex*)8)
+        static void sqlite3_mutex_free(sqlite3_mutex m)
+        {
+        }          //#define sqlite3_mutex_free(X)
+        static void sqlite3_mutex_enter(sqlite3_mutex m)
+        {
+        }            //#define sqlite3_mutex_enter(X)
+        static int sqlite3_mutex_try(int iType)
+        {
+            return SQLITE_OK;
+        }   //#define sqlite3_mutex_try(X)      SQLITE_OK
+        static void sqlite3_mutex_leave(sqlite3_mutex m)
+        {
+        }            //#define sqlite3_mutex_leave(X)
+        static bool sqlite3_mutex_held(sqlite3_mutex m)
+        {
+            return true;
+        }//#define sqlite3_mutex_held(X)     ((void)(X),1)
+        static bool sqlite3_mutex_notheld(sqlite3_mutex m)
+        {
+            return true;
+        }   //#define sqlite3_mutex_notheld(X)  ((void)(X),1)
+        static int sqlite3MutexInit()
+        {
+            return SQLITE_OK;
+        }              //#define sqlite3MutexInit()        SQLITE_OK
+        static void sqlite3MutexEnd()
+        {
+        }                                //#define sqlite3MutexEnd()
 #endif //* defined(SQLITE_MUTEX_OMIT) */
-	}
+    }
 }

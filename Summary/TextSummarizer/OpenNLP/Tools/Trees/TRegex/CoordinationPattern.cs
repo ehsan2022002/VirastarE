@@ -1,9 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {

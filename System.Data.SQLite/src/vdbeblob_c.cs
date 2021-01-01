@@ -1,12 +1,8 @@
-using System.Diagnostics;
-
 namespace System.Data.SQLite
 {
-	using sqlite3_stmt = Sqlite3.Vdbe;
-
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2007 May 1
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -27,8 +23,8 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
-		//#include "vdbeInt.h"
+        //#include "sqliteInt.h"
+        //#include "vdbeInt.h"
 
 #if !SQLITE_OMIT_INCRBLOB
 /*
@@ -399,5 +395,5 @@ int sqlite3_blob_bytes(sqlite3_blob *pBlob){
 }
 
 #endif // * #if !SQLITE_OMIT_INCRBLOB */
-	}
+    }
 }

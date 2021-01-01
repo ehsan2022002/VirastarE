@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Util
+﻿namespace OpenNLP.Tools.Util
 {
     /// <summary>
     /// Just a single integer
@@ -17,12 +11,12 @@ namespace OpenNLP.Tools.Util
         public IntUni() : base(1)
         {
         }
-        
+
         public IntUni(int src) : this()
         {
             elements[0] = src;
         }
-        
+
         public int GetSource()
         {
             return elements[0];

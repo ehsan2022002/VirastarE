@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tesseract
+﻿namespace Tesseract
 {
-    public enum PageIteratorLevel : int
+    public enum PageIteratorLevel
     {
         Block,
-        Para, 
-        TextLine, 
-        Word, 
+        Para,
+        TextLine,
+        Word,
         Symbol
     }
 }

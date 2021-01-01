@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 using OpenNLP.Tools.Util;
+using System;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -48,7 +44,7 @@ namespace OpenNLP.Tools.Trees
 
             if (Governor() is IHasIndex)
             {
-                headIndex = ((IHasIndex) Governor()).Index();
+                headIndex = ((IHasIndex)Governor()).Index();
             }
             else
             {
@@ -56,7 +52,7 @@ namespace OpenNLP.Tools.Trees
             }
             if (Dependent() is IHasIndex)
             {
-                depIndex = ((IHasIndex) Dependent()).Index();
+                depIndex = ((IHasIndex)Dependent()).Index();
             }
             else
             {
@@ -76,7 +72,7 @@ namespace OpenNLP.Tools.Trees
 
         public override int GetHashCode()
         {
-            return headIndex*(depIndex << 16);
+            return headIndex * (depIndex << 16);
         }
 
         public override bool Equals(Object o)
@@ -89,7 +85,7 @@ namespace OpenNLP.Tools.Trees
             {
                 return false;
             }
-            var d = (UnnamedConcreteDependency) o;
+            var d = (UnnamedConcreteDependency)o;
             return headIndex == d.headIndex && depIndex == d.depIndex;
         }
 

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Parser;
-
-namespace OpenNLP.Tools.Trees
+﻿namespace OpenNLP.Tools.Trees
 {
     public class EnglishGrammaticalStructureFactory : IGrammaticalStructureFactory
     {
@@ -24,7 +17,7 @@ namespace OpenNLP.Tools.Trees
         public GrammaticalStructure NewGrammaticalStructure(Tree t)
         {
             /*if (puncFilter == null && hf == null) {*/
-                return new EnglishGrammaticalStructure(t); /*
+            return new EnglishGrammaticalStructure(t); /*
             } else if (hf == null) {
               return new EnglishGrammaticalStructure(t, puncFilter);
             } else {

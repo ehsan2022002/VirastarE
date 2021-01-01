@@ -33,16 +33,15 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Text;
 
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	/// <summary>
+    /// <summary>
     /// Default implementation of some methods in the {@link IResolver} interface.
     /// </summary>
-	public abstract class AbstractResolver : IResolver
-	{
+    public abstract class AbstractResolver : IResolver
+    {
         /// <summary>
         /// The number of previous entities that resolver should consider.
         /// </summary>
@@ -59,8 +58,8 @@ namespace OpenNLP.Tools.Coreference.Resolver
         /// The number of sentences back this resolver should look for a referent.
         /// </summary>
         private int mNumberSentencesBack;
-		
-		/// <summary>
+
+        /// <summary>
         /// The number of sentences back this resolver should look for a referent.
         /// </summary>
         protected internal virtual int NumberSentencesBack
@@ -105,281 +104,281 @@ namespace OpenNLP.Tools.Coreference.Resolver
             }
         }
 
-		protected AbstractResolver(int numberEntitiesBack)
-		{
+        protected AbstractResolver(int numberEntitiesBack)
+        {
             mNumberEntitiesBack = numberEntitiesBack;
-			mShowExclusions = true;
-			mDistances = new Util.CountedSet<int>();
-		}
-		
-		/// <summary>
+            mShowExclusions = true;
+            mDistances = new Util.CountedSet<int>();
+        }
+
+        /// <summary>
         /// Returns the number of previous entities that resolver should consider.
         /// </summary>
-		/// <returns>
+        /// <returns>
         /// the number of previous entities that resolver should consider.
-		/// </returns>
-		protected internal virtual int GetNumberEntitiesBack()
-		{
-			return mNumberEntitiesBack;
-		}
-		
-		/// <summary>
+        /// </returns>
+        protected internal virtual int GetNumberEntitiesBack()
+        {
+            return mNumberEntitiesBack;
+        }
+
+        /// <summary>
         /// The number of entites that should be considered for resolution with the specified discourse model.
         /// </summary>
-		/// <param name="discourseModel">
+        /// <param name="discourseModel">
         /// The discourse model.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// number of entites that should be considered for resolution.
-		/// </returns>
+        /// </returns>
         protected internal virtual int GetNumberEntitiesBack(DiscourseModel discourseModel)
-		{
+        {
             return System.Math.Min(discourseModel.EntityCount, mNumberEntitiesBack);
-		}
-		
-		/// <summary>
+        }
+
+        /// <summary>
         /// Returns the head parse for the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the head parse for the specified mention.
-		/// </returns>
+        /// </returns>
         protected internal virtual Mention.IParse GetHead(Mention.MentionContext mention)
-		{
-			return mention.HeadTokenParse;
-		}
-		
-		/// <summary>
+        {
+            return mention.HeadTokenParse;
+        }
+
+        /// <summary>
         /// Returns the index for the head word for the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the index for the head word for the specified mention.
-		/// </returns>
+        /// </returns>
         protected internal virtual int GetHeadIndex(Mention.MentionContext mention)
-		{
+        {
             Mention.IParse[] mentionTokens = mention.TokenParses;
-			for (int currentToken = mentionTokens.Length - 1; currentToken >= 0; currentToken--)
-			{
+            for (int currentToken = mentionTokens.Length - 1; currentToken >= 0; currentToken--)
+            {
                 Mention.IParse token = mentionTokens[currentToken];
-				if (token.SyntacticType != PartsOfSpeech.PossessiveEnding 
-                    && token.SyntacticType != PartsOfSpeech.Comma 
+                if (token.SyntacticType != PartsOfSpeech.PossessiveEnding
+                    && token.SyntacticType != PartsOfSpeech.Comma
                     && token.SyntacticType != PartsOfSpeech.SentenceFinalPunctuation)
-				{
-					return currentToken;
-				}
-			}
-			return mentionTokens.Length - 1;
-		}
-		
-		/// <summary>
+                {
+                    return currentToken;
+                }
+            }
+            return mentionTokens.Length - 1;
+        }
+
+        /// <summary>
         /// Returns the text of the head word for the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// The text of the head word for the specified mention.
-		/// </returns>
+        /// </returns>
         protected internal virtual string GetHeadString(Mention.MentionContext mention)
-		{
-			return mention.HeadTokenText.ToLower();
-		}
-		
-		/// <summary>
+        {
+            return mention.HeadTokenText.ToLower();
+        }
+
+        /// <summary>
         /// Determines if the specified entity is too far from the specified mention to be resolved to it.  
-		/// Once an entity has been determined to be out of range subsequent entities are not considered.
-		/// </summary>
-		/// <seealso cref="IsExcluded">
-		/// </seealso>
-		/// <param name="mention">
+        /// Once an entity has been determined to be out of range subsequent entities are not considered.
+        /// </summary>
+        /// <seealso cref="IsExcluded">
+        /// </seealso>
+        /// <param name="mention">
         /// The mention which is being considered.
-		/// </param>
-		/// <param name="entity">
+        /// </param>
+        /// <param name="entity">
         /// The entity to which the mention is to be resolved.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// true is the entity is in range of the mention, false otherwise.
-		/// </returns>
+        /// </returns>
         protected internal virtual bool IsOutOfRange(Mention.MentionContext mention, DiscourseEntity entity)
-		{
-			return false;
-		}
-		
-		/// <summary>
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Excludes entities which you are not compatible with the entity under consideration.  The default 
-		/// implementation excludes entties whose last extent contains the extent under consideration.
-		/// This prevents posessive pronouns from referring to the noun phrases they modify and other 
-		/// undesirable things.
-		/// </summary>
-		/// <param name="mention">
+        /// implementation excludes entties whose last extent contains the extent under consideration.
+        /// This prevents posessive pronouns from referring to the noun phrases they modify and other 
+        /// undesirable things.
+        /// </summary>
+        /// <param name="mention">
         /// The mention which is being considered as referential.
-		/// </param>
-		/// <param name="entity">
+        /// </param>
+        /// <param name="entity">
         /// The entity to which the mention is to be resolved.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// true if the entity should be excluded, false otherwise.
-		/// </returns>
-		protected internal virtual bool IsExcluded(Mention.MentionContext mention, DiscourseEntity entity)
-		{
+        /// </returns>
+        protected internal virtual bool IsExcluded(Mention.MentionContext mention, DiscourseEntity entity)
+        {
             Mention.MentionContext context = entity.LastExtent;
             return mention.SentenceNumber == context.SentenceNumber && mention.IndexSpan.End <= context.IndexSpan.End;
-		}
+        }
 
         public virtual DiscourseEntity Retain(Mention.MentionContext mention, DiscourseModel discourseModel)
-		{
-			int entityIndex = 0;
-			if (mention.Id == - 1)
-			{
-				return null;
-			}
-			for (; entityIndex < discourseModel.EntityCount; entityIndex++)
-			{
-				DiscourseEntity currentDiscourseEntity = discourseModel.GetEntity(entityIndex);
+        {
+            int entityIndex = 0;
+            if (mention.Id == -1)
+            {
+                return null;
+            }
+            for (; entityIndex < discourseModel.EntityCount; entityIndex++)
+            {
+                DiscourseEntity currentDiscourseEntity = discourseModel.GetEntity(entityIndex);
                 Mention.MentionContext candidateExtentContext = currentDiscourseEntity.LastExtent;
-				if (candidateExtentContext.Id == mention.Id)
-				{
-					Distances.Add(entityIndex);
-					return currentDiscourseEntity;
-				}
-			}
-			return null;
-		}
-		
-		/// <summary>
+                if (candidateExtentContext.Id == mention.Id)
+                {
+                    Distances.Add(entityIndex);
+                    return currentDiscourseEntity;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Returns the string of "_" delimited tokens for the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the string of "_" delimited tokens for the specified mention.
-		/// </returns>
+        /// </returns>
         protected internal virtual string GetFeatureString(Mention.MentionContext mention)
-		{
-			var output = new StringBuilder();
-			object[] mentionTokens = mention.Tokens;
-			output.Append(mentionTokens[0].ToString());
+        {
+            var output = new StringBuilder();
+            object[] mentionTokens = mention.Tokens;
+            output.Append(mentionTokens[0].ToString());
             for (int currentToken = 1; currentToken < mentionTokens.Length; currentToken++)
-			{
-				output.Append("_").Append(mentionTokens[currentToken].ToString());
-			}
-			return output.ToString();
-		}
-		
-		/// <summary>
+            {
+                output.Append("_").Append(mentionTokens[currentToken].ToString());
+            }
+            return output.ToString();
+        }
+
+        /// <summary>
         /// Returns a string for the specified mention with punctuation, honorifics, designators, and determiners removed.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention to be stripped.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// a normalized string representation of the specified mention.
-		/// </returns>
+        /// </returns>
         protected internal virtual string StripNounPhrase(Mention.MentionContext mention)
-		{
-			int start = mention.NonDescriptorStart; //start after descriptors
+        {
+            int start = mention.NonDescriptorStart; //start after descriptors
 
             Mention.IParse[] mentionTokens = mention.TokenParses;
-			int end = mention.HeadTokenIndex + 1;
-			if (start == end)
-			{
+            int end = mention.HeadTokenIndex + 1;
+            if (start == end)
+            {
                 return null;
-			}
-			//strip determiners
-			if (mentionTokens[start].SyntacticType == PartsOfSpeech.Determiner)
-			{
-				start++;
-			}
-			if (start == end)
-			{
-				return null;
-			}
-			//get to first NNP
-		    for (int index = start; index < end; index++)
-			{
-				string type = mentionTokens[start].SyntacticType;
-				if (PartsOfSpeech.IsProperNoun(type))
-				{
-					break;
-				}
-				start++;
-			}
-			if (start == end)
-			{
-				return null;
-			}
-			if (start + 1 != end)
-			{
-				// don't do this on head words, to keep "U.S."
-				//strip off honorifics in begining
+            }
+            //strip determiners
+            if (mentionTokens[start].SyntacticType == PartsOfSpeech.Determiner)
+            {
+                start++;
+            }
+            if (start == end)
+            {
+                return null;
+            }
+            //get to first NNP
+            for (int index = start; index < end; index++)
+            {
+                string type = mentionTokens[start].SyntacticType;
+                if (PartsOfSpeech.IsProperNoun(type))
+                {
+                    break;
+                }
+                start++;
+            }
+            if (start == end)
+            {
+                return null;
+            }
+            if (start + 1 != end)
+            {
+                // don't do this on head words, to keep "U.S."
+                //strip off honorifics in begining
                 if (Linker.HonorificsPattern.IsMatch(mentionTokens[start].ToString()))
-				{
-					start++;
-				}
-				if (start == end)
-				{
-					return null;
-				}
-				//strip off and honorifics on the end
+                {
+                    start++;
+                }
+                if (start == end)
+                {
+                    return null;
+                }
+                //strip off and honorifics on the end
                 if (Linker.DesignatorsPattern.IsMatch(mentionTokens[mentionTokens.Length - 1].ToString()))
-				{
-					end--;
-				}
-			}
-			if (start == end)
-			{
-				return null;
-			}
+                {
+                    end--;
+                }
+            }
+            if (start == end)
+            {
+                return null;
+            }
             var strip = new StringBuilder();
-			for (int i = start; i < end; i++)
-			{
-				strip.Append(mentionTokens[i].ToString()).Append(" ");
-			}
-			return strip.ToString().Trim();
-		}
-		
-		
-		public virtual void Train()
-		{
-		}
-		
-		/// <summary>
+            for (int i = start; i < end; i++)
+            {
+                strip.Append(mentionTokens[i].ToString()).Append(" ");
+            }
+            return strip.ToString().Trim();
+        }
+
+
+        public virtual void Train()
+        {
+        }
+
+        /// <summary>
         /// Returns a string representing the gender of the specifed pronoun.
         /// </summary>
-		/// <param name="pronoun">
+        /// <param name="pronoun">
         /// An English pronoun. 
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the gender of the specifed pronoun.
-		/// </returns>
-		public static string GetPronounGender(string pronoun)
-		{
+        /// </returns>
+        public static string GetPronounGender(string pronoun)
+        {
             //java uses "Matcher.matches" to check if the whole string matches the pattern
             if (Linker.MalePronounPattern.IsMatch(pronoun))
-			{
-				return "m";
-			}
+            {
+                return "m";
+            }
             else if (Linker.FemalePronounPattern.IsMatch(pronoun))
-			{
-				return "f";
-			}
+            {
+                return "f";
+            }
             else if (Linker.NeuterPronounPattern.IsMatch(pronoun))
-			{
-				return "n";
-			}
-			else
-			{
-				return "u";
-			}
-		}
-		
-		public abstract bool CanResolve(Mention.MentionContext mention);
-		public abstract DiscourseEntity Resolve(Mention.MentionContext expression, DiscourseModel discourseModel);
-	}
+            {
+                return "n";
+            }
+            else
+            {
+                return "u";
+            }
+        }
+
+        public abstract bool CanResolve(Mention.MentionContext mention);
+        public abstract DiscourseEntity Resolve(Mention.MentionContext expression, DiscourseModel discourseModel);
+    }
 }

@@ -35,83 +35,82 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 
 namespace OpenNLP.Tools.Tokenize
 {
-	/// <summary>
-	/// Generate event contexts for maxent decisions for tokenization detection.
-	/// </summary>
-	public class TokenEventReader : SharpEntropy.ITrainingEventReader
-	{
+    /// <summary>
+    /// Generate event contexts for maxent decisions for tokenization detection.
+    /// </summary>
+    public class TokenEventReader : SharpEntropy.ITrainingEventReader
+    {
         private static readonly SharpEntropy.IContextGenerator<Tuple<string, int>> ContextGenerator = new TokenContextGenerator();
-		private readonly StreamReader _streamReader;
+        private readonly StreamReader _streamReader;
         private readonly List<SharpEntropy.TrainingEvent> _eventList = new List<SharpEntropy.TrainingEvent>();
-		private int _currentEvent = 0;
-	    private readonly char _tokenSeparator;
-		
+        private int _currentEvent = 0;
+        private readonly char _tokenSeparator;
+
         // Constructors ---------------
 
-		public TokenEventReader(StreamReader dataReader, char tokenSeparator)
-		{
-		    _tokenSeparator = tokenSeparator;
-			_streamReader = dataReader;
-			string nextLine = _streamReader.ReadLine();
-			if (nextLine != null)
-			{
-				AddEvents(nextLine);
-			}
-		}
+        public TokenEventReader(StreamReader dataReader, char tokenSeparator)
+        {
+            _tokenSeparator = tokenSeparator;
+            _streamReader = dataReader;
+            string nextLine = _streamReader.ReadLine();
+            if (nextLine != null)
+            {
+                AddEvents(nextLine);
+            }
+        }
 
         // Methods --------------------
-		
-		private void AddEvents(string line)
-		{
-		    string[] wordsWithSeparatorToken = line.Split(' ');
-		    foreach (string wordWithSeparatorToken in wordsWithSeparatorToken)
-		    {
-		        var parts = wordWithSeparatorToken.Split(_tokenSeparator);
-		        var indicesOfSeparators = new List<int>();
-		        for (var i = 1; i < parts.Length; i++)
-		        {
-		            var indexOfSeparator = parts.Where((p, index) => index < i).Sum(p => p.Length);
+
+        private void AddEvents(string line)
+        {
+            string[] wordsWithSeparatorToken = line.Split(' ');
+            foreach (string wordWithSeparatorToken in wordsWithSeparatorToken)
+            {
+                var parts = wordWithSeparatorToken.Split(_tokenSeparator);
+                var indicesOfSeparators = new List<int>();
+                for (var i = 1; i < parts.Length; i++)
+                {
+                    var indexOfSeparator = parts.Where((p, index) => index < i).Sum(p => p.Length);
                     indicesOfSeparators.Add(indexOfSeparator);
-		        }
+                }
 
-		        var word = string.Join("", parts);
-		        for (int index = 0; index < word.Length; index++)
-		        {
-		            string[] context = ContextGenerator.GetContext(new Tuple<string, int>(word, index));
+                var word = string.Join("", parts);
+                for (int index = 0; index < word.Length; index++)
+                {
+                    string[] context = ContextGenerator.GetContext(new Tuple<string, int>(word, index));
 
-		            var outcome = indicesOfSeparators.Contains(index) ? "T" : "F";
+                    var outcome = indicesOfSeparators.Contains(index) ? "T" : "F";
                     var trainingEvent = new SharpEntropy.TrainingEvent(outcome, context);
-		            _eventList.Add(trainingEvent);
-		        }
-		    }
-		}
+                    _eventList.Add(trainingEvent);
+                }
+            }
+        }
 
-	    public virtual bool HasNext()
-		{
-			return (_currentEvent < _eventList.Count);
-		}
-		
-		public virtual SharpEntropy.TrainingEvent ReadNextEvent()
-		{
-			SharpEntropy.TrainingEvent trainingEvent = _eventList[_currentEvent];
-			_currentEvent++;
-			if (_eventList.Count == _currentEvent)
-			{
-				_currentEvent = 0;
-				_eventList.Clear();
-				string nextLine = _streamReader.ReadLine();
-				if (nextLine != null)
-				{
-					AddEvents(nextLine);
-				}
-			}
-			return trainingEvent;
-		}
-	}
+        public virtual bool HasNext()
+        {
+            return (_currentEvent < _eventList.Count);
+        }
+
+        public virtual SharpEntropy.TrainingEvent ReadNextEvent()
+        {
+            SharpEntropy.TrainingEvent trainingEvent = _eventList[_currentEvent];
+            _currentEvent++;
+            if (_eventList.Count == _currentEvent)
+            {
+                _currentEvent = 0;
+                _eventList.Clear();
+                string nextLine = _streamReader.ReadLine();
+                if (nextLine != null)
+                {
+                    AddEvents(nextLine);
+                }
+            }
+            return trainingEvent;
+        }
+    }
 }

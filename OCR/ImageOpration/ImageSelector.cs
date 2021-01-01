@@ -1,24 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BorzoyaSpell;
 using Tesseract;
 
 namespace ImageOpration
 {
     public partial class ImageSelector : Form
     {
-        private readonly ImageHandler imageHandler = new ImageHandler();
+        private readonly ImageHandler _imageHandler = new ImageHandler();
+
+        private readonly CheakSpell _checkSpell;
 
         //private float x1, y1, x2, y2 = 0;
         //private double zoomFactor = 1;
 
-        public ImageSelector()
+        public ImageSelector(CheakSpell checkSpell)
         {
             InitializeComponent();
             pictureBoxProcess.Visible = false;
+            listBoxFiles.Items.Clear();
+
+            _checkSpell = checkSpell;
         }
 
         private void btnOCR_Click(object sender, EventArgs e)
@@ -27,42 +36,64 @@ namespace ImageOpration
             btnOCR.Text = @"در حال انجام";
             btnOCR.Enabled = false;
             btnOpenFile.Enabled = false;
-            var currentImage = FilePathLable.Text;
+            chkSpell.Enabled = false;
 
-            Task task = Task.Run(() => ProcessOcr(currentImage));
-            task.GetAwaiter().OnCompleted(this.Close);
-           
+            var currentImages = new List<string>();
+
+            if (listBoxFiles.SelectedItems.Count == 0)
+                for (var i = 0; i < listBoxFiles.Items.Count; i++)
+                    listBoxFiles.SetSelected(i, true);
+
+            foreach (var item in listBoxFiles.SelectedItems) currentImages.Add(item.ToString());
+
+            var task = Task.Run(() => ProcessOcr(currentImages));
+
+            task.GetAwaiter().OnCompleted(Close);
         }
 
-        private void btnInvert_Click(object sender, EventArgs e)
-        {
-            imageHandler.RestorePrevious();
-            imageHandler.SetInvert();
 
-            PictureboxCurrent.Image = imageHandler.CurrentBitmap;
-            PictureboxCurrent.Refresh();
-        }
-
-        private void ProcessOcr(string currentImage)
+        private void ProcessOcr(List<string> currentImages)
         {
             try
             {
                 var datapath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\\tessdata";
 
+                Results.AutoCorrect = chkSpell.Checked;
+
                 using (var engine = new TesseractEngine(datapath, "fas+eng", EngineMode.Default))
                 {
-                    
-                    // @"C:\\Users\\Ehsan\\Documents\\Visual Studio 2019\\OCR\\tesseract-master\\tesseract-master\\src\\Tesseract.Tests\\Data\\Ocr\\phototes3.tif";
-                    using (var img = Pix.LoadFromFile(currentImage))
-                    {
-                        using (var page = engine.Process(img))
+                    foreach (var image in currentImages)
+                        using (var img = Pix.LoadFromFile(image))
                         {
-                            var text = page.GetText();
-                            Results.OcrResult = text;
-                            Results.AutoCorrect = chkSpell.Checked;
-                            
+                            using (var page = engine.Process(img))
+                            {
+                                var text = page.GetText();
+                                Results.OcrResult += Environment.NewLine + text;
+                            }
                         }
+                } // engine
+
+                var correctedSentance = string.Empty;
+                if (Results.OcrResult.Trim().Length != 0)
+                {
+                    //Application.StatusBar = Util.UtilMessagesEnum.Processing;
+                    if (Results.AutoCorrect)
+                    {
+                        //Results.OcrResult =Regex.Replace(Results.OcrResult, @"\r\n?|\n", " ");
+                        var words = Results.OcrResult.Split(' ');
+
+                        foreach (var word in words)
+                            if (_checkSpell.Cheak_Spell(word.Trim()) == false)
+                                correctedSentance += " " + _checkSpell.SuggestOne(word.Trim());
+                            else
+                                correctedSentance += " " + word;
                     }
+                    else
+                    {
+                        correctedSentance = Results.OcrResult.Trim();
+                    }
+
+                    Results.OcrResult = correctedSentance;
                 }
             }
             catch (Exception exception)
@@ -71,21 +102,6 @@ namespace ImageOpration
             }
         }
 
-        private void btnRotate90_Click(object sender, EventArgs e)
-        {
-            imageHandler.RotateFlip(RotateFlipType.Rotate90FlipNone);
-
-            PictureboxCurrent.Image = imageHandler.CurrentBitmap;
-            PictureboxCurrent.Refresh();
-        }
-
-        private void btnRotate180_Click(object sender, EventArgs e)
-        {
-            imageHandler.RotateFlip(RotateFlipType.Rotate180FlipNone);
-
-            PictureboxCurrent.Image = imageHandler.CurrentBitmap;
-            PictureboxCurrent.Refresh();
-        }
 
         private void chkSpell_CheckedChanged(object sender, EventArgs e)
         {
@@ -95,7 +111,7 @@ namespace ImageOpration
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
             var openfiledialog = new OpenFileDialog();
-            openfiledialog.Multiselect = false;
+            openfiledialog.Multiselect = true;
             openfiledialog.Filter = @"Image files|*.jpg;*.tif|All files|*.*";
             try
             {
@@ -103,15 +119,19 @@ namespace ImageOpration
 
                 if (resulte == DialogResult.OK)
                 {
-                    FilePathLable.Text = openfiledialog.FileName;
-                    imageHandler.CurrentBitmap = (Bitmap) Image.FromFile(openfiledialog.FileName);
-                    imageHandler.BitmapPath = openfiledialog.FileName;
+                    var filesNames = openfiledialog.FileNames.ToList();
 
-                    PictureboxCurrent.Image = imageHandler.CurrentBitmap;
+                    if (filesNames.Count == 0)
+                        return;
+
+                    //listBoxFiles.Items.Clear();
+                    foreach (var file in filesNames) listBoxFiles.Items.Add(file);
+
+                    _imageHandler.CurrentBitmap = (Bitmap) Image.FromFile(filesNames.FirstOrDefault() ?? string.Empty);
+                    _imageHandler.BitmapPath = filesNames.FirstOrDefault();
+
+                    PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
                     PictureboxCurrent.Refresh();
-
-                    trackBarZoom.Value = 100;
-                    trackBarZoom_Scroll(null, null);
                 }
             }
             catch (Exception exception)
@@ -120,18 +140,76 @@ namespace ImageOpration
             }
         }
 
-        private void trackBarZoom_Scroll(object sender, EventArgs e)
+        private void Rotate90StripButton_Click(object sender, EventArgs e)
         {
-            PictureboxCurrent.Zoom = trackBarZoom.Value * 0.02f;
+            _imageHandler.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+            PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
+            PictureboxCurrent.Refresh();
         }
 
-        private void btnGrayscal_Click(object sender, EventArgs e)
+        private void Rotate180StripButton_Click(object sender, EventArgs e)
         {
-            imageHandler.RestorePrevious();
-            imageHandler.SetGrayscale();
+            _imageHandler.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
-            PictureboxCurrent.Image = imageHandler.CurrentBitmap;
+            PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
             PictureboxCurrent.Refresh();
+        }
+
+        private void ZoomInToolStripButton_Click(object sender, EventArgs e)
+        {
+            PictureboxCurrent.Zoom += PictureboxCurrent.Zoom * 0.02f;
+        }
+
+        private void ZoomOutToolStripButton_Click(object sender, EventArgs e)
+        {
+            PictureboxCurrent.Zoom -= PictureboxCurrent.Zoom * 0.02f;
+        }
+
+        private void BlackandWhiteStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _imageHandler.RestorePrevious();
+                _imageHandler.SetGrayscale();
+
+                PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
+                PictureboxCurrent.Refresh();
+            }
+            catch (Exception exception)
+            {
+                //ignore
+            }
+        }
+
+        private void InvertStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _imageHandler.RestorePrevious();
+                _imageHandler.SetInvert();
+
+                PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
+                PictureboxCurrent.Refresh();
+            }
+            catch (Exception exception)
+            {
+                //ignore
+            }
+        }
+
+        private void listBoxFiles_Click(object sender, EventArgs e)
+        {
+            if (listBoxFiles.SelectedItem != null)
+            {
+                var image = listBoxFiles.SelectedItem.ToString();
+
+                _imageHandler.CurrentBitmap = (Bitmap) Image.FromFile(image);
+                _imageHandler.BitmapPath = image;
+
+                PictureboxCurrent.Image = _imageHandler.CurrentBitmap;
+                PictureboxCurrent.Refresh();
+            }
         }
     }
 

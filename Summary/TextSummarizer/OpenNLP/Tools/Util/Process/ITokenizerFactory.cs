@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OpenNLP.Tools.Util.ObjectBank;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util.ObjectBank;
 
 namespace OpenNLP.Tools.Util.Process
 {

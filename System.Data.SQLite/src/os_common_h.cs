@@ -1,11 +1,8 @@
-using System.Diagnostics;
-using va_list = System.Object;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2004 May 22
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -31,9 +28,9 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#if !_OS_COMMON_H_
-		//#define _OS_COMMON_H_
-		/*
+        //#if !_OS_COMMON_H_
+        //#define _OS_COMMON_H_
+        /*
 		** At least two bugs have slipped in because we changed the MEMORY_DEBUG
 		** macro to SQLITE_DEBUG and some older makefiles have not yet made the
 		** switch.  The following code should catch this problem at compile-time.
@@ -51,11 +48,11 @@ namespace System.Data.SQLite
 		sqlite3DebugPrintf( X, ap );
 	}
 #else
-		//#define OSTRACE(X)
-		static void OSTRACE(string X, params object[] ap) { }
+        //#define OSTRACE(X)
+        static void OSTRACE(string X, params object[] ap) { }
 #endif
 
-		/*
+        /*
 ** Macros for performance tracing.  Normally turned off.  Only works
 ** on i486 hardware.
 */
@@ -73,12 +70,12 @@ static sqlite_u3264 g_elapsed;
 //#define TIMER_END         g_elapsed=sqlite3Hwtime()-g_start
 //#define TIMER_ELAPSED     g_elapsed
 #else
-		const int TIMER_START = 0;   //#define TIMER_START
-		const int TIMER_END = 0;     //#define TIMER_END
-		const int TIMER_ELAPSED = 0; //#define TIMER_ELAPSED     ((sqlite_u3264)0)
+        const int TIMER_START = 0;   //#define TIMER_START
+        const int TIMER_END = 0;     //#define TIMER_END
+        const int TIMER_ELAPSED = 0; //#define TIMER_ELAPSED     ((sqlite_u3264)0)
 #endif
 
-		/*
+        /*
 ** If we compile with the SQLITE_TEST macro set, then the following block
 ** of code will give us the ability to simulate a disk I/O error.  This
 ** is used for testing the I/O recovery logic.
@@ -191,15 +188,15 @@ static sqlite_u3264 g_elapsed;
 	  return false;
 	}
 #else
-		static bool SimulateIOError() { return false; }
-		//#define SimulateIOErrorBenign(X)
-		static void SimulateIOErrorBenign(int x) { }
+        static bool SimulateIOError() { return false; }
+        //#define SimulateIOErrorBenign(X)
+        static void SimulateIOErrorBenign(int x) { }
 
-		//#define SimulateIOError(A)
-		//#define SimulateDiskfullError(A)
+        //#define SimulateIOError(A)
+        //#define SimulateDiskfullError(A)
 #endif
 
-		/*
+        /*
 ** When testing, keep a count of the number of open files.
 */
 #if SQLITE_TEST
@@ -218,8 +215,8 @@ static sqlite_u3264 g_elapsed;
 #endif
 	}
 #else
-		//#define OpenCounter(X)
+        //#define OpenCounter(X)
 #endif
-		//#endif //* !_OS_COMMON_H_) */
-	}
+        //#endif //* !_OS_COMMON_H_) */
+    }
 }

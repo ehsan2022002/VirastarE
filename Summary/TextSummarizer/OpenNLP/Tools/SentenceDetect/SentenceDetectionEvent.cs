@@ -33,21 +33,19 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.SentenceDetect
 {
-	/// <summary>
-	/// An Event which can hold a pointer to another Event for use in a
-	/// linked list.
-	/// </summary>
-	public class SentenceDetectionEvent : SharpEntropy.TrainingEvent
-	{
-		internal SentenceDetectionEvent NextEvent { get; set; }
+    /// <summary>
+    /// An Event which can hold a pointer to another Event for use in a
+    /// linked list.
+    /// </summary>
+    public class SentenceDetectionEvent : SharpEntropy.TrainingEvent
+    {
+        internal SentenceDetectionEvent NextEvent { get; set; }
 
-		/// <summary> 
-		/// package access only
-		/// </summary>
-		internal SentenceDetectionEvent(string outcome, string[] context): base(outcome, context){}
-	}
+        /// <summary> 
+        /// package access only
+        /// </summary>
+        internal SentenceDetectionEvent(string outcome, string[] context) : base(outcome, context) { }
+    }
 }

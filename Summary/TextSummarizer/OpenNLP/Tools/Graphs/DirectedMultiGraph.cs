@@ -1,11 +1,10 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Graphs
 {
@@ -89,7 +88,7 @@ namespace OpenNLP.Tools.Graphs
                 return true;
             if (!(that is DirectedMultiGraph<V, E>))
                 return false;
-            return outgoingEdges.Equals(((DirectedMultiGraph<V, E>) that).outgoingEdges);
+            return outgoingEdges.Equals(((DirectedMultiGraph<V, E>)that).outgoingEdges);
         }
 
         /// <summary>
@@ -414,12 +413,12 @@ namespace OpenNLP.Tools.Graphs
             Dictionary<V, List<E>> childrenMap = outgoingEdges[source];
             if (childrenMap == null)
             {
-                return new ReadOnlyCollection<E>(new E[] {});
+                return new ReadOnlyCollection<E>(new E[] { });
             }
             List<E> edges = childrenMap[dest];
             if (edges == null)
             {
-                return new ReadOnlyCollection<E>(new E[] {});
+                return new ReadOnlyCollection<E>(new E[] { });
             }
             return new ReadOnlyCollection<E>(edges);
         }
@@ -440,7 +439,7 @@ namespace OpenNLP.Tools.Graphs
         {
             return ConvertPath(GetShortestPath(node1, node2), false);
         }
-        
+
         /// <summary>
         /// Can specify the direction sensitivity
         /// </summary>
@@ -603,7 +602,7 @@ namespace OpenNLP.Tools.Graphs
               edgeIterator.Remove();
             }
           }*/
-        
+
         /// <summary>
         /// Cast this multi-graph as a map from vertices, to the outgoing data along edges out of those vertices.
         /// </summary>

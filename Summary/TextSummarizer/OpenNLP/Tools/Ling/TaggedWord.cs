@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>TaggedWord</code> object contains a word and its tag.
@@ -55,7 +49,7 @@ namespace OpenNLP.Tools.Ling
         {
             if (oldLabel is IHasTag)
             {
-                this.vTag = ((IHasTag) oldLabel).Tag();
+                this.vTag = ((IHasTag)oldLabel).Tag();
             }
         }
 

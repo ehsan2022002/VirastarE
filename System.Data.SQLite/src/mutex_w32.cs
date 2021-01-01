@@ -1,13 +1,8 @@
-using System.Diagnostics;
-using DWORD = System.Int32;
-using System.Threading;
-using System;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2007 August 14
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -27,9 +22,9 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
-		/*
+        /*
 		** The code in this file is only used if we are compiling multithreaded
 		** on a win32 system.
 		*/
@@ -419,6 +414,6 @@ null
 	  return sMutex;
 	}
 #endif // * SQLITE_MUTEX_W32 */
-	}
+    }
 }
 

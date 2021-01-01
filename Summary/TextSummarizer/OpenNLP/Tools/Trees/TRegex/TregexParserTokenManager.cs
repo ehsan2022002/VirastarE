@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
     public class TregexParserTokenManager : TregexParserConstants
     {
-        
+
         private int JjStopStringLiteralDfa_0(int pos, long active0)
         {
             switch (pos)
@@ -68,45 +64,45 @@ namespace OpenNLP.Tools.Trees.TRegex
         {
             switch (CurChar)
             {
-                case (char) 9:
+                case (char)9:
                     return JjStartNfaWithStates_0(0, 3, 6);
-                case (char) 10:
+                case (char)10:
                     return JjStopAtPos(0, 13);
-                case (char) 33:
+                case (char)33:
                     return JjStopAtPos(0, 16);
-                case (char) 35:
+                case (char)35:
                     return JjStopAtPos(0, 18);
-                case (char) 37:
+                case (char)37:
                     return JjStopAtPos(0, 19);
-                case (char) 38:
+                case (char)38:
                     return JjStopAtPos(0, 22);
-                case (char) 40:
+                case (char)40:
                     return JjStopAtPos(0, 14);
-                case (char) 41:
+                case (char)41:
                     return JjStopAtPos(0, 15);
-                case (char) 59:
+                case (char)59:
                     return JjStopAtPos(0, 27);
-                case (char) 60:
+                case (char)60:
                     return JjMoveStringLiteralDfa1_0(0x20L);
-                case (char) 61:
+                case (char)61:
                     return JjStartNfaWithStates_0(0, 20, 1);
-                case (char) 63:
+                case (char)63:
                     return JjStopAtPos(0, 23);
-                case (char) 64:
+                case (char)64:
                     return JjStopAtPos(0, 17);
-                case (char) 91:
+                case (char)91:
                     return JjStopAtPos(0, 24);
-                case (char) 93:
+                case (char)93:
                     return JjStopAtPos(0, 25);
-                case (char) 95:
+                case (char)95:
                     return JjMoveStringLiteralDfa1_0(0x200L);
-                case (char) 123:
+                case (char)123:
                     return JjStopAtPos(0, 26);
-                case (char) 124:
+                case (char)124:
                     return JjStopAtPos(0, 12);
-                case (char) 125:
+                case (char)125:
                     return JjStopAtPos(0, 28);
-                case (char) 126:
+                case (char)126:
                     return JjStopAtPos(0, 21);
                 default:
                     return JjMoveNfa_0(0, 0);
@@ -126,9 +122,9 @@ namespace OpenNLP.Tools.Trees.TRegex
             }
             switch (CurChar)
             {
-                case (char) 46:
+                case (char)46:
                     return JjMoveStringLiteralDfa2_0(active0, 0x20L);
-                case (char) 95:
+                case (char)95:
                     if ((active0 & 0x200L) != 0L)
                         return JjStopAtPos(1, 9);
                     break;
@@ -153,7 +149,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             }
             switch (CurChar)
             {
-                case (char) 46:
+                case (char)46:
                     return JjMoveStringLiteralDfa3_0(active0, 0x20L);
                 default:
                     break;
@@ -176,7 +172,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             }
             switch (CurChar)
             {
-                case (char) 46:
+                case (char)46:
                     if ((active0 & 0x20L) != 0L)
                         return JjStopAtPos(3, 5);
                     break;
@@ -219,7 +215,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             int i = 1;
             jjstateSet[0] = startState;
             int kind = 0x7fffffff;
-            for (;;)
+            for (; ; )
             {
                 if (++jjround == 0x7fffffff)
                     ReInitRounds();
@@ -363,27 +359,27 @@ namespace OpenNLP.Tools.Trees.TRegex
                                     break;
                                 if (kind > 7)
                                     kind = 7;
-                            {
-                                JjCheckNAdd(4);
-                            }
+                                {
+                                    JjCheckNAdd(4);
+                                }
                                 break;
                             case 5:
                                 if ((0x2c84ffffdbffL & l) == 0L)
                                     break;
                                 if (kind > 8)
                                     kind = 8;
-                            {
-                                JjCheckNAdd(6);
-                            }
+                                {
+                                    JjCheckNAdd(6);
+                                }
                                 break;
                             case 6:
                                 if ((0xbff2c84ffffdbffL & l) == 0L)
                                     break;
                                 if (kind > 8)
                                     kind = 8;
-                            {
-                                JjCheckNAdd(6);
-                            }
+                                {
+                                    JjCheckNAdd(6);
+                                }
                                 break;
                             case 7:
                             case 8:
@@ -393,7 +389,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                                 }
                                 break;
                             case 10:
-                                if ((unchecked((long) 0xffff7fffffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xffff7fffffffdbffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(0, 2);
                                 }
@@ -556,7 +552,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 else if (CurChar < 128)
                 {
                     //var l = 1L << (curChar & 077);
-                    var l = 1L << (CurChar%64);
+                    var l = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
@@ -567,7 +563,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                                     kind = 4;
                                 break;
                             case 0:
-                                if ((unchecked((long) 0x87ffffff57fffffeL) & l) != 0L)
+                                if ((unchecked((long)0x87ffffff57fffffeL) & l) != 0L)
                                 {
                                     if (kind > 8)
                                         kind = 8;
@@ -585,40 +581,40 @@ namespace OpenNLP.Tools.Trees.TRegex
                                 }
                                 break;
                             case 5:
-                                if ((unchecked((long) 0x87ffffff57fffffeL) & l) == 0L)
+                                if ((unchecked((long)0x87ffffff57fffffeL) & l) == 0L)
                                     break;
                                 if (kind > 8)
                                     kind = 8;
-                            {
-                                JjCheckNAdd(6);
-                            }
+                                {
+                                    JjCheckNAdd(6);
+                                }
                                 break;
                             case 6:
-                                if ((unchecked((long) 0xbfffffffd7fffffeL) & l) == 0L)
+                                if ((unchecked((long)0xbfffffffd7fffffeL) & l) == 0L)
                                     break;
                                 if (kind > 8)
                                     kind = 8;
-                            {
-                                JjCheckNAdd(6);
-                            }
+                                {
+                                    JjCheckNAdd(6);
+                                }
                                 break;
                             case 9:
                                 if (CurChar == 92)
                                     jjstateSet[jjnewStateCnt++] = 8;
                                 break;
                             case 10:
-                            {
-                                JjAddStates(0, 2);
-                            }
+                                {
+                                    JjAddStates(0, 2);
+                                }
                                 break;
                             case 12:
                                 if ((0x7fffffe07fffffeL & l) == 0L)
                                     break;
                                 if (kind > 11)
                                     kind = 11;
-                            {
-                                JjCheckNAdd(12);
-                            }
+                                {
+                                    JjCheckNAdd(12);
+                                }
                                 break;
                             default:
                                 break;
@@ -630,10 +626,10 @@ namespace OpenNLP.Tools.Trees.TRegex
                     int hiByte = (CurChar >> 8);
                     int i1 = hiByte >> 6;
                     //var l1 = 1L << (hiByte & 077);
-                    var l1 = 1L << (hiByte%64);
+                    var l1 = 1L << (hiByte % 64);
                     int i2 = (CurChar & 0xff) >> 6;
                     //var l2 = 1L << (curChar & 077);
-                    var l2 = 1L << (CurChar%64);
+                    var l2 = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
@@ -644,9 +640,9 @@ namespace OpenNLP.Tools.Trees.TRegex
                                     break;
                                 if (kind > 8)
                                     kind = 8;
-                            {
-                                JjCheckNAdd(6);
-                            }
+                                {
+                                    JjCheckNAdd(6);
+                                }
                                 break;
                             case 10:
                                 if (JjCanMove_0(hiByte, i1, i2, l1, l2))
@@ -699,7 +695,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
             }
         }
-        
+
         /*public static readonly string[] jjstrLiteralImages =
         {
             "", null, null, null, null, @"\74\56\56\56", null, null, null, @"\137\137", null,
@@ -751,9 +747,9 @@ namespace OpenNLP.Tools.Trees.TRegex
             int curPos = 0;
 
             //EOFLoop :
-            for (;;)
+            for (; ; )
             {
-                start_EOF_loop:
+            start_EOF_loop:
                 {
                 }
                 try
@@ -787,7 +783,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     if (jjmatchedPos + 1 < curPos)
                         InputStream.Backup(curPos - jjmatchedPos - 1);
                     //if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
-                    if ((JjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind%64))) != 0L)
+                    if ((JjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind % 64))) != 0L)
                     {
                         matchedToken = JjFillToken();
                         return matchedToken;
@@ -923,7 +919,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             else
                 curLexState = lexState;
         }
-        
+
         /// <summary>
         /// Lexer state names.
         /// </summary>
@@ -945,7 +941,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         protected SimpleCharStream InputStream;
 
         private readonly uint[] jjrounds = new uint[42];
-        private readonly int[] jjstateSet = new int[2*42];
+        private readonly int[] jjstateSet = new int[2 * 42];
 
 
         protected char CurChar;

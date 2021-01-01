@@ -14,34 +14,32 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for Relation.
-	/// </summary>
-	public class Relation
-	{
-		private WordNetEngine mWordNetEngine;
+    /// <summary>
+    /// Summary description for Relation.
+    /// </summary>
+    public class Relation
+    {
+        private WordNetEngine mWordNetEngine;
 
-		private RelationType mRelationType;
-		
-		private int mTargetSynsetOffset;
-		private string mTargetSynsetPartOfSpeech;
-	
-		private Synset mTargetSynset;
+        private RelationType mRelationType;
 
-		private int miSourceWord;
-		private int miTargetWord;
+        private int mTargetSynsetOffset;
+        private string mTargetSynsetPartOfSpeech;
 
-		public RelationType SynsetRelationType
-		{
-			get
-			{
-				return mRelationType;
-			}
-		}
+        private Synset mTargetSynset;
+
+        private int miSourceWord;
+        private int miTargetWord;
+
+        public RelationType SynsetRelationType
+        {
+            get
+            {
+                return mRelationType;
+            }
+        }
 
         public int TargetSynsetOffset
         {
@@ -51,35 +49,35 @@ namespace SharpWordNet
             }
         }
 
-		public Synset TargetSynset
-		{
-			get
-			{
-				if (mTargetSynset == null)
-				{
-					mTargetSynset = mWordNetEngine.CreateSynset(mTargetSynsetPartOfSpeech, mTargetSynsetOffset);
-				}
-				return mTargetSynset;
-			}
-		}
+        public Synset TargetSynset
+        {
+            get
+            {
+                if (mTargetSynset == null)
+                {
+                    mTargetSynset = mWordNetEngine.CreateSynset(mTargetSynsetPartOfSpeech, mTargetSynsetOffset);
+                }
+                return mTargetSynset;
+            }
+        }
 
-		private Relation()
-		{
-		}
+        private Relation()
+        {
+        }
 
-		protected internal Relation(WordNetEngine wordNetEngine, RelationType relationType, int targetSynsetOffset, string targetSynsetPartOfSpeech)
-		{
-			mWordNetEngine = wordNetEngine;
-			mRelationType = relationType;
+        protected internal Relation(WordNetEngine wordNetEngine, RelationType relationType, int targetSynsetOffset, string targetSynsetPartOfSpeech)
+        {
+            mWordNetEngine = wordNetEngine;
+            mRelationType = relationType;
 
-			mTargetSynsetOffset = targetSynsetOffset;
-			mTargetSynsetPartOfSpeech = targetSynsetPartOfSpeech;
-		}
+            mTargetSynsetOffset = targetSynsetOffset;
+            mTargetSynsetPartOfSpeech = targetSynsetPartOfSpeech;
+        }
 
-		protected internal Relation(WordNetEngine wordNetEngine, RelationType relationType, int targetSynsetOffset, string targetSynsetPartOfSpeech, int sourceWord, int targetWord) : this(wordNetEngine, relationType, targetSynsetOffset, targetSynsetPartOfSpeech)
-		{
-			miSourceWord = sourceWord;
-			miTargetWord = targetWord;
-		}
-	}
+        protected internal Relation(WordNetEngine wordNetEngine, RelationType relationType, int targetSynsetOffset, string targetSynsetPartOfSpeech, int sourceWord, int targetWord) : this(wordNetEngine, relationType, targetSynsetOffset, targetSynsetPartOfSpeech)
+        {
+            miSourceWord = sourceWord;
+            miTargetWord = targetWord;
+        }
+    }
 }

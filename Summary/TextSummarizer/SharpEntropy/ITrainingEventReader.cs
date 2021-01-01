@@ -33,34 +33,32 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace SharpEntropy
 {
-	/// <summary>
-	/// An object which can deliver a stream of training events for the GIS
-	/// procedure (or others such as IIS if and when they are implemented).
-	/// TrainingEventReaders don't need to use SharpEntropy.ITrainingDataReader, but doing so
-	/// would provide greater flexibility for producing events from data stored in
-	/// different formats.
-	/// </summary>
-	public interface ITrainingEventReader
-	{
-			
-		/// <summary> 
-		/// Returns the next TrainingEvent object held in this TrainingEventReader.
-		/// </summary>
-		/// <returns>
-		/// the TrainingEvent object which is next in this TrainingEventReader
-		/// </returns>
-		TrainingEvent ReadNextEvent();
-			
-		/// <summary> 
-		/// Test whether there are any TrainingEvents remaining in this TrainingEventReader.
-		/// </summary>
-		/// <returns>
-		/// true if this TrainingEventReader has more TrainingEvents
-		/// </returns>
-		bool HasNext();
-	}
+    /// <summary>
+    /// An object which can deliver a stream of training events for the GIS
+    /// procedure (or others such as IIS if and when they are implemented).
+    /// TrainingEventReaders don't need to use SharpEntropy.ITrainingDataReader, but doing so
+    /// would provide greater flexibility for producing events from data stored in
+    /// different formats.
+    /// </summary>
+    public interface ITrainingEventReader
+    {
+
+        /// <summary> 
+        /// Returns the next TrainingEvent object held in this TrainingEventReader.
+        /// </summary>
+        /// <returns>
+        /// the TrainingEvent object which is next in this TrainingEventReader
+        /// </returns>
+        TrainingEvent ReadNextEvent();
+
+        /// <summary> 
+        /// Test whether there are any TrainingEvents remaining in this TrainingEventReader.
+        /// </summary>
+        /// <returns>
+        /// true if this TrainingEventReader has more TrainingEvents
+        /// </returns>
+        bool HasNext();
+    }
 }

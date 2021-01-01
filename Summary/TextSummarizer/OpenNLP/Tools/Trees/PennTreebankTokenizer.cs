@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OpenNLP.Tools.Util.Process;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util.Process;
 
 namespace OpenNLP.Tools.Trees
 {

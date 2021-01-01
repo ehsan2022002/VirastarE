@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Chunker
 {
@@ -23,7 +19,7 @@ namespace OpenNLP.Tools.Chunker
             this.TaggedWords = new List<TaggedWord>();
         }
 
-        public SentenceChunk(string tag, int index):this(index)
+        public SentenceChunk(string tag, int index) : this(index)
         {
             this.Tag = tag;
         }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -14,7 +12,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
     /// </summary>
     public abstract class TsurgeonPattern
     {
-                public static readonly TsurgeonPattern[] EmptyTsurgeonPatternArray = new TsurgeonPattern[0];
+        public static readonly TsurgeonPattern[] EmptyTsurgeonPatternArray = new TsurgeonPattern[0];
 
         public readonly string label;
         public readonly TsurgeonPattern[] children;

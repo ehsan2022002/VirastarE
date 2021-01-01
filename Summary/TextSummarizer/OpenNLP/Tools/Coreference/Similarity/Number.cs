@@ -17,35 +17,33 @@
 //This file is based on the Number.java source file found in the
 //original java implementation of OpenNLP.  
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	public class Number
-	{
+    public class Number
+    {
         private NumberEnum mType;
         private double mConfidence;
-		
-		public virtual NumberEnum Type
-		{
-			get
-			{
-				return mType;
-			}
-		}
 
-		public virtual double Confidence
-		{
-			get
-			{
-				return mConfidence;
-			}
-		}
+        public virtual NumberEnum Type
+        {
+            get
+            {
+                return mType;
+            }
+        }
 
-		public Number(NumberEnum type, double confidence)
-		{
-			mType = type;
-			mConfidence = confidence;
-		}
-	}
+        public virtual double Confidence
+        {
+            get
+            {
+                return mConfidence;
+            }
+        }
+
+        public Number(NumberEnum type, double confidence)
+        {
+            mType = type;
+            mConfidence = confidence;
+        }
+    }
 }

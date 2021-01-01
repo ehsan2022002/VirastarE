@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -28,13 +26,13 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         /// </summary>
         private const string NodePatternString = "(=\\{[a-zA-Z0-9_]+\\})";
         private static readonly Regex NodePattern = new Regex(NodePatternString);
-        
+
         /// <summary>
         /// This pattern finds relabel snippets that use a captured variable
         /// </summary>
         private const string VariablePatternString = "(%\\{[a-zA-Z0-9_]+\\})";
         private static readonly Regex VariablePattern = new Regex(VariablePatternString);
-        
+
         /// <summary>
         /// Finds one chunk of a general relabel operation, either named node or captured variable
         /// </summary>
@@ -59,7 +57,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         private readonly List<string> replacementPieces;
 
         public RelabelNode(TsurgeonPattern child, string newLabel) :
-            base("relabel", new TsurgeonPattern[] {child})
+            base("relabel", new TsurgeonPattern[] { child })
         {
             var m1 = SubstPattern.Match(newLabel);
             if (m1.Success)
@@ -167,41 +165,41 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 switch (node.mode)
                 {
                     case RelabelMode.Fixed:
-                    {
-                        nodeToRelabel.Label().SetValue(node.newLabel);
-                        break;
-                    }
-                    case RelabelMode.Regex:
-                    {
-
-                        var label = new StringBuilder();
-                        foreach (string chunk in node.replacementPieces)
                         {
-                            if (VariablePattern.IsMatch(chunk))
-                            {
-                                //String name = chunk.Substring(2, chunk.Length - 1);
-                                string name = chunk.Substring(2, chunk.Length - 3);
-                                //label.Append(Matcher.quoteReplacement(tregex.getVariableString(name)));
-                                label.Append(tregex.GetVariableString(name).Replace("'", "").Replace("\"", ""));
-                            }
-                            else if (NodePattern.IsMatch(chunk))
-                            {
-                                //String name = chunk.Substring(2, chunk.Length - 1);
-                                string name = chunk.Substring(2, chunk.Length - 3);
-                                //label.Append(Matcher.quoteReplacement(tregex.getNode(name).value()));
-                                label.Append(tregex.GetNode(name).Value().Replace("'", "").Replace("\"", ""));
-                            }
-                            else
-                            {
-                                label.Append(chunk);
-                            }
+                            nodeToRelabel.Label().SetValue(node.newLabel);
+                            break;
                         }
-                        //var m = node.labelRegex.Match(nodeToRelabel.label().value());
-                        //nodeToRelabel.label().setValue(m.replaceAll(label.ToString()));
-                        var newS = node.labelRegex.Replace(nodeToRelabel.Label().Value(), label.ToString());
-                        nodeToRelabel.Label().SetValue( /*m.replaceAll(label.ToString())*/newS);
-                        break;
-                    }
+                    case RelabelMode.Regex:
+                        {
+
+                            var label = new StringBuilder();
+                            foreach (string chunk in node.replacementPieces)
+                            {
+                                if (VariablePattern.IsMatch(chunk))
+                                {
+                                    //String name = chunk.Substring(2, chunk.Length - 1);
+                                    string name = chunk.Substring(2, chunk.Length - 3);
+                                    //label.Append(Matcher.quoteReplacement(tregex.getVariableString(name)));
+                                    label.Append(tregex.GetVariableString(name).Replace("'", "").Replace("\"", ""));
+                                }
+                                else if (NodePattern.IsMatch(chunk))
+                                {
+                                    //String name = chunk.Substring(2, chunk.Length - 1);
+                                    string name = chunk.Substring(2, chunk.Length - 3);
+                                    //label.Append(Matcher.quoteReplacement(tregex.getNode(name).value()));
+                                    label.Append(tregex.GetNode(name).Value().Replace("'", "").Replace("\"", ""));
+                                }
+                                else
+                                {
+                                    label.Append(chunk);
+                                }
+                            }
+                            //var m = node.labelRegex.Match(nodeToRelabel.label().value());
+                            //nodeToRelabel.label().setValue(m.replaceAll(label.ToString()));
+                            var newS = node.labelRegex.Replace(nodeToRelabel.Label().Value(), label.ToString());
+                            nodeToRelabel.Label().SetValue( /*m.replaceAll(label.ToString())*/newS);
+                            break;
+                        }
                     default:
                         throw new ArgumentException("Unsupported relabel mode " + node.mode);
                 }

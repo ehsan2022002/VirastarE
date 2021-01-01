@@ -33,21 +33,20 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Configuration;
 
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary>
+    /// <summary>
     /// Factory class used to get an instance of a dictionary object.
     /// </summary>
-	public class DictionaryFactory
-	{
-		/// <summary>
+    public class DictionaryFactory
+    {
+        /// <summary>
         /// Returns the default implementation of the Dictionary interface.
         /// </summary>
-		public static IDictionary GetDictionary(string searchDirectory)
-		{
+        public static IDictionary GetDictionary(string searchDirectory)
+        {
             if (mDictionary == null)
             {
                 try
@@ -60,17 +59,17 @@ namespace OpenNLP.Tools.Coreference.Mention
                 }
             }
             return mDictionary;
-		}
+        }
 
         public static IDictionary GetDictionary()
         {
             return GetDictionary(ConfigurationManager.AppSettings["WordnetSearchDirectory"]);
         }
 
-		private static IDictionary mDictionary;
+        private static IDictionary mDictionary;
 
         private DictionaryFactory()
         {
         }
-	}
+    }
 }

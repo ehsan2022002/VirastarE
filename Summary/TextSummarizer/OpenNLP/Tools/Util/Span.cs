@@ -146,7 +146,7 @@ namespace OpenNLP.Tools.Util
 
         public virtual int CompareTo(object o)
         {
-            var compareSpan = (Span) o;
+            var compareSpan = (Span)o;
             if (Start < compareSpan.Start)
             {
                 return -1;
@@ -183,7 +183,7 @@ namespace OpenNLP.Tools.Util
             {
                 return false;
             }
-            var currentSpan = (Span) o;
+            var currentSpan = (Span)o;
             return (Start == currentSpan.Start && End == currentSpan.End);
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Ling
 {
@@ -17,7 +13,7 @@ namespace OpenNLP.Tools.Ling
     /// </summary>
     public interface ILabeled
     {
-        
+
         /// <summary>
         /// Returns one of the labels of the object (if there are multiple labels,
         /// preferably the primary label, if it exists).

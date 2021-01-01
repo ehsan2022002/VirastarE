@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -109,7 +108,7 @@ namespace OpenNLP.Tools.Util
             {
                 return false;
             }
-            var i = (IntTuple) iO;
+            var i = (IntTuple)iO;
             if (i.elements.Length != elements.Length)
             {
                 return false;
@@ -129,16 +128,16 @@ namespace OpenNLP.Tools.Util
             int sum = 0;
             foreach (int element in elements)
             {
-                sum = sum*17 + element;
+                sum = sum * 17 + element;
             }
             return sum;
         }
-        
+
         public int Length()
         {
             return elements.Length;
         }
-        
+
         public static IntTuple GetIntTuple(int num)
         {
             if (num == 1)
@@ -162,7 +161,7 @@ namespace OpenNLP.Tools.Util
                 return new IntTuple(num);
             }
         }
-        
+
         public static IntTuple GetIntTuple(List<int> integers)
         {
             IntTuple t = IntTuple.GetIntTuple(integers.Count);
@@ -186,7 +185,7 @@ namespace OpenNLP.Tools.Util
             }
             return name.ToString();
         }
-        
+
         public static IntTuple Concat(IntTuple t1, IntTuple t2)
         {
             int n1 = t1.Length();

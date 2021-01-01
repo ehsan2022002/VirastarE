@@ -64,7 +64,8 @@ namespace OpenNLP.Tools.Util
         /// <param name="model">the model for assigning probabilities to the sequence outcomes</param>
         public BeamSearch(int size, IBeamSearchContextGenerator contextGenerator,
             SharpEntropy.IMaximumEntropyModel model) :
-                this(size, contextGenerator, model, 0){}
+                this(size, contextGenerator, model, 0)
+        { }
 
         /// <summary>Creates new search object</summary>
         /// <param name="size">The size of the beam (k)</param>
@@ -81,9 +82,9 @@ namespace OpenNLP.Tools.Util
             if (cacheSizeInMegaBytes > 0)
             {
                 var properties = new NameValueCollection
-			    {
-			        {"cacheMemoryLimitMegabytes", cacheSizeInMegaBytes.ToString()}
-			    };
+                {
+                    {"cacheMemoryLimitMegabytes", cacheSizeInMegaBytes.ToString()}
+                };
                 contextsCache = new MemoryCache("beamSearchContextCache", properties);
             }
         }
@@ -142,7 +143,7 @@ namespace OpenNLP.Tools.Util
                     if (contextsCache != null)
                     {
                         var contextKey = string.Join("|", contexts);
-                        scores = (double[]) contextsCache[contextKey];
+                        scores = (double[])contextsCache[contextKey];
                         if (scores == null)
                         {
                             scores = Model.Evaluate(contexts, probabilities);
@@ -164,7 +165,7 @@ namespace OpenNLP.Tools.Util
                     {
                         if (scores[currentScore] < minimum)
                         {
-                                continue; //only advance first "size" outcomes
+                            continue; //only advance first "size" outcomes
                         }
 
                         string outcomeName = Model.GetOutcomeName(currentScore);
@@ -206,7 +207,7 @@ namespace OpenNLP.Tools.Util
             int sequenceIndex = 0;
             for (; sequenceIndex < topSequenceCount; sequenceIndex++)
             {
-                topSequences[sequenceIndex] = (Sequence) previousHeap.Extract();
+                topSequences[sequenceIndex] = (Sequence)previousHeap.Extract();
             }
             return topSequences;
         }

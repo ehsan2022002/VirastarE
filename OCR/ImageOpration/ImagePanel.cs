@@ -1,280 +1,196 @@
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-
 
 namespace ImageOpration
 {
-	/// <summary>
-	/// Summary description for ImagePanel.
-	/// </summary>
-	public class ImagePanel : System.Windows.Forms.UserControl
-	{
-		/// <summary> 
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    public partial class ImagePanel : UserControl
+    {
+        private Size canvasSize = new Size(60, 40);
 
-		public ImagePanel()
-		{
-			// This call is required by the Windows.Forms Form Designer.
-			InitializeComponent();
+        private Bitmap image;
 
-			// TODO: Add any initialization after the InitializeComponent call
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint |
-				ControlStyles.UserPaint | ControlStyles.ResizeRedraw |
-				ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+        private int viewRectWidth, viewRectHeight; // view window width and height
 
-		}
+        private float zoom = 1.0f;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        public ImagePanel()
+        {
+            InitializeComponent();
 
-		int viewRectWidth, viewRectHeight; // view window width and height
+            SetStyle(ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.UserPaint | ControlStyles.ResizeRedraw |
+                     ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+        }
 
-		float zoom = 1.0f;
-		public float Zoom
-		{
-			get { return zoom; }
-			set
-			{
-				if (value < 0.001f) value = 0.001f;
-				zoom = value;
+        public float Zoom
+        {
+            get => zoom;
+            set
+            {
+                if (value < 0.001f) value = 0.001f;
+                zoom = value;
 
-				displayScrollbar();
-				setScrollbarValues();
-				Invalidate();
-			}
-		}
+                displayScrollbar();
+                setScrollbarValues();
+                Invalidate();
+            }
+        }
+        //private System.Windows.Forms.HScrollBar hScrollBar1;
+        //private System.Windows.Forms.VScrollBar vScrollBar1;
 
-		Size canvasSize = new Size(60, 40);
-		private System.Windows.Forms.HScrollBar hScrollBar1;
-		private System.Windows.Forms.VScrollBar vScrollBar1;
-	
-		public Size CanvasSize
-		{
-			get { return canvasSize; }
-			set
-			{
-				canvasSize = value;
-				displayScrollbar();
-				setScrollbarValues();
-				Invalidate();
-			}
-		}
+        public Size CanvasSize
+        {
+            get => canvasSize;
+            set
+            {
+                canvasSize = value;
+                displayScrollbar();
+                setScrollbarValues();
+                Invalidate();
+            }
+        }
 
-		Bitmap image;
-		public Bitmap Image
-		{
-			get { return image; }
-			set 
-			{
-				image = value;
-				displayScrollbar();
-				setScrollbarValues(); 
-				Invalidate();
-			}
-		}
+        public Bitmap Image
+        {
+            get => image;
+            set
+            {
+                image = value;
+                displayScrollbar();
+                setScrollbarValues();
+                Invalidate();
+            }
+        }
 
-		private void displayScrollbar()
-		{
-			viewRectWidth = this.Width;
-			viewRectHeight = this.Height;
+        public InterpolationMode InterpolationMode { get; set; } = InterpolationMode.HighQualityBilinear;
 
-			if (image != null) canvasSize = image.Size;
+        private void displayScrollbar()
+        {
+            viewRectWidth = Width;
+            viewRectHeight = Height;
 
-			// If the zoomed image is wider than view window, show the HScrollBar and adjust the view window
-			if (viewRectWidth > canvasSize.Width*zoom)
-			{
-				hScrollBar1.Visible = false;
-				viewRectHeight = Height;
-			}
-			else
-			{
-				hScrollBar1.Visible = true;
-				viewRectHeight = Height - hScrollBar1.Height;
-			}
+            if (image != null) canvasSize = image.Size;
 
-			// If the zoomed image is taller than view window, show the VScrollBar and adjust the view window
-			if (viewRectHeight > canvasSize.Height*zoom)
-			{
-				vScrollBar1.Visible = false;
-				viewRectWidth = Width;
-			}
-			else
-			{
-				vScrollBar1.Visible = true;
-				viewRectWidth = Width - vScrollBar1.Width;
-			}
+            // If the zoomed image is wider than view window, show the HScrollBar and adjust the view window
+            if (viewRectWidth > canvasSize.Width * zoom)
+            {
+                hScrollBar1.Visible = false;
+                viewRectHeight = Height;
+            }
+            else
+            {
+                hScrollBar1.Visible = true;
+                viewRectHeight = Height - hScrollBar1.Height;
+            }
 
-			// Set up scrollbars
-			hScrollBar1.Location = new Point(0, Height - hScrollBar1.Height);
-			hScrollBar1.Width = viewRectWidth;
-			vScrollBar1.Location = new Point(Width - vScrollBar1.Width, 0);
-			vScrollBar1.Height = viewRectHeight;
-		}
+            // If the zoomed image is taller than view window, show the VScrollBar and adjust the view window
+            if (viewRectHeight > canvasSize.Height * zoom)
+            {
+                vScrollBar1.Visible = false;
+                viewRectWidth = Width;
+            }
+            else
+            {
+                vScrollBar1.Visible = true;
+                viewRectWidth = Width - vScrollBar1.Width;
+            }
 
-		private void setScrollbarValues()
-		{
-			// Set the Maximum, Minimum, LargeChange and SmallChange properties.
-			this.vScrollBar1.Minimum = 0;
-			this.hScrollBar1.Minimum = 0;
+            // Set up scrollbars
+            hScrollBar1.Location = new Point(0, Height - hScrollBar1.Height);
+            hScrollBar1.Width = viewRectWidth;
+            vScrollBar1.Location = new Point(Width - vScrollBar1.Width, 0);
+            vScrollBar1.Height = viewRectHeight;
+        }
 
-			// If the offset does not make the Maximum less than zero, set its value. 
-			if ((canvasSize.Width * zoom - viewRectWidth) > 0)
-			{
-				this.hScrollBar1.Maximum =(int)( canvasSize.Width * zoom) - viewRectWidth;
-			}
-			// If the VScrollBar is visible, adjust the Maximum of the 
-			// HSCrollBar to account for the width of the VScrollBar.  
-			if (this.vScrollBar1.Visible)
-			{
-				this.hScrollBar1.Maximum += this.vScrollBar1.Width;
-			}
-			this.hScrollBar1.LargeChange = this.hScrollBar1.Maximum / 10;
-			this.hScrollBar1.SmallChange = this.hScrollBar1.Maximum / 20;
+        private void setScrollbarValues()
+        {
+            // Set the Maximum, Minimum, LargeChange and SmallChange properties.
+            vScrollBar1.Minimum = 0;
+            hScrollBar1.Minimum = 0;
 
-			// Adjust the Maximum value to make the raw Maximum value 
-			// attainable by user interaction.
-			this.hScrollBar1.Maximum += this.hScrollBar1.LargeChange;
+            // If the offset does not make the Maximum less than zero, set its value. 
+            if (canvasSize.Width * zoom - viewRectWidth > 0)
+                hScrollBar1.Maximum = (int) (canvasSize.Width * zoom) - viewRectWidth;
+            // If the VScrollBar is visible, adjust the Maximum of the 
+            // HSCrollBar to account for the width of the VScrollBar.  
+            if (vScrollBar1.Visible) hScrollBar1.Maximum += vScrollBar1.Width;
+            hScrollBar1.LargeChange = hScrollBar1.Maximum / 10;
+            hScrollBar1.SmallChange = hScrollBar1.Maximum / 20;
 
-			// If the offset does not make the Maximum less than zero, set its value.    
-			if ((canvasSize.Height * zoom - viewRectHeight) > 0)
-			{
-				this.vScrollBar1.Maximum = (int)(canvasSize.Height * zoom) - viewRectHeight;
-			}
+            // Adjust the Maximum value to make the raw Maximum value 
+            // attainable by user interaction.
+            hScrollBar1.Maximum += hScrollBar1.LargeChange;
 
-			// If the HScrollBar is visible, adjust the Maximum of the 
-			// VSCrollBar to account for the width of the HScrollBar.
-			if (this.hScrollBar1.Visible)
-			{
-				this.vScrollBar1.Maximum += this.hScrollBar1.Height;
-			}
-			this.vScrollBar1.LargeChange = this.vScrollBar1.Maximum / 10;
-			this.vScrollBar1.SmallChange = this.vScrollBar1.Maximum / 20;
+            // If the offset does not make the Maximum less than zero, set its value.    
+            if (canvasSize.Height * zoom - viewRectHeight > 0)
+                vScrollBar1.Maximum = (int) (canvasSize.Height * zoom) - viewRectHeight;
 
-			// Adjust the Maximum value to make the raw Maximum value 
-			// attainable by user interaction.
-			this.vScrollBar1.Maximum += this.vScrollBar1.LargeChange;
-		}
+            // If the HScrollBar is visible, adjust the Maximum of the 
+            // VSCrollBar to account for the width of the HScrollBar.
+            if (hScrollBar1.Visible) vScrollBar1.Maximum += hScrollBar1.Height;
+            vScrollBar1.LargeChange = vScrollBar1.Maximum / 10;
+            vScrollBar1.SmallChange = vScrollBar1.Maximum / 20;
 
+            // Adjust the Maximum value to make the raw Maximum value 
+            // attainable by user interaction.
+            vScrollBar1.Maximum += vScrollBar1.LargeChange;
+        }
 
-		InterpolationMode interMode = InterpolationMode.HighQualityBilinear;
-		public InterpolationMode InterpolationMode
-		{
-			get{return interMode;}
-			set{interMode=value;}
-		}
+        protected override void OnLoad(EventArgs e)
+        {
+            displayScrollbar();
+            setScrollbarValues();
+            base.OnLoad(e);
+        }
 
+        protected override void OnResize(EventArgs e)
+        {
+            displayScrollbar();
+            setScrollbarValues();
+            base.OnResize(e);
+        }
 
-		#region Component Designer generated code
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-			this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-			this.SuspendLayout();
-			// 
-			// hScrollBar1
-			// 
-			this.hScrollBar1.Location = new System.Drawing.Point(64, 144);
-			this.hScrollBar1.Name = "hScrollBar1";
-			this.hScrollBar1.Size = new System.Drawing.Size(128, 17);
-			this.hScrollBar1.TabIndex = 0;
-			this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
-			// 
-			// vScrollBar1
-			// 
-			this.vScrollBar1.Location = new System.Drawing.Point(176, 40);
-			this.vScrollBar1.Name = "vScrollBar1";
-			this.vScrollBar1.TabIndex = 1;
-			this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
-			// 
-			// ImagePanel
-			// 
-			this.Controls.Add(this.vScrollBar1);
-			this.Controls.Add(this.hScrollBar1);
-			this.Name = "ImagePanel";
-			this.Size = new System.Drawing.Size(216, 184);
-			this.Load += new System.EventHandler(this.ImagePanel_Load);
-			this.ResumeLayout(false);
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
 
-		}
-		#endregion
+            //draw image
+            if (image != null)
+            {
+                Rectangle srcRect, distRect;
+                var pt = new Point((int) (hScrollBar1.Value / zoom), (int) (vScrollBar1.Value / zoom));
+                if (canvasSize.Width * zoom < viewRectWidth && canvasSize.Height * zoom < viewRectHeight)
+                    srcRect = new Rectangle(0, 0, canvasSize.Width, canvasSize.Height); // view all image
+                else
+                    srcRect = new Rectangle(pt,
+                        new Size((int) (viewRectWidth / zoom),
+                            (int) (viewRectHeight / zoom))); // view a portion of image
 
-		private void ImagePanel_Load(object sender, System.EventArgs e)
-		{			
-		}
+                distRect = new Rectangle(-srcRect.Width / 2, -srcRect.Height / 2, srcRect.Width,
+                    srcRect.Height); // the center of apparent image is on origin
 
-		protected override void OnLoad(EventArgs e)
-		{
-			displayScrollbar();
-			setScrollbarValues();
-			base.OnLoad(e);
-		}
+                var mx = new Matrix(); // create an identity matrix
+                mx.Scale(zoom, zoom); // zoom image
+                mx.Translate(viewRectWidth / 2.0f, viewRectHeight / 2.0f,
+                    MatrixOrder.Append); // move image to view window center
 
-		protected override void OnResize(EventArgs e)
-		{
-			displayScrollbar();
-			setScrollbarValues();
-			base.OnResize(e);
-		}
+                var g = e.Graphics;
+                g.InterpolationMode = InterpolationMode;
+                g.Transform = mx;
+                g.DrawImage(image, distRect, srcRect, GraphicsUnit.Pixel);
+            }
+        }
 
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
 
-			//draw image
-			if(image!=null)
-			{
-				Rectangle srcRect,distRect;
-				Point pt=new Point((int)(hScrollBar1.Value/zoom),(int)(vScrollBar1.Value/zoom));
-				if (canvasSize.Width * zoom < viewRectWidth && canvasSize.Height * zoom < viewRectHeight)
-					srcRect = new Rectangle(0, 0, canvasSize.Width, canvasSize.Height);  // view all image
-				else srcRect = new Rectangle(pt, new Size((int)(viewRectWidth / zoom), (int)(viewRectHeight / zoom))); // view a portion of image
-
-				distRect=new Rectangle((int)(-srcRect.Width/2),-srcRect.Height/2,srcRect.Width,srcRect.Height); // the center of apparent image is on origin
- 
-				Matrix mx=new Matrix(); // create an identity matrix
-				mx.Scale(zoom,zoom); // zoom image
-				mx.Translate(viewRectWidth/2.0f,viewRectHeight/2.0f, MatrixOrder.Append); // move image to view window center
-
-				Graphics g=e.Graphics;
-				g.InterpolationMode=interMode;
-				g.Transform=mx;
-				g.DrawImage(image,distRect,srcRect, GraphicsUnit.Pixel);
-			}
-
-		}
-
-		private void vScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
-		{
-			this.Invalidate();
-		}
-
-		private void hScrollBar1_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
-		{
-			this.Invalidate();
-		}
-
-	}
+        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            Invalidate();
+        }
+    }
 }

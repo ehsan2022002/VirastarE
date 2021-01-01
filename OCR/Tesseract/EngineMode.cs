@@ -1,29 +1,25 @@
-﻿
-using System;
-
-namespace Tesseract
+﻿namespace Tesseract
 {
-	
-	public enum EngineMode : int
-	{
+    public enum EngineMode
+    {
         /// <summary>
-        /// Only the legacy tesseract OCR engine is used.
+        ///     Only the legacy tesseract OCR engine is used.
         /// </summary>
         TesseractOnly = 0,
 
         /// <summary>
-        /// Only the new LSTM-based OCR engine is used.
+        ///     Only the new LSTM-based OCR engine is used.
         /// </summary>
         LstmOnly,
 
         /// <summary>
-        /// Both the legacy and new LSTM based OCR engine is used.
+        ///     Both the legacy and new LSTM based OCR engine is used.
         /// </summary>
         TesseractAndLstm,
 
         /// <summary>
-        /// The default OCR engine is used (currently LSTM-ased OCR engine).
+        ///     The default OCR engine is used (currently LSTM-ased OCR engine).
         /// </summary>
         Default
-	}
+    }
 }

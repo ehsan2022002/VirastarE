@@ -27,112 +27,112 @@ namespace OpenNLP.Tools.Coreference.Resolver
     /// Default implementation of the {@link INonReferentialResolver} interface.
     /// </summary>
 	public class DefaultNonReferentialResolver : INonReferentialResolver
-	{
+    {
         private SharpEntropy.IMaximumEntropyModel mModel;
-		private List<SharpEntropy.TrainingEvent> mEvents;
-		private bool mDebugOn = false;
-		private ResolverMode mResolverMode;
-		private string mModelName;
-		private string mModelExtension = ".nbin";
-		private int mNonReferentialIndex;
-		
-		public DefaultNonReferentialResolver(string projectName, string name, ResolverMode mode)
-		{
-			mResolverMode = mode;
+        private List<SharpEntropy.TrainingEvent> mEvents;
+        private bool mDebugOn = false;
+        private ResolverMode mResolverMode;
+        private string mModelName;
+        private string mModelExtension = ".nbin";
+        private int mNonReferentialIndex;
+
+        public DefaultNonReferentialResolver(string projectName, string name, ResolverMode mode)
+        {
+            mResolverMode = mode;
             mModelName = Path.Combine(projectName, name + "_nr");
-			if (mode == ResolverMode.Train)
-			{
+            if (mode == ResolverMode.Train)
+            {
                 mEvents = new List<SharpEntropy.TrainingEvent>();
-			}
-			else if (mode == ResolverMode.Test)
-			{
-				
+            }
+            else if (mode == ResolverMode.Test)
+            {
+
                 mModel = new SharpEntropy.GisModel(new SharpEntropy.IO.BinaryGisModelReader(mModelName + mModelExtension));
-				mNonReferentialIndex = mModel.GetOutcomeIndex(MaximumEntropyResolver.Same);
-			}
-			else
-			{
-				throw new ArgumentException("unexpected mode " + mode);
-			}
-		}
+                mNonReferentialIndex = mModel.GetOutcomeIndex(MaximumEntropyResolver.Same);
+            }
+            else
+            {
+                throw new ArgumentException("unexpected mode " + mode);
+            }
+        }
 
         public virtual double GetNonReferentialProbability(Mention.MentionContext mention)
-		{
-			List<string> features = GetFeatures(mention);
-			double probability = mModel.Evaluate(features.ToArray())[mNonReferentialIndex];
-			if (mDebugOn)
-			{
-				System.Console.Error.WriteLine(this + " " + mention.ToText() + " ->  null " + probability + " " + string.Join(",", features.ToArray()));
-			}
-			return probability;
-		}
+        {
+            List<string> features = GetFeatures(mention);
+            double probability = mModel.Evaluate(features.ToArray())[mNonReferentialIndex];
+            if (mDebugOn)
+            {
+                System.Console.Error.WriteLine(this + " " + mention.ToText() + " ->  null " + probability + " " + string.Join(",", features.ToArray()));
+            }
+            return probability;
+        }
 
         public virtual void AddEvent(Mention.MentionContext context)
-		{
+        {
             List<string> features = GetFeatures(context);
-			if (context.Id == -1)
-			{
+            if (context.Id == -1)
+            {
                 mEvents.Add(new SharpEntropy.TrainingEvent(MaximumEntropyResolver.Same, features.ToArray()));
-			}
-			else
-			{
+            }
+            else
+            {
                 mEvents.Add(new SharpEntropy.TrainingEvent(MaximumEntropyResolver.Diff, features.ToArray()));
-			}
-		}
+            }
+        }
 
         protected internal virtual List<string> GetFeatures(Mention.MentionContext mention)
-		{
-            var features = new List<string> {MaximumEntropyResolver.Default};
+        {
+            var features = new List<string> { MaximumEntropyResolver.Default };
             features.AddRange(GetNonReferentialFeatures(mention));
-			return features;
-		}
-		
-		/// <summary>
+            return features;
+        }
+
+        /// <summary>
         /// Returns a list of features used to predict whether the specified mention is non-referential.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention under considereation.
-		/// </param>
-		/// <returns> 
+        /// </param>
+        /// <returns> 
         /// a list of featues used to predict whether the specified mention is non-referential.
-		/// </returns>
+        /// </returns>
         protected internal virtual List<string> GetNonReferentialFeatures(Mention.MentionContext mention)
-		{
+        {
             var features = new List<string>();
             Mention.IParse[] mentionTokens = mention.TokenParses;
-			for (int tokenIndex = 0; tokenIndex <= mention.HeadTokenIndex; tokenIndex++)
-			{
+            for (int tokenIndex = 0; tokenIndex <= mention.HeadTokenIndex; tokenIndex++)
+            {
                 Mention.IParse token = mentionTokens[tokenIndex];
                 List<string> wordFeatureList = MaximumEntropyResolver.GetWordFeatures(token);
-				for (int wordFeatureIndex = 0; wordFeatureIndex < wordFeatureList.Count; wordFeatureIndex++)
-				{
-					features.Add("nr" + (wordFeatureList[wordFeatureIndex]));
-				}
-			}
-			features.AddRange(MaximumEntropyResolver.GetContextFeatures(mention));
-			return features;
-		}
-		
-		public virtual void Train()
-		{
-			if (ResolverMode.Train == mResolverMode)
-			{
-				Console.Error.WriteLine(this + " referential");
+                for (int wordFeatureIndex = 0; wordFeatureIndex < wordFeatureList.Count; wordFeatureIndex++)
+                {
+                    features.Add("nr" + (wordFeatureList[wordFeatureIndex]));
+                }
+            }
+            features.AddRange(MaximumEntropyResolver.GetContextFeatures(mention));
+            return features;
+        }
 
-				if (mDebugOn)
-				{
-					var writer = new System.IO.StreamWriter(mModelName + ".events", false, System.Text.Encoding.Default);
-					foreach (SharpEntropy.TrainingEvent trainingEvent in mEvents)
-					{
-						writer.Write(trainingEvent.ToString() + "\n");
-					}
-					writer.Close();
-				}
+        public virtual void Train()
+        {
+            if (ResolverMode.Train == mResolverMode)
+            {
+                Console.Error.WriteLine(this + " referential");
+
+                if (mDebugOn)
+                {
+                    var writer = new System.IO.StreamWriter(mModelName + ".events", false, System.Text.Encoding.Default);
+                    foreach (SharpEntropy.TrainingEvent trainingEvent in mEvents)
+                    {
+                        writer.Write(trainingEvent.ToString() + "\n");
+                    }
+                    writer.Close();
+                }
 
                 var trainer = new SharpEntropy.GisTrainer();
                 trainer.TrainModel(new Util.CollectionEventReader(mEvents), 100, 10);
                 new SharpEntropy.IO.BinaryGisModelWriter().Persist(new SharpEntropy.GisModel(trainer), mModelName + mModelExtension);
-			}
-		}
-	}
+            }
+        }
+    }
 }

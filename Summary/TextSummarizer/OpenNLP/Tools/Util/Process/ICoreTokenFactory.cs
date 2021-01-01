@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Util.Process
+﻿namespace OpenNLP.Tools.Util.Process
 {
     /// <summary>
     /// To make tokens like CoreMap or CoreLabel. An alternative to LexedTokenFactory

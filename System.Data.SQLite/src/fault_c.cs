@@ -1,11 +1,8 @@
-using System;
-using System.Diagnostics;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2008 Jan 22
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -36,26 +33,26 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
 #if !SQLITE_OMIT_BUILTIN_TEST
-		/*
+        /*
 ** Global variables.
 */
-		//typedef struct BenignMallocHooks BenignMallocHooks;
-		public struct BenignMallocHooks//
-		{
-			public void_function xBenignBegin;//void (*xBenignBegin)(void);
-			public void_function xBenignEnd;    //void (*xBenignEnd)(void);
-			public BenignMallocHooks(void_function xBenignBegin, void_function xBenignEnd)
-			{
-				this.xBenignBegin = xBenignBegin;
-				this.xBenignEnd = xBenignEnd;
-			}
-		}
-		static BenignMallocHooks sqlite3Hooks = new BenignMallocHooks(null, null);
+        //typedef struct BenignMallocHooks BenignMallocHooks;
+        public struct BenignMallocHooks//
+        {
+            public void_function xBenignBegin;//void (*xBenignBegin)(void);
+            public void_function xBenignEnd;    //void (*xBenignEnd)(void);
+            public BenignMallocHooks(void_function xBenignBegin, void_function xBenignEnd)
+            {
+                this.xBenignBegin = xBenignBegin;
+                this.xBenignEnd = xBenignEnd;
+            }
+        }
+        static BenignMallocHooks sqlite3Hooks = new BenignMallocHooks(null, null);
 
-		/* The "wsdHooks" macro will resolve to the appropriate BenignMallocHooks
+        /* The "wsdHooks" macro will resolve to the appropriate BenignMallocHooks
 		** structure.  If writable static data is unsupported on the target,
 		** we have to locate the state vector at run-time.  In the more common
 		** case where writable static data is supported, wsdHooks can refer directly
@@ -66,51 +63,51 @@ namespace System.Data.SQLite
 BenignMallocHooks *x = &GLOBAL(BenignMallocHooks,sqlite3Hooks)
 //# define wsdHooks x[0]
 #else
-		//# define wsdHooksInit
-		static void wsdHooksInit()
-		{
-		}
-		//# define wsdHooks sqlite3Hooks
-		static BenignMallocHooks wsdHooks = sqlite3Hooks;
+        //# define wsdHooksInit
+        static void wsdHooksInit()
+        {
+        }
+        //# define wsdHooks sqlite3Hooks
+        static BenignMallocHooks wsdHooks = sqlite3Hooks;
 #endif
 
 
 
-		/*
+        /*
 ** Register hooks to call when sqlite3BeginBenignMalloc() and
 ** sqlite3EndBenignMalloc() are called, respectively.
 */
-		static void sqlite3BenignMallocHooks(
-		void_function xBenignBegin, //void (*xBenignBegin)(void),
-		void_function xBenignEnd //void (*xBenignEnd)(void)
-		)
-		{
-			wsdHooksInit();
-			wsdHooks.xBenignBegin = xBenignBegin;
-			wsdHooks.xBenignEnd = xBenignEnd;
-		}
+        static void sqlite3BenignMallocHooks(
+        void_function xBenignBegin, //void (*xBenignBegin)(void),
+        void_function xBenignEnd //void (*xBenignEnd)(void)
+        )
+        {
+            wsdHooksInit();
+            wsdHooks.xBenignBegin = xBenignBegin;
+            wsdHooks.xBenignEnd = xBenignEnd;
+        }
 
-		/*
+        /*
 		** This (sqlite3EndBenignMalloc()) is called by SQLite code to indicate that
 		** subsequent malloc failures are benign. A call to sqlite3EndBenignMalloc()
 		** indicates that subsequent malloc failures are non-benign.
 		*/
-		static void sqlite3BeginBenignMalloc()
-		{
-			wsdHooksInit();
-			if (wsdHooks.xBenignBegin != null)
-			{
-				wsdHooks.xBenignBegin();
-			}
-		}
-		static void sqlite3EndBenignMalloc()
-		{
-			wsdHooksInit();
-			if (wsdHooks.xBenignEnd != null)
-			{
-				wsdHooks.xBenignEnd();
-			}
-		}
+        static void sqlite3BeginBenignMalloc()
+        {
+            wsdHooksInit();
+            if (wsdHooks.xBenignBegin != null)
+            {
+                wsdHooks.xBenignBegin();
+            }
+        }
+        static void sqlite3EndBenignMalloc()
+        {
+            wsdHooksInit();
+            if (wsdHooks.xBenignEnd != null)
+            {
+                wsdHooks.xBenignEnd();
+            }
+        }
 #endif //* SQLITE_OMIT_BUILTIN_TEST */
-	}
+    }
 }

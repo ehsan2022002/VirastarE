@@ -33,24 +33,23 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	/// <summary> 
-	/// Interface for testing a number model.
-	/// </summary>
-	public interface ITestNumberModel
-	{
-		int SingularIndex
-		{
-			get;
-		}
+    /// <summary> 
+    /// Interface for testing a number model.
+    /// </summary>
+    public interface ITestNumberModel
+    {
+        int SingularIndex
+        {
+            get;
+        }
 
-		int PluralIndex
-		{
-			get;
-		}
+        int PluralIndex
+        {
+            get;
+        }
 
-		double[] NumberDistribution(Context nounPhrase);
-	}
+        double[] NumberDistribution(Context nounPhrase);
+    }
 }

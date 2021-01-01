@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.SentenceDetect
 {
@@ -17,7 +15,7 @@ namespace OpenNLP.Tools.SentenceDetect
 
 
         // Constructors --------------
-        
+
         /// <summary>
         /// Constructor to specify the potential end of sentence characters 
         /// </summary>

@@ -33,23 +33,22 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	
-	/// <summary>
+
+    /// <summary>
     /// Specifies the interface that objects that determine the space of mentions for coreference should implement.
     /// </summary>
-	public interface IMentionFinder
-	{
+    public interface IMentionFinder
+    {
         /// <summary>
         /// Specifies whether pre-nominal named-entities should be collected as mentions.
         /// </summary>
 		bool PrenominalNamedEntitiesCollection
-		{
-			get;
-			set;
-		}
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Specifies whether coordinated noun phrases should be collected as mentions.
@@ -59,16 +58,16 @@ namespace OpenNLP.Tools.Coreference.Mention
             get;
             set;
         }
-		
-		/// <summary>
+
+        /// <summary>
         /// Returns an array of mentions.
         /// </summary>
-		/// <param name="parse">
+        /// <param name="parse">
         /// A top level parse from which mentions are gathered.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// An array of mentions.
-		/// </returns>
-		Mention[] GetMentions(IParse parse);
-	}
+        /// </returns>
+        Mention[] GetMentions(IParse parse);
+    }
 }

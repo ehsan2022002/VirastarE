@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// Base implementation of {@link CoreMap} backed by two Java arrays.
     /// 
@@ -46,14 +44,14 @@ namespace OpenNLP.Tools.Util
         {
             return psize;
         }
-        
+
         /// <summary>
         /// Default constructor - initializes with default initial annotation capacity of 4.
         /// </summary>
         public ArrayCoreMap() : this(InitialCapacity)
         {
         }
-        
+
         /// <summary>
         /// Initializes this ArrayCoreMap, pre-allocating arrays to hold up to capacity key,value pairs.
         /// This array will grow if necessary.
@@ -264,7 +262,7 @@ namespace OpenNLP.Tools.Util
         /*public int size() {
     return size;
   }*/
-        
+
         /// <summary>
         /// Keeps track of which ArrayCoreMaps have had ToString called on them.
         /// We do not want to loop forever when there are cycles in the annotation graph.
@@ -275,10 +273,10 @@ namespace OpenNLP.Tools.Util
         private static readonly ThreadLocal<IdentityHashSet<ICoreMap>> ToStringCalled =
             new ThreadLocal<IdentityHashSet<ICoreMap>>()
             {
-/*
-            protected IdentityHashSet<CoreMap> initialValue() {
-              return new IdentityHashSet<CoreMap>();
-            }*/
+                /*
+                            protected IdentityHashSet<CoreMap> initialValue() {
+                              return new IdentityHashSet<CoreMap>();
+                            }*/
             };
 
         public override string ToString()
@@ -477,15 +475,15 @@ namespace OpenNLP.Tools.Util
             if (obj is ArrayCoreMap)
             {
                 // specialized equals for ArrayCoreMap
-                return Equals((ArrayCoreMap) obj);
+                return Equals((ArrayCoreMap)obj);
             }
 
             // TODO: make the general equality work in the situation of loops
             // in the object graph
 
             // general equality
-            var other = (ICoreMap) obj;
-            if (! this.KeySet().Equals(other.KeySet()))
+            var other = (ICoreMap)obj;
+            if (!this.KeySet().Equals(other.KeySet()))
             {
                 return false;
             }
@@ -507,7 +505,7 @@ namespace OpenNLP.Tools.Util
                     return false;
                 }
 
-                if (! thisV.Equals(otherV))
+                if (!thisV.Equals(otherV))
                 {
                     return false;
                 }
@@ -634,7 +632,7 @@ namespace OpenNLP.Tools.Util
                 // TODO: can we cache this for later?
                 calledSet.Remove(this);
             }
-            return keysCode*37 + valuesCode;
+            return keysCode * 37 + valuesCode;
         }
 
 

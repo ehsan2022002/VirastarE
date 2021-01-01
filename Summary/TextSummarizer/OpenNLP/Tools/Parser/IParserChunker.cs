@@ -33,30 +33,27 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Collections;
-
 namespace OpenNLP.Tools.Parser
 {
-	/// <summary>
-	/// Interface that a chunker used with the parser should implement.
-	/// </summary>
-	public interface IParserChunker : Chunker.IChunker
-	{
-		/// <summary>
-		/// Returns the top k chunk sequences for the specified sentence with the specified pos-tags
-		/// </summary>
-		/// <param name="sentence">
-		/// The tokens of the sentence.
-		/// </param>
-		/// <param name="tags">
-		/// The pos-tags for the specified sentence.
-		/// </param>
-		/// <param name="minSequenceScore">
-		/// </param>
-		/// <returns>
-		/// the top k chunk sequences for the specified sentence.
-		/// </returns>
-		Util.Sequence[] TopKSequences(string[] sentence, string[] tags, double minSequenceScore);
-	}
+    /// <summary>
+    /// Interface that a chunker used with the parser should implement.
+    /// </summary>
+    public interface IParserChunker : Chunker.IChunker
+    {
+        /// <summary>
+        /// Returns the top k chunk sequences for the specified sentence with the specified pos-tags
+        /// </summary>
+        /// <param name="sentence">
+        /// The tokens of the sentence.
+        /// </param>
+        /// <param name="tags">
+        /// The pos-tags for the specified sentence.
+        /// </param>
+        /// <param name="minSequenceScore">
+        /// </param>
+        /// <returns>
+        /// the top k chunk sequences for the specified sentence.
+        /// </returns>
+        Util.Sequence[] TopKSequences(string[] sentence, string[] tags, double minSequenceScore);
+    }
 }

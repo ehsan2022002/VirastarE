@@ -3,9 +3,9 @@ using u32 = System.UInt32;
 
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2001 September 16
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -32,78 +32,78 @@ namespace System.Data.SQLite
 		*************************************************************************
 		*/
 #if !_SQLITE_OS_H_
-		//#define _SQLITE_OS_H_
+        //#define _SQLITE_OS_H_
 
-		/*
+        /*
 		** Figure out if we are dealing with Unix, Windows, or some other
 		** operating system.  After the following block of preprocess macros,
 		** all of SQLITE_OS_UNIX, SQLITE_OS_WIN, SQLITE_OS_OS2, and SQLITE_OS_OTHER
 		** will defined to either 1 or 0.  One of the four will be 1.  The other
 		** three will be 0.
 		*/
-		//#if (SQLITE_OS_OTHER)
-		//# if SQLITE_OS_OTHER==1
-		//#   undef SQLITE_OS_UNIX
-		//#   define SQLITE_OS_UNIX 0
-		//#   undef SQLITE_OS_WIN
-		//#   define SQLITE_OS_WIN 0
-		//#   undef SQLITE_OS_OS2
-		//#   define SQLITE_OS_OS2 0
-		//# else
-		//#   undef SQLITE_OS_OTHER
-		//# endif
-		//#endif
-		//#if !(SQLITE_OS_UNIX) && !SQLITE_OS_OTHER)
-		//# define SQLITE_OS_OTHER 0
-		//# ifndef SQLITE_OS_WIN
-		//#   if defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
-		//#     define SQLITE_OS_WIN 1
-		//#     define SQLITE_OS_UNIX 0
-		//#     define SQLITE_OS_OS2 0
-		//#   elif defined(__EMX__) || defined(_OS2) || defined(OS2) || defined(_OS2_) || defined(__OS2__)
-		//#     define SQLITE_OS_WIN 0
-		//#     define SQLITE_OS_UNIX 0
-		//#     define SQLITE_OS_OS2 1
-		//#   else
-		//#     define SQLITE_OS_WIN 0
-		//#     define SQLITE_OS_UNIX 1
-		//#     define SQLITE_OS_OS2 0
-		//#  endif
-		//# else
-		//#  define SQLITE_OS_UNIX 0
-		//#  define SQLITE_OS_OS2 0
-		//# endif
-		//#else
-		//# ifndef SQLITE_OS_WIN
-		//#  define SQLITE_OS_WIN 0
-		//# endif
-		//#endif
+        //#if (SQLITE_OS_OTHER)
+        //# if SQLITE_OS_OTHER==1
+        //#   undef SQLITE_OS_UNIX
+        //#   define SQLITE_OS_UNIX 0
+        //#   undef SQLITE_OS_WIN
+        //#   define SQLITE_OS_WIN 0
+        //#   undef SQLITE_OS_OS2
+        //#   define SQLITE_OS_OS2 0
+        //# else
+        //#   undef SQLITE_OS_OTHER
+        //# endif
+        //#endif
+        //#if !(SQLITE_OS_UNIX) && !SQLITE_OS_OTHER)
+        //# define SQLITE_OS_OTHER 0
+        //# ifndef SQLITE_OS_WIN
+        //#   if defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
+        //#     define SQLITE_OS_WIN 1
+        //#     define SQLITE_OS_UNIX 0
+        //#     define SQLITE_OS_OS2 0
+        //#   elif defined(__EMX__) || defined(_OS2) || defined(OS2) || defined(_OS2_) || defined(__OS2__)
+        //#     define SQLITE_OS_WIN 0
+        //#     define SQLITE_OS_UNIX 0
+        //#     define SQLITE_OS_OS2 1
+        //#   else
+        //#     define SQLITE_OS_WIN 0
+        //#     define SQLITE_OS_UNIX 1
+        //#     define SQLITE_OS_OS2 0
+        //#  endif
+        //# else
+        //#  define SQLITE_OS_UNIX 0
+        //#  define SQLITE_OS_OS2 0
+        //# endif
+        //#else
+        //# ifndef SQLITE_OS_WIN
+        //#  define SQLITE_OS_WIN 0
+        //# endif
+        //#endif
 
-		const bool SQLITE_OS_WIN = true;
-		const bool SQLITE_OS_UNIX = false;
-		const bool SQLITE_OS_OS2 = false;
+        const bool SQLITE_OS_WIN = true;
+        const bool SQLITE_OS_UNIX = false;
+        const bool SQLITE_OS_OS2 = false;
 
-		/*
+        /*
 		** Determine if we are dealing with WindowsCE - which has a much
 		** reduced API.
 		*/
-		//#if (_WIN32_WCE)
-		//# define SQLITE_OS_WINCE 1
-		//#else
-		//# define SQLITE_OS_WINCE 0
-		//#endif
+        //#if (_WIN32_WCE)
+        //# define SQLITE_OS_WINCE 1
+        //#else
+        //# define SQLITE_OS_WINCE 0
+        //#endif
 
-		/*
+        /*
 		** Define the maximum size of a temporary filename
 		*/
 #if SQLITE_OS_WIN
-		//# include <windows.h>
-		const int MAX_PATH = 260;
-		const int SQLITE_TEMPNAME_SIZE = (MAX_PATH + 50); //# define SQLITE_TEMPNAME_SIZE (MAX_PATH+50)
+        //# include <windows.h>
+        const int MAX_PATH = 260;
+        const int SQLITE_TEMPNAME_SIZE = (MAX_PATH + 50); //# define SQLITE_TEMPNAME_SIZE (MAX_PATH+50)
 #elif SQLITE_OS_OS2
-# if FALSE //(__GNUC__ > 3 || __GNUC__ == 3 && __GNUC_MINOR__ >= 3) && OS2_HIGH_MEMORY)
+#if FALSE //(__GNUC__ > 3 || __GNUC__ == 3 && __GNUC_MINOR__ >= 3) && OS2_HIGH_MEMORY)
 //#  include <os2safe.h> /* has to be included before os2.h for linking to work */
-# endif
+#endif
 //# define INCL_DOSDATETIME
 //# define INCL_DOSFILEMGR
 //# define INCL_DOSERRORS
@@ -118,21 +118,21 @@ namespace System.Data.SQLite
 //# define SQLITE_TEMPNAME_SIZE 200
 #endif
 
-		/* If the SET_FULLSYNC macro is not defined above, then make it
+        /* If the SET_FULLSYNC macro is not defined above, then make it
 ** a no-op
 */
-		//#if !SET_FULLSYNC
-		//# define SET_FULLSYNC(x,y)
-		//#endif
+        //#if !SET_FULLSYNC
+        //# define SET_FULLSYNC(x,y)
+        //#endif
 
-		/*
+        /*
 		** The default size of a disk sector
 		*/
 #if !SQLITE_DEFAULT_SECTOR_SIZE
-		const int SQLITE_DEFAULT_SECTOR_SIZE = 512;//# define SQLITE_DEFAULT_SECTOR_SIZE 512
+        const int SQLITE_DEFAULT_SECTOR_SIZE = 512;//# define SQLITE_DEFAULT_SECTOR_SIZE 512
 #endif
 
-		/*
+        /*
 ** Temporary files are named starting with this prefix followed by 16 random
 ** alphanumeric characters, and no file extension. They are stored in the
 ** OS's standard temporary file directory, and are deleted prior to exit.
@@ -154,10 +154,10 @@ namespace System.Data.SQLite
 ** of the file.
 */
 #if !SQLITE_TEMP_FILE_PREFIX
-		const string SQLITE_TEMP_FILE_PREFIX = "etilqs_"; //# define SQLITE_TEMP_FILE_PREFIX "etilqs_"
+        const string SQLITE_TEMP_FILE_PREFIX = "etilqs_"; //# define SQLITE_TEMP_FILE_PREFIX "etilqs_"
 #endif
 
-		/*
+        /*
 ** The following values may be passed as the second argument to
 ** sqlite3OsLock(). The various locks exhibit the following semantics:
 **
@@ -174,13 +174,13 @@ namespace System.Data.SQLite
 ** lock. This can be upgraded to an EXCLUSIVE lock by a subsequent call to
 ** sqlite3OsLock().
 */
-		const int NO_LOCK = 0;
-		const int SHARED_LOCK = 1;
-		const int RESERVED_LOCK = 2;
-		const int PENDING_LOCK = 3;
-		const int EXCLUSIVE_LOCK = 4;
+        const int NO_LOCK = 0;
+        const int SHARED_LOCK = 1;
+        const int RESERVED_LOCK = 2;
+        const int PENDING_LOCK = 3;
+        const int EXCLUSIVE_LOCK = 4;
 
-		/*
+        /*
 		** File Locking Notes:  (Mostly about windows but also some info for Unix)
 		**
 		** We cannot use LockFileEx() or UnlockFileEx() on Win95/98/ME because
@@ -239,66 +239,66 @@ namespace System.Data.SQLite
 //# define PENDING_BYTE     (0x40000000)
 	static int PENDING_BYTE = 0x40000000; 
 #else
-		//# define PENDING_BYTE      sqlite3PendingByte
-		static int PENDING_BYTE = 0x40000000;
+        //# define PENDING_BYTE      sqlite3PendingByte
+        static int PENDING_BYTE = 0x40000000;
 #endif
 
-		static int RESERVED_BYTE = (PENDING_BYTE + 1);
-		static int SHARED_FIRST = (PENDING_BYTE + 2);
-		static int SHARED_SIZE = 510;
+        static int RESERVED_BYTE = (PENDING_BYTE + 1);
+        static int SHARED_FIRST = (PENDING_BYTE + 2);
+        static int SHARED_SIZE = 510;
 
-		/*
+        /*
 		** Wrapper around OS specific sqlite3_os_init() function.
 		*/
-		//int sqlite3OsInit(void);
+        //int sqlite3OsInit(void);
 
-		/*
+        /*
 		** Functions for accessing sqlite3_file methods
 		*/
-		//int sqlite3OsClose(sqlite3_file);
-		//int sqlite3OsRead(sqlite3_file*, void*, int amt, i64 offset);
-		//int sqlite3OsWrite(sqlite3_file*, const void*, int amt, i64 offset);
-		//int sqlite3OsTruncate(sqlite3_file*, i64 size);
-		//int sqlite3OsSync(sqlite3_file*, int);
-		//int sqlite3OsFileSize(sqlite3_file*, i64 pSize);
-		//int sqlite3OsLock(sqlite3_file*, int);
-		//int sqlite3OsUnlock(sqlite3_file*, int);
-		//int sqlite3OsCheckReservedLock(sqlite3_file *id, int pResOut);
-		//int sqlite3OsFileControl(sqlite3_file*,int,void);
-		//#define SQLITE_FCNTL_DB_UNCHANGED 0xca093fa0
-		const u32 SQLITE_FCNTL_DB_UNCHANGED = 0xca093fa0;
+        //int sqlite3OsClose(sqlite3_file);
+        //int sqlite3OsRead(sqlite3_file*, void*, int amt, i64 offset);
+        //int sqlite3OsWrite(sqlite3_file*, const void*, int amt, i64 offset);
+        //int sqlite3OsTruncate(sqlite3_file*, i64 size);
+        //int sqlite3OsSync(sqlite3_file*, int);
+        //int sqlite3OsFileSize(sqlite3_file*, i64 pSize);
+        //int sqlite3OsLock(sqlite3_file*, int);
+        //int sqlite3OsUnlock(sqlite3_file*, int);
+        //int sqlite3OsCheckReservedLock(sqlite3_file *id, int pResOut);
+        //int sqlite3OsFileControl(sqlite3_file*,int,void);
+        //#define SQLITE_FCNTL_DB_UNCHANGED 0xca093fa0
+        const u32 SQLITE_FCNTL_DB_UNCHANGED = 0xca093fa0;
 
-		//int sqlite3OsSectorSize(sqlite3_file *id);
-		//int sqlite3OsDeviceCharacteristics(sqlite3_file *id);
-		//int sqlite3OsShmMap(sqlite3_file *,int,int,int,object volatile *);
-		//int sqlite3OsShmLock(sqlite3_file *id, int, int, int);
-		//void sqlite3OsShmBarrier(sqlite3_file *id);
-		//int sqlite3OsShmUnmap(sqlite3_file *id, int);
+        //int sqlite3OsSectorSize(sqlite3_file *id);
+        //int sqlite3OsDeviceCharacteristics(sqlite3_file *id);
+        //int sqlite3OsShmMap(sqlite3_file *,int,int,int,object volatile *);
+        //int sqlite3OsShmLock(sqlite3_file *id, int, int, int);
+        //void sqlite3OsShmBarrier(sqlite3_file *id);
+        //int sqlite3OsShmUnmap(sqlite3_file *id, int);
 
-		/*
+        /*
 		** Functions for accessing sqlite3_vfs methods
 		*/
-		//int sqlite3OsOpen(sqlite3_vfs *, string , sqlite3_file*, int, int );
-		//int sqlite3OsDelete(sqlite3_vfs *, string , int);
-		//int sqlite3OsAccess(sqlite3_vfs *, string , int, int pResOut);
-		//int sqlite3OsFullPathname(sqlite3_vfs *, string , int, char );
+        //int sqlite3OsOpen(sqlite3_vfs *, string , sqlite3_file*, int, int );
+        //int sqlite3OsDelete(sqlite3_vfs *, string , int);
+        //int sqlite3OsAccess(sqlite3_vfs *, string , int, int pResOut);
+        //int sqlite3OsFullPathname(sqlite3_vfs *, string , int, char );
 #if !SQLITE_OMIT_LOAD_EXTENSION
-		//void *sqlite3OsDlOpen(sqlite3_vfs *, string );
-		//void sqlite3OsDlError(sqlite3_vfs *, int, char );
-		//void (*sqlite3OsDlSym(sqlite3_vfs *, object  *, string ))(void);
-		//void sqlite3OsDlClose(sqlite3_vfs *, object  );
+        //void *sqlite3OsDlOpen(sqlite3_vfs *, string );
+        //void sqlite3OsDlError(sqlite3_vfs *, int, char );
+        //void (*sqlite3OsDlSym(sqlite3_vfs *, object  *, string ))(void);
+        //void sqlite3OsDlClose(sqlite3_vfs *, object  );
 #endif
-		//int sqlite3OsRandomness(sqlite3_vfs *, int, char );
-		//int sqlite3OsSleep(sqlite3_vfs *, int);
-		//int sqlite3OsCurrentTimeInt64(sqlite3_vfs *, sqlite3_int64);
+        //int sqlite3OsRandomness(sqlite3_vfs *, int, char );
+        //int sqlite3OsSleep(sqlite3_vfs *, int);
+        //int sqlite3OsCurrentTimeInt64(sqlite3_vfs *, sqlite3_int64);
 
-		/*
+        /*
 		** Convenience functions for opening and closing files using
 		** sqlite3Malloc() to obtain space for the file-handle structure.
 		*/
-		//int sqlite3OsOpenMalloc(sqlite3_vfs *, string , sqlite3_file **, int,int);
-		//int sqlite3OsCloseFree(sqlite3_file );
+        //int sqlite3OsOpenMalloc(sqlite3_vfs *, string , sqlite3_file **, int,int);
+        //int sqlite3OsCloseFree(sqlite3_file );
 #endif // * _SQLITE_OS_H_ */
 
-	}
+    }
 }

@@ -33,28 +33,27 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections;
 
 namespace OpenNLP.Tools.NameFind
 {
-	/// <summary>
-	/// The interface for name finders which provide name tags for a sequence of tokens.
-	/// </summary>
-	public interface INameFinder
-	{
-		/// <summary>
-		/// Generates name tags for the given sequence returning the result in an array.
-		/// </summary>
-		/// <param name="tokens">
-		/// an array of the tokens or words of the sequence.
-		/// </param>
-		/// <param name="previousTags">
-		/// a mapping between tokens and outcomes from previous sentences. 
-		/// </param>
-		/// <returns>
-		/// an array of chunk tags for each token in the sequence.
-		/// </returns>
-		string[] Find(string[] tokens, IDictionary previousTags);
-	}
+    /// <summary>
+    /// The interface for name finders which provide name tags for a sequence of tokens.
+    /// </summary>
+    public interface INameFinder
+    {
+        /// <summary>
+        /// Generates name tags for the given sequence returning the result in an array.
+        /// </summary>
+        /// <param name="tokens">
+        /// an array of the tokens or words of the sequence.
+        /// </param>
+        /// <param name="previousTags">
+        /// a mapping between tokens and outcomes from previous sentences. 
+        /// </param>
+        /// <returns>
+        /// an array of chunk tags for each token in the sequence.
+        /// </returns>
+        string[] Find(string[] tokens, IDictionary previousTags);
+    }
 }

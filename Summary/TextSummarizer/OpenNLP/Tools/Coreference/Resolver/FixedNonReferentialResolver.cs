@@ -33,33 +33,32 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> Implementation of non-referential classifier which uses a fixed-value threshold. </summary>
-	public class FixedNonReferentialResolver : INonReferentialResolver
-	{
-		
-		private double mNonReferentialProbability;
-		
-		public FixedNonReferentialResolver(double nonReferentialProbability)
-		{
-			mNonReferentialProbability = nonReferentialProbability;
-		}
-		
-		public virtual double GetNonReferentialProbability(MentionContext mention)
-		{
-			return mNonReferentialProbability;
-		}
-		
-		public virtual void AddEvent(MentionContext mention)
-		{
-		}
-		
-		public virtual void Train()
-		{
-		}
-	}
+
+    /// <summary> Implementation of non-referential classifier which uses a fixed-value threshold. </summary>
+    public class FixedNonReferentialResolver : INonReferentialResolver
+    {
+
+        private double mNonReferentialProbability;
+
+        public FixedNonReferentialResolver(double nonReferentialProbability)
+        {
+            mNonReferentialProbability = nonReferentialProbability;
+        }
+
+        public virtual double GetNonReferentialProbability(MentionContext mention)
+        {
+            return mNonReferentialProbability;
+        }
+
+        public virtual void AddEvent(MentionContext mention)
+        {
+        }
+
+        public virtual void Train()
+        {
+        }
+    }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Parser;
-
-namespace OpenNLP.Tools.Trees
+﻿namespace OpenNLP.Tools.Trees
 {
     /// <summary>
     /// A general factory for {@link GrammaticalStructure} objects.

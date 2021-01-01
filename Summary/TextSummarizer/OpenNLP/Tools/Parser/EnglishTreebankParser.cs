@@ -33,79 +33,81 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
 namespace OpenNLP.Tools.Parser
 {
-	/// <summary>
-	/// Class that wraps the MaximumEntropyParser to make it easy to perform full parses using the English Treebank
-	/// based maximum entropy models.
-	/// </summary>
-	public sealed class EnglishTreebankParser
-	{
-	    readonly MaximumEntropyParser _parser;
-	    readonly Tokenize.EnglishMaximumEntropyTokenizer _tokenizer;
+    /// <summary>
+    /// Class that wraps the MaximumEntropyParser to make it easy to perform full parses using the English Treebank
+    /// based maximum entropy models.
+    /// </summary>
+    public sealed class EnglishTreebankParser
+    {
+        readonly MaximumEntropyParser _parser;
+        readonly Tokenize.EnglishMaximumEntropyTokenizer _tokenizer;
 
         // Constructors ---------------------
 
-		public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, int beamSize, double advancePercentage)
-		{
-			var buildModelReader = new SharpEntropy.IO.BinaryGisModelReader(dataDirectory + Path.Combine("parser","build.nbin"));
-			var buildModel = new SharpEntropy.GisModel(buildModelReader);
+        public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, int beamSize, double advancePercentage)
+        {
+            var buildModelReader = new SharpEntropy.IO.BinaryGisModelReader(dataDirectory + Path.Combine("parser", "build.nbin"));
+            var buildModel = new SharpEntropy.GisModel(buildModelReader);
 
-			var checkModelReader = new SharpEntropy.IO.BinaryGisModelReader(dataDirectory + Path.Combine("parser","check.nbin"));
-			SharpEntropy.IMaximumEntropyModel checkModel = new SharpEntropy.GisModel(checkModelReader);
+            var checkModelReader = new SharpEntropy.IO.BinaryGisModelReader(dataDirectory + Path.Combine("parser", "check.nbin"));
+            SharpEntropy.IMaximumEntropyModel checkModel = new SharpEntropy.GisModel(checkModelReader);
 
-		    EnglishTreebankPosTagger posTagger = useTagDictionary ? 
-                new EnglishTreebankPosTagger(dataDirectory + Path.Combine("parser","tag.nbin"), dataDirectory + Path.Combine("parser","tagdict"), useCaseSensitiveTagDictionary) 
-		        : new EnglishTreebankPosTagger(dataDirectory + Path.Combine("parser","tag.nbin"));
+            EnglishTreebankPosTagger posTagger = useTagDictionary ?
+                new EnglishTreebankPosTagger(dataDirectory + Path.Combine("parser", "tag.nbin"), dataDirectory + Path.Combine("parser", "tagdict"), useCaseSensitiveTagDictionary)
+                : new EnglishTreebankPosTagger(dataDirectory + Path.Combine("parser", "tag.nbin"));
 
-			var chunker = new EnglishTreebankParserChunker(dataDirectory + Path.Combine("parser","chunk.nbin"));
-			var headRules = new EnglishHeadRules(dataDirectory + Path.Combine("parser","head_rules"));
+            var chunker = new EnglishTreebankParserChunker(dataDirectory + Path.Combine("parser", "chunk.nbin"));
+            var headRules = new EnglishHeadRules(dataDirectory + Path.Combine("parser", "head_rules"));
 
-			_parser = new MaximumEntropyParser(buildModel, checkModel, posTagger, chunker, headRules, beamSize, advancePercentage);
-		
-			_tokenizer = new Tokenize.EnglishMaximumEntropyTokenizer(dataDirectory + "EnglishTok.nbin");
+            _parser = new MaximumEntropyParser(buildModel, checkModel, posTagger, chunker, headRules, beamSize, advancePercentage);
 
-		}
-		
-		public EnglishTreebankParser(string dataDirectory):
-            this(dataDirectory, true, false, MaximumEntropyParser.DefaultBeamSize, MaximumEntropyParser.DefaultAdvancePercentage){}
-  
-		public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary):
-            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, MaximumEntropyParser.DefaultBeamSize, MaximumEntropyParser.DefaultAdvancePercentage){}
+            _tokenizer = new Tokenize.EnglishMaximumEntropyTokenizer(dataDirectory + "EnglishTok.nbin");
 
-		public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, int beamSize):
-            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, beamSize, MaximumEntropyParser.DefaultAdvancePercentage){}
+        }
 
-		public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, double advancePercentage):
-            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, MaximumEntropyParser.DefaultBeamSize, advancePercentage){}
+        public EnglishTreebankParser(string dataDirectory) :
+            this(dataDirectory, true, false, MaximumEntropyParser.DefaultBeamSize, MaximumEntropyParser.DefaultAdvancePercentage)
+        { }
+
+        public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary) :
+            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, MaximumEntropyParser.DefaultBeamSize, MaximumEntropyParser.DefaultAdvancePercentage)
+        { }
+
+        public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, int beamSize) :
+            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, beamSize, MaximumEntropyParser.DefaultAdvancePercentage)
+        { }
+
+        public EnglishTreebankParser(string dataDirectory, bool useTagDictionary, bool useCaseSensitiveTagDictionary, double advancePercentage) :
+            this(dataDirectory, useTagDictionary, useCaseSensitiveTagDictionary, MaximumEntropyParser.DefaultBeamSize, advancePercentage)
+        { }
 
 
         // Methods ----------------------
 
-		private string ConvertToken(string token)
-		{
-			switch (token)
-			{
-				case "(":
-					return "-LRB-";
-				case ")":
-					return "-RRB-";
-				case "{":
-					return "-LCB-";
-				case "}":
-					return "-RCB-";
-				default:
-					return token;
-			}
-		}
-		
+        private string ConvertToken(string token)
+        {
+            switch (token)
+            {
+                case "(":
+                    return "-LRB-";
+                case ")":
+                    return "-RRB-";
+                case "{":
+                    return "-LCB-";
+                case "}":
+                    return "-RCB-";
+                default:
+                    return token;
+            }
+        }
+
         private Parse[] DoParse(IEnumerable<string> tokens, int requestedParses)
-	    {
+        {
             var lineBuilder = new System.Text.StringBuilder();
             var convertedTokens = new List<string>();
             foreach (string rawToken in tokens)
@@ -133,7 +135,7 @@ namespace OpenNLP.Tools.Parser
             {
                 return null;
             }
-	    }
+        }
 
         /// <summary>
         /// Builds the syntax tree (or parse tree) of a sentence.
@@ -141,10 +143,10 @@ namespace OpenNLP.Tools.Parser
         /// <param name="sentence">The sentence</param>
         /// <returns>The syntax tree</returns>
 		public Parse DoParse(string sentence)
-		{
-		    var tokens = _tokenizer.Tokenize(sentence);
-		    return DoParse(tokens);
-		}
+        {
+            var tokens = _tokenizer.Tokenize(sentence);
+            return DoParse(tokens);
+        }
 
         /// <summary>
         /// Builds the syntax Tree (or parse tree) of a tokenized sentence.
@@ -152,14 +154,14 @@ namespace OpenNLP.Tools.Parser
         /// <param name="tokens">The collection of tokens for a sentence</param>
         /// <returns>The sytax tree</returns>
 	    public Parse DoParse(IEnumerable<string> tokens)
-	    {
+        {
             Parse[] parses = DoParse(tokens, 1);
             if (parses != null)
             {
                 return parses[0];
             }
             return null;
-	    }
+        }
 
 
         // Inner classes ------------------------------
@@ -187,7 +189,7 @@ namespace OpenNLP.Tools.Parser
                 _beamSize = beamSize;
             }
 
-            
+
             // Methods ---------------------------------
 
             public Util.Sequence[] TopKSequences(string[] sentence)
@@ -289,5 +291,5 @@ namespace OpenNLP.Tools.Parser
                 return true;
             }
         }
-	}
+    }
 }

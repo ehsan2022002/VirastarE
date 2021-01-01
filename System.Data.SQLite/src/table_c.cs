@@ -1,13 +1,8 @@
-using System;
-using System.Diagnostics;
-
-using i64 = System.Int64;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2001 September 15
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -32,9 +27,9 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
-		//#include <stdlib.h>
-		//#include <string.h>
+        //#include "sqliteInt.h"
+        //#include <stdlib.h>
+        //#include <string.h>
 
 #if !SQLITE_OMIT_GET_TABLE
 
@@ -217,5 +212,5 @@ int i, n;
 }
 
 #endif //* SQLITE_OMIT_GET_TABLE */
-	}
+    }
 }

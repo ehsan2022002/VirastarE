@@ -1,13 +1,14 @@
-﻿
+﻿using NetOffice.WordApi;
 
 namespace VirastarE
 {
-    class GlobalClass
+    internal class GlobalClass
     {
-        public static NetOffice.WordApi.Application myword;
-        public static NetOffice.WordApi.Document mydoc;
-        //public static NetOffice.WordApi.Paragraph myparagraph;
-        public static NetOffice.WordApi.Selection myselection;
+        public static Application myword;
 
+        public static Document mydoc;
+
+        //public static NetOffice.WordApi.Paragraph myparagraph;
+        public static Selection myselection;
     }
 }

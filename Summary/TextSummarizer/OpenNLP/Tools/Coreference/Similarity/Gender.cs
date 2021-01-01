@@ -17,35 +17,33 @@
 //This file is based on the Gender.java source file found in the
 //original java implementation of OpenNLP.  
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	public class Gender
-	{
+    public class Gender
+    {
         private GenderEnum mType;
         private double mConfidence;
 
-		public virtual GenderEnum Type
-		{
-			get
-			{
-				return mType;
-			}
-		}
+        public virtual GenderEnum Type
+        {
+            get
+            {
+                return mType;
+            }
+        }
 
-		public virtual double Confidence
-		{
-			get
-			{
-				return mConfidence;
-			}
-		}
+        public virtual double Confidence
+        {
+            get
+            {
+                return mConfidence;
+            }
+        }
 
-		public Gender(GenderEnum type, double confidence)
-		{
-			mType = type;
-			mConfidence = confidence;
-		}
-	}
+        public Gender(GenderEnum type, double confidence)
+        {
+            mType = type;
+            mConfidence = confidence;
+        }
+    }
 }

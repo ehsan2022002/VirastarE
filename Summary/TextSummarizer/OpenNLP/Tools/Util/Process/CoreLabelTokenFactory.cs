@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Util.Process
 {
@@ -66,8 +61,8 @@ namespace OpenNLP.Tools.Util.Process
             cl.SetOriginalText(originalText);
             if (addIndices)
             {
-                cl.Set(typeof (CoreAnnotations.CharacterOffsetBeginAnnotation), begin);
-                cl.Set(typeof (CoreAnnotations.CharacterOffsetEndAnnotation), begin + length);
+                cl.Set(typeof(CoreAnnotations.CharacterOffsetBeginAnnotation), begin);
+                cl.Set(typeof(CoreAnnotations.CharacterOffsetEndAnnotation), begin + length);
             }
             return cl;
         }

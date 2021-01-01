@@ -1,10 +1,10 @@
 namespace System.Data.SQLite
 {
-	using sqlite_u3264 = System.UInt64;
+    using sqlite_u3264 = System.UInt64;
 
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2008 May 27
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -28,16 +28,16 @@ namespace System.Data.SQLite
 		*************************************************************************
 		*/
 
-		/*
+        /*
 		** To compile without implementing sqlite3Hwtime() for your platform,
 		** you can remove the above #error and use the following
 		** stub function.  You will lose timing support for many
 		** of the debugging and testing utilities, but it should at
 		** least compile and run.
 		*/
-		static sqlite_u3264 sqlite3Hwtime()
-		{
-			return (sqlite_u3264)System.DateTime.Now.Ticks;
-		}
-	}
+        static sqlite_u3264 sqlite3Hwtime()
+        {
+            return (sqlite_u3264)System.DateTime.Now.Ticks;
+        }
+    }
 }

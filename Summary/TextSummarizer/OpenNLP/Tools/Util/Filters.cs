@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -77,7 +75,7 @@ namespace OpenNLP.Tools.Util
   public static <E> Predicate<E> collectionAcceptFilter(E[] objs) {
     return new CollectionAcceptFilter<E>(Arrays.asList(objs), true);
   }*/
-        
+
         /// <summary>
         /// The collectionAcceptFilter accepts a certain collection.
         /// </summary>

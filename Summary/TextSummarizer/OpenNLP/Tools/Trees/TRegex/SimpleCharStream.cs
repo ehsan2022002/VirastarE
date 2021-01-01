@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -150,7 +146,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 throw e;
             }
         }
-        
+
         public char BeginToken()
         {
             tokenBegin = -1;
@@ -190,7 +186,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     break;
                 case '\t':
                     column--;
-                    column += (tabSize - (column%tabSize));
+                    column += (tabSize - (column % tabSize));
                     break;
                 default:
                     break;
@@ -403,7 +399,7 @@ namespace OpenNLP.Tools.Trees.TRegex
 
         /// <summary>Reinitialize</summary>
         public void ReInit( /*java.io.InputStream*/ Stream dstream, string encoding)
-            /*throws java.io.UnsupportedEncodingException*/
+        /*throws java.io.UnsupportedEncodingException*/
         {
             ReInit(dstream, encoding, 1, 1, 4096);
         }
@@ -489,7 +485,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             int i = 0, j = 0, k = 0;
             int columnDiff = 0;
 
-            while (i < len && bufline[j = start%bufsize] == bufline[k = ++start%bufsize])
+            while (i < len && bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
             {
                 bufline[j] = newLine;
                 int nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];
@@ -505,7 +501,7 @@ namespace OpenNLP.Tools.Trees.TRegex
 
                 while (i++ < len)
                 {
-                    if (bufline[j = start%bufsize] != bufline[++start%bufsize])
+                    if (bufline[j = start % bufsize] != bufline[++start % bufsize])
                         bufline[j] = newLine++;
                     else
                         bufline[j] = newLine;

@@ -232,7 +232,7 @@ namespace OpenNLP.Tools.Util
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new ArrayList((ICollection) mCountedSet.Keys).GetEnumerator();
+            return new ArrayList((ICollection)mCountedSet.Keys).GetEnumerator();
         }
 
         #endregion

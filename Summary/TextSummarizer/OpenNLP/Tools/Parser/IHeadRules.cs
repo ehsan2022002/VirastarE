@@ -33,27 +33,25 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Parser
 {
-	/// <summary>
-	/// Interface for encoding the head rules associated with parsing.
-	/// </summary>
-	public interface IHeadRules
-	{
-		/// <summary>
-		/// Returns the head constituent for the specified constituents of the specified type.
-		/// </summary>
-		/// <param name="constituents">
-		/// The constituents which make up a constituent of the specified type.
-		/// </param>
-		/// <param name="type">
-		/// The type of a constituent which is made up of the specifed constituents.
-		/// </param>
-		/// <returns>
-		/// The constituent which is the head.
-		/// </returns>
-		Parse GetHead(Parse[] constituents, string type);
-	}
+    /// <summary>
+    /// Interface for encoding the head rules associated with parsing.
+    /// </summary>
+    public interface IHeadRules
+    {
+        /// <summary>
+        /// Returns the head constituent for the specified constituents of the specified type.
+        /// </summary>
+        /// <param name="constituents">
+        /// The constituents which make up a constituent of the specified type.
+        /// </param>
+        /// <param name="type">
+        /// The type of a constituent which is made up of the specifed constituents.
+        /// </param>
+        /// <returns>
+        /// The constituent which is the head.
+        /// </returns>
+        Parse GetHead(Parse[] constituents, string type);
+    }
 }

@@ -3,535 +3,531 @@
 **  Custom classes used by C#
 *************************************************************************
 */
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-
 using i64 = System.Int64;
-
-using u32 = System.UInt32;
 using time_t = System.Int64;
+using u32 = System.UInt32;
 
 namespace System.Data.SQLite
 {
-	using sqlite3_value = Sqlite3.Mem;
+    using sqlite3_value = Sqlite3.Mem;
 
-	public partial class Sqlite3
-	{
+    public partial class Sqlite3
+    {
 
-		static int atoi(byte[] inStr)
-		{
-			return atoi(Encoding.UTF8.GetString(inStr, 0, inStr.Length));
-		}
+        static int atoi(byte[] inStr)
+        {
+            return atoi(Encoding.UTF8.GetString(inStr, 0, inStr.Length));
+        }
 
-		static int atoi(string inStr)
-		{
-			int i;
-			for (i = 0; i < inStr.Length; i++)
-			{
-				if (!sqlite3Isdigit(inStr[i]) && inStr[i] != '-')
-					break;
-			}
-			int result = 0;
-			return (Int32.TryParse(inStr.Substring(0, i), out result) ? result : 0);
-		}
+        static int atoi(string inStr)
+        {
+            int i;
+            for (i = 0; i < inStr.Length; i++)
+            {
+                if (!sqlite3Isdigit(inStr[i]) && inStr[i] != '-')
+                    break;
+            }
+            int result = 0;
+            return (Int32.TryParse(inStr.Substring(0, i), out result) ? result : 0);
+        }
 
-		static void fprintf(TextWriter tw, string zFormat, params object[] ap)
-		{
-			tw.Write(sqlite3_mprintf(zFormat, ap));
-		}
-		static void printf(string zFormat, params object[] ap)
-		{
-			Console.Out.Write(sqlite3_mprintf(zFormat, ap));
-		}
-
-
-		//Byte Buffer Testing
-		static int memcmp(byte[] bA, byte[] bB, int Limit)
-		{
-			if (bA.Length < Limit)
-				return (bA.Length < bB.Length) ? -1 : +1;
-			if (bB.Length < Limit)
-				return +1;
-			for (int i = 0; i < Limit; i++)
-			{
-				if (bA[i] != bB[i])
-					return (bA[i] < bB[i]) ? -1 : 1;
-			}
-			return 0;
-		}
-
-		//Byte Buffer  & String Testing
-		static int memcmp(string A, byte[] bB, int Limit)
-		{
-			if (A.Length < Limit)
-				return (A.Length < bB.Length) ? -1 : +1;
-			if (bB.Length < Limit)
-				return +1;
-			char[] cA = A.ToCharArray();
-			for (int i = 0; i < Limit; i++)
-			{
-				if (cA[i] != bB[i])
-					return (cA[i] < bB[i]) ? -1 : 1;
-			}
-			return 0;
-		}
-
-		//byte with Offset & String Testing
-		static int memcmp(byte[] a, int Offset, byte[] b, int Limit)
-		{
-			if (a.Length < Offset + Limit)
-				return (a.Length - Offset < b.Length) ? -1 : +1;
-			if (b.Length < Limit)
-				return +1;
-			for (int i = 0; i < Limit; i++)
-			{
-				if (a[i + Offset] != b[i])
-					return (a[i + Offset] < b[i]) ? -1 : 1;
-			}
-			return 0;
-		}
-
-		//byte with Offset & String Testing
-		static int memcmp(byte[] a, int Aoffset, byte[] b, int Boffset, int Limit)
-		{
-			if (a.Length < Aoffset + Limit)
-				return (a.Length - Aoffset < b.Length - Boffset) ? -1 : +1;
-			if (b.Length < Boffset + Limit)
-				return +1;
-			for (int i = 0; i < Limit; i++)
-			{
-				if (a[i + Aoffset] != b[i + Boffset])
-					return (a[i + Aoffset] < b[i + Boffset]) ? -1 : 1;
-			}
-			return 0;
-		}
-
-		static int memcmp(byte[] a, int Offset, string b, int Limit)
-		{
-			if (a.Length < Offset + Limit)
-				return (a.Length - Offset < b.Length) ? -1 : +1;
-			if (b.Length < Limit)
-				return +1;
-			for (int i = 0; i < Limit; i++)
-			{
-				if (a[i + Offset] != b[i])
-					return (a[i + Offset] < b[i]) ? -1 : 1;
-			}
-			return 0;
-		}
-		//String Testing
-		static int memcmp(string A, string B, int Limit)
-		{
-			if (A.Length < Limit)
-				return (A.Length < B.Length) ? -1 : +1;
-			if (B.Length < Limit)
-				return +1;
-			int rc;
-			if ((rc = String.Compare(A, 0, B, 0, Limit, StringComparison.Ordinal)) == 0)
-				return 0;
-			return rc < 0 ? -1 : +1;
-		}
+        static void fprintf(TextWriter tw, string zFormat, params object[] ap)
+        {
+            tw.Write(sqlite3_mprintf(zFormat, ap));
+        }
+        static void printf(string zFormat, params object[] ap)
+        {
+            Console.Out.Write(sqlite3_mprintf(zFormat, ap));
+        }
 
 
-		// ----------------------------
-		// ** Builtin Functions
-		// ----------------------------
+        //Byte Buffer Testing
+        static int memcmp(byte[] bA, byte[] bB, int Limit)
+        {
+            if (bA.Length < Limit)
+                return (bA.Length < bB.Length) ? -1 : +1;
+            if (bB.Length < Limit)
+                return +1;
+            for (int i = 0; i < Limit; i++)
+            {
+                if (bA[i] != bB[i])
+                    return (bA[i] < bB[i]) ? -1 : 1;
+            }
+            return 0;
+        }
+
+        //Byte Buffer  & String Testing
+        static int memcmp(string A, byte[] bB, int Limit)
+        {
+            if (A.Length < Limit)
+                return (A.Length < bB.Length) ? -1 : +1;
+            if (bB.Length < Limit)
+                return +1;
+            char[] cA = A.ToCharArray();
+            for (int i = 0; i < Limit; i++)
+            {
+                if (cA[i] != bB[i])
+                    return (cA[i] < bB[i]) ? -1 : 1;
+            }
+            return 0;
+        }
+
+        //byte with Offset & String Testing
+        static int memcmp(byte[] a, int Offset, byte[] b, int Limit)
+        {
+            if (a.Length < Offset + Limit)
+                return (a.Length - Offset < b.Length) ? -1 : +1;
+            if (b.Length < Limit)
+                return +1;
+            for (int i = 0; i < Limit; i++)
+            {
+                if (a[i + Offset] != b[i])
+                    return (a[i + Offset] < b[i]) ? -1 : 1;
+            }
+            return 0;
+        }
+
+        //byte with Offset & String Testing
+        static int memcmp(byte[] a, int Aoffset, byte[] b, int Boffset, int Limit)
+        {
+            if (a.Length < Aoffset + Limit)
+                return (a.Length - Aoffset < b.Length - Boffset) ? -1 : +1;
+            if (b.Length < Boffset + Limit)
+                return +1;
+            for (int i = 0; i < Limit; i++)
+            {
+                if (a[i + Aoffset] != b[i + Boffset])
+                    return (a[i + Aoffset] < b[i + Boffset]) ? -1 : 1;
+            }
+            return 0;
+        }
+
+        static int memcmp(byte[] a, int Offset, string b, int Limit)
+        {
+            if (a.Length < Offset + Limit)
+                return (a.Length - Offset < b.Length) ? -1 : +1;
+            if (b.Length < Limit)
+                return +1;
+            for (int i = 0; i < Limit; i++)
+            {
+                if (a[i + Offset] != b[i])
+                    return (a[i + Offset] < b[i]) ? -1 : 1;
+            }
+            return 0;
+        }
+        //String Testing
+        static int memcmp(string A, string B, int Limit)
+        {
+            if (A.Length < Limit)
+                return (A.Length < B.Length) ? -1 : +1;
+            if (B.Length < Limit)
+                return +1;
+            int rc;
+            if ((rc = String.Compare(A, 0, B, 0, Limit, StringComparison.Ordinal)) == 0)
+                return 0;
+            return rc < 0 ? -1 : +1;
+        }
 
 
-		static Regex oRegex = null;
-		/*
+        // ----------------------------
+        // ** Builtin Functions
+        // ----------------------------
+
+
+        static Regex oRegex = null;
+        /*
 		** The regexp() function.  two arguments are both strings
 		** Collating sequences are not used.
 		*/
-		static void regexpFunc(
-		sqlite3_context context,
-		int argc,
-		sqlite3_value[] argv
-		)
-		{
-			string zTest;       /* The input string A */
-			string zRegex;      /* The regex string B */
+        static void regexpFunc(
+        sqlite3_context context,
+        int argc,
+        sqlite3_value[] argv
+        )
+        {
+            string zTest;       /* The input string A */
+            string zRegex;      /* The regex string B */
 
-			Debug.Assert(argc == 2);
-			UNUSED_PARAMETER(argc);
-			zRegex = sqlite3_value_text(argv[0]);
-			zTest = sqlite3_value_text(argv[1]);
+            Debug.Assert(argc == 2);
+            UNUSED_PARAMETER(argc);
+            zRegex = sqlite3_value_text(argv[0]);
+            zTest = sqlite3_value_text(argv[1]);
 
-			if (zTest == null || String.IsNullOrEmpty(zRegex))
-			{
-				sqlite3_result_int(context, 0);
-				return;
-			}
+            if (zTest == null || String.IsNullOrEmpty(zRegex))
+            {
+                sqlite3_result_int(context, 0);
+                return;
+            }
 
-			if (oRegex == null || oRegex.ToString() == zRegex)
-			{
-				oRegex = new Regex(zRegex, RegexOptions.IgnoreCase);
-			}
-			sqlite3_result_int(context, oRegex.IsMatch(zTest) ? 1 : 0);
-		}
-
-
-		// ----------------------------
-		// ** Convertion routines
-		// ----------------------------
-		static Object lock_va_list = new Object();
-
-		static string vaFORMAT;
-		static int vaNEXT;
-
-		static void va_start(object[] ap, string zFormat)
-		{
-			vaFORMAT = zFormat;
-			vaNEXT = 0;
-		}
-
-		static Boolean va_arg(object[] ap, Boolean sysType)
-		{
-			return Convert.ToBoolean(ap[vaNEXT++]);
-		}
-
-		static Byte[] va_arg(object[] ap, Byte[] sysType)
-		{
-			return (Byte[])ap[vaNEXT++];
-		}
-
-		static Byte[][] va_arg(object[] ap, Byte[][] sysType)
-		{
-			if (ap[vaNEXT] == null)
-			{
-				{
-					vaNEXT++;
-					return null;
-				}
-			}
-			else
-			{
-				return (Byte[][])ap[vaNEXT++];
-			}
-		}
-
-		static Char va_arg(object[] ap, Char sysType)
-		{
-			if (ap[vaNEXT] is Int32 && (int)ap[vaNEXT] == 0)
-			{
-				vaNEXT++;
-				return (char)'0';
-			}
-			else
-			{
-				if (ap[vaNEXT] is Int64)
-					if ((i64)ap[vaNEXT] == 0)
-					{
-						vaNEXT++;
-						return (char)'0';
-					}
-					else
-						return (char)((i64)ap[vaNEXT++]);
-				else
-					return (char)ap[vaNEXT++];
-			}
-
-		}
-
-		static Double va_arg(object[] ap, Double sysType)
-		{
-			return Convert.ToDouble(ap[vaNEXT++]);
-		}
-
-		static dxLog va_arg(object[] ap, dxLog sysType)
-		{
-			return (dxLog)ap[vaNEXT++];
-		}
-
-		static Int64 va_arg(object[] ap, Int64 sysType)
-		{
-			if (ap[vaNEXT] is System.Int64)
-				return Convert.ToInt64(ap[vaNEXT++]);
-			else
-				return (Int64)(ap[vaNEXT++].GetHashCode());
-		}
-
-		static Int32 va_arg(object[] ap, Int32 sysType)
-		{
-			if (Convert.ToInt64(ap[vaNEXT]) > 0 && (Convert.ToUInt32(ap[vaNEXT]) > Int32.MaxValue))
-				return (Int32)(Convert.ToUInt32(ap[vaNEXT++]) - System.UInt32.MaxValue - 1);
-			else
-				return (Int32)Convert.ToInt32(ap[vaNEXT++]);
-		}
-
-		static Int32[] va_arg(object[] ap, Int32[] sysType)
-		{
-			if (ap[vaNEXT] == null)
-			{
-				{
-					vaNEXT++;
-					return null;
-				}
-			}
-			else
-			{
-				return (Int32[])ap[vaNEXT++];
-			}
-		}
-
-		static MemPage va_arg(object[] ap, MemPage sysType)
-		{
-			return (MemPage)ap[vaNEXT++];
-		}
-
-		static Object va_arg(object[] ap, Object sysType)
-		{
-			return (Object)ap[vaNEXT++];
-		}
-
-		static sqlite3 va_arg(object[] ap, sqlite3 sysType)
-		{
-			return (sqlite3)ap[vaNEXT++];
-		}
-
-		static sqlite3_mem_methods va_arg(object[] ap, sqlite3_mem_methods sysType)
-		{
-			return (sqlite3_mem_methods)ap[vaNEXT++];
-		}
-
-		static sqlite3_mutex_methods va_arg(object[] ap, sqlite3_mutex_methods sysType)
-		{
-			return (sqlite3_mutex_methods)ap[vaNEXT++];
-		}
-
-		static SrcList va_arg(object[] ap, SrcList sysType)
-		{
-			return (SrcList)ap[vaNEXT++];
-		}
-
-		static String va_arg(object[] ap, String sysType)
-		{
-			if (ap.Length < vaNEXT - 1 || ap[vaNEXT] == null)
-			{
-				vaNEXT++;
-				return "NULL";
-			}
-			else
-			{
-				if (ap[vaNEXT] is Byte[])
-					if (Encoding.UTF8.GetString((byte[])ap[vaNEXT], 0, ((byte[])ap[vaNEXT]).Length) == "\0")
-					{
-						vaNEXT++;
-						return "";
-					}
-					else
-						return Encoding.UTF8.GetString((byte[])ap[vaNEXT], 0, ((byte[])ap[vaNEXT++]).Length);
-				else if (ap[vaNEXT] is Int32)
-				{
-					vaNEXT++;
-					return null;
-				}
-				else if (ap[vaNEXT] is StringBuilder)
-					return (String)ap[vaNEXT++].ToString();
-				else if (ap[vaNEXT] is Char)
-					return ((Char)ap[vaNEXT++]).ToString();
-				else
-					return (String)ap[vaNEXT++];
-			}
-		}
-
-		static Token va_arg(object[] ap, Token sysType)
-		{
-			return (Token)ap[vaNEXT++];
-		}
-
-		static UInt32 va_arg(object[] ap, UInt32 sysType)
-		{
-			if (ap[vaNEXT].GetType().IsClass)
-			{
-				return (UInt32)ap[vaNEXT++].GetHashCode();
-			}
-			else
-			{
-				return (UInt32)Convert.ToUInt32(ap[vaNEXT++]);
-			}
-		}
-
-		static UInt64 va_arg(object[] ap, UInt64 sysType)
-		{
-			if (ap[vaNEXT].GetType().IsClass)
-			{
-				return (UInt64)ap[vaNEXT++].GetHashCode();
-			}
-			else
-			{
-				return (UInt64)Convert.ToUInt64(ap[vaNEXT++]);
-			}
-		}
-
-		static void_function va_arg(object[] ap, void_function sysType)
-		{
-			return (void_function)ap[vaNEXT++];
-		}
+            if (oRegex == null || oRegex.ToString() == zRegex)
+            {
+                oRegex = new Regex(zRegex, RegexOptions.IgnoreCase);
+            }
+            sqlite3_result_int(context, oRegex.IsMatch(zTest) ? 1 : 0);
+        }
 
 
-		static void va_end(ref string[] ap)
-		{
-			ap = null;
-			vaNEXT = -1;
-			vaFORMAT = "";
-		}
-		static void va_end(ref object[] ap)
-		{
-			ap = null;
-			vaNEXT = -1;
-			vaFORMAT = "";
-		}
+        // ----------------------------
+        // ** Convertion routines
+        // ----------------------------
+        static Object lock_va_list = new Object();
+
+        static string vaFORMAT;
+        static int vaNEXT;
+
+        static void va_start(object[] ap, string zFormat)
+        {
+            vaFORMAT = zFormat;
+            vaNEXT = 0;
+        }
+
+        static Boolean va_arg(object[] ap, Boolean sysType)
+        {
+            return Convert.ToBoolean(ap[vaNEXT++]);
+        }
+
+        static Byte[] va_arg(object[] ap, Byte[] sysType)
+        {
+            return (Byte[])ap[vaNEXT++];
+        }
+
+        static Byte[][] va_arg(object[] ap, Byte[][] sysType)
+        {
+            if (ap[vaNEXT] == null)
+            {
+                {
+                    vaNEXT++;
+                    return null;
+                }
+            }
+            else
+            {
+                return (Byte[][])ap[vaNEXT++];
+            }
+        }
+
+        static Char va_arg(object[] ap, Char sysType)
+        {
+            if (ap[vaNEXT] is Int32 && (int)ap[vaNEXT] == 0)
+            {
+                vaNEXT++;
+                return (char)'0';
+            }
+            else
+            {
+                if (ap[vaNEXT] is Int64)
+                    if ((i64)ap[vaNEXT] == 0)
+                    {
+                        vaNEXT++;
+                        return (char)'0';
+                    }
+                    else
+                        return (char)((i64)ap[vaNEXT++]);
+                else
+                    return (char)ap[vaNEXT++];
+            }
+
+        }
+
+        static Double va_arg(object[] ap, Double sysType)
+        {
+            return Convert.ToDouble(ap[vaNEXT++]);
+        }
+
+        static dxLog va_arg(object[] ap, dxLog sysType)
+        {
+            return (dxLog)ap[vaNEXT++];
+        }
+
+        static Int64 va_arg(object[] ap, Int64 sysType)
+        {
+            if (ap[vaNEXT] is System.Int64)
+                return Convert.ToInt64(ap[vaNEXT++]);
+            else
+                return (Int64)(ap[vaNEXT++].GetHashCode());
+        }
+
+        static Int32 va_arg(object[] ap, Int32 sysType)
+        {
+            if (Convert.ToInt64(ap[vaNEXT]) > 0 && (Convert.ToUInt32(ap[vaNEXT]) > Int32.MaxValue))
+                return (Int32)(Convert.ToUInt32(ap[vaNEXT++]) - System.UInt32.MaxValue - 1);
+            else
+                return (Int32)Convert.ToInt32(ap[vaNEXT++]);
+        }
+
+        static Int32[] va_arg(object[] ap, Int32[] sysType)
+        {
+            if (ap[vaNEXT] == null)
+            {
+                {
+                    vaNEXT++;
+                    return null;
+                }
+            }
+            else
+            {
+                return (Int32[])ap[vaNEXT++];
+            }
+        }
+
+        static MemPage va_arg(object[] ap, MemPage sysType)
+        {
+            return (MemPage)ap[vaNEXT++];
+        }
+
+        static Object va_arg(object[] ap, Object sysType)
+        {
+            return (Object)ap[vaNEXT++];
+        }
+
+        static sqlite3 va_arg(object[] ap, sqlite3 sysType)
+        {
+            return (sqlite3)ap[vaNEXT++];
+        }
+
+        static sqlite3_mem_methods va_arg(object[] ap, sqlite3_mem_methods sysType)
+        {
+            return (sqlite3_mem_methods)ap[vaNEXT++];
+        }
+
+        static sqlite3_mutex_methods va_arg(object[] ap, sqlite3_mutex_methods sysType)
+        {
+            return (sqlite3_mutex_methods)ap[vaNEXT++];
+        }
+
+        static SrcList va_arg(object[] ap, SrcList sysType)
+        {
+            return (SrcList)ap[vaNEXT++];
+        }
+
+        static String va_arg(object[] ap, String sysType)
+        {
+            if (ap.Length < vaNEXT - 1 || ap[vaNEXT] == null)
+            {
+                vaNEXT++;
+                return "NULL";
+            }
+            else
+            {
+                if (ap[vaNEXT] is Byte[])
+                    if (Encoding.UTF8.GetString((byte[])ap[vaNEXT], 0, ((byte[])ap[vaNEXT]).Length) == "\0")
+                    {
+                        vaNEXT++;
+                        return "";
+                    }
+                    else
+                        return Encoding.UTF8.GetString((byte[])ap[vaNEXT], 0, ((byte[])ap[vaNEXT++]).Length);
+                else if (ap[vaNEXT] is Int32)
+                {
+                    vaNEXT++;
+                    return null;
+                }
+                else if (ap[vaNEXT] is StringBuilder)
+                    return (String)ap[vaNEXT++].ToString();
+                else if (ap[vaNEXT] is Char)
+                    return ((Char)ap[vaNEXT++]).ToString();
+                else
+                    return (String)ap[vaNEXT++];
+            }
+        }
+
+        static Token va_arg(object[] ap, Token sysType)
+        {
+            return (Token)ap[vaNEXT++];
+        }
+
+        static UInt32 va_arg(object[] ap, UInt32 sysType)
+        {
+            if (ap[vaNEXT].GetType().IsClass)
+            {
+                return (UInt32)ap[vaNEXT++].GetHashCode();
+            }
+            else
+            {
+                return (UInt32)Convert.ToUInt32(ap[vaNEXT++]);
+            }
+        }
+
+        static UInt64 va_arg(object[] ap, UInt64 sysType)
+        {
+            if (ap[vaNEXT].GetType().IsClass)
+            {
+                return (UInt64)ap[vaNEXT++].GetHashCode();
+            }
+            else
+            {
+                return (UInt64)Convert.ToUInt64(ap[vaNEXT++]);
+            }
+        }
+
+        static void_function va_arg(object[] ap, void_function sysType)
+        {
+            return (void_function)ap[vaNEXT++];
+        }
 
 
-		public static tm localtime(time_t baseTime)
-		{
-			System.DateTime RefTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-			RefTime = RefTime.AddSeconds(Convert.ToDouble(baseTime)).ToLocalTime();
-			tm tm = new tm();
-			tm.tm_sec = RefTime.Second;
-			tm.tm_min = RefTime.Minute;
-			tm.tm_hour = RefTime.Hour;
-			tm.tm_mday = RefTime.Day;
-			tm.tm_mon = RefTime.Month;
-			tm.tm_year = RefTime.Year;
-			tm.tm_wday = (int)RefTime.DayOfWeek;
-			tm.tm_yday = RefTime.DayOfYear;
-			tm.tm_isdst = RefTime.IsDaylightSavingTime() ? 1 : 0;
-			return tm;
-		}
+        static void va_end(ref string[] ap)
+        {
+            ap = null;
+            vaNEXT = -1;
+            vaFORMAT = "";
+        }
+        static void va_end(ref object[] ap)
+        {
+            ap = null;
+            vaNEXT = -1;
+            vaFORMAT = "";
+        }
 
-		public static long ToUnixtime(System.DateTime date)
-		{
-			System.DateTime unixStartTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-			System.TimeSpan timeSpan = date - unixStartTime;
-			return Convert.ToInt64(timeSpan.TotalSeconds);
-		}
 
-		public static System.DateTime ToCSharpTime(long unixTime)
-		{
-			System.DateTime unixStartTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-			return unixStartTime.AddSeconds(Convert.ToDouble(unixTime));
-		}
+        public static tm localtime(time_t baseTime)
+        {
+            System.DateTime RefTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            RefTime = RefTime.AddSeconds(Convert.ToDouble(baseTime)).ToLocalTime();
+            tm tm = new tm();
+            tm.tm_sec = RefTime.Second;
+            tm.tm_min = RefTime.Minute;
+            tm.tm_hour = RefTime.Hour;
+            tm.tm_mday = RefTime.Day;
+            tm.tm_mon = RefTime.Month;
+            tm.tm_year = RefTime.Year;
+            tm.tm_wday = (int)RefTime.DayOfWeek;
+            tm.tm_yday = RefTime.DayOfYear;
+            tm.tm_isdst = RefTime.IsDaylightSavingTime() ? 1 : 0;
+            return tm;
+        }
 
-		public class tm
-		{
-			public int tm_sec;     /* seconds after the minute - [0,59] */
-			public int tm_min;     /* minutes after the hour - [0,59] */
-			public int tm_hour;    /* hours since midnight - [0,23] */
-			public int tm_mday;    /* day of the month - [1,31] */
-			public int tm_mon;     /* months since January - [0,11] */
-			public int tm_year;    /* years since 1900 */
-			public int tm_wday;    /* days since Sunday - [0,6] */
-			public int tm_yday;    /* days since January 1 - [0,365] */
-			public int tm_isdst;   /* daylight savings time flag */
-		};
+        public static long ToUnixtime(System.DateTime date)
+        {
+            System.DateTime unixStartTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            System.TimeSpan timeSpan = date - unixStartTime;
+            return Convert.ToInt64(timeSpan.TotalSeconds);
+        }
 
-		public struct FILETIME
-		{
-			public u32 dwLowDateTime;
-			public u32 dwHighDateTime;
-		}
+        public static System.DateTime ToCSharpTime(long unixTime)
+        {
+            System.DateTime unixStartTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return unixStartTime.AddSeconds(Convert.ToDouble(unixTime));
+        }
 
-		// Example (C#)
-		public static int GetbytesPerSector(StringBuilder diskPath)
-		{
-			return 4096;
-		}
+        public class tm
+        {
+            public int tm_sec;     /* seconds after the minute - [0,59] */
+            public int tm_min;     /* minutes after the hour - [0,59] */
+            public int tm_hour;    /* hours since midnight - [0,23] */
+            public int tm_mday;    /* day of the month - [1,31] */
+            public int tm_mon;     /* months since January - [0,11] */
+            public int tm_year;    /* years since 1900 */
+            public int tm_wday;    /* days since Sunday - [0,6] */
+            public int tm_yday;    /* days since January 1 - [0,365] */
+            public int tm_isdst;   /* daylight savings time flag */
+        };
 
-		static void SWAP<T>(ref T A, ref T B)
-		{
-			T t = A;
-			A = B;
-			B = t;
-		}
+        public struct FILETIME
+        {
+            public u32 dwLowDateTime;
+            public u32 dwHighDateTime;
+        }
 
-		static void x_CountStep(
-		sqlite3_context context,
-		int argc,
-		sqlite3_value[] argv
-		)
-		{
-			SumCtx p;
+        // Example (C#)
+        public static int GetbytesPerSector(StringBuilder diskPath)
+        {
+            return 4096;
+        }
 
-			int type;
-			Debug.Assert(argc <= 1);
-			Mem pMem = sqlite3_aggregate_context(context, 1);//sizeof(*p));
-			if (pMem._SumCtx == null)
-				pMem._SumCtx = new SumCtx();
-			p = pMem._SumCtx;
-			if (p.Context == null)
-				p.Context = pMem;
-			if (argc == 0 || SQLITE_NULL == sqlite3_value_type(argv[0]))
-			{
-				p.cnt++;
-				p.iSum += 1;
-			}
-			else
-			{
-				type = sqlite3_value_numeric_type(argv[0]);
-				if (p != null && type != SQLITE_NULL)
-				{
-					p.cnt++;
-					if (type == SQLITE_INTEGER)
-					{
-						i64 v = sqlite3_value_int64(argv[0]);
-						if (v == 40 || v == 41)
-						{
-							sqlite3_result_error(context, "value of " + v + " handed to x_count", -1);
-							return;
-						}
-						else
-						{
-							p.iSum += v;
-							if (!(p.approx | p.overflow != 0))
-							{
-								i64 iNewSum = p.iSum + v;
-								int s1 = (int)(p.iSum >> (sizeof(i64) * 8 - 1));
-								int s2 = (int)(v >> (sizeof(i64) * 8 - 1));
-								int s3 = (int)(iNewSum >> (sizeof(i64) * 8 - 1));
-								p.overflow = ((s1 & s2 & ~s3) | (~s1 & ~s2 & s3)) != 0 ? 1 : 0;
-								p.iSum = iNewSum;
-							}
-						}
-					}
-					else
-					{
-						p.rSum += sqlite3_value_double(argv[0]);
-						p.approx = true;
-					}
-				}
-			}
-		}
-		static void x_CountFinalize(sqlite3_context context)
-		{
-			SumCtx p;
-			Mem pMem = sqlite3_aggregate_context(context, 0);
-			p = pMem._SumCtx;
-			if (p != null && p.cnt > 0)
-			{
-				if (p.overflow != 0)
-				{
-					sqlite3_result_error(context, "integer overflow", -1);
-				}
-				else if (p.approx)
-				{
-					sqlite3_result_double(context, p.rSum);
-				}
-				else if (p.iSum == 42)
-				{
-					sqlite3_result_error(context, "x_count totals to 42", -1);
-				}
-				else
-				{
-					sqlite3_result_int64(context, p.iSum);
-				}
-			}
-		}
+        static void SWAP<T>(ref T A, ref T B)
+        {
+            T t = A;
+            A = B;
+            B = t;
+        }
+
+        static void x_CountStep(
+        sqlite3_context context,
+        int argc,
+        sqlite3_value[] argv
+        )
+        {
+            SumCtx p;
+
+            int type;
+            Debug.Assert(argc <= 1);
+            Mem pMem = sqlite3_aggregate_context(context, 1);//sizeof(*p));
+            if (pMem._SumCtx == null)
+                pMem._SumCtx = new SumCtx();
+            p = pMem._SumCtx;
+            if (p.Context == null)
+                p.Context = pMem;
+            if (argc == 0 || SQLITE_NULL == sqlite3_value_type(argv[0]))
+            {
+                p.cnt++;
+                p.iSum += 1;
+            }
+            else
+            {
+                type = sqlite3_value_numeric_type(argv[0]);
+                if (p != null && type != SQLITE_NULL)
+                {
+                    p.cnt++;
+                    if (type == SQLITE_INTEGER)
+                    {
+                        i64 v = sqlite3_value_int64(argv[0]);
+                        if (v == 40 || v == 41)
+                        {
+                            sqlite3_result_error(context, "value of " + v + " handed to x_count", -1);
+                            return;
+                        }
+                        else
+                        {
+                            p.iSum += v;
+                            if (!(p.approx | p.overflow != 0))
+                            {
+                                i64 iNewSum = p.iSum + v;
+                                int s1 = (int)(p.iSum >> (sizeof(i64) * 8 - 1));
+                                int s2 = (int)(v >> (sizeof(i64) * 8 - 1));
+                                int s3 = (int)(iNewSum >> (sizeof(i64) * 8 - 1));
+                                p.overflow = ((s1 & s2 & ~s3) | (~s1 & ~s2 & s3)) != 0 ? 1 : 0;
+                                p.iSum = iNewSum;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        p.rSum += sqlite3_value_double(argv[0]);
+                        p.approx = true;
+                    }
+                }
+            }
+        }
+        static void x_CountFinalize(sqlite3_context context)
+        {
+            SumCtx p;
+            Mem pMem = sqlite3_aggregate_context(context, 0);
+            p = pMem._SumCtx;
+            if (p != null && p.cnt > 0)
+            {
+                if (p.overflow != 0)
+                {
+                    sqlite3_result_error(context, "integer overflow", -1);
+                }
+                else if (p.approx)
+                {
+                    sqlite3_result_double(context, p.rSum);
+                }
+                else if (p.iSum == 42)
+                {
+                    sqlite3_result_error(context, "x_count totals to 42", -1);
+                }
+                else
+                {
+                    sqlite3_result_int64(context, p.iSum);
+                }
+            }
+        }
 
 #if SQLITE_MUTEX_W32
 //---------------------WIN32 Definitions
@@ -569,19 +565,19 @@ static void LeaveCriticalSection( Object mtx )
 }
 #endif
 
-		// Miscellaneous Windows Constants
-		//#define ERROR_FILE_NOT_FOUND             2L
-		//#define ERROR_HANDLE_DISK_FULL           39L
-		//#define ERROR_NOT_SUPPORTED              50L
-		//#define ERROR_DISK_FULL                  112L
-		const long ERROR_FILE_NOT_FOUND = 2L;
-		const long ERROR_HANDLE_DISK_FULL = 39L;
-		const long ERROR_NOT_SUPPORTED = 50L;
-		const long ERROR_DISK_FULL = 112L;
+        // Miscellaneous Windows Constants
+        //#define ERROR_FILE_NOT_FOUND             2L
+        //#define ERROR_HANDLE_DISK_FULL           39L
+        //#define ERROR_NOT_SUPPORTED              50L
+        //#define ERROR_DISK_FULL                  112L
+        const long ERROR_FILE_NOT_FOUND = 2L;
+        const long ERROR_HANDLE_DISK_FULL = 39L;
+        const long ERROR_NOT_SUPPORTED = 50L;
+        const long ERROR_DISK_FULL = 112L;
 
-		private class SQLite3UpperToLower
-		{
-			static int[] sqlite3UpperToLower = new int[]  {
+        private class SQLite3UpperToLower
+        {
+            static int[] sqlite3UpperToLower = new int[]  {
 #if SQLITE_ASCII
 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17,
 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
@@ -600,31 +596,31 @@ static void LeaveCriticalSection( Object mtx )
 252,253,254,255
 #endif
 };
-			public int this[int index]
-			{
-				get
-				{
-					if (index < sqlite3UpperToLower.Length)
-						return sqlite3UpperToLower[index];
-					else
-						return index;
-				}
-			}
+            public int this[int index]
+            {
+                get
+                {
+                    if (index < sqlite3UpperToLower.Length)
+                        return sqlite3UpperToLower[index];
+                    else
+                        return index;
+                }
+            }
 
-			public int this[u32 index]
-			{
-				get
-				{
-					if (index < sqlite3UpperToLower.Length)
-						return sqlite3UpperToLower[index];
-					else
-						return (int)index;
-				}
-			}
-		}
+            public int this[u32 index]
+            {
+                get
+                {
+                    if (index < sqlite3UpperToLower.Length)
+                        return sqlite3UpperToLower[index];
+                    else
+                        return (int)index;
+                }
+            }
+        }
 
-		static SQLite3UpperToLower sqlite3UpperToLower = new SQLite3UpperToLower();
-		static SQLite3UpperToLower UpperToLower = sqlite3UpperToLower;
+        static SQLite3UpperToLower sqlite3UpperToLower = new SQLite3UpperToLower();
+        static SQLite3UpperToLower UpperToLower = sqlite3UpperToLower;
 
-	}
+    }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// For interning (canonicalizing) things.
     /// 
@@ -32,7 +29,7 @@ namespace OpenNLP.Tools.Util
     public class Interner<T> where T : class
     {
         protected static Interner<Object> interner = new Interner<Object>();
-        
+
         /// <summary>
         /// For getting the instance that global methods use.
         /// </summary>
@@ -59,7 +56,7 @@ namespace OpenNLP.Tools.Util
         /// </summary>
         public static T GlobalIntern<T>(T o)
         {
-            return (T) GetGlobal().Intern(o);
+            return (T)GetGlobal().Intern(o);
         }
 
 

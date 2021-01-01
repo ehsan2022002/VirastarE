@@ -1,10 +1,8 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
+using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -345,7 +343,7 @@ namespace OpenNLP.Tools.Trees
                         && td1.Dep.Value().Equals(mwp[1], StringComparison.InvariantCultureIgnoreCase)
                         && Math.Abs(td1.Dep.Index() - mwp0.Index()) == 1 && td1.Gov.Equals(governor))
                     {
-// we
+                        // we
                         // found
                         // prep(gov,
                         // mwp1)
@@ -487,7 +485,7 @@ namespace OpenNLP.Tools.Trees
                     {
                         if (td1.Reln == EnglishGrammaticalRelations.PrepositionalModifier && td1.Dep.Equals(mwp0))
                         {
-// we
+                            // we
                             // found
                             // prep(gov,
                             // mwp0)
@@ -610,7 +608,7 @@ namespace OpenNLP.Tools.Trees
                     {
                         if (td1.Dep.Equals(mwp0) && td1.Reln == EnglishGrammaticalRelations.PrepositionalModifier)
                         {
-// we
+                            // we
                             // found
                             // prep(gov,
                             // mwp0)
@@ -767,7 +765,7 @@ namespace OpenNLP.Tools.Trees
                     {
                         IndexedWord td2Dep = td2.Dep;
                         string td2DepPOS = td2Dep.Tag();
-                        if (td2DepPOS == PartsOfSpeech.PrepositionOrSubordinateConjunction 
+                        if (td2DepPOS == PartsOfSpeech.PrepositionOrSubordinateConjunction
                             || td2DepPOS == PartsOfSpeech.To)
                         {
                             samePrepositionInEachConjunct = samePrepositionInEachConjunct &&
@@ -836,8 +834,8 @@ namespace OpenNLP.Tools.Trees
                              td2.Reln == EnglishGrammaticalRelations.PrepositionalObject ||
                              td2.Reln == EnglishGrammaticalRelations.PrepositionalComplement) &&
                             (PartsOfSpeech.PrepositionOrSubordinateConjunction == td1DepPOS || PartsOfSpeech.To == td1DepPOS
-                            || PartsOfSpeech.VerbGerundOrPresentParticiple == td1DepPOS) 
-                            && prepDep == null 
+                            || PartsOfSpeech.VerbGerundOrPresentParticiple == td1DepPOS)
+                            && prepDep == null
                             && (!(PartsOfSpeech.Adverb == td2DepPOS || PartsOfSpeech.PrepositionOrSubordinateConjunction == td2DepPOS || PartsOfSpeech.To == td2DepPOS)))
                         {
                             // same index trick, in case we have multiple deps
@@ -860,7 +858,7 @@ namespace OpenNLP.Tools.Trees
                     continue; // we can't deal with it in the hairy prep/conj interaction
                     // case!
                 }
-                
+
                 // check if we have the same prepositions in the conjunction
                 if (samePrepositionInEachConjunct)
                 {
@@ -1065,7 +1063,7 @@ namespace OpenNLP.Tools.Trees
                             {
                                 if (td2.Reln == EnglishGrammaticalRelations.PossessiveModifier)
                                 {
-                                    if (! map.ContainsKey(td2Dep))
+                                    if (!map.ContainsKey(td2Dep))
                                     {
                                         // if 's has no kids of its own (it shouldn't!)
                                         td2.Reln = GrammaticalRelation.Kill;
@@ -1074,9 +1072,9 @@ namespace OpenNLP.Tools.Trees
                             }
                             else if ((td2.Reln == EnglishGrammaticalRelations.PrepositionalObject ||
                                       td2.Reln == EnglishGrammaticalRelations.PrepositionalComplement) &&
-                                     (PartsOfSpeech.PrepositionOrSubordinateConjunction == td1DepPOS 
+                                     (PartsOfSpeech.PrepositionOrSubordinateConjunction == td1DepPOS
                                 || PartsOfSpeech.To == td1DepPOS || PartsOfSpeech.VerbGerundOrPresentParticiple == td1DepPOS) &&
-                                     (!(PartsOfSpeech.Adverb == td2DepPOS 
+                                     (!(PartsOfSpeech.Adverb == td2DepPOS
                                 || PartsOfSpeech.PrepositionOrSubordinateConjunction == td2DepPOS || PartsOfSpeech.To == td2DepPOS)) &&
                                      !IsConjWithNoPrep(td2.Gov, possibles))
                             {
@@ -1169,7 +1167,7 @@ namespace OpenNLP.Tools.Trees
                     // we have a conjunct
                     // check the POS of the dependent
                     string tdDepPos = td.Dep.Tag();
-                    if (!(tdDepPos == PartsOfSpeech.PrepositionOrSubordinateConjunction 
+                    if (!(tdDepPos == PartsOfSpeech.PrepositionOrSubordinateConjunction
                         || tdDepPos == PartsOfSpeech.To))
                     {
                         return true;
@@ -1499,7 +1497,7 @@ namespace OpenNLP.Tools.Trees
                     prepcDep.Add(typedDep.Dep);
                 }
             }
-            
+
             // create a new list of typed dependencies
             var newTypedDeps = new List<TypedDependency>(list);
 
@@ -1556,7 +1554,7 @@ namespace OpenNLP.Tools.Trees
                     // tagged JJ
                     string tag = dep.Tag();
                     if (subjectMap.ContainsKey(gov) && (PartsOfSpeech.IsVerb(tag) || PartsOfSpeech.IsAdjective(tag)) &&
-                        ! subjectMap.ContainsKey(dep))
+                        !subjectMap.ContainsKey(dep))
                     {
                         TypedDependency tdsubj = subjectMap[gov];
                         // check for wrong nsubjpass: if the new verb is VB or VBZ or VBP or JJ, then
@@ -1620,7 +1618,7 @@ namespace OpenNLP.Tools.Trees
             // we should include VBD, but don't as it is often a tagging mistake.
             return tag == PartsOfSpeech.VerbBaseForm
                 || tag == PartsOfSpeech.Verb3rdPersSingPresent
-                || tag == PartsOfSpeech.VerbNon3rdPersSingPresent 
+                || tag == PartsOfSpeech.VerbNon3rdPersSingPresent
                 || PartsOfSpeech.IsAdjective(tag);
         }
 
@@ -1944,7 +1942,7 @@ namespace OpenNLP.Tools.Trees
                 CollapseMultiWordPrep(list, newTypedDeps, mwp[0], mwp[1], mwp[1], mwp[0]);
             }
         }
-        
+
         /// <summary>
         /// Collapse multiword preposition of the following format:
         /// prep|advmod|dep|amod(gov, mwp0) dep(mpw0,mwp1) pobj|pcomp(mwp1, compl) or

@@ -59,9 +59,9 @@ namespace PageRank.Graph
 
         public void Add(GraphNode<T> destination, double weight)
         {
-            foreach(var nbr in this)
+            foreach (var nbr in this)
             {
-                if(nbr.GraphNode == destination)
+                if (nbr.GraphNode == destination)
                 {
                     nbr.setWeight(weight);
                     return;

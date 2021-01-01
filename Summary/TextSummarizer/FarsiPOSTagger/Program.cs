@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using edu.stanford.nlp.ling;
+using edu.stanford.nlp.tagger.maxent;
 using java.io;
 using java.util;
-using edu.stanford.nlp.ling;
-using edu.stanford.nlp.tagger.maxent;
+using System;
+using System.Collections.Generic;
 
 
 namespace FarsiPOSTagger
@@ -41,7 +37,7 @@ namespace FarsiPOSTagger
         }
 
 
-        
-    
+
+
     }
 }

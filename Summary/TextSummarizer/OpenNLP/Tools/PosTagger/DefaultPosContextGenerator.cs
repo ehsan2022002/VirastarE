@@ -41,136 +41,136 @@ using System.Text.RegularExpressions;
 
 namespace OpenNLP.Tools.PosTagger
 {
-	/// <summary> 
-	/// A context generator for the POS Tagger.
-	/// </summary>	
-	public class DefaultPosContextGenerator : IPosContextGenerator
-	{
-		protected internal const string SentenceEnd = "*SE*";
-		protected internal const string SentenceBeginning = "*SB*";
+    /// <summary> 
+    /// A context generator for the POS Tagger.
+    /// </summary>	
+    public class DefaultPosContextGenerator : IPosContextGenerator
+    {
+        protected internal const string SentenceEnd = "*SE*";
+        protected internal const string SentenceBeginning = "*SB*";
 
-		private const int PrefixLength = 4;
-		private const int SuffixLength = 4;
-		
-		private static readonly Regex HasCapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
-		private static readonly Regex HasNumericRegex = new Regex("[0-9]", RegexOptions.Compiled);
-		
-	    private readonly MemoryCache memoryCache;
+        private const int PrefixLength = 4;
+        private const int SuffixLength = 4;
+
+        private static readonly Regex HasCapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
+        private static readonly Regex HasNumericRegex = new Regex("[0-9]", RegexOptions.Compiled);
+
+        private readonly MemoryCache memoryCache;
 
         // Constructors ----------------------------------------
 
-		public DefaultPosContextGenerator() : this(0){}
-		
-		public DefaultPosContextGenerator(int cacheSizeInMegaBytes) 
-		{
-			if (cacheSizeInMegaBytes > 0)
-			{
-			    var properties = new NameValueCollection
-			    {
-			        {"cacheMemoryLimitMegabytes", cacheSizeInMegaBytes.ToString()}
-			    };
-			    memoryCache = new MemoryCache("posContextCache", properties);
-			}
-		}
+        public DefaultPosContextGenerator() : this(0) { }
+
+        public DefaultPosContextGenerator(int cacheSizeInMegaBytes)
+        {
+            if (cacheSizeInMegaBytes > 0)
+            {
+                var properties = new NameValueCollection
+                {
+                    {"cacheMemoryLimitMegabytes", cacheSizeInMegaBytes.ToString()}
+                };
+                memoryCache = new MemoryCache("posContextCache", properties);
+            }
+        }
 
 
         // Methods ---------------------------------------------
 
-		public virtual string[] GetContext(object input)
-		{
-			var data = (object[]) input;
-			return GetContext(((int) data[0]), (string[]) data[1], (string[]) data[2], null);
-		}
-		
-		public virtual string[] GetContext(int index, string[] sequence, string[] priorDecisions, object[] additionalContext) 
-		{
-			return GetContext(index, sequence, priorDecisions);
-		}
+        public virtual string[] GetContext(object input)
+        {
+            var data = (object[])input;
+            return GetContext(((int)data[0]), (string[])data[1], (string[])data[2], null);
+        }
 
-		/// <summary>
-		/// Returns the context for making a pos tag decision at the specified token index given the specified tokens and previous tags.
-		/// </summary>
-		/// <param name="index">
-		/// The index of the token for which the context is provided.
-		/// </param>
-		/// <param name="tokens">
-		/// The tokens in the sentence.
-		/// </param>
-		/// <param name="tags">
-		/// The tags assigned to the previous words in the sentence.
-		/// </param>
-		/// <returns>
-		/// The context for making a pos tag decision at the specified token index given the specified tokens and previous tags.
-		/// </returns>
-		public virtual string[] GetContext(int index, string[] tokens, string[] tags) 
-		{
+        public virtual string[] GetContext(int index, string[] sequence, string[] priorDecisions, object[] additionalContext)
+        {
+            return GetContext(index, sequence, priorDecisions);
+        }
+
+        /// <summary>
+        /// Returns the context for making a pos tag decision at the specified token index given the specified tokens and previous tags.
+        /// </summary>
+        /// <param name="index">
+        /// The index of the token for which the context is provided.
+        /// </param>
+        /// <param name="tokens">
+        /// The tokens in the sentence.
+        /// </param>
+        /// <param name="tags">
+        /// The tags assigned to the previous words in the sentence.
+        /// </param>
+        /// <returns>
+        /// The context for making a pos tag decision at the specified token index given the specified tokens and previous tags.
+        /// </returns>
+        public virtual string[] GetContext(int index, string[] tokens, string[] tags)
+        {
             string next, nextNext, lex, previous, previousPrevious;
             string tagPrevious, tagPreviousPrevious;
             tagPrevious = tagPreviousPrevious = null;
             next = nextNext = lex = previous = previousPrevious = null;
-			
-			lex = tokens[index];
-			if (tokens.Length > index + 1) 
-			{
-				next = tokens[index + 1];
-				if (tokens.Length > index + 2)
-				{
-					nextNext = tokens[index + 2];
-				}
-				else
-				{
-					nextNext = SentenceEnd; 
-				}
-			}
-			else
-			{
-				next = SentenceEnd; 
-			}
-			
-			if (index - 1 >= 0) 
-			{
-				previous = tokens[index - 1];
-				tagPrevious = tags[index - 1];
 
-				if (index - 2 >= 0) 
-				{
-					previousPrevious = tokens[index - 2];
-					tagPreviousPrevious = tags[index - 2];
-				}
-				else
-				{
-					previousPrevious = SentenceBeginning; 
-				}
-			}
-			else
-			{
-				previous = SentenceBeginning; 
-			}
-			
-			string cacheKey = string.Format("{0}||{1}||{2}||{3}", index.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            lex = tokens[index];
+            if (tokens.Length > index + 1)
+            {
+                next = tokens[index + 1];
+                if (tokens.Length > index + 2)
+                {
+                    nextNext = tokens[index + 2];
+                }
+                else
+                {
+                    nextNext = SentenceEnd;
+                }
+            }
+            else
+            {
+                next = SentenceEnd;
+            }
+
+            if (index - 1 >= 0)
+            {
+                previous = tokens[index - 1];
+                tagPrevious = tags[index - 1];
+
+                if (index - 2 >= 0)
+                {
+                    previousPrevious = tokens[index - 2];
+                    tagPreviousPrevious = tags[index - 2];
+                }
+                else
+                {
+                    previousPrevious = SentenceBeginning;
+                }
+            }
+            else
+            {
+                previous = SentenceBeginning;
+            }
+
+            string cacheKey = string.Format("{0}||{1}||{2}||{3}", index.ToString(System.Globalization.CultureInfo.InvariantCulture),
                 string.Join("|", tokens), tagPrevious, tagPreviousPrevious);
-			if (memoryCache != null) 
-			{
-				var cachedContexts = (string[]) memoryCache[cacheKey];    
-				if (cachedContexts != null) 
-				{
-					return cachedContexts;
-				}
-			}
+            if (memoryCache != null)
+            {
+                var cachedContexts = (string[])memoryCache[cacheKey];
+                if (cachedContexts != null)
+                {
+                    return cachedContexts;
+                }
+            }
 
-		    var eventList = CreateEventList(lex, previous, previousPrevious, tagPrevious, tagPreviousPrevious, next, nextNext);
+            var eventList = CreateEventList(lex, previous, previousPrevious, tagPrevious, tagPreviousPrevious, next, nextNext);
 
-			string[] contexts = eventList.ToArray();
-			if (memoryCache != null) 
-			{
-				memoryCache[cacheKey] = contexts;
-			}
-			return contexts;
-		}
+            string[] contexts = eventList.ToArray();
+            if (memoryCache != null)
+            {
+                memoryCache[cacheKey] = contexts;
+            }
+            return contexts;
+        }
 
-	    private List<string> CreateEventList(string lex, string previous, string previousPrevious, 
+        private List<string> CreateEventList(string lex, string previous, string previousPrevious,
             string tagPrevious, string tagPreviousPrevious, string next, string nextNext)
-	    {
+        {
             var eventList = new List<string>();
 
             // add the word itself
@@ -231,9 +231,9 @@ namespace OpenNLP.Tools.PosTagger
                 }
             }
 
-	        return eventList;
-	    }
-        
+            return eventList;
+        }
+
         protected internal static string[] GetPrefixes(string lex)
         {
             var prefixes = new string[PrefixLength];
@@ -253,6 +253,6 @@ namespace OpenNLP.Tools.PosTagger
             }
             return suffixes;
         }
-		
-	}
+
+    }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 using OpenNLP.Tools.Util;
+using System;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -89,7 +84,7 @@ namespace OpenNLP.Tools.Trees
         {
             if (label is IHasWord)
             {
-                string word = ((IHasWord) label).GetWord();
+                string word = ((IHasWord)label).GetWord();
                 if (word != null)
                 {
                     return word;
@@ -118,7 +113,7 @@ namespace OpenNLP.Tools.Trees
             {
                 return false;
             }
-            var d = (UnnamedDependency) o;
+            var d = (UnnamedDependency)o;
 
             string thisHeadWord = RegentText;
             string thisDepWord = DependentText;

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Tokenize;
 
 namespace OpenNLP.Tools.Chunker
 {
     public class RegexDictionaryDechunker : Dechunker
     {
         private readonly Dictionary<Regex, DechunkOperation> _regexToDechunkOperation;
-        
+
 
         // Constructors -----------------
 

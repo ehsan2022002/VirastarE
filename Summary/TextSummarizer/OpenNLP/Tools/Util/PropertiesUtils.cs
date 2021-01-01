@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -23,7 +21,7 @@ namespace OpenNLP.Tools.Util
                 return false;
             }
             value = value.ToLower();
-            return ! (value.Equals("false") || value.Equals("no") || value.Equals("off"));
+            return !(value.Equals("false") || value.Equals("no") || value.Equals("off"));
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace OpenNLP.Tools.Util
             }
             stream.println();
           }*/
-        
+
         /// <summary>
         /// Tired of Properties not behaving like a Dictionary of string
         /// This method will solve that problem for you.
@@ -120,7 +118,7 @@ namespace OpenNLP.Tools.Util
       }
     }
   }*/
-        
+
         /// <summary>
         /// Build a {@code Properties} object containing key-value pairs from
         /// the given data where the keys are prefixed with the given {@code prefix}.
@@ -166,7 +164,7 @@ namespace OpenNLP.Tools.Util
             else
             {
                 //return (E) MetaClass.cast(value, type);
-                return (E) Convert.ChangeType(value, type);
+                return (E)Convert.ChangeType(value, type);
             }
         }
 
@@ -185,7 +183,7 @@ namespace OpenNLP.Tools.Util
                 return defaultValue;
             }
         }
-        
+
         /// <summary>
         /// Load an integer property.  If the key is not present, returns 0.
         /// </summary>
@@ -209,7 +207,7 @@ namespace OpenNLP.Tools.Util
                 return defaultValue;
             }
         }
-        
+
         /// <summary>
         /// Load an integer property as a long. If the key is not present, returns defaultValue.
         /// </summary>
@@ -225,7 +223,7 @@ namespace OpenNLP.Tools.Util
                 return defaultValue;
             }
         }
-        
+
         /// <summary>
         /// Load a double property.  If the key is not present, returns 0.0.
         /// </summary>
@@ -233,7 +231,7 @@ namespace OpenNLP.Tools.Util
         {
             return GetDouble(props, key, 0.0);
         }
-        
+
         /// <summary>
         /// Load a double property.  If the key is not present, returns defaultValue.
         /// </summary>
@@ -249,7 +247,7 @@ namespace OpenNLP.Tools.Util
                 return defaultValue;
             }
         }
-        
+
         /// <summary>
         /// Load a bool property.  If the key is not present, returns false.
         /// </summary>

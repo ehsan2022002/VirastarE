@@ -33,54 +33,53 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.IO;
 
 namespace SharpEntropy
 {
-	/// <summary>
-	/// This ITrainingDataReader implementation will take care of reading a plain text file
-	/// and returning the strings between each new line character, which is what
-	/// many SharpEntropy applications need in order to create ITrainingEventReaders.
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>
-	/// based on PlainTextByLineDataStream.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
-	/// </version>
-	public class PlainTextByLineDataReader : ITrainingDataReader<string>
-	{
-		private readonly StreamReader _dataReader;
-		private string _nextLine;
-		
-		/// <summary>
-		/// Creates a training data reader for reading text lines from a file or other text stream
-		/// </summary>
-		/// <param name="dataSource">StreamReader containing the source of the training data</param>
-		public PlainTextByLineDataReader(StreamReader dataSource)
-		{
-			_dataReader = dataSource;
-			_nextLine = _dataReader.ReadLine();
-		}
-		
-		/// <summary>Gets the next text line from the training data</summary>
-		/// <returns>Next text line from the training data</returns>
-		public virtual string NextToken()
-		{
-			string currentLine = _nextLine;
-			_nextLine = _dataReader.ReadLine();
-			return currentLine;
-		}
-		
-		/// <summary>Checks if there is any more training data</summary>
-		/// <returns>true if there is more training data to be read</returns>
-		public virtual bool HasNext()
-		{
-			return (_nextLine != null);
-		}
-	}
+    /// <summary>
+    /// This ITrainingDataReader implementation will take care of reading a plain text file
+    /// and returning the strings between each new line character, which is what
+    /// many SharpEntropy applications need in order to create ITrainingEventReaders.
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>
+    /// based on PlainTextByLineDataStream.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
+    /// </version>
+    public class PlainTextByLineDataReader : ITrainingDataReader<string>
+    {
+        private readonly StreamReader _dataReader;
+        private string _nextLine;
+
+        /// <summary>
+        /// Creates a training data reader for reading text lines from a file or other text stream
+        /// </summary>
+        /// <param name="dataSource">StreamReader containing the source of the training data</param>
+        public PlainTextByLineDataReader(StreamReader dataSource)
+        {
+            _dataReader = dataSource;
+            _nextLine = _dataReader.ReadLine();
+        }
+
+        /// <summary>Gets the next text line from the training data</summary>
+        /// <returns>Next text line from the training data</returns>
+        public virtual string NextToken()
+        {
+            string currentLine = _nextLine;
+            _nextLine = _dataReader.ReadLine();
+            return currentLine;
+        }
+
+        /// <summary>Checks if there is any more training data</summary>
+        /// <returns>true if there is more training data to be read</returns>
+        public virtual bool HasNext()
+        {
+            return (_nextLine != null);
+        }
+    }
 }

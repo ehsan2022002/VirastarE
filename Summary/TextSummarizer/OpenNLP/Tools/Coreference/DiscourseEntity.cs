@@ -33,90 +33,88 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference
 {
-	/// <summary>
+    /// <summary>
     /// Represents an entity in a discourse model.
     /// </summary>
-	public class DiscourseEntity : DiscourseElement
-	{
+    public class DiscourseEntity : DiscourseElement
+    {
         private Util.Set<string> mSynsets;
-		
-		/// <summary>
+
+        /// <summary>
         /// The semantic category of this entity.  This field is used to associated named-entity categories with an entity.
         /// </summary>
-		public string Category { get; set; }
+        public string Category { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// The set of synsets associated with this entity.
         /// </summary>
-		public Util.Set<string> Synsets
-		{
-			get
-			{
-				return mSynsets;
-			}	
-		}
+        public Util.Set<string> Synsets
+        {
+            get
+            {
+                return mSynsets;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// The gender associated with this entity.
         /// </summary>
-		public Similarity.GenderEnum Gender { get; set; }
+        public Similarity.GenderEnum Gender { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// The probability for the gender associated with this entity.
         /// </summary>
-		public double GenderProbability { get; set; }
+        public double GenderProbability { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// The number associated with this entity.
         /// </summary>
         public Similarity.NumberEnum Number { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// The probability for the number associated with this entity.
         /// </summary>
-		public double NumberProbability { get; set; }
-		
-		/// <summary>
+        public double NumberProbability { get; set; }
+
+        /// <summary>
         /// Creates a new entity based on the specified mention and its specified gender and number properties.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The first mention of this entity.
-		/// </param>
-		/// <param name="gender">
+        /// </param>
+        /// <param name="gender">
         /// The gender of this entity.
-		/// </param>
-		/// <param name="genderProbability">
+        /// </param>
+        /// <param name="genderProbability">
         /// The probability that the specified gender is correct.
-		/// </param>
-		/// <param name="number">
+        /// </param>
+        /// <param name="number">
         /// The number for this entity.
-		/// </param>
-		/// <param name="numberProbability">
+        /// </param>
+        /// <param name="numberProbability">
         /// The probability that the specified number is correct.
-		/// </param>
-        public DiscourseEntity(Mention.MentionContext mention, Similarity.GenderEnum gender, double genderProbability, 
+        /// </param>
+        public DiscourseEntity(Mention.MentionContext mention, Similarity.GenderEnum gender, double genderProbability,
             Similarity.NumberEnum number, double numberProbability) : base(mention)
-		{
-			Gender = gender;
-			GenderProbability = genderProbability;
-			Number = number;
-			NumberProbability = numberProbability;
-		}
-		
-		/// <summary>
+        {
+            Gender = gender;
+            GenderProbability = genderProbability;
+            Number = number;
+            NumberProbability = numberProbability;
+        }
+
+        /// <summary>
         /// Creates a new entity based on the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The first mention of this entity.
-		/// </param>
+        /// </param>
         public DiscourseEntity(Mention.MentionContext mention) : base(mention)
-		{
+        {
             Gender = Similarity.GenderEnum.Unknown;
             Number = Similarity.NumberEnum.Unknown;
-		}
-	}
+        }
+    }
 }

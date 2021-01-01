@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -16,7 +13,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         private readonly TreeLocation location;
 
         public MoveNode(TsurgeonPattern child, TreeLocation l) :
-            base("move", new TsurgeonPattern[] {child})
+            base("move", new TsurgeonPattern[] { child })
         {
             this.location = l;
         }

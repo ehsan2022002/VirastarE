@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
     public class TsurgeonPatternRoot : TsurgeonPattern
     {
-        public TsurgeonPatternRoot(TsurgeonPattern child) : this(new TsurgeonPattern[] {child})
+        public TsurgeonPatternRoot(TsurgeonPattern child) : this(new TsurgeonPattern[] { child })
         {
         }
 

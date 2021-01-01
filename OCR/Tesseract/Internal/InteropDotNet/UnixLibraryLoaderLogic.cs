@@ -1,15 +1,17 @@
 ﻿//  Copyright (c) 2014 Andrey Akinshin
 //  Project URL: https://github.com/AndreyAkinshin/InteropDotNet
 //  Distributed under the MIT License: http://opensource.org/licenses/MIT
+
 using System;
 using System.Runtime.InteropServices;
-
 using Tesseract.Internal;
 
 namespace InteropDotNet
 {
-    class UnixLibraryLoaderLogic : ILibraryLoaderLogic
+    internal class UnixLibraryLoaderLogic : ILibraryLoaderLogic
     {
+        private const int RTLD_NOW = 2;
+
         public IntPtr LoadLibrary(string fileName)
         {
             var libraryHandle = IntPtr.Zero;
@@ -19,14 +21,17 @@ namespace InteropDotNet
                 Logger.TraceInformation("Trying to load native library \"{0}\"...", fileName);
                 libraryHandle = UnixLoadLibrary(fileName, RTLD_NOW);
                 if (libraryHandle != IntPtr.Zero)
-                    Logger.TraceInformation("Successfully loaded native library \"{0}\", handle = {1}.", fileName, libraryHandle);
+                    Logger.TraceInformation("Successfully loaded native library \"{0}\", handle = {1}.", fileName,
+                        libraryHandle);
                 else
                     Logger.TraceError("Failed to load native library \"{0}\".\r\nCheck windows event log.", fileName);
             }
             catch (Exception e)
             {
                 var lastError = UnixGetLastError();
-                Logger.TraceError("Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}", fileName, lastError, e.ToString());
+                Logger.TraceError(
+                    "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}",
+                    fileName, lastError, e.ToString());
             }
 
             return libraryHandle;
@@ -64,21 +69,23 @@ namespace InteropDotNet
                 if (!fileName.StartsWith("lib", StringComparison.OrdinalIgnoreCase))
                     fileName = "lib" + fileName;
             }
+
             return fileName;
         }
 
-        const int RTLD_NOW = 2;
-
         [DllImport("libdl.so", EntryPoint = "dlopen")]
-        private static extern IntPtr UnixLoadLibrary(String fileName, int flags);
+        private static extern IntPtr UnixLoadLibrary(string fileName, int flags);
 
-        [DllImport("libdl.so", EntryPoint = "dlclose", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libdl.so", EntryPoint = "dlclose", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi)]
         private static extern int UnixFreeLibrary(IntPtr handle);
 
-        [DllImport("libdl.so", EntryPoint = "dlsym", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private static extern IntPtr UnixGetProcAddress(IntPtr handle, String symbol);
+        [DllImport("libdl.so", EntryPoint = "dlsym", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi)]
+        private static extern IntPtr UnixGetProcAddress(IntPtr handle, string symbol);
 
-        [DllImport("libdl.so", EntryPoint = "dlerror", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport("libdl.so", EntryPoint = "dlerror", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Ansi)]
         private static extern IntPtr UnixGetLastError();
     }
 }

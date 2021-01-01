@@ -1,10 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Tokenize
 {
@@ -43,7 +40,7 @@ namespace OpenNLP.Tools.Tokenize
             var parts = new List<Span>();
             var currentStartOfSpan = 0;
             var matches = WhitespaceRegex.Matches(input);
-            for(var i = 0; i < matches.Count; i++)
+            for (var i = 0; i < matches.Count; i++)
             {
                 var match = matches[i];
                 parts.Add(new Span(currentStartOfSpan, match.Index));
@@ -86,7 +83,7 @@ namespace OpenNLP.Tools.Tokenize
                 };
                 tokenSpans.InsertRange(indexOfLastTokenWithWordChar, lastSpans);
             }
-            
+
             return tokenSpans.ToArray();
         }
 
@@ -168,18 +165,18 @@ namespace OpenNLP.Tools.Tokenize
             // optimization - don't tokenize token of 1 character or token with letters only
             if (span.Length() <= 1 || LettersOnlyRegex.IsMatch(token))
             {
-                return new List<Span>(){ span };
+                return new List<Span>() { span };
             }
 
             var splitTokens = _tokenizationRegex.Split(token);
-            
+
             var spans = new List<Span>();
             var currentStart = span.Start;
             foreach (var splitToken in splitTokens)
             {
                 if (splitToken.Length > 0)
                 {
-                    spans.Add(new Span(currentStart, currentStart + splitToken.Length)); 
+                    spans.Add(new Span(currentStart, currentStart + splitToken.Length));
                 }
                 currentStart += splitToken.Length;
             }

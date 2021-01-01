@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>StringLabelFactory</code> object makes a simple
@@ -16,7 +10,7 @@ namespace OpenNLP.Tools.Ling
     /// </summary>
     public class StringLabelFactory : ILabelFactory
     {
-        
+
         /// <summary>
         /// Make a new label with this <code>string</code> as the "name".
         /// </summary>

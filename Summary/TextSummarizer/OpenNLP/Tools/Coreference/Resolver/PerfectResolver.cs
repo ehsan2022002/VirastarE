@@ -33,34 +33,31 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
-using DiscourseModel = OpenNLP.Tools.Coreference.DiscourseModel;
 using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> Resolver used in training to update the discourse model based on the coreference annotation.  </summary>
-	public class PerfectResolver:AbstractResolver
-	{
-		
-		public PerfectResolver():base(0)
-		{
-		}
-		
-		public override bool CanResolve(MentionContext ec)
-		{
-			return (true);
-		}
-		
-		protected internal override bool IsOutOfRange(MentionContext ec, DiscourseEntity de)
-		{
-			return (false);
-		}
-		
-		public override DiscourseEntity Resolve(MentionContext ec, DiscourseModel dm)
-		{
-			return (null);
-		}
-	}
+
+    /// <summary> Resolver used in training to update the discourse model based on the coreference annotation.  </summary>
+    public class PerfectResolver : AbstractResolver
+    {
+
+        public PerfectResolver() : base(0)
+        {
+        }
+
+        public override bool CanResolve(MentionContext ec)
+        {
+            return (true);
+        }
+
+        protected internal override bool IsOutOfRange(MentionContext ec, DiscourseEntity de)
+        {
+            return (false);
+        }
+
+        public override DiscourseEntity Resolve(MentionContext ec, DiscourseModel dm)
+        {
+            return (null);
+        }
+    }
 }

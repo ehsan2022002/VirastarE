@@ -33,16 +33,14 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	/// <summary>
+    /// <summary>
     /// Enumeration of gender types.
     /// </summary>
-	public class GenderEnum
-	{
-		private string mGender;
+    public class GenderEnum
+    {
+        private string mGender;
 
         private GenderEnum(string gender)
         {
@@ -54,24 +52,24 @@ namespace OpenNLP.Tools.Coreference.Similarity
             return mGender;
         }
 
-		/// <summary>
+        /// <summary>
         /// Male gender.
         /// </summary>
-		public static readonly GenderEnum Male = new GenderEnum("male");
+        public static readonly GenderEnum Male = new GenderEnum("male");
 
-		/// <summary>
+        /// <summary>
         /// Female gender.
         /// </summary>
-		public static readonly GenderEnum Female = new GenderEnum("female");
+        public static readonly GenderEnum Female = new GenderEnum("female");
 
-		/// <summary>
+        /// <summary>
         /// Neuter gender.
         /// </summary>
-		public static readonly GenderEnum Neuter = new GenderEnum("neuter");
-		
+        public static readonly GenderEnum Neuter = new GenderEnum("neuter");
+
         /// <summary>
         /// Unknown gender.
         /// </summary>
-		public static readonly GenderEnum Unknown = new GenderEnum("unknown");
-	}
+        public static readonly GenderEnum Unknown = new GenderEnum("unknown");
+    }
 }

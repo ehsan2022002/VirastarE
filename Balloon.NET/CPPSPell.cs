@@ -10,7 +10,7 @@ namespace Balloon.NET
         {
             InitializeComponent();
         }
-        
+
         public void ShowDlg(List<string> Words)
         {
             LsBoxWords.Items.Clear();
@@ -33,7 +33,7 @@ namespace Balloon.NET
             {
                 //index 2 ignore
                 //index 1 add
-                if (index ==2)
+                if (index == 2)
                     IsIgnored = true;
 
                 if (index == 1)

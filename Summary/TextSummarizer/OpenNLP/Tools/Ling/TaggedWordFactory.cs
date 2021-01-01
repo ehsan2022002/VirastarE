@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>TaggedWordFactory</code> acts as a factory for creating objects of
@@ -52,7 +46,7 @@ namespace OpenNLP.Tools.Ling
         {
             return new TaggedWord(labelStr);
         }
-        
+
         /// <summary>
         /// Make a new label with this <code>string</code> as a value component.
         /// Any other fields of the label would normally be null.

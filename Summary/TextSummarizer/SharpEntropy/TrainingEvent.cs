@@ -33,62 +33,60 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace SharpEntropy
 {
-	/// <summary>
-	/// The context of a decision point during training.  This includes
-	/// contextual predicates and an outcome.
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>
-	/// based on Event.java, $Revision: 1.3 $, $Date: 2003/12/09 23:13:08 $
-	/// </version>
-	public class TrainingEvent
-	{
-		/// <summary>
-		/// The outcome label for this training event.
-		/// </summary>
-		public string Outcome { get; private set; }
+    /// <summary>
+    /// The context of a decision point during training.  This includes
+    /// contextual predicates and an outcome.
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>
+    /// based on Event.java, $Revision: 1.3 $, $Date: 2003/12/09 23:13:08 $
+    /// </version>
+    public class TrainingEvent
+    {
+        /// <summary>
+        /// The outcome label for this training event.
+        /// </summary>
+        public string Outcome { get; private set; }
 
-		/// <summary>
-		/// The context for this training event.
-		/// </summary>
-		/// <returns>
-		/// A string array of context values for this training event.
-		/// </returns>
-		public string[] Context { get; private set; }
+        /// <summary>
+        /// The context for this training event.
+        /// </summary>
+        /// <returns>
+        /// A string array of context values for this training event.
+        /// </returns>
+        public string[] Context { get; private set; }
 
-		/// <summary>
-		/// Constructor for a training event.
-		/// </summary>
-		/// <param name="outcome">
-		/// the outcome label
-		/// </param>
-		/// <param name="context">
-		/// array containing context values
-		/// </param>
-		public TrainingEvent(string outcome, string[] context)
-		{
-			Outcome = outcome;
-			Context = context;
-		}
-		
-		/// <summary>
-		/// Override providing text summary of the training event.
-		/// </summary>
-		/// <returns>
-		/// Summary of the training event.
-		/// </returns>
-		public override string ToString()
-		{
-			return Outcome + " " + string.Join(", ", Context);
-		}
-	}
+        /// <summary>
+        /// Constructor for a training event.
+        /// </summary>
+        /// <param name="outcome">
+        /// the outcome label
+        /// </param>
+        /// <param name="context">
+        /// array containing context values
+        /// </param>
+        public TrainingEvent(string outcome, string[] context)
+        {
+            Outcome = outcome;
+            Context = context;
+        }
+
+        /// <summary>
+        /// Override providing text summary of the training event.
+        /// </summary>
+        /// <returns>
+        /// Summary of the training event.
+        /// </returns>
+        public override string ToString()
+        {
+            return Outcome + " " + string.Join(", ", Context);
+        }
+    }
 }

@@ -33,58 +33,56 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary>
+    /// <summary>
     /// Interface for finding head words in noun phrases and head noun-phrases in parses.
     /// </summary>
-	public interface IHeadFinder
-	{
-		/// <summary>
+    public interface IHeadFinder
+    {
+        /// <summary>
         /// Returns the child parse which contains the lexical head of the specifie parse.
         /// </summary>
-		/// <param name="parse">
+        /// <param name="parse">
         /// The parse in which to find the head.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// The parse containing the lexical head of the specified parse.  If no head is
-		/// available or the constituent has no sub-components that are eligible heads then null is returned.
-		/// </returns>
-		IParse GetHead(IParse parse);
-		
-		/// <summary>
+        /// available or the constituent has no sub-components that are eligible heads then null is returned.
+        /// </returns>
+        IParse GetHead(IParse parse);
+
+        /// <summary>
         /// Returns which index the specified list of token is the head word.
         /// </summary>
-		/// <param name="parse">
+        /// <param name="parse">
         /// The parse in which to find the head index.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// The index of the head token.  
-		/// </returns>
-		int GetHeadIndex(IParse parse);
-		
-		/// <summary>
+        /// </returns>
+        int GetHeadIndex(IParse parse);
+
+        /// <summary>
         /// Returns the parse bottom-most head of a <code>IParse</code>.  If no
-		/// head is available which is a child of <code>parse</code> then
-		/// <code>parse</code> is returned. 
-		/// </summary>
+        /// head is available which is a child of <code>parse</code> then
+        /// <code>parse</code> is returned. 
+        /// </summary>
         /// <param name="parse">
         /// Parse to find the head of.
-		/// </param>
+        /// </param>
         /// <returns>
         /// bottom-most head of parse.
-		/// </returns>
-		IParse GetLastHead(IParse parse);
-		
-		/// <summary>
+        /// </returns>
+        IParse GetLastHead(IParse parse);
+
+        /// <summary>
         /// Returns head token for the specified nounPhrase parse.
         /// </summary>
         /// <param name="nounPhrase">The noun parse to get head from.
-		/// </param>
-		/// <returns> head token parse.
-		/// </returns>
+        /// </param>
+        /// <returns> head token parse.
+        /// </returns>
         IParse GetHeadToken(IParse nounPhrase);
-	}
+    }
 }

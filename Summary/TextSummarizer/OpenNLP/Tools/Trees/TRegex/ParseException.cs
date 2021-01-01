@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -148,7 +145,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             {
                 switch (str[i])
                 {
-                    case (char) 0:
+                    case (char)0:
                         continue;
                     case '\b':
                         retval.Append("\\b");

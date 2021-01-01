@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Trees.TRegex;
+﻿using OpenNLP.Tools.Trees.TRegex;
 using OpenNLP.Tools.Trees.TRegex.Tsurgeon;
+using System.Text.RegularExpressions;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -63,7 +58,7 @@ namespace OpenNLP.Tools.Trees
             if (label == null)
             {
                 return "";
-                    // This shouldn't really happen, but can happen if there are unlabeled nodes further down a tree, as apparently happens in at least the 20100730 era American National Corpus
+                // This shouldn't really happen, but can happen if there are unlabeled nodes further down a tree, as apparently happens in at least the 20100730 era American National Corpus
             }
             bool nptemp = TmpPattern.IsMatch(label);
             bool npadv = AdvPattern.IsMatch(label);
@@ -81,7 +76,7 @@ namespace OpenNLP.Tools.Trees
 
         protected void StripTag(Tree t)
         {
-            if (! t.IsLeaf())
+            if (!t.IsLeaf())
             {
                 string label = CleanUpLabel(t.Value());
                 t.SetValue(label);

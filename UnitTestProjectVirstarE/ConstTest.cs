@@ -13,7 +13,7 @@ namespace UnitTestProjectVirstarE
         public void TestMethod1()
         {
             Assert.AreEqual("1", UtilSystemEnum.OnKey);
-            Assert.AreEqual("chkIgnoreEnglish", Util.UtilSystemEnum.chkIgnoreEnglish);
+            Assert.AreEqual("chkIgnoreEnglish", Util.UtilSystemEnum.ChkIgnoreEnglish);
         }
 
         [TestMethod]

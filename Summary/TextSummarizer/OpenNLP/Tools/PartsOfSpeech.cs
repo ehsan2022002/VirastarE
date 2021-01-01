@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace OpenNLP.Tools
 {
@@ -143,7 +139,7 @@ namespace OpenNLP.Tools
         {
             var fields = typeof(PartsOfSpeech).GetFields();
             return fields
-                .Select(fieldInfo => (string) fieldInfo.GetValue(null))
+                .Select(fieldInfo => (string)fieldInfo.GetValue(null))
                 .Any(value => value == function);
         }
     }

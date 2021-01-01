@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -26,7 +22,7 @@ namespace OpenNLP.Tools.Trees
     /// </summary>
     public class CollinsHeadFinder : AbstractCollinsHeadFinder
     {
-        private static readonly string[] EmptyStringArray = {};
+        private static readonly string[] EmptyStringArray = { };
 
         public CollinsHeadFinder() : this(new PennTreebankLanguagePack())
         {
@@ -80,10 +76,10 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.PrepositionOrSubordinateConjunction
                     }
                 });
-            NonTerminalInfo.Add(FRAG, new string[][] {new string[] {Right}}); // crap
-            NonTerminalInfo.Add(INTJ, new string[][] {new string[] {Left}});
+            NonTerminalInfo.Add(FRAG, new string[][] { new string[] { Right } }); // crap
+            NonTerminalInfo.Add(INTJ, new string[][] { new string[] { Left } });
             NonTerminalInfo.Add(LST,
-                new string[][] {new string[] {Right, PartsOfSpeech.ListItemMarker, PartsOfSpeech.ColonSemiColon}});
+                new string[][] { new string[] { Right, PartsOfSpeech.ListItemMarker, PartsOfSpeech.ColonSemiColon } });
             NonTerminalInfo.Add(NAC,
                 new string[][]
                 {
@@ -97,7 +93,7 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.AdjectiveComparative, CoordinationTransformer.Adjective, PartsOfSpeech.ForeignWord
                     }
                 });
-            NonTerminalInfo.Add(NX, new string[][] {new string[] {Left}}); // crap
+            NonTerminalInfo.Add(NX, new string[][] { new string[] { Left } }); // crap
             NonTerminalInfo.Add(PP,
                 new string[][]
                 {
@@ -109,8 +105,8 @@ namespace OpenNLP.Tools.Trees
                     }
                 });
             // should prefer JJ? (PP (JJ such) (IN as) (NP (NN crocidolite)))
-            NonTerminalInfo.Add(PRN, new string[][] {new string[] {Left}});
-            NonTerminalInfo.Add(PRT, new string[][] {new string[] {Right, PartsOfSpeech.Particle}});
+            NonTerminalInfo.Add(PRN, new string[][] { new string[] { Left } });
+            NonTerminalInfo.Add(PRT, new string[][] { new string[] { Right, PartsOfSpeech.Particle } });
             NonTerminalInfo.Add(QP,
                 new string[][]
                 {
@@ -149,7 +145,7 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.Determiner, S, SQ, SINV, SBAR, FRAG
                     }
                 });
-            NonTerminalInfo.Add(SBARQ, new string[][] {new string[] {Left, SQ, S, SINV, SBARQ, FRAG}});
+            NonTerminalInfo.Add(SBARQ, new string[][] { new string[] { Left, SQ, S, SINV, SBARQ, FRAG } });
             NonTerminalInfo.Add(SINV,
                 new string[][]
                 {
@@ -170,7 +166,7 @@ namespace OpenNLP.Tools.Trees
                         SQ
                     }
                 });
-            NonTerminalInfo.Add("UCP", new string[][] {new string[] {Right}});
+            NonTerminalInfo.Add("UCP", new string[][] { new string[] { Right } });
             NonTerminalInfo.Add(AbstractCollinsHeadFinder.VerbPhrase,
                 new string[][]
                 {
@@ -192,7 +188,7 @@ namespace OpenNLP.Tools.Trees
                         CoordinationTransformer.Adjective
                     }
                 });
-            NonTerminalInfo.Add(WHADVP, new string[][] {new string[] {Right, PartsOfSpeech.CoordinatingConjunction, PartsOfSpeech.WhAdverb}});
+            NonTerminalInfo.Add(WHADVP, new string[][] { new string[] { Right, PartsOfSpeech.CoordinatingConjunction, PartsOfSpeech.WhAdverb } });
             NonTerminalInfo.Add(WHNP,
                 new string[][]
                 {
@@ -211,7 +207,7 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.ForeignWord
                     }
                 });
-            NonTerminalInfo.Add(X, new string[][] {new string[] {Right}}); // crap rule
+            NonTerminalInfo.Add(X, new string[][] { new string[] { Right } }); // crap rule
             NonTerminalInfo.Add(CoordinationTransformer.Noun,
                 new string[][]
                 {
@@ -229,10 +225,10 @@ namespace OpenNLP.Tools.Trees
                         RightDis, PartsOfSpeech.Adjective, PartsOfSpeech.AdjectiveSuperlative, PartsOfSpeech.Adverb, QP
                     }
                 });
-            NonTerminalInfo.Add(TYPO, new string[][] {new string[] {Left}}); // another crap rule, for Brown (Roger)
-            NonTerminalInfo.Add(EDITED, new string[][] {new string[] {Left}});
-                // crap rule for Switchboard (if don't delete EDITED nodes)
-            NonTerminalInfo.Add(XS, new string[][] {new string[] {Right, PartsOfSpeech.PrepositionOrSubordinateConjunction}}); // rule for new structure in QP
+            NonTerminalInfo.Add(TYPO, new string[][] { new string[] { Left } }); // another crap rule, for Brown (Roger)
+            NonTerminalInfo.Add(EDITED, new string[][] { new string[] { Left } });
+            // crap rule for Switchboard (if don't delete EDITED nodes)
+            NonTerminalInfo.Add(XS, new string[][] { new string[] { Right, PartsOfSpeech.PrepositionOrSubordinateConjunction } }); // rule for new structure in QP
         }
 
         protected override int PostOperationFix(int headIdx, Tree[] daughterTrees)

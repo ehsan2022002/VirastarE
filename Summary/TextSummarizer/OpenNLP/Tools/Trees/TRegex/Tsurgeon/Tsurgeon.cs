@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Parser;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -80,7 +76,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         private static readonly Regex EscapedCommentCharacterPattern = new Regex("\\\\" + CommentIntroducingCharacter,
             RegexOptions.Compiled);
-        
+
         /**
         * Parses a tsurgeon script text input and compiles a tregex pattern and a list
         * of tsurgeon operations into a pair.
@@ -90,40 +86,40 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         *    when the operations in the Reader have been exhausted
         * @throws IOException If any IO problem
         */
-            /*public static Tuple<TregexPattern, TsurgeonPattern> getOperationFromReader(BufferedReader reader, TregexPatternCompiler compiler) /*throws IOException#1# {
-        string patternString = getTregexPatternFromReader(reader);
-        if ("".equals(patternString)) {
-            return null;
-        }
-        TregexPattern matchPattern = compiler.compile(patternString);
+        /*public static Tuple<TregexPattern, TsurgeonPattern> getOperationFromReader(BufferedReader reader, TregexPatternCompiler compiler) /*throws IOException#1# {
+    string patternString = getTregexPatternFromReader(reader);
+    if ("".equals(patternString)) {
+        return null;
+    }
+    TregexPattern matchPattern = compiler.compile(patternString);
 
-        TsurgeonPattern collectedPattern = getTsurgeonOperationsFromReader(reader);
-        return new Pair<TregexPattern,TsurgeonPattern>(matchPattern,collectedPattern);
-        }*/
+    TsurgeonPattern collectedPattern = getTsurgeonOperationsFromReader(reader);
+    return new Pair<TregexPattern,TsurgeonPattern>(matchPattern,collectedPattern);
+    }*/
 
         /**
         * Assumes that we are at the beginning of a tsurgeon script file and gets the string for the
         * tregex pattern leading the file
         * @return tregex pattern string
         */
-            /*public static string getTregexPatternFromReader(BufferedReader reader) throws IOException {
-        StringBuilder matchString = new StringBuilder();
-        for (string thisLine; (thisLine = reader.readLine()) != null; ) {
-            if (matchString.length() > 0 && emptyLinePattern.matcher(thisLine).matches()) {
-            // A blank line after getting some real content (not just comments or nothing)
-            break;
-            }
-            Matcher m = commentPattern.matcher(thisLine);
-            if (m.matches()) {
-            // delete it
-            thisLine = m.replaceFirst("");
-            }
-            if ( ! emptyLinePattern.matcher(thisLine).matches()) {
-            matchString.append(thisLine);
-            }
+        /*public static string getTregexPatternFromReader(BufferedReader reader) throws IOException {
+    StringBuilder matchString = new StringBuilder();
+    for (string thisLine; (thisLine = reader.readLine()) != null; ) {
+        if (matchString.length() > 0 && emptyLinePattern.matcher(thisLine).matches()) {
+        // A blank line after getting some real content (not just comments or nothing)
+        break;
         }
-        return matchString.ToString();
-        }*/
+        Matcher m = commentPattern.matcher(thisLine);
+        if (m.matches()) {
+        // delete it
+        thisLine = m.replaceFirst("");
+        }
+        if ( ! emptyLinePattern.matcher(thisLine).matches()) {
+        matchString.append(thisLine);
+        }
+    }
+    return matchString.ToString();
+    }*/
 
         /**
         * Assumes the given reader has only tsurgeon operations (not a tregex pattern), and parses
@@ -131,24 +127,24 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         *
         * @throws IOException
         */
-            /*public static TsurgeonPattern getTsurgeonOperationsFromReader(BufferedReader reader) throws IOException {
-        List<TsurgeonPattern> operations = new ArrayList<TsurgeonPattern>();
-        for (string thisLine; (thisLine = reader.readLine()) != null; ) {
-            if (emptyLinePattern.matcher(thisLine).matches()) {
-            break;
-            }
-            thisLine = removeComments(thisLine);
-            if (emptyLinePattern.matcher(thisLine).matches()) {
-            continue;
-            }
-            operations.add(parseOperation(thisLine));
+        /*public static TsurgeonPattern getTsurgeonOperationsFromReader(BufferedReader reader) throws IOException {
+    List<TsurgeonPattern> operations = new ArrayList<TsurgeonPattern>();
+    for (string thisLine; (thisLine = reader.readLine()) != null; ) {
+        if (emptyLinePattern.matcher(thisLine).matches()) {
+        break;
         }
+        thisLine = removeComments(thisLine);
+        if (emptyLinePattern.matcher(thisLine).matches()) {
+        continue;
+        }
+        operations.add(parseOperation(thisLine));
+    }
 
-        if (operations.size() == 0)
-            throw new TsurgeonParseException("No Tsurgeon operation provided.");
+    if (operations.size() == 0)
+        throw new TsurgeonParseException("No Tsurgeon operation provided.");
 
-        return collectOperations(operations);
-        }*/
+    return collectOperations(operations);
+    }*/
 
 
         /*private static string removeComments(string line) {
@@ -167,18 +163,18 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
        * because you do not parse the operations on load.  Comments are still excised.
        * @throws IOException
        */
-            /*public static string getTsurgeonTextFromReader(BufferedReader reader) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (string thisLine; (thisLine = reader.readLine()) != null; ) {
-          thisLine = removeComments(thisLine);
-          if (emptyLinePattern.matcher(thisLine).matches()) {
-            continue;
-          }
-          sb.append(thisLine);
-          sb.append('\n');
-        }
-        return sb.ToString();
-      }*/
+        /*public static string getTsurgeonTextFromReader(BufferedReader reader) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    for (string thisLine; (thisLine = reader.readLine()) != null; ) {
+      thisLine = removeComments(thisLine);
+      if (emptyLinePattern.matcher(thisLine).matches()) {
+        continue;
+      }
+      sb.append(thisLine);
+      sb.append('\n');
+    }
+    return sb.ToString();
+  }*/
 
         /**
        * Parses a tsurgeon script file and compiles all operations in the file into a list
@@ -188,19 +184,19 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
        * @return A pair of a tregex and tsurgeon pattern read from a file
        * @throws IOException If there is any I/O problem
        */
-            /*public static List<Pair<TregexPattern, TsurgeonPattern>> getOperationsFromFile(string filename, string encoding, TregexPatternCompiler compiler) throws IOException {
-        List<Pair<TregexPattern,TsurgeonPattern>> operations = new ArrayList<Pair<TregexPattern, TsurgeonPattern>>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
-        for ( ; ; ) {
-          Pair<TregexPattern, TsurgeonPattern> operation = getOperationFromReader(reader, compiler);
-          if (operation == null) {
-            break;
-          }
-          operations.add(operation);
-        }
-        reader.close();
-        return operations;
-      }*/
+        /*public static List<Pair<TregexPattern, TsurgeonPattern>> getOperationsFromFile(string filename, string encoding, TregexPatternCompiler compiler) throws IOException {
+    List<Pair<TregexPattern,TsurgeonPattern>> operations = new ArrayList<Pair<TregexPattern, TsurgeonPattern>>();
+    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+    for ( ; ; ) {
+      Pair<TregexPattern, TsurgeonPattern> operation = getOperationFromReader(reader, compiler);
+      if (operation == null) {
+        break;
+      }
+      operations.add(operation);
+    }
+    reader.close();
+    return operations;
+  }*/
 
         /// <summary>
         /// Applies {#processPattern} to a collection of trees.

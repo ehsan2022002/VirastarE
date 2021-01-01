@@ -1,9 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -224,7 +222,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         {
             return root;
         }
-        
+
         /// <summary>
         /// If there is a current match, and that match involves setting this
         /// particular variable string, this returns that string.  Otherwise,

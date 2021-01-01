@@ -1,12 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2008 October 07
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -40,46 +36,46 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
 
 #if !SQLITE_DEBUG
-		/*
+        /*
 ** Stub routines for all mutex methods.
 **
 ** This routines provide no mutual exclusion or error checking.
 */
-		static int noopMutexHeld(sqlite3_mutex p) { return 1; }
-		static int noopMutexNotheld(sqlite3_mutex p) { return 1; }
-		static int noopMutexInit() { return SQLITE_OK; }
-		static int noopMutexEnd() { return SQLITE_OK; }
-		static sqlite3_mutex noopMutexAlloc(int id) { return new sqlite3_mutex(); }
-		static void noopMutexFree(sqlite3_mutex p) { }
-		static void noopMutexEnter(sqlite3_mutex p) { }
-		static int noopMutexTry(sqlite3_mutex p) { return SQLITE_OK; }
-		static void noopMutexLeave(sqlite3_mutex p) { }
+        static int noopMutexHeld(sqlite3_mutex p) { return 1; }
+        static int noopMutexNotheld(sqlite3_mutex p) { return 1; }
+        static int noopMutexInit() { return SQLITE_OK; }
+        static int noopMutexEnd() { return SQLITE_OK; }
+        static sqlite3_mutex noopMutexAlloc(int id) { return new sqlite3_mutex(); }
+        static void noopMutexFree(sqlite3_mutex p) { }
+        static void noopMutexEnter(sqlite3_mutex p) { }
+        static int noopMutexTry(sqlite3_mutex p) { return SQLITE_OK; }
+        static void noopMutexLeave(sqlite3_mutex p) { }
 
-		sqlite3_mutex_methods sqlite3DefaultMutex()
-		{
-			sqlite3_mutex_methods sMutex = new sqlite3_mutex_methods(
-			(dxMutexInit)noopMutexInit,
-			(dxMutexEnd)noopMutexEnd,
-			(dxMutexAlloc)noopMutexAlloc,
-			(dxMutexFree)noopMutexFree,
-			(dxMutexEnter)noopMutexEnter,
-			(dxMutexTry)noopMutexTry,
-			(dxMutexLeave)noopMutexLeave,
+        sqlite3_mutex_methods sqlite3DefaultMutex()
+        {
+            sqlite3_mutex_methods sMutex = new sqlite3_mutex_methods(
+            (dxMutexInit)noopMutexInit,
+            (dxMutexEnd)noopMutexEnd,
+            (dxMutexAlloc)noopMutexAlloc,
+            (dxMutexFree)noopMutexFree,
+            (dxMutexEnter)noopMutexEnter,
+            (dxMutexTry)noopMutexTry,
+            (dxMutexLeave)noopMutexLeave,
 #if SQLITE_DEBUG
 (dxMutexHeld)noopMutexHeld,
 (dxMutexNotheld)noopMutexNotheld
 #else
  null,
-			null
+            null
 #endif
 );
 
-			return sMutex;
-		}
+            return sMutex;
+        }
 #endif //* !SQLITE_DEBUG */
 
 #if SQLITE_DEBUG && !SQLITE_MUTEX_OMIT
@@ -229,7 +225,7 @@ namespace System.Data.SQLite
 	}
 #endif //* SQLITE_DEBUG */
 
-		/*
+        /*
 ** If compiled with SQLITE_MUTEX_NOOP, then the no-op mutex implementation
 ** is used regardless of the run-time threadsafety setting.
 */
@@ -239,5 +235,5 @@ return sqlite3NoopMutex();
 }
 #endif //* SQLITE_MUTEX_NOOP */
 
-	}
+    }
 }

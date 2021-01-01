@@ -33,41 +33,39 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	/// <summary>
+    /// <summary>
     /// Provides the interface for a object to provide a resolver with a non-referential
-	/// probability.  Non-referential resolvers compute the probability that a particular mention refers
-	/// to no antecedent.  This probability can then compete with the probability that
-	/// a mention refers with a specific antecedent. 
-	/// </summary>
-	public interface INonReferentialResolver
-	{
-		/// <summary>
+    /// probability.  Non-referential resolvers compute the probability that a particular mention refers
+    /// to no antecedent.  This probability can then compete with the probability that
+    /// a mention refers with a specific antecedent. 
+    /// </summary>
+    public interface INonReferentialResolver
+    {
+        /// <summary>
         /// Returns the probability that the specified mention doesn't refer to any previous mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention under consideration.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// A probability that the specified mention doesn't refer to any previous mention. 
-		/// </returns>
+        /// </returns>
         double GetNonReferentialProbability(Mention.MentionContext mention);
-		
-		/// <summary>
+
+        /// <summary>
         /// Designates that the specified mention be used for training.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention to be used.  The mention id is used to determine
-		/// whether this mention is referential or non-referential.
-		/// </param>
+        /// whether this mention is referential or non-referential.
+        /// </param>
         void AddEvent(Mention.MentionContext mention);
-		
-		/// <summary>
+
+        /// <summary>
         /// Trains a model based on the events given to this resolver via AddEvent.
         /// </summary>
-		void Train();
-	}
+        void Train();
+    }
 }

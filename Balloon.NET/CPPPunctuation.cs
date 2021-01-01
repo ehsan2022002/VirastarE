@@ -16,9 +16,9 @@ namespace Balloon.NET
         public CPPPunctuation()
         {
             InitializeComponent();
-           
+
         }
-                        
+
 
         private void CPPPunctuation_Deactivate(object sender, EventArgs e)
         {

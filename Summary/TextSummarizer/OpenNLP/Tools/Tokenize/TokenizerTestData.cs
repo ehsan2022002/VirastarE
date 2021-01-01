@@ -1,9 +1,6 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Tokenize
 {
@@ -24,7 +21,7 @@ namespace OpenNLP.Tools.Tokenize
 
         public string GetCleanSentence()
         {
-            return !string.IsNullOrEmpty(this.SentenceWithMarks) ? 
+            return !string.IsNullOrEmpty(this.SentenceWithMarks) ?
                 this.SentenceWithMarks.Replace(TokenMarker, "") : "";
         }
 

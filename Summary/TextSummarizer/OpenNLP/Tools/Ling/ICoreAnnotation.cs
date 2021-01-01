@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Ling
 {
-    
+
     /// <summary>
     /// The base class for any annotation that can be marked on a {@link CoreMap},
     /// parameterized by the type of the value associated with the annotation.

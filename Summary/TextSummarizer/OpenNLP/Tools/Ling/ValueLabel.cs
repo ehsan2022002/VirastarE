@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Ling
 {
@@ -72,7 +68,7 @@ namespace OpenNLP.Tools.Ling
         {
             string val = Value();
             return (obj is ValueLabel) &&
-                   (val == null ? ((ILabel) obj).Value() == null : val.Equals(((ILabel) obj).Value()));
+                   (val == null ? ((ILabel)obj).Value() == null : val.Equals(((ILabel)obj).Value()));
         }
 
         public override int GetHashCode()
@@ -91,6 +87,6 @@ namespace OpenNLP.Tools.Ling
         /// Returns a factory that makes Labels of the appropriate sort.
         /// </summary>
         public abstract ILabelFactory LabelFactory();
-    
+
     }
 }

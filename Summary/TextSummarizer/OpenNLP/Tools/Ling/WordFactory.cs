@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>WordFactory</code> acts as a factory for creating objects of class <code>Word</code>.
@@ -15,7 +9,7 @@ namespace OpenNLP.Tools.Ling
     /// </summary>
     public class WordFactory : ILabelFactory
     {
-        
+
         /// <summary>
         /// Create a new word, where the label is formed from the <code>string</code> passed in.
         /// </summary>

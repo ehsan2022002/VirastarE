@@ -14,59 +14,57 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for RelationType.
-	/// </summary>
-	public class RelationType
-	{
-		private string mName;
-		private RelationType mOpposite;
-		private string[] mPartsOfSpeech;
+    /// <summary>
+    /// Summary description for RelationType.
+    /// </summary>
+    public class RelationType
+    {
+        private string mName;
+        private RelationType mOpposite;
+        private string[] mPartsOfSpeech;
 
-		public string Name
-		{
-			get
-			{
-				return mName;
-			}
-		}
+        public string Name
+        {
+            get
+            {
+                return mName;
+            }
+        }
 
-		public RelationType Opposite
-		{
-			get
-			{
-				return mOpposite;
-			}
-		}
+        public RelationType Opposite
+        {
+            get
+            {
+                return mOpposite;
+            }
+        }
 
-		public string GetPartOfSpeech(int index)
-		{
-			return mPartsOfSpeech[index];
-		}
+        public string GetPartOfSpeech(int index)
+        {
+            return mPartsOfSpeech[index];
+        }
 
-		public int PartsOfSpeechCount
-		{
-			get
-			{
-				return mPartsOfSpeech.Length;
-			}
-		}
+        public int PartsOfSpeechCount
+        {
+            get
+            {
+                return mPartsOfSpeech.Length;
+            }
+        }
 
-		protected internal RelationType(string name, string[] partsOfSpeech)
-		{
-			mName = name;
-			mPartsOfSpeech = partsOfSpeech;
-		}
+        protected internal RelationType(string name, string[] partsOfSpeech)
+        {
+            mName = name;
+            mPartsOfSpeech = partsOfSpeech;
+        }
 
-		protected internal RelationType(string name, RelationType opposite, string[] partsOfSpeech)
-		{
-			mName = name;
-			mOpposite = opposite;
-			mPartsOfSpeech = partsOfSpeech;
-		}
-	}
+        protected internal RelationType(string name, RelationType opposite, string[] partsOfSpeech)
+        {
+            mName = name;
+            mOpposite = opposite;
+            mPartsOfSpeech = partsOfSpeech;
+        }
+    }
 }

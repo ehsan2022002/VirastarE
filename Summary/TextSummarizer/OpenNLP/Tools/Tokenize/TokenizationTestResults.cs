@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Tokenize
+﻿namespace OpenNLP.Tools.Tokenize
 {
     /// <summary>
     /// Results of a tokenization test.
@@ -26,7 +20,7 @@ namespace OpenNLP.Tools.Tokenize
         /// </summary>
         public float GetAccuracy()
         {
-            return (float) (this.NbOfCorrectTokenizations )/
+            return (float)(this.NbOfCorrectTokenizations) /
                    (this.NbOfCorrectTokenizations + this.NbOfIncorrectTokenizations);
         }
     }

@@ -33,40 +33,39 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary>
-    /// This class allows you to share a single instance of a non-referential resolver
-	/// amoung several resolvers.   
-	/// </summary>
-	public class SingletonNonReferentialResolver:DefaultNonReferentialResolver
-	{
-		private static SingletonNonReferentialResolver mResolver;
-		private static bool mTrained;
-		
-		private SingletonNonReferentialResolver(string projectName, ResolverMode mode):base(projectName, "nonref", mode)
-		{
-		}
-		
-		public static SingletonNonReferentialResolver GetInstance(string modelName, ResolverMode mode)
-		{
-			if (mResolver == null)
-			{
-				mResolver = new SingletonNonReferentialResolver(modelName, mode);
-			}
-			return mResolver;
-		}
-		
-		public override void Train()
-		{
-			if (!mTrained)
-			{
-				base.Train();
-				mTrained = true;
-			}
-		}
 
-	}
+    /// <summary>
+    /// This class allows you to share a single instance of a non-referential resolver
+    /// amoung several resolvers.   
+    /// </summary>
+    public class SingletonNonReferentialResolver : DefaultNonReferentialResolver
+    {
+        private static SingletonNonReferentialResolver mResolver;
+        private static bool mTrained;
+
+        private SingletonNonReferentialResolver(string projectName, ResolverMode mode) : base(projectName, "nonref", mode)
+        {
+        }
+
+        public static SingletonNonReferentialResolver GetInstance(string modelName, ResolverMode mode)
+        {
+            if (mResolver == null)
+            {
+                mResolver = new SingletonNonReferentialResolver(modelName, mode);
+            }
+            return mResolver;
+        }
+
+        public override void Train()
+        {
+            if (!mTrained)
+            {
+                base.Train();
+                mTrained = true;
+            }
+        }
+
+    }
 }

@@ -38,14 +38,14 @@ using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Util
 {
-	/// <summary>
+    /// <summary>
     /// Class which creates mapping between keys and a list of values.
     /// </summary>
     [Serializable]
     public class HashList<TKey, TValue> : Dictionary<TKey, List<TValue>>
-	{
-		public virtual TValue GetValue(TKey key, int index)
-		{
+    {
+        public virtual TValue GetValue(TKey key, int index)
+        {
             if (!this.ContainsKey(key))
             {
                 return default(TValue);
@@ -54,11 +54,11 @@ namespace OpenNLP.Tools.Util
             {
                 return this[key][index];
             }
-		}
-		
-		public virtual List<TValue> PutAll(TKey key, List<TValue> values)
-		{
-			List<TValue> list;
+        }
+
+        public virtual List<TValue> PutAll(TKey key, List<TValue> values)
+        {
+            List<TValue> list;
 
             if (!this.ContainsKey(key))
             {
@@ -70,7 +70,7 @@ namespace OpenNLP.Tools.Util
                 list = this[key];
             }
 
-			list.AddRange(values);
+            list.AddRange(values);
 
             if (list.Count == values.Count)
             {
@@ -80,11 +80,11 @@ namespace OpenNLP.Tools.Util
             {
                 return list;
             }
-		}
-		
-		public List<TValue> Put(TKey key, TValue value)
-		{
-			List<TValue> list;
+        }
+
+        public List<TValue> Put(TKey key, TValue value)
+        {
+            List<TValue> list;
 
             if (!this.ContainsKey(key))
             {
@@ -96,7 +96,7 @@ namespace OpenNLP.Tools.Util
                 list = this[key];
             }
 
-			list.Add(value);
+            list.Add(value);
 
             if (list.Count == 1)
             {
@@ -106,24 +106,24 @@ namespace OpenNLP.Tools.Util
             {
                 return list;
             }
-		}
-		
-		public virtual bool Remove(TKey key, TValue value)
-		{
-			if (!this.ContainsKey(key))
-			{
-				return false;
-			}
-			else
-			{
+        }
+
+        public virtual bool Remove(TKey key, TValue value)
+        {
+            if (!this.ContainsKey(key))
+            {
+                return false;
+            }
+            else
+            {
                 List<TValue> list = this[key];
                 bool removed = list.Remove(value);
                 if (list.Count == 0)
-				{
+                {
                     this.Remove(key);
-				}
+                }
                 return removed;
-			}
-		}
-	}
+            }
+        }
+    }
 }

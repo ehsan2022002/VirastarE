@@ -1,18 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Tesseract
 {
     [Serializable]
     public class LoadLibraryException : SystemException
     {
-        public LoadLibraryException() { }
-        public LoadLibraryException(string message) : base(message) { }
-        public LoadLibraryException(string message, Exception inner) : base(message, inner) { }
+        public LoadLibraryException()
+        {
+        }
+
+        public LoadLibraryException(string message) : base(message)
+        {
+        }
+
+        public LoadLibraryException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
         protected LoadLibraryException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+            SerializationInfo info,
+            StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

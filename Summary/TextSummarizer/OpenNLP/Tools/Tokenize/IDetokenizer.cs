@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Tokenize
+﻿namespace OpenNLP.Tools.Tokenize
 {
     /// <summary>
     /// Licensed to the Apache Software Foundation (ASF) under one or more

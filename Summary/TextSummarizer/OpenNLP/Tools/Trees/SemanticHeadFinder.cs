@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 using OpenNLP.Tools.Trees.TRegex;
 using OpenNLP.Tools.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -76,7 +74,7 @@ namespace OpenNLP.Tools.Trees
         // include Charniak tags so can do BLLIP right
         private static readonly string[] VerbTags = { PartsOfSpeech.To, PartsOfSpeech.Modal, PartsOfSpeech.VerbBaseForm, PartsOfSpeech.VerbPastTense, PartsOfSpeech.VerbNon3rdPersSingPresent, PartsOfSpeech.Verb3rdPersSingPresent, PartsOfSpeech.VerbGerundOrPresentParticiple, PartsOfSpeech.VerbPastParticiple, "AUX", "AUXG" };
         // These ones are always auxiliaries, even if the word is "too", "my", or whatever else appears in web text.
-        private static readonly string[] UnambiguousAuxTags = {PartsOfSpeech.To, PartsOfSpeech.Modal, "AUX", "AUXG"};
+        private static readonly string[] UnambiguousAuxTags = { PartsOfSpeech.To, PartsOfSpeech.Modal, "AUX", "AUXG" };
 
 
         private readonly Set<string> verbalAuxiliaries;
@@ -196,7 +194,7 @@ namespace OpenNLP.Tools.Trees
                 new string[] {Right, PartsOfSpeech.Adverb}, new string[] {Right}
             };
             //WHADJP
-            NonTerminalInfo[WHADVP] = new string[][] {new string[] {RightDis, PartsOfSpeech.WhAdverb, WHADVP, PartsOfSpeech.Adverb, PartsOfSpeech.Adjective}};
+            NonTerminalInfo[WHADVP] = new string[][] { new string[] { RightDis, PartsOfSpeech.WhAdverb, WHADVP, PartsOfSpeech.Adverb, PartsOfSpeech.Adjective } };
             // if not WRB or WHADVP, probably has flat NP structure, allow JJ for "how long" constructions
             // QP: we don't want the first CD to be the semantic head (e.g., "three billion": head should be "billion"), so we go from right to left
             NonTerminalInfo[QP] =
@@ -242,7 +240,7 @@ namespace OpenNLP.Tools.Trees
 
 
             // UCP take the first element as head
-            NonTerminalInfo[UCP] = new string[][] {new string[] {Left}};
+            NonTerminalInfo[UCP] = new string[][] { new string[] { Left } };
 
             // CONJP: we want different heads for "but also" and "but not" and we don't want "not" to be the head in "not to mention"; now make "mention" head of "not to mention"
             NonTerminalInfo[CONJP] = new string[][]
@@ -276,18 +274,18 @@ namespace OpenNLP.Tools.Trees
             };
 
             // add the constituent XS (special node to add a layer in a QP tree introduced in our QPTreeTransformer)
-            NonTerminalInfo[XS] = new string[][] {new string[] {Right, PartsOfSpeech.PrepositionOrSubordinateConjunction}};
+            NonTerminalInfo[XS] = new string[][] { new string[] { Right, PartsOfSpeech.PrepositionOrSubordinateConjunction } };
 
             // add a rule to deal with the CoNLL data
-            NonTerminalInfo[EMBED] = new string[][] {new string[] {Right, INTJ}};
+            NonTerminalInfo[EMBED] = new string[][] { new string[] { Right, INTJ } };
 
         }
-        
+
         private bool ShouldSkip(Tree t, bool origWasInterjection)
         {
             return t.IsPreTerminal() &&
-                   (Tlp.IsPunctuationTag(t.Value()) || ! origWasInterjection && PartsOfSpeech.Interjection.Equals(t.Value())) ||
-                   INTJ.Equals(t.Value()) && ! origWasInterjection;
+                   (Tlp.IsPunctuationTag(t.Value()) || !origWasInterjection && PartsOfSpeech.Interjection.Equals(t.Value())) ||
+                   INTJ.Equals(t.Value()) && !origWasInterjection;
         }
 
         private int FindPreviousHead(int headIdx, Tree[] daughterTrees, bool origWasInterjection)
@@ -307,14 +305,14 @@ namespace OpenNLP.Tools.Trees
                     seenSeparator = true;
                 }
                 else if (daughterTrees[newHeadIdx].IsPreTerminal() &&
-                         (Tlp.IsPunctuationTag(label) || ! origWasInterjection && PartsOfSpeech.Interjection.Equals(label)) ||
-                         INTJ.Equals(label) && ! origWasInterjection)
+                         (Tlp.IsPunctuationTag(label) || !origWasInterjection && PartsOfSpeech.Interjection.Equals(label)) ||
+                         INTJ.Equals(label) && !origWasInterjection)
                 {
                     // keep looping
                 }
                 else
                 {
-                    if (! seenSeparator)
+                    if (!seenSeparator)
                     {
                         newHeadIdx = -1;
                     }
@@ -429,7 +427,7 @@ namespace OpenNLP.Tools.Trees
         protected override Tree DetermineNonTrivialHead(Tree t, Tree parent)
         {
             string motherCat = Tlp.BasicCategory(t.Label().Value());
-            
+
             // Some conj expressions seem to make more sense with the "not" or
             // other key words as the head.  For example, "and not" means
             // something completely different than "and".  Furthermore,
@@ -503,10 +501,10 @@ namespace OpenNLP.Tools.Trees
                     // problematic for other auxiliaries, like 'he has an answer'
                     // But maybe doing ADJP is fine!
                     string[] how = { Left, AbstractCollinsHeadFinder.VerbPhrase, CoordinationTransformer.Adjective };
-                    
+
                     //tmpFilteredChildren = ArrayUtils.filter(kids, REMOVE_TMP_AND_ADV);
                     tmpFilteredChildren = kids.Where(k => RemoveTmpAndAdv(k)).ToArray();
-                    
+
                     Tree pti = TraverseLocate(tmpFilteredChildren, how, false);
                     if (pti != null)
                     {
@@ -515,7 +513,7 @@ namespace OpenNLP.Tools.Trees
                 }
 
                 // looks for copular verbs
-                if (HasVerbalAuxiliary(kids, copulars, false) && ! IsExistential(t, parent) && ! IsWhQ(t, parent))
+                if (HasVerbalAuxiliary(kids, copulars, false) && !IsExistential(t, parent) && !IsWhQ(t, parent))
                 {
                     string[] how;
                     if (motherCat.Equals("SQ"))
@@ -550,7 +548,7 @@ namespace OpenNLP.Tools.Trees
                                 break;
                             }
                         }
-                        if (! foundAnotherNp)
+                        if (!foundAnotherNp)
                         {
                             pti = null;
                         }
@@ -620,7 +618,7 @@ namespace OpenNLP.Tools.Trees
                     }
                 }
             }
-                // question case
+            // question case
             else if (motherCat.StartsWith(SQ) && parent != null)
             {
                 //take the daughters
@@ -684,7 +682,7 @@ namespace OpenNLP.Tools.Trees
                 string tag = null;
                 if (kidLabel is IHasTag)
                 {
-                    tag = ((IHasTag) kidLabel).Tag();
+                    tag = ((IHasTag)kidLabel).Tag();
                 }
                 if (tag == null)
                 {
@@ -694,7 +692,7 @@ namespace OpenNLP.Tools.Trees
                 string word = null;
                 if (wordLabel is IHasWord)
                 {
-                    word = ((IHasWord) wordLabel).GetWord();
+                    word = ((IHasWord)wordLabel).GetWord();
                 }
                 if (word == null)
                 {
@@ -739,7 +737,7 @@ namespace OpenNLP.Tools.Trees
                     string cat = null;
                     if (kidLabel is IHasCategory)
                     {
-                        cat = ((IHasCategory) kidLabel).Category();
+                        cat = ((IHasCategory)kidLabel).Category();
                     }
                     if (cat == null)
                     {
@@ -759,15 +757,15 @@ namespace OpenNLP.Tools.Trees
                             string tag = null;
                             if (kidkidLabel is IHasTag)
                             {
-                                tag = ((IHasTag) kidkidLabel).Tag();
+                                tag = ((IHasTag)kidkidLabel).Tag();
                             }
                             if (tag == null)
                             {
                                 tag = kidkid.Value();
                             }
                             // we allow in VBD because of frequent tagging mistakes
-                            if (PartsOfSpeech.VerbPastParticiple == tag 
-                                || PartsOfSpeech.VerbGerundOrPresentParticiple == tag 
+                            if (PartsOfSpeech.VerbPastParticiple == tag
+                                || PartsOfSpeech.VerbGerundOrPresentParticiple == tag
                                 || PartsOfSpeech.VerbPastTense == tag)
                             {
                                 foundPassiveVp = true;
@@ -784,7 +782,7 @@ namespace OpenNLP.Tools.Trees
                             string catcat = null;
                             if (kidLabel is IHasCategory)
                             {
-                                catcat = ((IHasCategory) kidLabel).Category();
+                                catcat = ((IHasCategory)kidLabel).Category();
                             }
                             if (catcat == null)
                             {
@@ -821,14 +819,14 @@ namespace OpenNLP.Tools.Trees
                     string tag = null;
                     if (kidLabel is IHasTag)
                     {
-                        tag = ((IHasTag) kidLabel).Tag();
+                        tag = ((IHasTag)kidLabel).Tag();
                     }
                     if (tag == null)
                     {
                         tag = kid.Value();
                     }
-                    if (PartsOfSpeech.VerbPastParticiple == tag 
-                        || PartsOfSpeech.VerbGerundOrPresentParticiple == tag 
+                    if (PartsOfSpeech.VerbPastParticiple == tag
+                        || PartsOfSpeech.VerbGerundOrPresentParticiple == tag
                         || PartsOfSpeech.VerbPastTense == tag)
                     {
                         return true;

@@ -28,47 +28,45 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-using System;
-using System.Data;
 using System.Data.Common;
 
 namespace System.Data.SQLite
 {
-	public sealed class SQLiteDataSourceEnumerator : DbDataSourceEnumerator
-	{
-		public SQLiteDataSourceEnumerator()
-		{
-		}
+    public sealed class SQLiteDataSourceEnumerator : DbDataSourceEnumerator
+    {
+        public SQLiteDataSourceEnumerator()
+        {
+        }
 
-		public override DataTable GetDataSources()
-		{
-			DataTable dt = new DataTable();
-			DataColumn col;
+        public override DataTable GetDataSources()
+        {
+            DataTable dt = new DataTable();
+            DataColumn col;
 
-			col = new DataColumn("ServerName", typeof(string));
-			dt.Columns.Add(col);
+            col = new DataColumn("ServerName", typeof(string));
+            dt.Columns.Add(col);
 
-			col = new DataColumn("InstanceName", typeof(string));
-			dt.Columns.Add(col);
+            col = new DataColumn("InstanceName", typeof(string));
+            dt.Columns.Add(col);
 
-			col = new DataColumn("IsClustered", typeof(bool));
-			dt.Columns.Add(col);
+            col = new DataColumn("IsClustered", typeof(bool));
+            dt.Columns.Add(col);
 
-			col = new DataColumn("Version", typeof(string));
-			dt.Columns.Add(col);
+            col = new DataColumn("Version", typeof(string));
+            dt.Columns.Add(col);
 
-			col = new DataColumn("FactoryName", typeof(string));
-			dt.Columns.Add(col);
+            col = new DataColumn("FactoryName", typeof(string));
+            dt.Columns.Add(col);
 
-			DataRow dr = dt.NewRow();
-			dr[0] = "Sqlite Embedded Database";
-			dr[1] = "Sqlite Default Instance";
-			dr[2] = false;
-			dr[3] = "?";
-			dr[4] = "System.Data.SQLite.SqliteConnectionFactory";
-			dt.Rows.Add(dr);
+            DataRow dr = dt.NewRow();
+            dr[0] = "Sqlite Embedded Database";
+            dr[1] = "Sqlite Default Instance";
+            dr[2] = false;
+            dr[3] = "?";
+            dr[4] = "System.Data.SQLite.SqliteConnectionFactory";
+            dt.Rows.Add(dr);
 
-			return dt;
-		}
-	}
+            return dt;
+        }
+    }
 }

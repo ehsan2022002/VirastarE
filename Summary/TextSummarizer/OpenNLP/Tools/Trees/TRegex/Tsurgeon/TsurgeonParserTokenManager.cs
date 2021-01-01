@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -20,7 +16,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         protected SimpleCharStream InputStream;
 
         private readonly uint[] jjrounds = new uint[58];
-        private readonly int[] jjstateSet = new int[2*58];
+        private readonly int[] jjstateSet = new int[2 * 58];
 
 
         protected char CurChar;
@@ -34,7 +30,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         private int JjMoveStringLiteralDfa0_2()
         {
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 91:
                     return JjStopAtPos(0, 5);
@@ -67,11 +63,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 1;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 100:
                     return JjMoveStringLiteralDfa2_2(active0, 0xe0000L);
@@ -103,11 +99,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 2;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 99:
                     return JjMoveStringLiteralDfa3_2(active0, 0x1000L);
@@ -145,11 +141,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 3;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 97:
                     return JjMoveStringLiteralDfa4_2(active0, 0x10800L);
@@ -180,11 +176,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 4;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 97:
                     return JjMoveStringLiteralDfa5_2(active0, 0x8000L);
@@ -218,11 +214,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 5;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 99:
                     return JjMoveStringLiteralDfa6_2(active0, 0x8000L);
@@ -261,11 +257,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 6;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 70:
                     if ((active0 & 0x80000L) != 0L)
@@ -303,11 +299,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 7;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 117:
                     return JjMoveStringLiteralDfa8_2(active0, 0x10000L);
@@ -324,11 +320,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 8;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 98:
                     return JjMoveStringLiteralDfa9_2(active0, 0x10000L);
@@ -345,11 +341,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 9;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 116:
                     return JjMoveStringLiteralDfa10_2(active0, 0x10000L);
@@ -366,11 +362,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 10;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 114:
                     return JjMoveStringLiteralDfa11_2(active0, 0x10000L);
@@ -387,11 +383,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 11;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 101:
                     return JjMoveStringLiteralDfa12_2(active0, 0x10000L);
@@ -408,11 +404,11 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return 12;
             }
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 101:
                     if ((active0 & 0x10000L) != 0L)
@@ -440,7 +436,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         private int JjMoveStringLiteralDfa0_0()
         {
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 9:
                     return JjStartNfaWithStates_0(0, 3, 13);
@@ -463,7 +459,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return pos + 1;
             }
@@ -488,7 +484,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             int i = 1;
             jjstateSet[0] = startState;
             int kind = 0x7fffffff;
-            for (;;)
+            for (; ; )
             {
                 if (++jjround == 0x7fffffff)
                     ReInitRounds();
@@ -500,7 +496,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         switch (jjstateSet[--i])
                         {
                             case 0:
-                                if ((unchecked((long) 0xfbfffcfeffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xfbfffcfeffffdbffL) & l) != 0L)
                                 {
                                     if (kind > 30)
                                         kind = 30;
@@ -550,9 +546,9 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 25)
                                     kind = 25;
-                            {
-                                JjCheckNAdd(1);
-                            }
+                                {
+                                    JjCheckNAdd(1);
+                                }
                                 break;
                             case 2:
                                 if (CurChar == 62)
@@ -571,12 +567,12 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 26)
                                     kind = 26;
-                            {
-                                JjCheckNAdd(4);
-                            }
+                                {
+                                    JjCheckNAdd(4);
+                                }
                                 break;
                             case 6:
-                                if ((unchecked((long) 0xffffffffffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffffffdbffL) & l) != 0L)
                                 {
                                     JjAddStates(10, 12);
                                 }
@@ -592,36 +588,36 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 29)
                                     kind = 29;
-                            {
-                                JjCheckNAdd(12);
-                            }
+                                {
+                                    JjCheckNAdd(12);
+                                }
                                 break;
                             case 13:
-                                if ((unchecked((long) 0xfbfffcfeffffdbffL) & l) == 0L)
+                                if ((unchecked((long)0xfbfffcfeffffdbffL) & l) == 0L)
                                     break;
                                 if (kind > 30)
                                     kind = 30;
-                            {
-                                JjCheckNAdd(13);
-                            }
+                                {
+                                    JjCheckNAdd(13);
+                                }
                                 break;
                             case 14:
                                 if (CurChar != 40)
                                     break;
                                 if (kind > 31)
                                     kind = 31;
-                            {
-                                JjCheckNAdd(15);
-                            }
+                                {
+                                    JjCheckNAdd(15);
+                                }
                                 break;
                             case 15:
-                                if ((unchecked((long) 0xf3fffcfa00000000L) & l) == 0L)
+                                if ((unchecked((long)0xf3fffcfa00000000L) & l) == 0L)
                                     break;
                                 if (kind > 31)
                                     kind = 31;
-                            {
-                                JjCheckNAdd(15);
-                            }
+                                {
+                                    JjCheckNAdd(15);
+                                }
                                 break;
                             case 16:
                                 if (CurChar == 36)
@@ -656,7 +652,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 }
                                 break;
                             case 39:
-                                if ((unchecked((long) 0xffffffffffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffffffdbffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(13, 15);
                                 }
@@ -678,9 +674,9 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 24)
                                     kind = 24;
-                            {
-                                JjCheckNAddStates(19, 22);
-                            }
+                                {
+                                    JjCheckNAddStates(19, 22);
+                                }
                                 break;
                             case 43:
                                 if (CurChar == 37)
@@ -693,9 +689,9 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 24)
                                     kind = 24;
-                            {
-                                JjCheckNAddStates(23, 26);
-                            }
+                                {
+                                    JjCheckNAddStates(23, 26);
+                                }
                                 break;
                             case 45:
                             case 49:
@@ -705,7 +701,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 }
                                 break;
                             case 46:
-                                if ((unchecked((long) 0xffffffffffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffffffdbffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(27, 29);
                                 }
@@ -715,12 +711,12 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 24)
                                     kind = 24;
-                            {
-                                JjCheckNAddStates(16, 18);
-                            }
+                                {
+                                    JjCheckNAddStates(16, 18);
+                                }
                                 break;
                             case 52:
-                                if ((unchecked((long) 0xffffffffffffdbffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffffffdbffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(30, 32);
                                 }
@@ -743,13 +739,13 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 else if (CurChar < 128)
                 {
                     //var l = 1L << (curChar & 077);
-                    var l = 1L << (CurChar%64);
+                    var l = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
                         {
                             case 0:
-                                if ((unchecked((long) 0xffffffffd7ffffffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffd7ffffffL) & l) != 0L)
                                 {
                                     if (kind > 30)
                                         kind = 30;
@@ -775,9 +771,9 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 25)
                                     kind = 25;
-                            {
-                                JjCheckNAdd(1);
-                            }
+                                {
+                                    JjCheckNAdd(1);
+                                }
                                 break;
                             case 5:
                             case 9:
@@ -787,7 +783,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 }
                                 break;
                             case 6:
-                                if ((unchecked((long) 0xefffffffefffffffL) & l) != 0L)
+                                if ((unchecked((long)0xefffffffefffffffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(10, 12);
                                 }
@@ -809,13 +805,13 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 }
                                 break;
                             case 13:
-                                if ((unchecked((long) 0xffffffffd7ffffffL) & l) == 0L)
+                                if ((unchecked((long)0xffffffffd7ffffffL) & l) == 0L)
                                     break;
                                 if (kind > 30)
                                     kind = 30;
-                            {
-                                JjCheckNAdd(13);
-                            }
+                                {
+                                    JjCheckNAdd(13);
+                                }
                                 break;
                             case 15:
                                 if ((0x7fffffffffffffffL & l) == 0L)
@@ -892,30 +888,30 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     jjstateSet[jjnewStateCnt++] = 37;
                                 break;
                             case 39:
-                            {
-                                JjAddStates(13, 15);
-                            }
+                                {
+                                    JjAddStates(13, 15);
+                                }
                                 break;
                             case 42:
                                 if ((0x7fffffe87fffffeL & l) == 0L)
                                     break;
                                 if (kind > 24)
                                     kind = 24;
-                            {
-                                JjCheckNAddStates(19, 22);
-                            }
+                                {
+                                    JjCheckNAddStates(19, 22);
+                                }
                                 break;
                             case 44:
                                 if ((0x7fffffe87fffffeL & l) == 0L)
                                     break;
                                 if (kind > 24)
                                     kind = 24;
-                            {
-                                JjCheckNAddStates(23, 26);
-                            }
+                                {
+                                    JjCheckNAddStates(23, 26);
+                                }
                                 break;
                             case 46:
-                                if ((unchecked((long) 0xffffffffcfffffffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffcfffffffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(27, 29);
                                 }
@@ -939,7 +935,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 }
                                 break;
                             case 52:
-                                if ((unchecked((long) 0xffffffffcfffffffL) & l) != 0L)
+                                if ((unchecked((long)0xffffffffcfffffffL) & l) != 0L)
                                 {
                                     JjCheckNAddStates(30, 32);
                                 }
@@ -972,10 +968,10 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     int hiByte = (CurChar >> 8);
                     int i1 = hiByte >> 6;
                     //long l1 = 1L << (hiByte & 077);
-                    long l1 = 1L << (hiByte%64);
+                    long l1 = 1L << (hiByte % 64);
                     int i2 = (CurChar & 0xff) >> 6;
                     //long l2 = 1L << (curChar & 077);
-                    long l2 = 1L << (CurChar%64);
+                    long l2 = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
@@ -986,9 +982,9 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                     break;
                                 if (kind > 30)
                                     kind = 30;
-                            {
-                                JjCheckNAdd(13);
-                            }
+                                {
+                                    JjCheckNAdd(13);
+                                }
                                 break;
                             case 6:
                                 if (JjCanMove_0(hiByte, i1, i2, l1, l2))
@@ -1033,7 +1029,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 {
                     CurChar = InputStream.ReadChar();
                 }
-                catch ( IOException e)
+                catch (IOException e)
                 {
                     return curPos;
                 }
@@ -1056,7 +1052,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         private int JjMoveStringLiteralDfa0_1()
         {
-            switch ((int) CurChar)
+            switch ((int)CurChar)
             {
                 case 9:
                     return JjStartNfaWithStates_1(0, 3, 0);
@@ -1075,7 +1071,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 CurChar = InputStream.ReadChar();
             }
-            catch ( IOException e)
+            catch (IOException e)
             {
                 return pos + 1;
             }
@@ -1089,7 +1085,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             int i = 1;
             jjstateSet[0] = startState;
             int kind = 0x7fffffff;
-            for (;;)
+            for (; ; )
             {
                 if (++jjround == 0x7fffffff)
                     ReInitRounds();
@@ -1101,7 +1097,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         switch (jjstateSet[--i])
                         {
                             case 0:
-                                if ((unchecked((long) 0xfbfffcfeffffdbffL) & l) == 0L)
+                                if ((unchecked((long)0xfbfffcfeffffdbffL) & l) == 0L)
                                     break;
                                 kind = 21;
                                 jjstateSet[jjnewStateCnt++] = 0;
@@ -1114,13 +1110,13 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 else if (CurChar < 128)
                 {
                     //var l = 1L << (curChar & 077);
-                    var l = 1L << (CurChar%64);
+                    var l = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
                         {
                             case 0:
-                                if ((unchecked ((long) 0xffffffffd7ffffffL) & l) == 0L)
+                                if ((unchecked((long)0xffffffffd7ffffffL) & l) == 0L)
                                     break;
                                 kind = 21;
                                 jjstateSet[jjnewStateCnt++] = 0;
@@ -1135,10 +1131,10 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     int hiByte = (CurChar >> 8);
                     int i1 = hiByte >> 6;
                     //long l1 = 1L << (hiByte & 077);
-                    long l1 = 1L << (hiByte%64);
+                    long l1 = 1L << (hiByte % 64);
                     int i2 = (CurChar & 0xff) >> 6;
                     //long l2 = 1L << (curChar & 077);
-                    long l2 = 1L << (CurChar%64);
+                    long l2 = 1L << (CurChar % 64);
                     do
                     {
                         switch (jjstateSet[--i])
@@ -1169,7 +1165,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 {
                     CurChar = InputStream.ReadChar();
                 }
-                catch ( IOException e)
+                catch (IOException e)
                 {
                     return curPos;
                 }
@@ -1244,16 +1240,16 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             int curPos = 0;
 
             //EOFLoop :
-            for (;;)
+            for (; ; )
             {
-                beginning_eof_loop:
+            beginning_eof_loop:
                 {
                     Token matchedToken;
                     try
                     {
                         CurChar = InputStream.BeginToken();
                     }
-                    catch ( Exception e)
+                    catch (Exception e)
                     {
                         if (e is IOException || e is ObjectDisposedException)
                         {
@@ -1274,7 +1270,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 while (CurChar <= 32 && (0x100002400L & (1L << CurChar)) != 0L)
                                     CurChar = InputStream.BeginToken();
                             }
-                            catch ( IOException e1)
+                            catch (IOException e1)
                             {
                                 //continue EOFLoop;
                                 goto beginning_eof_loop;
@@ -1290,7 +1286,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 while (CurChar <= 32 && (0x100002400L & (1L << CurChar)) != 0L)
                                     CurChar = InputStream.BeginToken();
                             }
-                            catch ( IOException e1)
+                            catch (IOException e1)
                             {
                                 //continue EOFLoop;
                                 goto beginning_eof_loop;
@@ -1306,7 +1302,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                 while (CurChar <= 32 && (0x100002600L & (1L << CurChar)) != 0L)
                                     CurChar = InputStream.BeginToken();
                             }
-                            catch ( IOException e1)
+                            catch (IOException e1)
                             {
                                 //continue EOFLoop;
                                 goto beginning_eof_loop;
@@ -1321,7 +1317,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         if (jjmatchedPos + 1 < curPos)
                             InputStream.Backup(curPos - jjmatchedPos - 1);
                         //if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
-                        if ((JjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind%64))) != 0L)
+                        if ((JjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind % 64))) != 0L)
                         {
                             matchedToken = JjFillToken();
                             if (JjnewLexState[jjmatchedKind] != -1)
@@ -1345,7 +1341,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         InputStream.ReadChar();
                         InputStream.Backup(1);
                     }
-                    catch ( IOException e1)
+                    catch (IOException e1)
                     {
                         eofSeen = true;
                         errorAfter = curPos <= 1 ? "" : InputStream.GetImage();
@@ -1450,7 +1446,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             else
                 curLexState = lexState;
         }
-        
+
         /// <summary>
         /// Lexer state names.
         /// </summary>

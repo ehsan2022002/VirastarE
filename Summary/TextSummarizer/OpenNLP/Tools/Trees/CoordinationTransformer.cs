@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 using OpenNLP.Tools.Trees.TRegex;
 using OpenNLP.Tools.Trees.TRegex.Tsurgeon;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -130,7 +127,7 @@ namespace OpenNLP.Tools.Trees
                                   "[ (< and $+ (RB=end < yet)) | " + // TODO: what should be the head of "and yet"?
                                   "  (< and $+ (RB=end < so)) | " +
                                   "  (< and $+ (ADVP=end < (RB|IN < so))) ] ))");
-            // TODO: this structure needs a dependency
+        // TODO: this structure needs a dependency
 
         private static readonly TsurgeonPattern AddConjpTsurgeon =
             Tsurgeon.ParseOperation("createSubtree CONJP start end");
@@ -199,7 +196,7 @@ namespace OpenNLP.Tools.Trees
         {
             if (headFinder != null && (headFinder is ICopulaHeadFinder))
             {
-                if (((ICopulaHeadFinder) headFinder).MakesCopulaHead())
+                if (((ICopulaHeadFinder)headFinder).MakesCopulaHead())
                 {
                     return t;
                 }
@@ -333,9 +330,9 @@ namespace OpenNLP.Tools.Trees
             string beforeSibling = ccSiblings[ccIndex - 1].Value();
             if (ccIndex == 1 &&
                 (beforeSibling == PartsOfSpeech.Determiner
-                || beforeSibling == PartsOfSpeech.Adjective 
-                || beforeSibling == PartsOfSpeech.Adverb 
-                || !(ccSiblings[ccIndex + 1].Value() == PartsOfSpeech.Determiner)) 
+                || beforeSibling == PartsOfSpeech.Adjective
+                || beforeSibling == PartsOfSpeech.Adverb
+                || !(ccSiblings[ccIndex + 1].Value() == PartsOfSpeech.Determiner))
                 && !(beforeSibling.StartsWith("NP")
                 || beforeSibling.Equals("ADJP")
                 || beforeSibling == PartsOfSpeech.NounPlural))
@@ -463,8 +460,8 @@ namespace OpenNLP.Tools.Trees
                 t.AddChild(i + 1, child);
             }
 
-                // something like "the new phone book and tour guide" -> multiple heads
-                // we want (NP the new phone book) (CC and) (NP tour guide)
+            // something like "the new phone book and tour guide" -> multiple heads
+            // we want (NP the new phone book) (CC and) (NP tour guide)
             else
             {
                 bool commaLeft = false;
@@ -493,7 +490,7 @@ namespace OpenNLP.Tools.Trees
                     left.AddChild(ccSiblings[i]);
                 }
                 // handle the case of a comma ("GM soya and maize, and food ingredients")
-                if (ccSiblings[ccIndex - 1].Value() ==  PartsOfSpeech.Comma)
+                if (ccSiblings[ccIndex - 1].Value() == PartsOfSpeech.Comma)
                 {
                     commaLeft = true;
                 }
@@ -522,7 +519,7 @@ namespace OpenNLP.Tools.Trees
                     right.AddChild(ccSiblings[i]);
                 }
                 // handle the case of a comma ("GM soya and maize, and food ingredients")
-                if (ccSiblings[nextCc - 1].Value() ==  PartsOfSpeech.Comma)
+                if (ccSiblings[nextCc - 1].Value() == PartsOfSpeech.Comma)
                 {
                     commaRight = true;
                 }

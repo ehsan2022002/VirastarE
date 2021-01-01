@@ -33,101 +33,98 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
+using System.Text.RegularExpressions;
 using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary>  Resolves coreference between appositives. </summary>
-	public class IsAResolver:MaximumEntropyResolver
-	{
-		
-		internal Regex predicativePattern;
-		
-		public IsAResolver(string projectName, ResolverMode mode):base(projectName, "/imodel", mode, 20)
-		{
-			ShowExclusions = false;
-			//predicativePattern = Pattern.compile("^(,|am|are|is|was|were|--)$");
-			predicativePattern = new Regex("^(,|--)$", RegexOptions.Compiled);
-		}
+
+    /// <summary>  Resolves coreference between appositives. </summary>
+    public class IsAResolver : MaximumEntropyResolver
+    {
+
+        internal Regex predicativePattern;
+
+        public IsAResolver(string projectName, ResolverMode mode) : base(projectName, "/imodel", mode, 20)
+        {
+            ShowExclusions = false;
+            //predicativePattern = Pattern.compile("^(,|am|are|is|was|were|--)$");
+            predicativePattern = new Regex("^(,|--)$", RegexOptions.Compiled);
+        }
 
         public IsAResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver) : base(projectName, "/imodel", mode, 20, nonReferentialResolver)
-		{
-			ShowExclusions = false;
-			//predicativePattern = Pattern.compile("^(,|am|are|is|was|were|--)$");
+        {
+            ShowExclusions = false;
+            //predicativePattern = Pattern.compile("^(,|am|are|is|was|were|--)$");
             predicativePattern = new Regex("^(,|--)$", RegexOptions.Compiled);
-		}
-		
-		public override bool CanResolve(MentionContext context)
-		{
-			if (PartsOfSpeech.IsNoun(context.HeadTokenTag))
-			{
+        }
+
+        public override bool CanResolve(MentionContext context)
+        {
+            if (PartsOfSpeech.IsNoun(context.HeadTokenTag))
+            {
                 return (context.PreviousToken != null && predicativePattern.IsMatch(context.PreviousToken.ToString()));
-			}
-			return false;
-		}
-		
-		 protected internal override bool IsExcluded(MentionContext context, DiscourseEntity discourseEntity)
-		{
-			MentionContext currentContext = discourseEntity.LastExtent;
-			if (context.SentenceNumber != currentContext.SentenceNumber)
-			{
-				return true;
-			}
-			//shallow parse appositives
-			if (currentContext.IndexSpan.End == context.IndexSpan.Start - 2)
-			{
-				return false;
-			}
-			//full parse w/o trailing comma
-			if (currentContext.IndexSpan.End == context.IndexSpan.End)
-			{
-				return false;
-			}
-			//full parse w/ trailing comma or period
-			if (currentContext.IndexSpan.End <= context.IndexSpan.End + 2 && (context.NextToken != null 
+            }
+            return false;
+        }
+
+        protected internal override bool IsExcluded(MentionContext context, DiscourseEntity discourseEntity)
+        {
+            MentionContext currentContext = discourseEntity.LastExtent;
+            if (context.SentenceNumber != currentContext.SentenceNumber)
+            {
+                return true;
+            }
+            //shallow parse appositives
+            if (currentContext.IndexSpan.End == context.IndexSpan.Start - 2)
+            {
+                return false;
+            }
+            //full parse w/o trailing comma
+            if (currentContext.IndexSpan.End == context.IndexSpan.End)
+            {
+                return false;
+            }
+            //full parse w/ trailing comma or period
+            if (currentContext.IndexSpan.End <= context.IndexSpan.End + 2 && (context.NextToken != null
                 && (context.NextToken.ToString() == PartsOfSpeech.Comma || context.NextToken.ToString() == PartsOfSpeech.SentenceFinalPunctuation)))
-			{
-				return false;
-			}
-			return true;
-		}
-		
-		protected internal override bool IsOutOfRange(MentionContext context, DiscourseEntity discourseEntity)
-		{
-			MentionContext currentContext = discourseEntity.LastExtent;
-			return (currentContext.SentenceNumber != context.SentenceNumber);
-		}
-		
-		protected internal override bool defaultReferent(DiscourseEntity discourseEntity)
-		{
-			return true;
-		}
+            {
+                return false;
+            }
+            return true;
+        }
+
+        protected internal override bool IsOutOfRange(MentionContext context, DiscourseEntity discourseEntity)
+        {
+            MentionContext currentContext = discourseEntity.LastExtent;
+            return (currentContext.SentenceNumber != context.SentenceNumber);
+        }
+
+        protected internal override bool defaultReferent(DiscourseEntity discourseEntity)
+        {
+            return true;
+        }
 
         protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
-		{
+        {
             List<string> features = base.GetFeatures(mention, entity);
-            
+
             if (entity != null)
-			{
-				MentionContext ant = entity.LastExtent;
+            {
+                MentionContext ant = entity.LastExtent;
                 List<string> leftContexts = GetContextFeatures(ant);
-				for (int ci = 0, cn = leftContexts.Count; ci < cn; ci++)
-				{
-					features.Add("l" + leftContexts[ci]);
-				}
+                for (int ci = 0, cn = leftContexts.Count; ci < cn; ci++)
+                {
+                    features.Add("l" + leftContexts[ci]);
+                }
                 List<string> rightContexts = GetContextFeatures(mention);
-				for (int ci = 0, cn = rightContexts.Count; ci < cn; ci++)
-				{
-					features.Add("r" + rightContexts[ci]);
-				}
-				features.Add("hts" + ant.HeadTokenTag + "," + mention.HeadTokenTag);
-			}
-			/*
+                for (int ci = 0, cn = rightContexts.Count; ci < cn; ci++)
+                {
+                    features.Add("r" + rightContexts[ci]);
+                }
+                features.Add("hts" + ant.HeadTokenTag + "," + mention.HeadTokenTag);
+            }
+            /*
 			if (entity != null) {
 			//previous word and tag
 			if (ant.prevToken != null) {
@@ -184,7 +181,7 @@ namespace OpenNLP.Tools.Coreference.Resolver
 			features.add("ht1=" + ant.headTokenTag);
 			features.add("ht2=" + mention.headTokenTag);
 			*/
-			//semantic categories
+            //semantic categories
             /*
             if (ant.neType != null) {
             if (re.neType != null) {
@@ -218,6 +215,6 @@ namespace OpenNLP.Tools.Coreference.Resolver
             }
             */
             return features;
-		}
-	}
+        }
+    }
 }

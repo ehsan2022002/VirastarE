@@ -27,15 +27,13 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-using System;
-using System.Data;
 using System.Data.Common;
 
 namespace System.Data.SQLite
 {
-	/// <summary>
-	/// Represents the method that will handle the <see cref="SqliteDataAdapter.RowUpdated"/> event 
-	/// of a <see cref="SqliteDataAdapter"/>.
-	/// </summary>
-	public delegate void SqliteRowUpdatedEventHandler(Object sender, RowUpdatedEventArgs e);
+    /// <summary>
+    /// Represents the method that will handle the <see cref="SqliteDataAdapter.RowUpdated"/> event 
+    /// of a <see cref="SqliteDataAdapter"/>.
+    /// </summary>
+    public delegate void SqliteRowUpdatedEventHandler(Object sender, RowUpdatedEventArgs e);
 }

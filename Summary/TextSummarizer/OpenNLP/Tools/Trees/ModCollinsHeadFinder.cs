@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -48,7 +44,7 @@ namespace OpenNLP.Tools.Trees
     /// </summary>
     public class ModCollinsHeadFinder : CollinsHeadFinder
     {
-        public ModCollinsHeadFinder() : this(new PennTreebankLanguagePack()){}
+        public ModCollinsHeadFinder() : this(new PennTreebankLanguagePack()) { }
 
         public ModCollinsHeadFinder(AbstractTreebankLanguagePack tlp) : base(tlp, tlp.PunctuationTags())
         {
@@ -120,10 +116,10 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.PrepositionOrSubordinateConjunction
                     }
                 });
-            NonTerminalInfo.Add(FRAG, new string[][] {new string[] {Right}}); // crap
-            NonTerminalInfo.Add(INTJ, new string[][] {new string[] {Left}});
+            NonTerminalInfo.Add(FRAG, new string[][] { new string[] { Right } }); // crap
+            NonTerminalInfo.Add(INTJ, new string[][] { new string[] { Left } });
             NonTerminalInfo.Add(LST,
-                new string[][] {new string[] {Right, PartsOfSpeech.ListItemMarker, PartsOfSpeech.ColonSemiColon}});
+                new string[][] { new string[] { Right, PartsOfSpeech.ListItemMarker, PartsOfSpeech.ColonSemiColon } });
 
             // NML is head in: (NAC-LOC (NML San Antonio) (, ,) (NNP Texas))
             // TODO: NNP should be head (rare cases, could be ignored):
@@ -174,7 +170,7 @@ namespace OpenNLP.Tools.Trees
                         PartsOfSpeech.NounSingularOrMass, PartsOfSpeech.ProperNounSingular
                     }
                 });
-            NonTerminalInfo.Add(PRT, new string[][] {new string[] {Right, PartsOfSpeech.Particle}});
+            NonTerminalInfo.Add(PRT, new string[][] { new string[] { Right, PartsOfSpeech.Particle } });
             // add '#' for pounds!!
             NonTerminalInfo.Add(QP,
                 new string[][]
@@ -208,7 +204,7 @@ namespace OpenNLP.Tools.Trees
                     }
                 });
             NonTerminalInfo.Add(SBARQ,
-                new string[][] {new string[] {Left, SQ, S, SINV, SBARQ, FRAG, SBAR}});
+                new string[][] { new string[] { Left, SQ, S, SINV, SBARQ, FRAG, SBAR } });
             // cdm: if you have 2 VP under an SINV, you should really take the 2nd as syntactic head, because the first is a topicalized VP complement of the second, but for now I didn't change this, since it didn't help parsing.  (If it were changed, it'd need to be also changed to the opposite in SemanticHeadFinder.)
             NonTerminalInfo.Add(SINV,
                 new string[][]
@@ -230,8 +226,8 @@ namespace OpenNLP.Tools.Trees
                         AUXG, VP, SQ
                     }
                 });
-                // TODO: Should maybe put S before SQ for tag questions. Check.
-            NonTerminalInfo.Add(UCP, new string[][] {new string[] {Right}});
+            // TODO: Should maybe put S before SQ for tag questions. Check.
+            NonTerminalInfo.Add(UCP, new string[][] { new string[] { Right } });
             // below is weird!! Make 2 lists, one for good and one for bad heads??
             // VP: added AUX and AUXG to work with Charniak tags
             NonTerminalInfo.Add(VP,
@@ -256,7 +252,7 @@ namespace OpenNLP.Tools.Trees
                         JJP, PartsOfSpeech.AdjectiveComparative
                     }
                 });
-            NonTerminalInfo.Add(WHADVP, new string[][] {new string[] {Right, PartsOfSpeech.WhAdverb, WHADVP}});
+            NonTerminalInfo.Add(WHADVP, new string[][] { new string[] { Right, PartsOfSpeech.WhAdverb, WHADVP } });
             NonTerminalInfo.Add(WHNP,
                 new string[][]
                 {
@@ -302,10 +298,10 @@ namespace OpenNLP.Tools.Trees
             NonTerminalInfo.Add(NML, NonTerminalInfo[CoordinationTransformer.Noun]);
 
 
-            NonTerminalInfo.Add(POSSP, new string[][] {new string[] {Right, PartsOfSpeech.PossessiveEnding}});
+            NonTerminalInfo.Add(POSSP, new string[][] { new string[] { Right, PartsOfSpeech.PossessiveEnding } });
 
             /* HJT: Adding the following to deal with oddly formed data in (for example) the Brown corpus */
-            NonTerminalInfo.Add(ROOT, new string[][] {new string[] {Left, S, SQ, SINV, SBAR, FRAG}});
+            NonTerminalInfo.Add(ROOT, new string[][] { new string[] { Left, S, SQ, SINV, SBAR, FRAG } });
             // Just to handle trees which have TOP instead of ROOT at the root
             NonTerminalInfo.Add(TOP, NonTerminalInfo[ROOT]);
             NonTerminalInfo.Add(TYPO, new string[][]
@@ -333,8 +329,8 @@ namespace OpenNLP.Tools.Trees
             });
 
             // SWBD
-            NonTerminalInfo.Add(EDITED, new string[][] {new string[] {Left}});
-                // crap rule for Switchboard (if don't delete EDITED nodes)
+            NonTerminalInfo.Add(EDITED, new string[][] { new string[] { Left } });
+            // crap rule for Switchboard (if don't delete EDITED nodes)
             // in sw2756, a PartsOfSpeech.VerbBaseForm. (copy "VP" to handle this problem, though should really fix it on reading)
             NonTerminalInfo.Add(PartsOfSpeech.VerbBaseForm,
                 new string[][]
@@ -350,10 +346,10 @@ namespace OpenNLP.Tools.Trees
                     }
                 });
 
-            NonTerminalInfo.Add(META, new string[][] {new string[] {Left}});
-                // rule for OntoNotes, but maybe should just be deleted in TreeReader??
-            NonTerminalInfo.Add(XS, new string[][] {new string[] {Right, PartsOfSpeech.PrepositionOrSubordinateConjunction}});
-                // rule for new structure in QP, introduced by Stanford in QPTreeTransformer
+            NonTerminalInfo.Add(META, new string[][] { new string[] { Left } });
+            // rule for OntoNotes, but maybe should just be deleted in TreeReader??
+            NonTerminalInfo.Add(XS, new string[][] { new string[] { Right, PartsOfSpeech.PrepositionOrSubordinateConjunction } });
+            // rule for new structure in QP, introduced by Stanford in QPTreeTransformer
             // NonTerminalInfo.Add(null, new string[][] {{Left}});  // rule for OntoNotes from Michel, but it would be better to fix this in TreeReader or to use a default rule?
 
             // todo: Uncomment this line if we always want to take the leftmost if no head rule is defined for the mother category.

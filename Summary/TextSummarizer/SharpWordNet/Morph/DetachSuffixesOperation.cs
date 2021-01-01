@@ -17,9 +17,7 @@
 //This file is based on the DetachSuffixesOperation.java source file found in
 //the Java WordNet Library (JWNL).  That source file is licensed under BSD.
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SharpWordNet.Morph
 {
@@ -46,7 +44,7 @@ namespace SharpWordNet.Morph
                 return false;
             }
             string[][] suffixArray = mSuffixMap[partOfSpeech];
-            
+
             bool addedBaseForm = false;
             for (int currentSuffix = 0; currentSuffix < suffixArray.Length; currentSuffix++)
             {

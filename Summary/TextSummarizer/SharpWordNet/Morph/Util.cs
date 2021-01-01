@@ -17,7 +17,6 @@
 //This file is based on the Util.java source file found in
 //the Java WordNet Library (JWNL).  That source file is licensed under BSD.
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;

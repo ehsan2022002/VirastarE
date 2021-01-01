@@ -1,11 +1,9 @@
-﻿using System;
+﻿using OpenNLP.Tools.Trees.TRegex;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Trees.TRegex;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -75,8 +73,8 @@ namespace OpenNLP.Tools.Trees
         /// By setting the HeadFinder to null, we find out right away at runtime 
         /// if we have incorrectly set the HeadFinder for the dependency tregexes
         /// </summary>
-        private static readonly TregexPatternCompiler TregexCompiler = new TregexPatternCompiler((IHeadFinder) null);
-        
+        private static readonly TregexPatternCompiler TregexCompiler = new TregexPatternCompiler((IHeadFinder)null);
+
         /// <summary>
         /// The "predicate" grammatical relation.  The predicate of a
         /// clause is the main VP of that clause; the predicate of a
@@ -88,7 +86,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation Predicate =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "pred", "predicate",
                 GrammaticalRelation.Dependent, "S|SINV", TregexCompiler,
-                new[] {"S|SINV <# VP=target"});
+                new[] { "S|SINV <# VP=target" });
 
         /// <summary>
         /// The "auxiliary" grammatical relation.  An auxiliary of a clause is a
@@ -372,7 +370,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation ClausalSubject =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "csubj", "clausal subject",
                 Subject, "S", TregexCompiler,
-                new string[] {"S < (SBAR|S=target !$+ /^,$/ $++ (VP !$-- NP))"});
+                new string[] { "S < (SBAR|S=target !$+ /^,$/ $++ (VP !$-- NP))" });
 
         /// <summary>
         /// The "clausal passive subject" grammatical relation.  A clausal passive subject 
@@ -750,7 +748,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation Expletive =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "expl", "expletive",
                 GrammaticalRelation.Dependent, "S|SQ|SINV", TregexCompiler,
-                new string[] {"S|SQ|SINV < (NP=target <+(NP) EX)"});
+                new string[] { "S|SQ|SINV < (NP=target <+(NP) EX)" });
 
         /// <summary>
         /// The "adjectival complement" grammatical relation.  An
@@ -977,7 +975,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation NumberModifier =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "number", "compound number modifier",
                 Modifier, "QP|ADJP", TregexCompiler,
-                new string[] {"QP|ADJP < (/^(?:CD|$|#)$/=target !$- CC)"});
+                new string[] { "QP|ADJP < (/^(?:CD|$|#)$/=target !$- CC)" });
 
         /// <summary>
         /// The "quantifier phrase modifier" grammatical relation.  A quantifier
@@ -989,7 +987,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation QuantifierModifier =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "quantmod", "quantifier modifier",
                 Modifier, "QP", TregexCompiler,
-                new string[] {"QP < IN|RB|RBR|RBS|PDT|DT|JJ|JJR|JJS|XS=target"});
+                new string[] { "QP < IN|RB|RBR|RBS|PDT|DT|JJ|JJR|JJS|XS=target" });
 
         /// <summary>
         /// The "noun compound modifier" grammatical relation.  A noun compound
@@ -1488,7 +1486,7 @@ namespace OpenNLP.Tools.Trees
         public static readonly GrammaticalRelation GoesWith =
             new GrammaticalRelation(GrammaticalRelation.Language.English, "goeswith", "goes with",
                 Modifier, ".*", TregexCompiler,
-                new string[] {"__ < GW=target"});
+                new string[] { "__ < GW=target" });
 
         /// <summary>
         /// The "semantic dependent" grammatical relation has been
@@ -1623,25 +1621,25 @@ namespace OpenNLP.Tools.Trees
             return valuesLock.readLock();
           }*/
 
-                /**
-           * This method is meant to be called when you want to add a relation
-           * to the values list in a thread-safe manner.  Currently, this method
-           * is always used in preference to values.add() because we expect to
-           * add new EnglishGrammaticalRelations very rarely, so the eased
-           * concurrency seems to outweigh the fairly slight cost of thread-safe
-           * access.
-           * @param relation the relation to be added to the values list
-           */
-                /*private static void threadSafeAddRelation(GrammaticalRelation relation) {
-            valuesLock.writeLock().lock();
-            try { // try-readonlyly structure taken from Javadoc code sample for ReentrantReadWriteLock
-              synchronizedValues.add(relation);
-              shortNameToGRel.put(relation.ToString(), relation);
-            } readonlyly {
-              valuesLock.writeLock().unlock();
-            }
-          }*/
-        
+        /**
+   * This method is meant to be called when you want to add a relation
+   * to the values list in a thread-safe manner.  Currently, this method
+   * is always used in preference to values.add() because we expect to
+   * add new EnglishGrammaticalRelations very rarely, so the eased
+   * concurrency seems to outweigh the fairly slight cost of thread-safe
+   * access.
+   * @param relation the relation to be added to the values list
+   */
+        /*private static void threadSafeAddRelation(GrammaticalRelation relation) {
+    valuesLock.writeLock().lock();
+    try { // try-readonlyly structure taken from Javadoc code sample for ReentrantReadWriteLock
+      synchronizedValues.add(relation);
+      shortNameToGRel.put(relation.ToString(), relation);
+    } readonlyly {
+      valuesLock.writeLock().unlock();
+    }
+  }*/
+
         // the exhaustive list of conjunction relations
         private static readonly ConcurrentDictionary<string, GrammaticalRelation> Conjs =
             new ConcurrentDictionary<string, GrammaticalRelation>();

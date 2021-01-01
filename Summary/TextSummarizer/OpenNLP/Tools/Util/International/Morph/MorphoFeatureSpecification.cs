@@ -3,9 +3,6 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util.International.Morph
 {
@@ -80,7 +77,7 @@ namespace OpenNLP.Tools.Util.International.Morph
             {
                 return new Tuple<string, string>(word, NoAnalysis);
             }
-            string[] toks = morphStr.Split(new[] {ToLiteral(LemmaMark)}, StringSplitOptions.None);
+            string[] toks = morphStr.Split(new[] { ToLiteral(LemmaMark) }, StringSplitOptions.None);
             if (toks.Length != 2)
             {
                 throw new Exception("Invalid morphology string: " + morphStr);

@@ -33,28 +33,27 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	
-	/// <summary> Interface for testing a gender model. </summary>
-	public interface ITestGenderModel
-	{
-		int MaleIndex
-		{
-			get;
-		}
 
-		int FemaleIndex
-		{
-			get;
-		}
+    /// <summary> Interface for testing a gender model. </summary>
+    public interface ITestGenderModel
+    {
+        int MaleIndex
+        {
+            get;
+        }
 
-		int NeuterIndex
-		{
-			get;
-		}
+        int FemaleIndex
+        {
+            get;
+        }
 
-		double[] GenderDistribution(Context nounPhrase);
-	}
+        int NeuterIndex
+        {
+            get;
+        }
+
+        double[] GenderDistribution(Context nounPhrase);
+    }
 }

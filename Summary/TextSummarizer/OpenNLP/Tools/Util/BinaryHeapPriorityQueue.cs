@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// PriorityQueue with explicit double priority values.  Larger doubles are higher priorities.  BinaryHeap-backed.
     /// For each entry, uses ~ 24 (entry) + 16? (Map.Entry) + 4 (List entry) = 44 bytes?
@@ -69,19 +68,19 @@ namespace OpenNLP.Tools.Util
         private Entry<E> Parent(Entry<E> entry)
         {
             int index = entry.index;
-            return (index > 0 ? GetEntry((index - 1)/2) : null);
+            return (index > 0 ? GetEntry((index - 1) / 2) : null);
         }
 
         private Entry<E> LeftChild(Entry<E> entry)
         {
-            int leftIndex = entry.index*2 + 1;
+            int leftIndex = entry.index * 2 + 1;
             return (leftIndex < Size() ? GetEntry(leftIndex) : null);
         }
 
         private Entry<E> RightChild(Entry<E> entry)
         {
             int index = entry.index;
-            int rightIndex = index*2 + 2;
+            int rightIndex = index * 2 + 2;
             return (rightIndex < Size() ? GetEntry(rightIndex) : null);
         }
 
@@ -94,7 +93,7 @@ namespace OpenNLP.Tools.Util
             }
             if ((entryA.key is IComparable<E>) && (entryB.key is IComparable<E>))
             {
-                var key = (IComparable<E>) (entryA.key);
+                var key = (IComparable<E>)(entryA.key);
                 return key.CompareTo(entryB.key);
             }
             return result;
@@ -152,8 +151,8 @@ namespace OpenNLP.Tools.Util
         {
             var entry = new Entry<E>
             {
-                index = Size(), 
-                key = key, 
+                index = Size(),
+                key = key,
                 priority = Double.NegativeInfinity
             };
             indexToEntry.Add(entry);
@@ -269,7 +268,7 @@ namespace OpenNLP.Tools.Util
         /// <returns>null if the object is not in the queue, otherwise returns the object.</returns>
         public E GetObject(E key)
         {
-            if (! Contains(key)) return default(E);
+            if (!Contains(key)) return default(E);
             Entry<E> e = GetEntry(key);
             return e.key;
         }
@@ -313,7 +312,7 @@ namespace OpenNLP.Tools.Util
 
         public bool Remove(Object key)
         {
-            E eKey = (E) key;
+            E eKey = (E)key;
             Entry<E> entry = GetEntry(eKey);
             if (entry == null)
             {

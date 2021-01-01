@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
+﻿namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
     /// <summary>
     /// All AST nodes must implement this interface.  It provides basic

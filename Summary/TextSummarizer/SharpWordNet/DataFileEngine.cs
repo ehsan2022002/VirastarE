@@ -15,34 +15,34 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for DataFileEngine.
-	/// </summary>
-	public class DataFileEngine : WordNetEngine
-	{
-		private readonly string _dataFolder;
-		private readonly Dictionary<string, PosDataFileSet> _dataFileDictionary;
-		private string[] _lexicographerFiles;
-		private Dictionary<string, RelationType> _relationTypeDictionary;
+    /// <summary>
+    /// Summary description for DataFileEngine.
+    /// </summary>
+    public class DataFileEngine : WordNetEngine
+    {
+        private readonly string _dataFolder;
+        private readonly Dictionary<string, PosDataFileSet> _dataFileDictionary;
+        private string[] _lexicographerFiles;
+        private Dictionary<string, RelationType> _relationTypeDictionary;
 
 
         // Public Methods (class specific) ------------------
-		public string DataFolder
-		{
-			get
-			{
-				return _dataFolder; 
-			}
-		}
+        public string DataFolder
+        {
+            get
+            {
+                return _dataFolder;
+            }
+        }
 
-		public DataFileEngine(string dataFolder)
-		{
-			_dataFolder = dataFolder;
+        public DataFileEngine(string dataFolder)
+        {
+            _dataFolder = dataFolder;
 
             _dataFileDictionary = new Dictionary<string, PosDataFileSet>(4)
             {
@@ -52,31 +52,31 @@ namespace SharpWordNet
                 {"adverb", new PosDataFileSet(dataFolder, "adv")}
             };
 
-		    InitializeLexicographerFiles();
-			
-			InitializeRelationTypes();
-		}
+            InitializeLexicographerFiles();
+
+            InitializeRelationTypes();
+        }
 
 
         // abstract methods implementation ------------------
 
-		public override string[] GetPartsOfSpeech()
-		{
-			return new List<string>(_dataFileDictionary.Keys).ToArray();
-		}
+        public override string[] GetPartsOfSpeech()
+        {
+            return new List<string>(_dataFileDictionary.Keys).ToArray();
+        }
 
-		public override string[] GetPartsOfSpeech(string lemma)
-		{
+        public override string[] GetPartsOfSpeech(string lemma)
+        {
             var partsOfSpeech = new List<string>();
-			foreach (string partOfSpeech in _dataFileDictionary.Keys)
-			{
+            foreach (string partOfSpeech in _dataFileDictionary.Keys)
+            {
                 if (BinarySearch(lemma, _dataFileDictionary[partOfSpeech].IndexFile) != null)
-				{
-					partsOfSpeech.Add(partOfSpeech);
-				}
-			}
-			return partsOfSpeech.ToArray();
-		}
+                {
+                    partsOfSpeech.Add(partOfSpeech);
+                }
+            }
+            return partsOfSpeech.ToArray();
+        }
 
         public override IndexWord[] GetAllIndexWords(string partOfSpeech)
         {
@@ -108,84 +108,84 @@ namespace SharpWordNet
         }
 
         public override Synset[] GetSynsets(string lemma)
-		{
+        {
             var synsets = new List<Synset>();
 
-			foreach (string partOfSpeech in _dataFileDictionary.Keys)
-			{
+            foreach (string partOfSpeech in _dataFileDictionary.Keys)
+            {
                 IndexWord indexWord = GetIndexWord(lemma, partOfSpeech);
 
                 if (indexWord != null)
-				{
+                {
                     foreach (int synsetOffset in indexWord.SynsetOffsets)
-					{
-						Synset synset = CreateSynset(partOfSpeech, synsetOffset);
-						synsets.Add(synset);
-					}
-				}	
-			}
-			return synsets.ToArray();
-		}
+                    {
+                        Synset synset = CreateSynset(partOfSpeech, synsetOffset);
+                        synsets.Add(synset);
+                    }
+                }
+            }
+            return synsets.ToArray();
+        }
 
         public override Synset[] GetSynsets(string lemma, string partOfSpeech)
-		{
+        {
             var synsets = new List<Synset>();
 
             IndexWord indexWord = GetIndexWord(lemma, partOfSpeech);
 
             if (indexWord != null)
             {
-				foreach (int synsetOffset in indexWord.SynsetOffsets)
-				{
-					Synset synset = CreateSynset(partOfSpeech, synsetOffset);
-					synsets.Add(synset);
-				}
-			}
+                foreach (int synsetOffset in indexWord.SynsetOffsets)
+                {
+                    Synset synset = CreateSynset(partOfSpeech, synsetOffset);
+                    synsets.Add(synset);
+                }
+            }
 
-			return synsets.ToArray();
-		}
+            return synsets.ToArray();
+        }
 
-		public override RelationType[] GetRelationTypes(string lemma, string partOfSpeech)
-		{
+        public override RelationType[] GetRelationTypes(string lemma, string partOfSpeech)
+        {
             IndexWord indexWord = GetIndexWord(lemma, partOfSpeech);
 
             if (indexWord != null)
             {
                 if (indexWord.RelationTypes != null)
-				{
+                {
                     int relationTypeCount = indexWord.RelationTypes.Length;
-					var relationTypes = new RelationType[relationTypeCount];
-					for (int currentRelationType = 0; currentRelationType < relationTypeCount; currentRelationType++)
-					{
+                    var relationTypes = new RelationType[relationTypeCount];
+                    for (int currentRelationType = 0; currentRelationType < relationTypeCount; currentRelationType++)
+                    {
                         relationTypes[currentRelationType] = _relationTypeDictionary[indexWord.RelationTypes[currentRelationType]];
-					}
-					return relationTypes;
-				}
-				return null;
-			}
-			return null;
-		}
+                    }
+                    return relationTypes;
+                }
+                return null;
+            }
+            return null;
+        }
 
-		public override Synset GetSynset(string lemma, string partOfSpeech, int senseNumber)
-		{
-			if (senseNumber < 1)
-			{
-				throw new ArgumentOutOfRangeException("senseNumber", senseNumber, "cannot be less than 1");
-			}
+        public override Synset GetSynset(string lemma, string partOfSpeech, int senseNumber)
+        {
+            if (senseNumber < 1)
+            {
+                throw new ArgumentOutOfRangeException("senseNumber", senseNumber, "cannot be less than 1");
+            }
 
             IndexWord indexWord = GetIndexWord(lemma, partOfSpeech);
 
             if (indexWord != null)
             {
-                if (senseNumber > (indexWord.SynsetOffsets.Length + 1)) 
-				{
-					return (null);
-				}
-				Synset synset = CreateSynset(partOfSpeech, indexWord.SynsetOffsets[senseNumber - 1]);
-				return (synset);
-			}
-			return null;
-		}
+                if (senseNumber > (indexWord.SynsetOffsets.Length + 1))
+                {
+                    return (null);
+                }
+                Synset synset = CreateSynset(partOfSpeech, indexWord.SynsetOffsets[senseNumber - 1]);
+                return (synset);
+            }
+            return null;
+        }
 
 
         //  Private Methods----------------------------------
@@ -197,51 +197,51 @@ namespace SharpWordNet
                 return null;
             }
 
-			int c,n;
-			long top,bot,mid,diff;
-			string line,key;
-			diff = 666; 
-			line = "";
+            int c, n;
+            long top, bot, mid, diff;
+            string line, key;
+            diff = 666;
+            line = "";
             bot = searchFile.BaseStream.Seek(0, SeekOrigin.End);
-			top = 0;
-			mid = (bot-top)/2;
+            top = 0;
+            mid = (bot - top) / 2;
 
-			do 
-			{
+            do
+            {
                 searchFile.DiscardBufferedData();
                 searchFile.BaseStream.Position = mid - 1;
-			    if (mid != 1)
-			    {
+                if (mid != 1)
+                {
                     while ((c = searchFile.Read()) != '\n' && c != -1) { }
-			    }
+                }
                 line = searchFile.ReadLine();
-			    if (line == null)
-			    {
+                if (line == null)
+                {
                     return null;
-			    }
-				n = line.IndexOf(' ');
-				key = line.Substring(0,n);
-				key=key.Replace("-"," ").Replace("_"," ");
-				if (string.CompareOrdinal(key, searchKey) < 0) 
-				{
-					top = mid;
-					diff = (bot - top)/2;
-					mid = top + diff;
-				}
+                }
+                n = line.IndexOf(' ');
+                key = line.Substring(0, n);
+                key = key.Replace("-", " ").Replace("_", " ");
+                if (string.CompareOrdinal(key, searchKey) < 0)
+                {
+                    top = mid;
+                    diff = (bot - top) / 2;
+                    mid = top + diff;
+                }
                 if (string.CompareOrdinal(key, searchKey) > 0)
-				{
-					bot = mid;
-					diff = (bot - top)/2;
-					mid = top + diff;
-				}
-			} while (key!=searchKey && diff!=0);
+                {
+                    bot = mid;
+                    diff = (bot - top) / 2;
+                    mid = top + diff;
+                }
+            } while (key != searchKey && diff != 0);
 
             if (key == searchKey)
             {
                 return line;
             }
-			return null;
-		}
+            return null;
+        }
 
         private IndexWord CreateIndexWord(string partOfSpeech, string line)
         {
@@ -275,90 +275,90 @@ namespace SharpWordNet
             return new IndexWord(word, partOfSpeech, relationTypes, synsetOffsets, tagSenseCount);
         }
 
-		protected internal override Synset CreateSynset(string partOfSpeech, int synsetOffset)
-		{
-			StreamReader dataFile = _dataFileDictionary[partOfSpeech].DataFile;
-			dataFile.DiscardBufferedData();
-			dataFile.BaseStream.Seek(synsetOffset, SeekOrigin.Begin);
-			string record = dataFile.ReadLine();
-			
-			var tokenizer = new Tokenizer(record);
-		    var nextToken = tokenizer.NextToken();
-			int offset = int.Parse(nextToken);
+        protected internal override Synset CreateSynset(string partOfSpeech, int synsetOffset)
+        {
+            StreamReader dataFile = _dataFileDictionary[partOfSpeech].DataFile;
+            dataFile.DiscardBufferedData();
+            dataFile.BaseStream.Seek(synsetOffset, SeekOrigin.Begin);
+            string record = dataFile.ReadLine();
+
+            var tokenizer = new Tokenizer(record);
+            var nextToken = tokenizer.NextToken();
+            int offset = int.Parse(nextToken);
 
 
-		    var nt = int.Parse(tokenizer.NextToken());
-			string lexicographerFile = _lexicographerFiles[nt];
-			string synsetType = tokenizer.NextToken();
-			int wordCount = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
-			
-			var words = new string[wordCount];
-			for (int iCurrentWord = 0; iCurrentWord < wordCount; iCurrentWord++) 
-			{
-				words[iCurrentWord] = tokenizer.NextToken().Replace("_", " ");
-				int uniqueID = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
-			}
+            var nt = int.Parse(tokenizer.NextToken());
+            string lexicographerFile = _lexicographerFiles[nt];
+            string synsetType = tokenizer.NextToken();
+            int wordCount = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
 
-			int relationCount = int.Parse(tokenizer.NextToken());
-			var relations = new Relation[relationCount];
-			for (int currentRelation = 0; currentRelation < relationCount; currentRelation++)
-			{
-				string relationTypeKey = tokenizer.NextToken();
-//				if (fpos.name=="adj" && sstype==AdjSynSetType.DontKnow) 
-//				{
-//					if (ptrs[j].ptp.mnemonic=="ANTPTR")
-//						sstype = AdjSynSetType.DirectAnt;
-//					else if (ptrs[j].ptp.mnemonic=="PERTPTR") 
-//						sstype = AdjSynSetType.Pertainym;
-//				}
-				int targetSynsetOffset = int.Parse(tokenizer.NextToken());
-				string targetPartOfSpeech = tokenizer.NextToken();
-				switch (targetPartOfSpeech)
-				{
-					case "n":
-						targetPartOfSpeech = "noun";
-						break;
-					case "v":
-						targetPartOfSpeech = "verb";
-						break;
-					case "a":
-					case "s":
-						targetPartOfSpeech = "adjective";
-						break;
-					case "r":
-						targetPartOfSpeech = "adverb";
-						break;
-				}
+            var words = new string[wordCount];
+            for (int iCurrentWord = 0; iCurrentWord < wordCount; iCurrentWord++)
+            {
+                words[iCurrentWord] = tokenizer.NextToken().Replace("_", " ");
+                int uniqueID = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
+            }
 
-				int sourceTarget = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
-				if (sourceTarget == 0)
-				{
-					relations[currentRelation] = new Relation(this, (RelationType)_relationTypeDictionary[relationTypeKey], targetSynsetOffset, targetPartOfSpeech);
-				} 
-				else
-				{
-					int sourceWord = sourceTarget >> 8;
-					int targetWord = sourceTarget & 0xff;
-					relations[currentRelation] = new Relation(this, (RelationType)_relationTypeDictionary[relationTypeKey], targetSynsetOffset, targetPartOfSpeech, sourceWord, targetWord);
-				}
-			}
-			string frameData = tokenizer.NextToken();
-			if (frameData != "|") 
-			{
-				int frameCount = int.Parse(frameData);
-				for (int currentFrame = 0; currentFrame < frameCount; currentFrame++) 
-				{
-					frameData = tokenizer.NextToken(); // +
-					int frameNumber = int.Parse(tokenizer.NextToken());
-					int wordID = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
-				}
-				frameData = tokenizer.NextToken();
-			}
-			string gloss = record.Substring(record.IndexOf('|') + 1);
+            int relationCount = int.Parse(tokenizer.NextToken());
+            var relations = new Relation[relationCount];
+            for (int currentRelation = 0; currentRelation < relationCount; currentRelation++)
+            {
+                string relationTypeKey = tokenizer.NextToken();
+                //				if (fpos.name=="adj" && sstype==AdjSynSetType.DontKnow) 
+                //				{
+                //					if (ptrs[j].ptp.mnemonic=="ANTPTR")
+                //						sstype = AdjSynSetType.DirectAnt;
+                //					else if (ptrs[j].ptp.mnemonic=="PERTPTR") 
+                //						sstype = AdjSynSetType.Pertainym;
+                //				}
+                int targetSynsetOffset = int.Parse(tokenizer.NextToken());
+                string targetPartOfSpeech = tokenizer.NextToken();
+                switch (targetPartOfSpeech)
+                {
+                    case "n":
+                        targetPartOfSpeech = "noun";
+                        break;
+                    case "v":
+                        targetPartOfSpeech = "verb";
+                        break;
+                    case "a":
+                    case "s":
+                        targetPartOfSpeech = "adjective";
+                        break;
+                    case "r":
+                        targetPartOfSpeech = "adverb";
+                        break;
+                }
 
-			var synset = new Synset(synsetOffset, gloss, words, lexicographerFile, relations);
-			return synset;
-		}
+                int sourceTarget = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
+                if (sourceTarget == 0)
+                {
+                    relations[currentRelation] = new Relation(this, (RelationType)_relationTypeDictionary[relationTypeKey], targetSynsetOffset, targetPartOfSpeech);
+                }
+                else
+                {
+                    int sourceWord = sourceTarget >> 8;
+                    int targetWord = sourceTarget & 0xff;
+                    relations[currentRelation] = new Relation(this, (RelationType)_relationTypeDictionary[relationTypeKey], targetSynsetOffset, targetPartOfSpeech, sourceWord, targetWord);
+                }
+            }
+            string frameData = tokenizer.NextToken();
+            if (frameData != "|")
+            {
+                int frameCount = int.Parse(frameData);
+                for (int currentFrame = 0; currentFrame < frameCount; currentFrame++)
+                {
+                    frameData = tokenizer.NextToken(); // +
+                    int frameNumber = int.Parse(tokenizer.NextToken());
+                    int wordID = int.Parse(tokenizer.NextToken(), System.Globalization.NumberStyles.HexNumber);
+                }
+                frameData = tokenizer.NextToken();
+            }
+            string gloss = record.Substring(record.IndexOf('|') + 1);
+
+            var synset = new Synset(synsetOffset, gloss, words, lexicographerFile, relations);
+            return synset;
+        }
 
         protected internal override string[] GetExceptionForms(string lemma, string partOfSpeech)
         {
@@ -379,60 +379,60 @@ namespace SharpWordNet
             return mEmpty;
         }
 
-		private void InitializeLexicographerFiles()
-		{
-			_lexicographerFiles = new string[45];
+        private void InitializeLexicographerFiles()
+        {
+            _lexicographerFiles = new string[45];
 
-			_lexicographerFiles[0] = "adj.all - all adjective clusters";  
-			_lexicographerFiles[1] = "adj.pert - relational adjectives (pertainyms)";  
-			_lexicographerFiles[2] = "adv.all - all adverbs";  
-			_lexicographerFiles[3] = "noun.Tops - unique beginners for nouns";  
-			_lexicographerFiles[4] = "noun.act - nouns denoting acts or actions";  
-			_lexicographerFiles[5] = "noun.animal - nouns denoting animals";  
-			_lexicographerFiles[6] = "noun.artifact - nouns denoting man-made objects";  
-			_lexicographerFiles[7] = "noun.attribute - nouns denoting attributes of people and objects";  
-			_lexicographerFiles[8] = "noun.body - nouns denoting body parts";  
-			_lexicographerFiles[9] = "noun.cognition - nouns denoting cognitive processes and contents";  
-			_lexicographerFiles[10] = "noun.communication - nouns denoting communicative processes and contents";  
-			_lexicographerFiles[11] = "noun.event - nouns denoting natural events";  
-			_lexicographerFiles[12] = "noun.feeling - nouns denoting feelings and emotions";  
-			_lexicographerFiles[13] = "noun.food - nouns denoting foods and drinks";  
-			_lexicographerFiles[14] = "noun.group - nouns denoting groupings of people or objects";  
-			_lexicographerFiles[15] = "noun.location - nouns denoting spatial position";  
-			_lexicographerFiles[16] = "noun.motive - nouns denoting goals";  
-			_lexicographerFiles[17] = "noun.object - nouns denoting natural objects (not man-made)";  
-			_lexicographerFiles[18] = "noun.person - nouns denoting people";  
-			_lexicographerFiles[19] = "noun.phenomenon - nouns denoting natural phenomena";  
-			_lexicographerFiles[20] = "noun.plant - nouns denoting plants";  
-			_lexicographerFiles[21] = "noun.possession - nouns denoting possession and transfer of possession";  
-			_lexicographerFiles[22] = "noun.process - nouns denoting natural processes";  
-			_lexicographerFiles[23] = "noun.quantity - nouns denoting quantities and units of measure";  
-			_lexicographerFiles[24] = "noun.relation - nouns denoting relations between people or things or ideas";  
-			_lexicographerFiles[25] = "noun.shape - nouns denoting two and three dimensional shapes";  
-			_lexicographerFiles[26] = "noun.state - nouns denoting stable states of affairs";  
-			_lexicographerFiles[27] = "noun.substance - nouns denoting substances";  
-			_lexicographerFiles[28] = "noun.time - nouns denoting time and temporal relations";  
-			_lexicographerFiles[29] = "verb.body - verbs of grooming, dressing and bodily care";  
-			_lexicographerFiles[30] = "verb.change - verbs of size, temperature change, intensifying, etc.";  
-			_lexicographerFiles[31] = "verb.cognition - verbs of thinking, judging, analyzing, doubting";  
-			_lexicographerFiles[32] = "verb.communication - verbs of telling, asking, ordering, singing";  
-			_lexicographerFiles[33] = "verb.competition - verbs of fighting, athletic activities";  
-			_lexicographerFiles[34] = "verb.consumption - verbs of eating and drinking";  
-			_lexicographerFiles[35] = "verb.contact - verbs of touching, hitting, tying, digging";  
-			_lexicographerFiles[36] = "verb.creation - verbs of sewing, baking, painting, performing";  
-			_lexicographerFiles[37] = "verb.emotion - verbs of feeling";  
-			_lexicographerFiles[38] = "verb.motion - verbs of walking, flying, swimming";  
-			_lexicographerFiles[39] = "verb.perception - verbs of seeing, hearing, feeling";  
-			_lexicographerFiles[40] = "verb.possession - verbs of buying, selling, owning";  
-			_lexicographerFiles[41] = "verb.social - verbs of political and social activities and events";  
-			_lexicographerFiles[42] = "verb.stative - verbs of being, having, spatial relations";  
-			_lexicographerFiles[43] = "verb.weather - verbs of raining, snowing, thawing, thundering";  
-			_lexicographerFiles[44] = "adj.ppl - participial adjectives";  
+            _lexicographerFiles[0] = "adj.all - all adjective clusters";
+            _lexicographerFiles[1] = "adj.pert - relational adjectives (pertainyms)";
+            _lexicographerFiles[2] = "adv.all - all adverbs";
+            _lexicographerFiles[3] = "noun.Tops - unique beginners for nouns";
+            _lexicographerFiles[4] = "noun.act - nouns denoting acts or actions";
+            _lexicographerFiles[5] = "noun.animal - nouns denoting animals";
+            _lexicographerFiles[6] = "noun.artifact - nouns denoting man-made objects";
+            _lexicographerFiles[7] = "noun.attribute - nouns denoting attributes of people and objects";
+            _lexicographerFiles[8] = "noun.body - nouns denoting body parts";
+            _lexicographerFiles[9] = "noun.cognition - nouns denoting cognitive processes and contents";
+            _lexicographerFiles[10] = "noun.communication - nouns denoting communicative processes and contents";
+            _lexicographerFiles[11] = "noun.event - nouns denoting natural events";
+            _lexicographerFiles[12] = "noun.feeling - nouns denoting feelings and emotions";
+            _lexicographerFiles[13] = "noun.food - nouns denoting foods and drinks";
+            _lexicographerFiles[14] = "noun.group - nouns denoting groupings of people or objects";
+            _lexicographerFiles[15] = "noun.location - nouns denoting spatial position";
+            _lexicographerFiles[16] = "noun.motive - nouns denoting goals";
+            _lexicographerFiles[17] = "noun.object - nouns denoting natural objects (not man-made)";
+            _lexicographerFiles[18] = "noun.person - nouns denoting people";
+            _lexicographerFiles[19] = "noun.phenomenon - nouns denoting natural phenomena";
+            _lexicographerFiles[20] = "noun.plant - nouns denoting plants";
+            _lexicographerFiles[21] = "noun.possession - nouns denoting possession and transfer of possession";
+            _lexicographerFiles[22] = "noun.process - nouns denoting natural processes";
+            _lexicographerFiles[23] = "noun.quantity - nouns denoting quantities and units of measure";
+            _lexicographerFiles[24] = "noun.relation - nouns denoting relations between people or things or ideas";
+            _lexicographerFiles[25] = "noun.shape - nouns denoting two and three dimensional shapes";
+            _lexicographerFiles[26] = "noun.state - nouns denoting stable states of affairs";
+            _lexicographerFiles[27] = "noun.substance - nouns denoting substances";
+            _lexicographerFiles[28] = "noun.time - nouns denoting time and temporal relations";
+            _lexicographerFiles[29] = "verb.body - verbs of grooming, dressing and bodily care";
+            _lexicographerFiles[30] = "verb.change - verbs of size, temperature change, intensifying, etc.";
+            _lexicographerFiles[31] = "verb.cognition - verbs of thinking, judging, analyzing, doubting";
+            _lexicographerFiles[32] = "verb.communication - verbs of telling, asking, ordering, singing";
+            _lexicographerFiles[33] = "verb.competition - verbs of fighting, athletic activities";
+            _lexicographerFiles[34] = "verb.consumption - verbs of eating and drinking";
+            _lexicographerFiles[35] = "verb.contact - verbs of touching, hitting, tying, digging";
+            _lexicographerFiles[36] = "verb.creation - verbs of sewing, baking, painting, performing";
+            _lexicographerFiles[37] = "verb.emotion - verbs of feeling";
+            _lexicographerFiles[38] = "verb.motion - verbs of walking, flying, swimming";
+            _lexicographerFiles[39] = "verb.perception - verbs of seeing, hearing, feeling";
+            _lexicographerFiles[40] = "verb.possession - verbs of buying, selling, owning";
+            _lexicographerFiles[41] = "verb.social - verbs of political and social activities and events";
+            _lexicographerFiles[42] = "verb.stative - verbs of being, having, spatial relations";
+            _lexicographerFiles[43] = "verb.weather - verbs of raining, snowing, thawing, thundering";
+            _lexicographerFiles[44] = "adj.ppl - participial adjectives";
 
-		}
+        }
 
-		private void InitializeRelationTypes()
-		{
+        private void InitializeRelationTypes()
+        {
             _relationTypeDictionary = new Dictionary<string, RelationType>(30)
             {
                 {"!", new RelationType("Antonym", new string[] {"noun", "verb", "adjective", "adverb"})},
@@ -463,10 +463,10 @@ namespace SharpWordNet
                 {@"\", new RelationType("Pertainym", new string[] {"adjective", "adverb"})}
             };
 
-		    //moRelationTypeDictionary.Add(";", new RelationType("Domain of synset", new string[] {"noun", "verb", "adjective", "adverb"}));
-			//moRelationTypeDictionary.Add("-", new RelationType("Member of this domain", new string[] {"noun"})); 
+            //moRelationTypeDictionary.Add(";", new RelationType("Domain of synset", new string[] {"noun", "verb", "adjective", "adverb"}));
+            //moRelationTypeDictionary.Add("-", new RelationType("Member of this domain", new string[] {"noun"})); 
 
-		}
+        }
 
         private class PosDataFileSet
         {
@@ -507,5 +507,5 @@ namespace SharpWordNet
         }
 
 
-	}
+    }
 }

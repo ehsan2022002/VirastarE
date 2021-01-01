@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 using OpenNLP.Tools.Util.Process;
+using System;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -42,7 +38,7 @@ namespace OpenNLP.Tools.Trees
         /// printing out lexicalized dependencies.  Note that ] ought to be
         /// unnecessary, since it would end the annotation, not start it.
         /// </summary>
-        private static readonly char[] AnnotationIntroducingChars = {'-', '=', '|', '#', '^', '~', '_', '['};
+        private static readonly char[] AnnotationIntroducingChars = { '-', '=', '|', '#', '^', '~', '_', '[' };
 
         /// <summary>
         /// This is valid for "BobChrisTreeNormalizer" conventions only.
@@ -175,6 +171,6 @@ namespace OpenNLP.Tools.Trees
         {
             return new SemanticHeadFinder(this, true);
         }
-        
+
     }
 }

@@ -14,33 +14,31 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for Synset.
-	/// </summary>
-	public class Synset
-	{
+    /// <summary>
+    /// Summary description for Synset.
+    /// </summary>
+    public class Synset
+    {
         private int mOffset;
-		private string mGloss;
-		private string[] mWordList;
-		private string mLexicographerFile;
-		private Relation[] mRelations;
+        private string mGloss;
+        private string[] mWordList;
+        private string mLexicographerFile;
+        private Relation[] mRelations;
 
-		private Synset()
-		{
-		}
+        private Synset()
+        {
+        }
 
-		internal Synset(int offset, string gloss, string[] wordList, string lexicographerFile, Relation[] relations)
-		{
+        internal Synset(int offset, string gloss, string[] wordList, string lexicographerFile, Relation[] relations)
+        {
             mOffset = offset;
-			mGloss = gloss;
-			mWordList = wordList;
-			mLexicographerFile = lexicographerFile;
-			mRelations = relations;
-		}
+            mGloss = gloss;
+            mWordList = wordList;
+            mLexicographerFile = lexicographerFile;
+            mRelations = relations;
+        }
 
         public int Offset
         {
@@ -50,64 +48,64 @@ namespace SharpWordNet
             }
         }
 
-		public string Gloss
-		{
-			get
-			{
-				return mGloss;
-			}
-		}
+        public string Gloss
+        {
+            get
+            {
+                return mGloss;
+            }
+        }
 
-		public string GetWord(int wordIndex)
-		{
-			return mWordList[wordIndex];
-		}
+        public string GetWord(int wordIndex)
+        {
+            return mWordList[wordIndex];
+        }
 
-		public int WordCount
-		{
-			get
-			{
-				return mWordList.Length;
-			}
-		}
+        public int WordCount
+        {
+            get
+            {
+                return mWordList.Length;
+            }
+        }
 
-		public string LexicographerFile
-		{
-			get
-			{
-				return mLexicographerFile;
-			}
-		}
+        public string LexicographerFile
+        {
+            get
+            {
+                return mLexicographerFile;
+            }
+        }
 
-		public Relation GetRelation(int relationIndex)
-		{
-			return mRelations[relationIndex];
-		}
+        public Relation GetRelation(int relationIndex)
+        {
+            return mRelations[relationIndex];
+        }
 
-		public int RelationCount
-		{
-			get
-			{
-				return mRelations.Length;
-			}
-		}
+        public int RelationCount
+        {
+            get
+            {
+                return mRelations.Length;
+            }
+        }
 
-		public override string ToString()
-		{
-			System.Text.StringBuilder oOutput = new System.Text.StringBuilder();
+        public override string ToString()
+        {
+            System.Text.StringBuilder oOutput = new System.Text.StringBuilder();
 
-			for (int iCurrentWord = 0; iCurrentWord < mWordList.Length; iCurrentWord++)
-			{
-				oOutput.Append(mWordList[iCurrentWord]);
-				if (iCurrentWord < mWordList.Length - 1) 
-				{
-					oOutput.Append(", ");
-				} 
-			}
-					
-			oOutput.Append("  --  ").Append(mGloss);
+            for (int iCurrentWord = 0; iCurrentWord < mWordList.Length; iCurrentWord++)
+            {
+                oOutput.Append(mWordList[iCurrentWord]);
+                if (iCurrentWord < mWordList.Length - 1)
+                {
+                    oOutput.Append(", ");
+                }
+            }
 
-			return oOutput.ToString();
-		}
-	}
+            oOutput.Append("  --  ").Append(mGloss);
+
+            return oOutput.ToString();
+        }
+    }
 }

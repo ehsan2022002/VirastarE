@@ -14,21 +14,20 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Linq;
 
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for IndexWord.
-	/// </summary>
-	public class IndexWord
-	{
+    /// <summary>
+    /// Summary description for IndexWord.
+    /// </summary>
+    public class IndexWord
+    {
         // Properties ------------------------
 
         public string PartOfSpeech { get; private set; }
-			
-		public int[] SynsetOffsets { get; private set; }
+
+        public int[] SynsetOffsets { get; private set; }
 
         public string Lemma { get; private set; }
 
@@ -37,20 +36,20 @@ namespace SharpWordNet
             get { return this.SynsetOffsets != null ? this.SynsetOffsets.Count() : 0; }
         }
 
-	    public int TagSenseCount { get; private set; }
+        public int TagSenseCount { get; private set; }
 
-		public string[] RelationTypes { get; private set; }
+        public string[] RelationTypes { get; private set; }
 
 
         // Constructors --------------------
 
-		public IndexWord(string lemma, string partOfSpeech, string[] relationTypes, int[] synsetOffsets, int tagSenseCount)
-		{
+        public IndexWord(string lemma, string partOfSpeech, string[] relationTypes, int[] synsetOffsets, int tagSenseCount)
+        {
             this.Lemma = lemma;
             this.PartOfSpeech = partOfSpeech;
             this.RelationTypes = relationTypes;
             this.SynsetOffsets = synsetOffsets;
             this.TagSenseCount = tagSenseCount;
-		}
-	}
+        }
+    }
 }

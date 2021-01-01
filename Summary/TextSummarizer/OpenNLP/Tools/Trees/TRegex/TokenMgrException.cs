@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -43,7 +40,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             {
                 switch (str[i])
                 {
-                    case (char) 0:
+                    case (char)0:
                         continue;
                     case '\b':
                         retval.Append("\\b");
@@ -102,7 +99,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             return ("Lexical error at line " +
                     errorLine + ", column " +
                     errorColumn + ".  Encountered: " +
-                    (eofSeen ? "<EOF> " : ("\"" + AddEscapes(curChar.ToString()) + "\"") + " (" + (int) curChar + "), ") +
+                    (eofSeen ? "<EOF> " : ("\"" + AddEscapes(curChar.ToString()) + "\"") + " (" + (int)curChar + "), ") +
                     "after : \"" + AddEscapes(errorAfter) + "\"");
         }
 

@@ -1,10 +1,8 @@
-using System.Diagnostics;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2009 March 3
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -26,10 +24,10 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
-		//#include "btreeInt.h"
+        //#include "sqliteInt.h"
+        //#include "btreeInt.h"
 
-		/* Omit this entire file if SQLITE_ENABLE_UNLOCK_NOTIFY is not defined. */
+        /* Omit this entire file if SQLITE_ENABLE_UNLOCK_NOTIFY is not defined. */
 #if SQLITE_ENABLE_UNLOCK_NOTIFY
 
 /*
@@ -342,5 +340,5 @@ checkListProperties(db);
 leaveMutex();
 }
 #endif
-	}
+    }
 }

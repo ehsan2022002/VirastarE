@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// Class for random string things, including output formatting and command line argument parsing.
     /// 
@@ -25,7 +24,7 @@ namespace OpenNLP.Tools.Util
         private static readonly string PROPERTIES = "properties";
         private static readonly string ARGS = "args";
         private static readonly string ARGUMENTS = "arguments";
-        
+
         /// <summary>
         /// Say whether this regular expression can be found inside this string.
         /// This method provides one of the two "missing" convenience methods 
@@ -40,7 +39,7 @@ namespace OpenNLP.Tools.Util
         {
             return Regex.IsMatch(str, regex);
         }
-        
+
         /// <summary>
         /// Convenience method: a case-insensitive variant of Collection.contains
         /// </summary>
@@ -68,7 +67,7 @@ namespace OpenNLP.Tools.Util
             return Regex.IsMatch(str, "^" + regex);
             //return Pattern.compile(regex).matcher(str).lookingAt();
         }
-        
+
         /// <summary>
         /// Takes a string of the form "x1=y1,x2=y2,..." 
         /// such that each y is an integer and each x is a key.
@@ -80,7 +79,7 @@ namespace OpenNLP.Tools.Util
         /// <returns>A string[] s is returned such that s[yn]=xn</returns>
         public static string[] MapStringToArray(string map)
         {
-            string[] m = map.Split(new[] {'[', ',', ';', ']'});
+            string[] m = map.Split(new[] { '[', ',', ';', ']' });
             int maxIndex = 0;
             var keys = new string[m.Length];
             var indices = new int[m.Length];
@@ -110,7 +109,7 @@ namespace OpenNLP.Tools.Util
         /// <returns>A Map m is returned such that m.get(xn) = yn</returns>
         public static Dictionary<string, string> MapStringToMap(string map)
         {
-            string[] m = map.Split(new[] {'[', ',', ';', ']'});
+            string[] m = map.Split(new[] { '[', ',', ';', ']' });
             var res = new Dictionary<string, string>();
             foreach (string str in m)
             {
@@ -369,7 +368,7 @@ namespace OpenNLP.Tools.Util
   public static string join(Object[] elements) {
     return (join(elements, " "));
   }*/
-        
+
         /// <summary>
         /// Splits on whitespace (\\s+).
         /// </summary>
@@ -378,7 +377,7 @@ namespace OpenNLP.Tools.Util
         {
             return Split(s, "\\s+");
         }
-        
+
         /// <summary>
         /// Splits the given string using the given regex as delimiters.
         /// This method is the same as the string.Split() method 
@@ -514,7 +513,7 @@ namespace OpenNLP.Tools.Util
         {
             return Pad(obj.ToString(), totalChars);
         }
-        
+
         /// <summary>
         /// Pad or trim so as to produce a string of exactly a certain length.
         /// </summary>
@@ -629,7 +628,7 @@ namespace OpenNLP.Tools.Util
         {
             return PadLeft(d, totalChars);
         }
-        
+
         /// <summary>
         /// Returns s if it's at most maxWidth chars, otherwise chops right side to fit.
         /// </summary>
@@ -653,7 +652,7 @@ namespace OpenNLP.Tools.Util
             {
                 return "";
             }
-            var sb = new StringBuilder(times*s.Length);
+            var sb = new StringBuilder(times * s.Length);
             for (int i = 0; i < times; i++)
             {
                 sb.Append(s);
@@ -697,7 +696,7 @@ namespace OpenNLP.Tools.Util
                     }
                     else
                     {
-                        sb.Append('x').Append((int) c).Append('x');
+                        sb.Append('x').Append((int)c).Append('x');
                     }
                 }
             }
@@ -738,12 +737,12 @@ namespace OpenNLP.Tools.Util
             var result = new char[numDigits];
             for (int j = 1; j < smallestDigit; j++)
             {
-                n = n/10;
+                n = n / 10;
             }
             for (int j = numDigits - 1; j >= 0; j--)
             {
-                result[j] = (char) (n%10);
-                n = n/10;
+                result[j] = (char)(n % 10);
+                n = n / 10;
             }
             return new string(result);
         }
@@ -956,7 +955,7 @@ namespace OpenNLP.Tools.Util
       throw new RuntimeIOException("propFileToProperties could not read properties file: " + filename, e);
     }
   }*/
-        
+
         /// <summary>
         /// Converts a comma-separated string (with whitespace optionally allowed after the comma) 
         /// representing properties to a Properties object.
@@ -970,7 +969,7 @@ namespace OpenNLP.Tools.Util
             var result = new Dictionary<string, string>();
             return StringToProperties(str, result);
         }
-        
+
         /// <summary>
         /// This method updates a Properties object based on a comma-separated string 
         /// (with whitespace optionally allowed after the comma) representing properties to a Properties object.
@@ -1350,7 +1349,7 @@ namespace OpenNLP.Tools.Util
     // Step 7
     return d[n][m];
   }*/
-        
+
         /// <summary>
         /// Computes the longest common contiguous substring of s and t.
         /// The LCCS is the longest run of characters that appear consecutively in
@@ -1590,11 +1589,11 @@ namespace OpenNLP.Tools.Util
 
         public static string SearchAndReplace(string text, string from, string to)
         {
-            from = EscapeString(from, new char[] {'.', '[', ']', '\\'}, '\\'); // special chars in regex
+            from = EscapeString(from, new char[] { '.', '[', ']', '\\' }, '\\'); // special chars in regex
             var res = Regex.Replace(text, from, to);
             return res;
         }
-        
+
         /// <summary>
         /// Returns an HTML table containing the matrix of strings passed in.
         /// The first dimension of the matrix should represent the rows, and the second dimension the columns.
@@ -1686,7 +1685,7 @@ namespace OpenNLP.Tools.Util
             }
             return result;
         }
-        
+
         public static string ToAscii(string s)
         {
             var b = new StringBuilder();
@@ -1820,7 +1819,7 @@ namespace OpenNLP.Tools.Util
                 {
                     b.Append(',');
                 }
-                string field = EscapeString(fld, new char[] {'\"'}, '\"'); // escape quotes with double quotes
+                string field = EscapeString(fld, new char[] { '\"' }, '\"'); // escape quotes with double quotes
                 b.Append('\"').Append(field).Append('\"');
             }
             return b.ToString();
@@ -1869,7 +1868,7 @@ namespace OpenNLP.Tools.Util
             }
             return s;
         }
-        
+
         /// <summary>
         /// Returns the result of calling ToString() on the supplied Object, but with any trailing '\n' removed.
         /// </summary>
@@ -1877,7 +1876,7 @@ namespace OpenNLP.Tools.Util
         {
             return Chomp(o.ToString());
         }
-        
+
         /*public static string toInvocationString(string cls, string[] args) {
     StringBuilder sb = new StringBuilder();
     sb.Append(cls).Append(" invoked on ").Append(new Date());
@@ -1896,7 +1895,7 @@ namespace OpenNLP.Tools.Util
         {
             return GetBaseName(fileName, "");
         }
-        
+
         /// <summary>
         /// Strip directory and suffix from filename.  Like Unix 'basename'.
         /// Example: <code>getBaseName("/u/wcmac/foo.txt", "") ==> "foo.txt"</code>
@@ -1905,7 +1904,7 @@ namespace OpenNLP.Tools.Util
         /// </summary>
         public static string GetBaseName(string fileName, string suffix)
         {
-            string[] elts = fileName.Split(new[] {"/"}, StringSplitOptions.None);
+            string[] elts = fileName.Split(new[] { "/" }, StringSplitOptions.None);
             string lastElt = elts[elts.Length - 1];
             if (lastElt.EndsWith(suffix))
             {
@@ -1913,7 +1912,7 @@ namespace OpenNLP.Tools.Util
             }
             return lastElt;
         }
-        
+
         /// <summary>
         /// Given a string the method uses Regex to check if the string only contains alphabet characters
         /// </summary>
@@ -1939,7 +1938,7 @@ namespace OpenNLP.Tools.Util
             return m.matches();*/
             return Regex.IsMatch(s, "^[\\p{Digit}\\s\\.]+$");
         }
-        
+
         /// <summary>
         /// Given a string the method uses Regex to check 
         /// if the string only contains alphanumeric characters

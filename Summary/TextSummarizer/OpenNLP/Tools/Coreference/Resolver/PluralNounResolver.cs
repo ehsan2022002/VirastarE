@@ -33,58 +33,56 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
-using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 using System.Collections.Generic;
+using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	
-	/// <summary> Resolves coreference between plural nouns. </summary>
-	public class PluralNounResolver:MaximumEntropyResolver
-	{
+
+
+    /// <summary> Resolves coreference between plural nouns. </summary>
+    public class PluralNounResolver : MaximumEntropyResolver
+    {
         public PluralNounResolver(string projectName, ResolverMode mode) : base(projectName, "plmodel", mode, 80, true)
-		{
-			ShowExclusions = false;
-		}
+        {
+            ShowExclusions = false;
+        }
 
         public PluralNounResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver) : base(projectName, "plmodel", mode, 80, true, nonReferentialResolver)
-		{
-			ShowExclusions = false;
-		}
-		
-		protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
-		{
+        {
+            ShowExclusions = false;
+        }
+
+        protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
+        {
             List<string> features = base.GetFeatures(mention, entity);
-			
-			if (entity != null)
-			{
+
+            if (entity != null)
+            {
                 features.AddRange(GetContextFeatures(mention));
                 features.AddRange(GetStringMatchFeatures(mention, entity));
-			}
-			return features;
-		}
-		
-		public override bool CanResolve(MentionContext mention)
-		{
-			string firstTok = mention.FirstTokenText.ToLower();
-			string firstTokTag = mention.FirstToken.SyntacticType;
-			bool rv = mention.HeadTokenTag == PartsOfSpeech.NounPlural && !IsDefiniteArticle(firstTok, firstTokTag);
-			return rv;
-		}
-		
-		protected internal override bool IsExcluded(MentionContext mention, DiscourseEntity entity)
-		{
-			if (base.IsExcluded(mention, entity))
-			{
-				return true;
-			}
-			else
-			{
-				MentionContext cec = entity.LastExtent;
+            }
+            return features;
+        }
+
+        public override bool CanResolve(MentionContext mention)
+        {
+            string firstTok = mention.FirstTokenText.ToLower();
+            string firstTokTag = mention.FirstToken.SyntacticType;
+            bool rv = mention.HeadTokenTag == PartsOfSpeech.NounPlural && !IsDefiniteArticle(firstTok, firstTokTag);
+            return rv;
+        }
+
+        protected internal override bool IsExcluded(MentionContext mention, DiscourseEntity entity)
+        {
+            if (base.IsExcluded(mention, entity))
+            {
+                return true;
+            }
+            else
+            {
+                MentionContext cec = entity.LastExtent;
                 return (cec.HeadTokenTag != PartsOfSpeech.NounPlural || base.IsExcluded(mention, entity));
-			}
-		}
-	}
+            }
+        }
+    }
 }

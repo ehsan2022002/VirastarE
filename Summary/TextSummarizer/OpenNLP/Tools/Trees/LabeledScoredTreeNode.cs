@@ -1,9 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -187,7 +185,7 @@ namespace OpenNLP.Tools.Trees
         {
             var buff = new StringBuilder();
             buff.Append(base.NodeString());
-            if (! double.IsNaN(_score))
+            if (!double.IsNaN(_score))
             {
                 buff.Append(" [").Append((-_score).ToString(Nf)).Append("]");
             }

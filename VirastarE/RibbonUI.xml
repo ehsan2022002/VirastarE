@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <!--PLEASE NOTE: The CustomUI_OnLoad method is a virtual member of the COMAddin base class -->
 <customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="CustomUI_OnLoad">
   <ribbon>
@@ -6,19 +7,28 @@
       <tab id="VirastarE" label="VirastarE">
         <group id="group1" label="خصوصیات">
           <!--<button id="AboutButton" label="درباره" imageMso="CreateFormBlankForm" size="large" onAction="AboutButton_Click" />-->
-          <button id="btnSetting" label="تنظیمات" imageMso="GridSettings" size="large" onAction="btnSetting_Click" /> 
+          <button id="btnSetting" label="تنظیمات" imageMso="GridSettings" size="large" onAction="btnSetting_Click" />
         </group>
-        <group id="Edit" label="ویرایش"  >
-          <button id="btnNormalizaer" label="اصلاح فاصله و حروف" imageMso="MarginsAdjust" size="large" screentip="F9" onAction="btnNormalizaer_Click" />
-          <button id="btnspell" label="بازبینی املا" imageMso="SpellingAndGrammar" size="large"  screentip="F11" onAction="btnSpell_Click" />
+        <group id="Edit" label="ویرایش">
+          <button id="btnNormalizaer" label="اصلاح فاصله و حروف" imageMso="MarginsAdjust" size="large" screentip="F9"
+                  onAction="btnNormalizaer_Click" />
+          <button id="btnspell" label="بازبینی املا" imageMso="SpellingAndGrammar" size="large" screentip="F11"
+                  onAction="btnSpell_Click" />
           <button id="btnpunc" label="بازبینی نگارش" imageMso="Grammar" size="large" onAction="btnPunctuation_Click" />
-        </group >
-        <group id="Explor" label="کاوشگر متن">          
-          
-          <button id="btnOptical" label="نویسه خوان" imageMso="CrossReferenceInsert" size="large" screentip="او سی ار فارسی" onAction="btnOpticalC_Click" />
-          <button id="btnSummerizer" label="خلاصه" imageMso="FunctionWizard" size="large" onAction="btnSummerizer_Click" />
-          <button id="btnLDA" label="عناوین" imageMso="PivotChartLegendShowHide" size="large" onAction="btnSLDA_Click" />
-        </group >
+        </group>
+        <group id="Explor" label="کاوشگر متن">
+          <button id="btnOptical" label="نویسه خوان" imageMso="CrossReferenceInsert" size="large"
+                  screentip="او سی ار فارسی" onAction="btnOpticalC_Click" />
+          <button id="btnSummerizer" label="خلاصه" imageMso="FunctionWizard" size="large"
+                  screentip="خلاصه ساز برای فارسی و انگلیسی و عربی" onAction="btnSummerizer_Click" />
+        </group>
+
+        <group id="texttools" label="ابزار">
+          <button id="btnLDA" label="استخراج عناوین" imageMso="PivotChartLegendShowHide" size="normal"
+                  screentip="تاپیک مدلینگ" onAction="btnSLDA_Click" />
+          <button id="btnConvertPDF" label="تبدیل آکروبات" imageMso="CreateMacro" size="normal"
+                  screentip="تبدیل فایل آکروبات به تصویر" onAction="btnConvertPDFA_Click" />
+        </group>
       </tab>
     </tabs>
   </ribbon>

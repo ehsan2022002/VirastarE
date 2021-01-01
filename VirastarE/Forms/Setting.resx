@@ -127,15 +127,12 @@
 همچنین مجوز تغیرات و  کامپایل مجدد برای تولید کننده نرم افزار انحصاری میباشد
 مشکلات و پیشنهادات و حمایت مالی خود  را در آدرس زیر ثبت نمایید
 https://github.com/ehsan2022002/VirastarE
-نسخه 3.1(یلدا) دیماه 1399        
+نسخه 3.3(آخرین روز سال) دیماه 1399        
 
 Attribution-NonCommercial-NoDerivatives 4.0 International - CC BY-NC-ND 4.0 
 Ehsan Bagheri 21/12/2020
 </value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>45</value>
   </metadata>

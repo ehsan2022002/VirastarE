@@ -33,16 +33,14 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	
-	/// <summary>
+
+    /// <summary>
     /// Data structure representation of a mention.
     /// </summary>
-	public class Mention : System.IComparable
-	{
+    public class Mention : System.IComparable
+    {
         /// <summary>
         /// Represents the character offset for this extent.
         /// </summary>
@@ -75,57 +73,57 @@ namespace OpenNLP.Tools.Coreference.Mention
         /// </summary>
         private string mNameType;
 
-		/// <summary>
+        /// <summary>
         /// Returns the character offsets for this extent.
         /// </summary>
         public virtual Util.Span Span
-		{
-			get
-			{
-				return mSpan;
-			}
-		}
+        {
+            get
+            {
+                return mSpan;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the character offsets for the head of this extent.
         /// </summary>
         public virtual Util.Span HeadSpan
-		{
-			get
-			{
-				return mHeadSpan;
-			}
-		}
+        {
+            get
+            {
+                return mHeadSpan;
+            }
+        }
 
-		/// <summary>
-		/// The parse node that this extent is based on or null if the extent is newly created.
-		/// </summary>
-		public virtual IParse Parse
-		{
-			get
-			{
-				return mParse;
-			}
-			set
-			{
-				mParse = value;
-			}
-		}
+        /// <summary>
+        /// The parse node that this extent is based on or null if the extent is newly created.
+        /// </summary>
+        public virtual IParse Parse
+        {
+            get
+            {
+                return mParse;
+            }
+            set
+            {
+                mParse = value;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the id associated with this mention.
         /// </summary>
-		public virtual int Id
-		{
-			get
-			{
-				return mId;
-			}
-			set
-			{
-				mId = value;
-			}
-		}
+        public virtual int Id
+        {
+            get
+            {
+                return mId;
+            }
+            set
+            {
+                mId = value;
+            }
+        }
 
         protected internal string Type
         {
@@ -155,37 +153,37 @@ namespace OpenNLP.Tools.Coreference.Mention
         }
 
         public Mention(Util.Span span, Util.Span headSpan, int entityId, IParse parse, string extentType)
-		{
-			mSpan = span;
-			mHeadSpan = headSpan;
-			mId = entityId;
-			mType = extentType;
-			mParse = parse;
-		}
+        {
+            mSpan = span;
+            mHeadSpan = headSpan;
+            mId = entityId;
+            mType = extentType;
+            mParse = parse;
+        }
 
         public Mention(Util.Span span, Util.Span headSpan, int entityId, IParse parse, string extentType, string nameType)
-		{
-			mSpan = span;
-			mHeadSpan = headSpan;
-			mId = entityId;
-			mType = extentType;
-			mParse = parse;
-			mNameType = nameType;
-		}
-		
-		public Mention(Mention mention) : this(mention.mSpan, mention.mHeadSpan, mention.mId, mention.mParse, mention.mType, mention.mNameType)
-		{
-		}
-		
-		public virtual int CompareTo(object obj)
-		{
-			Mention e = (Mention) obj;
-			return (mSpan.CompareTo(e.Span));
-		}
-		
-		public override string ToString()
-		{
-			return "mention(span=" + mSpan + ",hs=" + mHeadSpan + ", type=" + mType + ", id=" + mId + " " + mParse + " )";
-		}
-	}
+        {
+            mSpan = span;
+            mHeadSpan = headSpan;
+            mId = entityId;
+            mType = extentType;
+            mParse = parse;
+            mNameType = nameType;
+        }
+
+        public Mention(Mention mention) : this(mention.mSpan, mention.mHeadSpan, mention.mId, mention.mParse, mention.mType, mention.mNameType)
+        {
+        }
+
+        public virtual int CompareTo(object obj)
+        {
+            Mention e = (Mention)obj;
+            return (mSpan.CompareTo(e.Span));
+        }
+
+        public override string ToString()
+        {
+            return "mention(span=" + mSpan + ",hs=" + mHeadSpan + ", type=" + mType + ", id=" + mId + " " + mParse + " )";
+        }
+    }
 }

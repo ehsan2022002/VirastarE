@@ -64,6 +64,9 @@
     <AssemblyOriginatorKeyFile>ImageOprationSN.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PdfiumViewer">
+      <HintPath>..\PdfiumViewer\obj\Debug\PdfiumViewer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -80,6 +83,9 @@
     <Compile Include="ImageHandler.cs" />
     <Compile Include="ImagePanel.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImagePanel.Designer.cs">
+      <DependentUpon>ImagePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageSelector.cs">
       <SubType>Form</SubType>
@@ -117,14 +123,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BorzoyaSpell\BorzoyaSpell.csproj">
+      <Project>{2403EE11-4702-4FDD-8871-0118065F2F69}</Project>
+      <Name>BorzoyaSpell</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tesseract\Tesseract.csproj">
       <Project>{6e4c847c-b821-4982-81cc-9ea2295e8f90}</Project>
       <Name>Tesseract</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\zoom-in-icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\digitullCircles.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate180.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConvertImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invert.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

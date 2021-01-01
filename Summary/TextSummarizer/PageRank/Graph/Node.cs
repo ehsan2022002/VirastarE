@@ -26,7 +26,7 @@
 
         public T Value
         {
-            get { return _data; } 
+            get { return _data; }
             set { _data = value; }
         }
 

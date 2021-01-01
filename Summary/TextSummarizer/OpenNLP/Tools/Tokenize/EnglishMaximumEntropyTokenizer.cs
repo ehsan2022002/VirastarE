@@ -33,18 +33,16 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Tokenize
 {
-	/// <summary> 
-	/// A tokenizer which uses default English data for the maximum entropy model.
-	/// </summary>
-	public class EnglishMaximumEntropyTokenizer : MaximumEntropyTokenizer
-	{
-		public EnglishMaximumEntropyTokenizer(string name) : base(new SharpEntropy.GisModel(new SharpEntropy.IO.BinaryGisModelReader(name)))
-		{
-			AlphaNumericOptimization = true;
-		}
-	}
+    /// <summary> 
+    /// A tokenizer which uses default English data for the maximum entropy model.
+    /// </summary>
+    public class EnglishMaximumEntropyTokenizer : MaximumEntropyTokenizer
+    {
+        public EnglishMaximumEntropyTokenizer(string name) : base(new SharpEntropy.GisModel(new SharpEntropy.IO.BinaryGisModelReader(name)))
+        {
+            AlphaNumericOptimization = true;
+        }
+    }
 }

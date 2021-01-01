@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util.Process
 {
@@ -525,7 +522,7 @@ namespace OpenNLP.Tools.Util.Process
                         seendot = 1;
                     else if ('0' <= c && c <= '9')
                     {
-                        v = v*10 + (c - '0');
+                        v = v * 10 + (c - '0');
                         decexp += seendot;
                     }
                     else
@@ -543,7 +540,7 @@ namespace OpenNLP.Tools.Util.Process
                         decexp--;
                     }
                     /* Do one division of a likely-to-be-more-accurate number */
-                    v = v/denom;
+                    v = v / denom;
                 }
                 NumberValue = neg ? -v : v;
                 return Ttype = TtNumber;
@@ -554,7 +551,7 @@ namespace OpenNLP.Tools.Util.Process
                 int i = 0;
                 do
                 {
-                    buf[i++] = (char) c;
+                    buf[i++] = (char)c;
                     c = Read();
                     ctype = c < 0 ? CtWhitespace : c < 256 ? ct[c] : CtAlpha;
                 } while ((ctype & (CtAlpha | CtDigit)) != 0);
@@ -633,7 +630,7 @@ namespace OpenNLP.Tools.Util.Process
                         c = d;
                         d = Read();
                     }
-                    buf[i++] = (char) c;
+                    buf[i++] = (char)c;
                 }
 
                 /* If we broke out of the loop because we found a matching quote
@@ -723,7 +720,7 @@ namespace OpenNLP.Tools.Util.Process
                 pushedBack = true;
             }
         }
-        
+
         public override string ToString()
         {
             string ret;
@@ -745,26 +742,26 @@ namespace OpenNLP.Tools.Util.Process
                     ret = "NOTHING";
                     break;
                 default:
-                {
-                    /* 
-                         * ttype is the first character of either a quoted string or
-                         * is an ordinary character. ttype can definitely not be less
-                         * than 0, since those are reserved values used in the previous
-                         * case statements
-                         */
-                    if (Ttype < 256 &&
-                        ((characterType[Ttype] & CtQuote) != 0))
                     {
-                        ret = StringValue;
+                        /* 
+                             * ttype is the first character of either a quoted string or
+                             * is an ordinary character. ttype can definitely not be less
+                             * than 0, since those are reserved values used in the previous
+                             * case statements
+                             */
+                        if (Ttype < 256 &&
+                            ((characterType[Ttype] & CtQuote) != 0))
+                        {
+                            ret = StringValue;
+                            break;
+                        }
+
+                        var s = new char[3];
+                        s[0] = s[2] = '\'';
+                        s[1] = (char)Ttype;
+                        ret = new string(s);
                         break;
                     }
-
-                    var s = new char[3];
-                    s[0] = s[2] = '\'';
-                    s[1] = (char) Ttype;
-                    ret = new string(s);
-                    break;
-                }
             }
             return "Token[" + ret + "], line " + LineNumber;
         }

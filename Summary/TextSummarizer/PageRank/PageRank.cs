@@ -1,7 +1,7 @@
-﻿using System;
+﻿using PageRank.Graph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using PageRank.Graph;
 
 namespace PageRank.Rank
 {

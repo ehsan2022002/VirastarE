@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Tesseract.Interop
 {
-    unsafe static class MarshalHelper
+    internal static unsafe class MarshalHelper
     {
-    	public static IntPtr StringToPtr(string value, Encoding encoding)
+        public static IntPtr StringToPtr(string value, Encoding encoding)
         {
             var encoder = encoding.GetEncoder();
             var length = encoding.GetByteCount(value);
@@ -19,31 +18,24 @@ namespace Tesseract.Interop
             return handle;
         }
 
-    	        
+
         public static string PtrToString(IntPtr handle, Encoding encoding)
         {
             var length = StrLength(handle);
-            return new String((sbyte*)handle.ToPointer(), 0, length, encoding);
+            return new string((sbyte*) handle.ToPointer(), 0, length, encoding);
         }
 
         /// <summary>
-        /// Gets the number of bytes in a null terminated byte array.
+        ///     Gets the number of bytes in a null terminated byte array.
         /// </summary>
         public static int StrLength(IntPtr handle)
         {
-            if(handle == IntPtr.Zero)
-            {
-                return 0;
-            }
+            if (handle == IntPtr.Zero) return 0;
 
-            var ptr = (byte*)handle.ToPointer();
-            int length = 0;
-            while (*(ptr + length) != 0) {
-                length++;
-            }
+            var ptr = (byte*) handle.ToPointer();
+            var length = 0;
+            while (*(ptr + length) != 0) length++;
             return length;
         }
-
-
     }
 }

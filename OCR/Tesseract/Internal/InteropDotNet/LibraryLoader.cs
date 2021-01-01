@@ -1,6 +1,7 @@
 ﻿//  Copyright (c) 2014 Andrey Akinshin
 //  Project URL: https://github.com/AndreyAkinshin/InteropDotNet
 //  Distributed under the MIT License: http://opensource.org/licenses/MIT
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,25 +13,20 @@ namespace InteropDotNet
 {
     public sealed class LibraryLoader
     {
-        readonly ILibraryLoaderLogic logic;
+        private readonly Dictionary<string, IntPtr> loadedAssemblies = new Dictionary<string, IntPtr>();
+        private readonly ILibraryLoaderLogic logic;
 
-        LibraryLoader(ILibraryLoaderLogic logic)
+        private readonly object syncLock = new object();
+
+        private LibraryLoader(ILibraryLoaderLogic logic)
         {
             this.logic = logic;
         }
 
-        private readonly object syncLock = new object();        
-        private readonly Dictionary<string, IntPtr> loadedAssemblies = new Dictionary<string, IntPtr>();
-        private string customSearchPath;
-
-        public string CustomSearchPath
-        {
-            get { return customSearchPath; }
-            set { customSearchPath = value; }
-        }
+        public string CustomSearchPath { get; set; }
 
         public IntPtr LoadLibrary(string fileName, string platformName = null)
-        {            
+        {
             fileName = FixUpLibraryName(fileName);
             lock (syncLock)
             {
@@ -38,10 +34,10 @@ namespace InteropDotNet
                 {
                     if (platformName == null)
                         platformName = SystemManager.GetPlatformName();
-                    
+
                     Logger.TraceInformation("Current platform: " + platformName);
-                                        
-                    IntPtr dllHandle = CheckCustomSearchPath(fileName, platformName);
+
+                    var dllHandle = CheckCustomSearchPath(fileName, platformName);
                     if (dllHandle == IntPtr.Zero)
                         dllHandle = CheckExecutingAssemblyDomain(fileName, platformName);
                     if (dllHandle == IntPtr.Zero)
@@ -54,7 +50,8 @@ namespace InteropDotNet
                     if (dllHandle != IntPtr.Zero)
                         loadedAssemblies[fileName] = dllHandle;
                     else
-                        throw new DllNotFoundException(string.Format("Failed to find library \"{0}\" for platform {1}.", fileName, platformName));
+                        throw new DllNotFoundException(string.Format("Failed to find library \"{0}\" for platform {1}.",
+                            fileName, platformName));
                 }
 
                 return loadedAssemblies[fileName];
@@ -64,40 +61,48 @@ namespace InteropDotNet
         private IntPtr CheckCustomSearchPath(string fileName, string platformName)
         {
             var baseDirectory = CustomSearchPath;
-            if (!String.IsNullOrEmpty(baseDirectory)) {
-                Logger.TraceInformation("Checking custom search location '{0}' for '{1}' on platform {2}.", baseDirectory, fileName, platformName);
+            if (!string.IsNullOrEmpty(baseDirectory))
+            {
+                Logger.TraceInformation("Checking custom search location '{0}' for '{1}' on platform {2}.",
+                    baseDirectory, fileName, platformName);
                 return InternalLoadLibrary(baseDirectory, platformName, fileName);
-            } else {
-                Logger.TraceInformation("Custom search path is not defined, skipping.");
-                return IntPtr.Zero;
             }
 
+            Logger.TraceInformation("Custom search path is not defined, skipping.");
+            return IntPtr.Zero;
         }
 
         private IntPtr CheckExecutingAssemblyDomain(string fileName, string platformName)
         {
             var baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            Logger.TraceInformation("Checking executing application domain location '{0}' for '{1}' on platform {2}.", baseDirectory, fileName, platformName);
+            Logger.TraceInformation("Checking executing application domain location '{0}' for '{1}' on platform {2}.",
+                baseDirectory, fileName, platformName);
             return InternalLoadLibrary(baseDirectory, platformName, fileName);
         }
 
         private IntPtr CheckCurrentAppDomain(string fileName, string platformName)
         {
             var baseDirectory = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
-            Logger.TraceInformation("Checking current application domain location '{0}' for '{1}' on platform {2}.", baseDirectory, fileName, platformName);
+            Logger.TraceInformation("Checking current application domain location '{0}' for '{1}' on platform {2}.",
+                baseDirectory, fileName, platformName);
             return InternalLoadLibrary(baseDirectory, platformName, fileName);
         }
 
         /// <summary>
-        /// Special test for web applications.
+        ///     Special test for web applications.
         /// </summary>
         /// <remarks>
-        /// Note that this makes a couple of assumptions these being:
-        /// 
-        /// <list type="bullet">
-        ///     <item>That the current application domain's location for web applications corresponds to the web applications root directory.</item>
-        ///     <item>That the tesseract\leptonica dlls reside in the corresponding x86 or x64 directories in the bin directory under the apps root directory.</item>
-        /// </list>
+        ///     Note that this makes a couple of assumptions these being:
+        ///     <list type="bullet">
+        ///         <item>
+        ///             That the current application domain's location for web applications corresponds to the web applications
+        ///             root directory.
+        ///         </item>
+        ///         <item>
+        ///             That the tesseract\leptonica dlls reside in the corresponding x86 or x64 directories in the bin directory
+        ///             under the apps root directory.
+        ///         </item>
+        ///     </list>
         /// </remarks>
         /// <param name="fileName"></param>
         /// <param name="platformName"></param>
@@ -105,19 +110,24 @@ namespace InteropDotNet
         private IntPtr CheckCurrentAppDomainBin(string fileName, string platformName)
         {
             var baseDirectory = Path.Combine(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory), "bin");
-            if (Directory.Exists(baseDirectory)) {
-                Logger.TraceInformation("Checking current application domain's bin location '{0}' for '{1}' on platform {2}.", baseDirectory, fileName, platformName);
+            if (Directory.Exists(baseDirectory))
+            {
+                Logger.TraceInformation(
+                    "Checking current application domain's bin location '{0}' for '{1}' on platform {2}.",
+                    baseDirectory, fileName, platformName);
                 return InternalLoadLibrary(baseDirectory, platformName, fileName);
-            } else {
-                Logger.TraceInformation("No bin directory exists under the current application domain's location, skipping.");
-                return IntPtr.Zero;
             }
+
+            Logger.TraceInformation(
+                "No bin directory exists under the current application domain's location, skipping.");
+            return IntPtr.Zero;
         }
 
         private IntPtr CheckWorkingDirecotry(string fileName, string platformName)
         {
             var baseDirectory = Path.GetFullPath(Environment.CurrentDirectory);
-            Logger.TraceInformation("Checking working directory '{0}' for '{1}' on platform {2}.", baseDirectory, fileName, platformName);
+            Logger.TraceInformation("Checking working directory '{0}' for '{1}' on platform {2}.", baseDirectory,
+                fileName, platformName);
             return InternalLoadLibrary(baseDirectory, platformName, fileName);
         }
 
@@ -137,22 +147,22 @@ namespace InteropDotNet
                     Logger.TraceWarning("Failed to free library \"{0}\" because it is not loaded", fileName);
                     return false;
                 }
+
                 if (logic.FreeLibrary(loadedAssemblies[fileName]))
                 {
                     loadedAssemblies.Remove(fileName);
                     return true;
                 }
+
                 return false;
             }
         }
 
         public IntPtr GetProcAddress(IntPtr dllHandle, string name)
         {
-            IntPtr procAddress = logic.GetProcAddress(dllHandle, name);
-            if(procAddress == IntPtr.Zero)
-            {
-                throw new LoadLibraryException(String.Format("Failed to load proc {0}", name));
-            }
+            var procAddress = logic.GetProcAddress(dllHandle, name);
+            if (procAddress == IntPtr.Zero)
+                throw new LoadLibraryException(string.Format("Failed to load proc {0}", name));
 
             return procAddress;
         }
@@ -161,13 +171,14 @@ namespace InteropDotNet
         {
             fileName = FixUpLibraryName(fileName);
             lock (syncLock)
+            {
                 return loadedAssemblies.ContainsKey(fileName);
+            }
         }
 
         private string FixUpLibraryName(string fileName)
         {
             return logic.FixUpLibraryName(fileName);
-
         }
 
         #region Singleton
@@ -199,6 +210,7 @@ namespace InteropDotNet
                             throw new Exception("Unsupported operation system");
                     }
                 }
+
                 return instance;
             }
         }

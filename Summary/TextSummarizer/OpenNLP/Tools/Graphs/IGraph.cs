@@ -1,14 +1,10 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Graphs
 {
-    
+
     /// <summary>
     /// @author Sonal Gupta
     /// 
@@ -24,7 +20,7 @@ namespace OpenNLP.Tools.Graphs
         /// (If the graph is undirected, the choice of which vertex to call source and dest is arbitrary.)
         /// </summary>
         void Add(V source, V dest, E data);
-        
+
         /// <summary>
         /// For adding a zero degree vertex
         /// </summary>
@@ -62,7 +58,7 @@ namespace OpenNLP.Tools.Graphs
         /// For undirected graph, it is just the neighbors
         /// </summary>
         ReadOnlyCollection<V> GetParents(V vertex);
-        
+
         /// <summary>
         /// For undirected graph, it is just the neighbors
         /// </summary>

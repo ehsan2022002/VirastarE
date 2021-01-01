@@ -32,8 +32,8 @@ namespace TextRank
             {
                 return firstStringLength;
             }
-           
-           BuildInitMatrix(firstStringLength, secondStringLength);
+
+            BuildInitMatrix(firstStringLength, secondStringLength);
 
             for (int i = 1; i <= firstStringLength; i++)
             {

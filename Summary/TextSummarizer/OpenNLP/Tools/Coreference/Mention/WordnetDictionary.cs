@@ -33,24 +33,23 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Collections.Generic;
 using SharpWordNet;
 using SharpWordNet.Morph;
+using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary> 
+    /// <summary> 
     /// An implementation of the Dictionary interface using the SharpWordnet library. </summary>
-	public class WordnetDictionary : IDictionary
-	{
+    public class WordnetDictionary : IDictionary
+    {
         private WordNetEngine mEngine;
         private IOperation[] mDefaultOperations;
 
         private static string[] empty = new string[0];
-		
-		public WordnetDictionary(string searchDirectory)
-		{
+
+        public WordnetDictionary(string searchDirectory)
+        {
             mEngine = new DataFileEngine(searchDirectory);
             Dictionary<string, string[][]> suffixMap = new Dictionary<string, string[][]>();
             suffixMap.Add("noun", new string[][] { new string[] { "s", "" }, new string[] { "ses", "s" }, new string[] { "xes", "x" }, new string[] { "zes", "z" }, new string[] { "ches", "ch" }, new string[] { "shes", "sh" }, new string[] { "men", "man" }, new string[] { "ies", "y" } });
@@ -63,10 +62,10 @@ namespace OpenNLP.Tools.Coreference.Mention
             DetachSuffixesOperation morphDso = new DetachSuffixesOperation(suffixMap);
             morphDso.AddDelegate(DetachSuffixesOperation.Operations, new IOperation[] { new LookupIndexWordOperation(mEngine), new LookupExceptionsOperation(mEngine) });
             mDefaultOperations = new IOperation[] { new LookupExceptionsOperation(mEngine), morphDso, tokOp };
-		}
-		
-		public virtual string[] GetLemmas(string word, string tag)
-		{
+        }
+
+        public virtual string[] GetLemmas(string word, string tag)
+        {
             string partOfSpeech;
             if (tag.StartsWith("N") || tag.StartsWith("n"))
             {
@@ -88,34 +87,34 @@ namespace OpenNLP.Tools.Coreference.Mention
             {
                 partOfSpeech = "noun";
             }
-            
+
             return mEngine.GetBaseForms(word, partOfSpeech, mDefaultOperations);
-		}
-		
-		public virtual string GetSenseKey(string lemma, string partOfSpeech, int sense)
-		{
+        }
+
+        public virtual string GetSenseKey(string lemma, string partOfSpeech, int sense)
+        {
             IndexWord indexWord = mEngine.GetIndexWord(lemma, "noun");
             if (indexWord == null)
             {
                 return null;
             }
             return indexWord.SynsetOffsets[sense].ToString(System.Globalization.CultureInfo.InvariantCulture);
-		}
-		
-		public virtual int GetSenseCount(string lemma, string pos)
-		{
+        }
+
+        public virtual int GetSenseCount(string lemma, string pos)
+        {
             IndexWord indexWord = mEngine.GetIndexWord(lemma, "noun");
             if (indexWord == null)
             {
                 return 0;
             }
-            
+
             return indexWord.SenseCount;
-		}
-	
+        }
+
         private void GetParents(Synset currentSynset, List<string> parentOffsets)
         {
-            for (int currentRelation = 0;currentRelation < currentSynset.RelationCount;currentRelation++)
+            for (int currentRelation = 0; currentRelation < currentSynset.RelationCount; currentRelation++)
             {
                 Relation relation = currentSynset.GetRelation(currentRelation);
                 if (relation.SynsetRelationType.Name == "Hypernym")
@@ -141,5 +140,5 @@ namespace OpenNLP.Tools.Coreference.Mention
                 return empty;
             }
         }
-	}
+    }
 }

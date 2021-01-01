@@ -33,15 +33,13 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	/// <summary>
+    /// <summary>
     /// Interface for testing a similarity model.
     /// </summary>
-	public interface ITestSimilarityModel
-	{
-		double AreCompatible(Context firstNounPhrase, Context secondNounPhrase);
-	}
+    public interface ITestSimilarityModel
+    {
+        double AreCompatible(Context firstNounPhrase, Context secondNounPhrase);
+    }
 }

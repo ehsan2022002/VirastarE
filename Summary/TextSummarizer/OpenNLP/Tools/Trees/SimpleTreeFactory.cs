@@ -1,9 +1,5 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -29,12 +25,12 @@ namespace OpenNLP.Tools.Trees
             return new SimpleTree();
         }
 
-        public virtual Tree NewTreeNode(string parent,List<Tree> children)
+        public virtual Tree NewTreeNode(string parent, List<Tree> children)
         {
             return new SimpleTree(null, children);
         }
 
-        public virtual Tree NewTreeNode(ILabel parentLabel,List<Tree> children)
+        public virtual Tree NewTreeNode(ILabel parentLabel, List<Tree> children)
         {
             return new SimpleTree(parentLabel, children);
         }

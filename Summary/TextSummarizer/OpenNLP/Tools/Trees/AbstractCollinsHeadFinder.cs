@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -112,7 +109,7 @@ namespace OpenNLP.Tools.Trees
 
         protected readonly AbstractTreebankLanguagePack Tlp;
         protected Dictionary<string, string[][]> NonTerminalInfo;
-        
+
         /// <summary>
         /// Default direction if no rule is found for category (the head/parent).
         /// Subclasses can turn it on if they like.

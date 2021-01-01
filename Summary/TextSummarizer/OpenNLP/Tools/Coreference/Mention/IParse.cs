@@ -38,167 +38,167 @@ using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary>
+    /// <summary>
     /// Interface for syntactic and named-entity information to be used in coreference annotation.
     /// </summary>
-	public interface IParse : IComparable
-	{
-		/// <summary>
+    public interface IParse : IComparable
+    {
+        /// <summary>
         /// Returns the index of the sentence which contains this parse.
         /// </summary>
-		int SentenceNumber
-		{
-			get;
-		}
+        int SentenceNumber
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns a list of the all noun phrases contained by this parse.
-		/// </summary>
-		List<IParse> NounPhrases
-		{
-			get;
-		}
+        /// </summary>
+        List<IParse> NounPhrases
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns a list of all the named entities contained by this parse.
-		/// </summary>
+        /// </summary>
         List<IParse> NamedEntities
-		{
-			get;	
-		}
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns a list of the children to this object.
-		/// </summary>
+        /// </summary>
         List<IParse> Children
-		{
-			get;
-		}
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns a list of the children to this object which are constituents or tokens.
         /// This allows implementations which contain addition nodes for things such as semantic 
         /// categories to hide those nodes from the components which only care about syntactic nodes. 
-		/// </summary>
-		List<IParse> SyntacticChildren
-		{
-			get;
-		}
+        /// </summary>
+        List<IParse> SyntacticChildren
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns a list of the tokens contained by this object.
-		/// </summary>
+        /// </summary>
         List<IParse> Tokens
-		{
-			get;
-		}
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the syntactic type of this node. Typically this is the part-of-speech or 
-		/// constituent labeling.
-		/// </summary>
-		string SyntacticType
-		{
-			get;
-		}
+        /// constituent labeling.
+        /// </summary>
+        string SyntacticType
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the named-entity type of this node.
         /// </summary>
-		string EntityType
-		{
-			get;
-		}
+        string EntityType
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Determines whether this has an ancestor of type NAC.
         /// </summary>
-		bool ParentNac
-		{
-			get;
-		}
+        bool ParentNac
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the parent parse of this parse node.
         /// </summary>
-		IParse Parent
-		{
-			get;
-		}
+        IParse Parent
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Specifies whether this parse is a named-entity.
         /// </summary>
-		bool IsNamedEntity
-		{
-			get;
-		}
+        bool IsNamedEntity
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Specifies whether this parse is a noun phrase.
         /// </summary>
-		bool IsNounPhrase
-		{
-			get;	
-		}
+        bool IsNounPhrase
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Specifies whether this parse is a sentence.
         /// </summary>
-		bool IsSentence
-		{
-			get;
-		}
+        bool IsSentence
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Specifies whether this parse is a coordinated noun phrase.
         /// </summary>
-		bool IsCoordinatedNounPhrase
-		{
-			get;
-		}
+        bool IsCoordinatedNounPhrase
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Specifies whether this parse is a token.
         /// </summary>
-		bool IsToken
-		{
-			get;
-		}
+        bool IsToken
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns an entity id associated with this parse and coreferent parses.  This is only used for training on
-		/// already annotated coreference annotation.
-		/// </summary>
-		int EntityId
-		{
-			get;
-		}
+        /// already annotated coreference annotation.
+        /// </summary>
+        int EntityId
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the character offsets of this parse node.
         /// </summary>
-		Util.Span Span
-		{
-			get;	
-		}
+        Util.Span Span
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the first token which is not a child of this parse.  If the first token of a sentence is
-		/// a child of this parse then null is returned.
-		/// </summary>
-		IParse PreviousToken
-		{
-			get;
-		}
+        /// a child of this parse then null is returned.
+        /// </summary>
+        IParse PreviousToken
+        {
+            get;
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the next token which is not a child of this parse.  If the last token of a sentence is
-		/// a child of this parse then null is returned.
-		/// </summary>
-		IParse NextToken
-		{
-			get;
-		}
-	}
+        /// a child of this parse then null is returned.
+        /// </summary>
+        IParse NextToken
+        {
+            get;
+        }
+    }
 }

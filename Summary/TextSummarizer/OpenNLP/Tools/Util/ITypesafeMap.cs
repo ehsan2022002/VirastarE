@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// Type signature for a class that supports the basic operations required
     /// of a typesafe heterogeneous map.

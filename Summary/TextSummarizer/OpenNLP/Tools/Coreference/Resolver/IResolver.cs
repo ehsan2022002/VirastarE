@@ -33,64 +33,62 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	/// <summary>
+    /// <summary>
     /// Interface for coreference resolvers.
     /// </summary>
-	public interface IResolver
-	{
-		/// <summary>
+    public interface IResolver
+    {
+        /// <summary>
         /// Returns true if this resolver is able to resolve the referening experession of the same type
-		/// as the specified mention.
-		/// </summary>
-		/// <param name="mention">
+        /// as the specified mention.
+        /// </summary>
+        /// <param name="mention">
         /// The mention being considered for resolution. 
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// true if the resolver handles this type of referring
-		/// expression, false otherwise.
-		/// </returns>
-		bool CanResolve(Mention.MentionContext mention);
-		
-		/// <summary>
+        /// expression, false otherwise.
+        /// </returns>
+        bool CanResolve(Mention.MentionContext mention);
+
+        /// <summary>
         /// Resolve this referirng expression to a discourse entity in the discourse model.
         /// </summary>
         /// <param name="expression">
         /// the referring expression. 
-		/// </param>
+        /// </param>
         /// <param name="discourseModel">
         /// the discourse model.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the discourse entity which the resolver beleives this
-		/// referring expression refers to or null if no discourse entity is
-		/// coreferent with the referring expression. 
-		/// </returns>
-		DiscourseEntity Resolve(Mention.MentionContext expression, DiscourseModel discourseModel);
-		
-		/// <summary>
+        /// referring expression refers to or null if no discourse entity is
+        /// coreferent with the referring expression. 
+        /// </returns>
+        DiscourseEntity Resolve(Mention.MentionContext expression, DiscourseModel discourseModel);
+
+        /// <summary>
         /// Uses the specified mention and discourse model to train this resolver.
-		/// All mentions sent to this method need to have their id fields set to indicate coreference
-		/// relationships.    
-		/// </summary>
-		/// <param name="mention">
+        /// All mentions sent to this method need to have their id fields set to indicate coreference
+        /// relationships.    
+        /// </summary>
+        /// <param name="mention">
         /// The mention which is being used for training.
-		/// </param>
-		/// <param name="model">
+        /// </param>
+        /// <param name="model">
         /// the discourse model.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the discourse entity which is referred to by the referring
-		/// expression or null if no discourse entity is referenced.
-		/// </returns>
-		DiscourseEntity Retain(Mention.MentionContext mention, DiscourseModel model);
-		
-		/// <summary>
+        /// expression or null if no discourse entity is referenced.
+        /// </returns>
+        DiscourseEntity Retain(Mention.MentionContext mention, DiscourseModel model);
+
+        /// <summary>
         /// Retrains model on examples for which retain was called.
         /// </summary>
-		void Train();
-	}
+        void Train();
+    }
 }

@@ -1,8 +1,5 @@
 ﻿#region Using directives
 
-using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 #endregion
@@ -16,4 +13,3 @@ using System.Runtime.InteropServices;
 // Ensure internals are visible to the test assembly so we can test them too.
 //[assembly: InternalsVisibleTo("Tesseract.Net45Tests")]
 //[assembly: InternalsVisibleTo("Tesseract.NetCore31Tests")]
-

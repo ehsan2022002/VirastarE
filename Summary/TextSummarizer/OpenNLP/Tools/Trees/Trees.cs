@@ -1,9 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -17,7 +15,7 @@ namespace OpenNLP.Tools.Trees
     public static class Trees
     {
         private static readonly LabeledScoredTreeFactory defaultTreeFactory = new LabeledScoredTreeFactory();
-        
+
         /// <summary>
         /// Returns the positional index of the left edge of a tree <i>t</i>
         /// within a given root, as defined by the size of the yield of all
@@ -206,8 +204,8 @@ namespace OpenNLP.Tools.Trees
         {
             if (t.IsPreTerminal())
             {
-                var fl = (CoreLabel) t.GetChild(0).Label();
-                fl.Set(typeof (CoreAnnotations.TagLabelAnnotation), t.Label());
+                var fl = (CoreLabel)t.GetChild(0).Label();
+                fl.Set(typeof(CoreAnnotations.TagLabelAnnotation), t.Label());
                 l.Add(fl);
             }
             else
@@ -668,10 +666,10 @@ namespace OpenNLP.Tools.Trees
             int min = fromPath.Count <= toPath.Count ? fromPath.Count : toPath.Count;
 
             Tree lastNode = null;
-//     while((! (fromPath.isEmpty() || toPath.isEmpty())) &&  fromPath.get(0).equals(toPath.get(0))) {
-//       lastNode = (Tree) fromPath.remove(0);
-//       toPath.remove(0);
-//     }
+            //     while((! (fromPath.isEmpty() || toPath.isEmpty())) &&  fromPath.get(0).equals(toPath.get(0))) {
+            //       lastNode = (Tree) fromPath.remove(0);
+            //       toPath.remove(0);
+            //     }
             while (last < min && fromPath[last].Equals(toPath[last]))
             {
                 lastNode = fromPath[last];
@@ -695,18 +693,18 @@ namespace OpenNLP.Tools.Trees
             }
 
 
-//     for(ListIterator i = fromPath.listIterator(fromPath.size()); i.hasPrevious(); ){
-//       Tree t = (Tree) i.previous();
-//       totalPath.Add("up-" + t.label().value());
-//     }
+            //     for(ListIterator i = fromPath.listIterator(fromPath.size()); i.hasPrevious(); ){
+            //       Tree t = (Tree) i.previous();
+            //       totalPath.Add("up-" + t.label().value());
+            //     }
 
-//     if(lastNode != null)
-//     totalPath.Add("up-" + lastNode.label().value());
+            //     if(lastNode != null)
+            //     totalPath.Add("up-" + lastNode.label().value());
 
-//     for(ListIterator j = toPath.listIterator(); j.hasNext(); ){
-//       Tree t = (Tree) j.next();
-//       totalPath.Add("down-" + t.label().value());
-//     }
+            //     for(ListIterator j = toPath.listIterator(); j.hasNext(); ){
+            //       Tree t = (Tree) j.next();
+            //       totalPath.Add("down-" + t.label().value());
+            //     }
 
             return totalPath;
         }
@@ -720,7 +718,7 @@ namespace OpenNLP.Tools.Trees
             if (t == root)
             {
                 //if (t.equals(root)) {
-                var l = new List<Tree>(1) {t};
+                var l = new List<Tree>(1) { t };
                 return l;
             }
             else if (root == null)
@@ -828,7 +826,7 @@ namespace OpenNLP.Tools.Trees
                 {
                     throw new ArgumentException("Only works on CoreLabel");
                 }
-                ((CoreLabel) leaf).SetSentIndex(sentIndex);
+                ((CoreLabel)leaf).SetSentIndex(sentIndex);
             }
         }
     }

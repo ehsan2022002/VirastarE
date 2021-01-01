@@ -25,7 +25,7 @@ namespace PageRank.Graph
             }
         }
 
-        public double Weight { get { return _weight; }  set { _weight = value; } }
+        public double Weight { get { return _weight; } set { _weight = value; } }
 
         internal void setWeight(double weight)
         {

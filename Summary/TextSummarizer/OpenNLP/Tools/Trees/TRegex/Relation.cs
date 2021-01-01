@@ -1,12 +1,9 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.SqlServer.Server;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -40,7 +37,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         /// <param name="t2">The tree that is the right operand</param>
         /// <param name="root">The common root of t1 and t2</param>
         /// <returns>Whether this relationship is satisfied</returns>
-        public abstract bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher);
+        public abstract bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher);
 
         /// <summary>
         /// For a given node, returns an {@link Iterator} over the nodes
@@ -69,7 +66,7 @@ namespace OpenNLP.Tools.Trees.TRegex
         /// <returns>The singleton static relation of the specified type</returns>
         /// <exception cref="ParseException">If bad relation s</exception>
         public static Relation GetRelation(string s, Func<string, string> basicCatFunction, IHeadFinder headFinder)
-            /*throws ParseException*/
+        /*throws ParseException*/
         {
             if (SimpleRelationsMap.ContainsKey(s))
             {
@@ -292,7 +289,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override IEnumerator<Tree> GetSearchNodeIterator(Tree t,
                 TregexMatcher matcher)
             {
-                return new List<Tree>() {t}.GetEnumerator();
+                return new List<Tree>() { t }.GetEnumerator();
             }
 
         }
@@ -491,7 +488,7 @@ namespace OpenNLP.Tools.Trees.TRegex
 
             public override IEnumerator<Tree> GetSearchNodeIterator(Tree t, TregexMatcher matcher)
             {
-                return new List<Tree>() {matcher.GetParent(t)}.GetEnumerator();
+                return new List<Tree>() { matcher.GetParent(t) }.GetEnumerator();
             }
         }
 
@@ -1351,7 +1348,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     if (i + 1 < parent.NumChildren())
                     {
                         var node = parent.GetChild(i + 1);
-                        return new List<Tree>() {node}.GetEnumerator();
+                        return new List<Tree>() { node }.GetEnumerator();
                     }
                 }
                 return new List<Tree>().GetEnumerator();
@@ -1384,7 +1381,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     if (i > 0)
                     {
                         var node = parent.GetChild(i - 1);
-                        return new List<Tree>() {node}.GetEnumerator();
+                        return new List<Tree>() { node }.GetEnumerator();
                     }
                 }
 
@@ -1412,7 +1409,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     var next = matcher.GetParent(t);
                     if (next.NumChildren() == 1)
                     {
-                        return new List<Tree>() {next}.GetEnumerator();
+                        return new List<Tree>() { next }.GetEnumerator();
                     }
                 }
                 return new List<Tree>().GetEnumerator();
@@ -1437,7 +1434,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 if (!t.IsLeaf() && t.NumChildren() == 1)
                 {
                     var next = t.FirstChild();
-                    return new List<Tree>() {next}.GetEnumerator();
+                    return new List<Tree>() { next }.GetEnumerator();
                 }
                 else
                 {
@@ -1622,7 +1619,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override IEnumerator<Tree> GetSearchNodeIterator(Tree t, TregexMatcher matcher)
             {
                 // return parent and children
-                var elements = new List<Tree>(){t};
+                var elements = new List<Tree>() { t };
                 elements.AddRange(t.GetChildrenAsList());
                 return elements.GetEnumerator();
             }
@@ -1670,7 +1667,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 return false;
             }
 
-            var relation = (Relation) o;
+            var relation = (Relation)o;
             return _symbol.Equals(relation._symbol);
         }
 
@@ -1689,7 +1686,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 this.hf = hf;
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 if (t2.IsLeaf())
                 {
@@ -1735,7 +1732,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
                 else
                 {
-                    return new List<Tree>() {next}.GetEnumerator();
+                    return new List<Tree>() { next }.GetEnumerator();
                 }
             }
 
@@ -1754,7 +1751,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var heads = (Heads) o;
+                var heads = (Heads)o;
                 if (hf != null ? !hf.Equals(heads.hf) : heads.hf != null)
                 {
                     return false;
@@ -1765,7 +1762,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result + (hf != null ? hf.GetHashCode() : 0);
+                result = 29 * result + (hf != null ? hf.GetHashCode() : 0);
                 return result;
             }
         }
@@ -1841,7 +1838,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 this._heads = Interner<Heads>.GlobalIntern(new Heads(hf));
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 return _heads.Satisfies(t2, t1, root, matcher);
             }
@@ -1868,7 +1865,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var headedBy = (HeadedBy) o;
+                var headedBy = (HeadedBy)o;
                 if (_heads != null
                     ? !_heads.Equals(headedBy._heads)
                     : headedBy._heads != null)
@@ -1878,11 +1875,11 @@ namespace OpenNLP.Tools.Trees.TRegex
 
                 return true;
             }
-            
+
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result + (_heads != null ? _heads.GetHashCode() : 0);
+                result = 29 * result + (_heads != null ? _heads.GetHashCode() : 0);
                 return result;
             }
         }
@@ -1897,7 +1894,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 this.Hf = hf;
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 if (matcher.GetHeadFinder() != null)
                 {
@@ -1918,7 +1915,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     IHeadFinder headFinder = matcher.GetHeadFinder() == null ? Hf : matcher.GetHeadFinder();
                     if (headFinder.DetermineHead(next) == t)
                     {
-                        return new List<Tree>() {next}.GetEnumerator();
+                        return new List<Tree>() { next }.GetEnumerator();
                     }
                 }
                 return new List<Tree>().GetEnumerator();
@@ -1939,7 +1936,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var immediatelyHeads = (ImmediatelyHeads) o;
+                var immediatelyHeads = (ImmediatelyHeads)o;
                 if (Hf != null ? !Hf.Equals(immediatelyHeads.Hf) : immediatelyHeads.Hf != null)
                 {
                     return false;
@@ -1947,11 +1944,11 @@ namespace OpenNLP.Tools.Trees.TRegex
 
                 return true;
             }
-            
+
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result + (Hf != null ? Hf.GetHashCode() : 0);
+                result = 29 * result + (Hf != null ? Hf.GetHashCode() : 0);
                 return result;
             }
         }
@@ -1966,8 +1963,8 @@ namespace OpenNLP.Tools.Trees.TRegex
                 this._immediatelyHeads = Interner<ImmediatelyHeads>
                     .GlobalIntern(new ImmediatelyHeads(hf));
             }
-            
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 return _immediatelyHeads.Satisfies(t2, t1, root, matcher);
             }
@@ -1979,11 +1976,11 @@ namespace OpenNLP.Tools.Trees.TRegex
                 {
                     var headFinder = matcher.GetHeadFinder() != null ? matcher.GetHeadFinder() : _immediatelyHeads.Hf;
                     var next = headFinder.DetermineHead(t);
-                    return new List<Tree>() {next}.GetEnumerator();
+                    return new List<Tree>() { next }.GetEnumerator();
                 }
                 return new List<Tree>().GetEnumerator();
             }
-            
+
             public override bool Equals(Object o)
             {
                 if (this == o)
@@ -1999,7 +1996,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var immediatelyHeadedBy = (ImmediatelyHeadedBy) o;
+                var immediatelyHeadedBy = (ImmediatelyHeadedBy)o;
                 if (_immediatelyHeads != null
                     ? !_immediatelyHeads
                         .Equals(immediatelyHeadedBy._immediatelyHeads)
@@ -2013,7 +2010,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result
+                result = 29 * result
                          + (_immediatelyHeads != null ? _immediatelyHeads.GetHashCode() : 0);
                 return result;
             }
@@ -2036,8 +2033,8 @@ namespace OpenNLP.Tools.Trees.TRegex
                     ChildNum = i;
                 }
             }
-            
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 Tree[] kids = t2.Children();
                 if (kids.Length < Math.Abs(ChildNum))
@@ -2054,7 +2051,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
                 return false;
             }
-            
+
             public override IEnumerator<Tree> GetSearchNodeIterator(Tree t,
                TregexMatcher matcher)
             {
@@ -2073,7 +2070,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     }
                     if (next != null)
                     {
-                        return new List<Tree>() {next}.GetEnumerator();
+                        return new List<Tree>() { next }.GetEnumerator();
                     }
                 }
                 return new List<Tree>().GetEnumerator();
@@ -2090,7 +2087,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var ithChildOf = (IthChildOf) o;
+                var ithChildOf = (IthChildOf)o;
                 if (ChildNum != ithChildOf.ChildNum)
                 {
                     return false;
@@ -2098,7 +2095,7 @@ namespace OpenNLP.Tools.Trees.TRegex
 
                 return true;
             }
-            
+
             public override int GetHashCode()
             {
                 return ChildNum;
@@ -2115,8 +2112,8 @@ namespace OpenNLP.Tools.Trees.TRegex
             {
                 _ithChildOf = Interner<IthChildOf>.GlobalIntern(new IthChildOf(i));
             }
-            
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 return _ithChildOf.Satisfies(t2, t1, root, matcher);
             }
@@ -2136,7 +2133,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     {
                         next = t.GetChild(t.NumChildren() + childNum);
                     }
-                    return new List<Tree>() {next}.GetEnumerator();
+                    return new List<Tree>() { next }.GetEnumerator();
                 }
                 return new List<Tree>().GetEnumerator();
             }
@@ -2156,7 +2153,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var hasIthChild = (HasIthChild) o;
+                var hasIthChild = (HasIthChild)o;
                 if (_ithChildOf != null
                     ? !_ithChildOf.Equals(hasIthChild._ithChildOf)
                     : hasIthChild._ithChildOf != null)
@@ -2170,7 +2167,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result + (_ithChildOf != null ? _ithChildOf.GetHashCode() : 0);
+                result = 29 * result + (_ithChildOf != null ? _ithChildOf.GetHashCode() : 0);
                 return result;
             }
         }
@@ -2281,8 +2278,8 @@ namespace OpenNLP.Tools.Trees.TRegex
                     _pattern = new Regex("^(?:" + arg + ")$");
                 }
             }
-            
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 foreach (Tree kid in t1.Children())
                 {
@@ -2337,8 +2334,8 @@ namespace OpenNLP.Tools.Trees.TRegex
                 {
                     return false;
                 }
-                
-                var unbrokenCategoryDominates = (UnbrokenCategoryDominates) o;
+
+                var unbrokenCategoryDominates = (UnbrokenCategoryDominates)o;
                 if (_negatedPattern != unbrokenCategoryDominates._negatedPattern)
                 {
                     return false;
@@ -2354,7 +2351,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             public override int GetHashCode()
             {
                 int result = _pattern.GetHashCode();
-                result = 29*result + (_negatedPattern ? 1 : 0);
+                result = 29 * result + (_negatedPattern ? 1 : 0);
                 return result;
             }
 
@@ -2372,11 +2369,11 @@ namespace OpenNLP.Tools.Trees.TRegex
                     .GlobalIntern((new UnbrokenCategoryDominates(arg, basicCatFunction)));
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 return _unbrokenCategoryDominates.Satisfies(t2, t1, root, matcher);
             }
-            
+
             public override IEnumerator<Tree> GetSearchNodeIterator(Tree t,
                TregexMatcher matcher)
             {
@@ -2405,14 +2402,14 @@ namespace OpenNLP.Tools.Trees.TRegex
                     return false;
                 }
 
-                var unbrokenCategoryIsDominatedBy = (UnbrokenCategoryIsDominatedBy) o;
+                var unbrokenCategoryIsDominatedBy = (UnbrokenCategoryIsDominatedBy)o;
                 return _unbrokenCategoryDominates.Equals(unbrokenCategoryIsDominatedBy._unbrokenCategoryDominates);
             }
 
             public override int GetHashCode()
             {
                 int result = base.GetHashCode();
-                result = 29*result + _unbrokenCategoryDominates.GetHashCode();
+                result = 29 * result + _unbrokenCategoryDominates.GetHashCode();
                 return result;
             }
         }
@@ -2471,7 +2468,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 // shouldn't have to do anything here.
                 return true;
@@ -2523,7 +2520,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
                 while (followingNode != null)
                 {
-                    if (! nodesToSearch.Contains(followingNode))
+                    if (!nodesToSearch.Contains(followingNode))
                     {
                         stack.Push(followingNode);
                         nodesToSearch.Add(followingNode);
@@ -2532,7 +2529,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     {
                         InitializeHelper(stack, followingNode, root, matcher, nodesToSearch);
                     }
-                    if (! followingNode.IsLeaf())
+                    if (!followingNode.IsLeaf())
                     {
                         followingNode = followingNode.Children()[0];
                     }
@@ -2606,7 +2603,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
             }
 
-            public override bool Satisfies(Tree t1, Tree t2, Tree root,TregexMatcher matcher)
+            public override bool Satisfies(Tree t1, Tree t2, Tree root, TregexMatcher matcher)
             {
                 // shouldn't have to do anything here
                 return true;
@@ -2658,7 +2655,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 }
                 while (precedingNode != null)
                 {
-                    if (! nodesToSearch.Contains(precedingNode))
+                    if (!nodesToSearch.Contains(precedingNode))
                     {
                         stack.Push(precedingNode);
                         nodesToSearch.Add(precedingNode);
@@ -2667,7 +2664,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     {
                         InitializeHelper(stack, precedingNode, root, matcher, nodesToSearch);
                     }
-                    if (! precedingNode.IsLeaf())
+                    if (!precedingNode.IsLeaf())
                     {
                         precedingNode = precedingNode.Children()[0];
                     }

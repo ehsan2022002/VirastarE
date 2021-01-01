@@ -1,12 +1,10 @@
-﻿using System;
+﻿using OpenNLP.Tools.Trees.TRegex;
+using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Trees.TRegex;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -235,7 +233,7 @@ namespace OpenNLP.Tools.Trees
         private readonly List<TregexPattern> targetPatterns = new List<TregexPattern>();
 
         private readonly string specific;
-            // to hold the specific prep or conjunction associated with the grammatical relation
+        // to hold the specific prep or conjunction associated with the grammatical relation
 
         // TODO document constructor
         // TODO change to put specificString after longName, and then use string... for targetPatterns
@@ -262,7 +260,7 @@ namespace OpenNLP.Tools.Trees
             if (sourcePattern != null)
             {
                 /*try {*/
-                this.sourcePattern = new Regex("^(" + sourcePattern +")$", RegexOptions.Compiled);
+                this.sourcePattern = new Regex("^(" + sourcePattern + ")$", RegexOptions.Compiled);
                 /*} catch (java.util.regex.PatternSyntaxException e) {
         throw new RuntimeException("Bad pattern: " + sourcePattern);
       }*/
@@ -388,7 +386,7 @@ namespace OpenNLP.Tools.Trees
                 TregexMatcher m = p.Matcher(root, headFinder);
                 while (m.FindAt(t))
                 {
-                    var target = (TreeGraphNode) m.GetNode("target");
+                    var target = (TreeGraphNode)m.GetNode("target");
                     if (target == null)
                     {
                         throw new InvalidDataException("Expression has no target: " + p);
@@ -496,7 +494,7 @@ namespace OpenNLP.Tools.Trees
             }
             if (!(o is GrammaticalRelation)) return false;
 
-            var gr = (GrammaticalRelation) o;
+            var gr = (GrammaticalRelation)o;
             // == okay for language as enum!
             return this.language == gr.language &&
                    this.shortName.Equals(gr.shortName) &&
@@ -507,9 +505,9 @@ namespace OpenNLP.Tools.Trees
         public override int GetHashCode()
         {
             int result = 17;
-            result = 29*result + (language != null ? language.ToString().GetHashCode() : 0);
-            result = 29*result + (shortName != null ? shortName.GetHashCode() : 0);
-            result = 29*result + (specific != null ? specific.GetHashCode() : 0);
+            result = 29 * result + (language != null ? language.ToString().GetHashCode() : 0);
+            result = 29 * result + (shortName != null ? shortName.GetHashCode() : 0);
+            result = 29 * result + (specific != null ? specific.GetHashCode() : 0);
             return result;
         }
 

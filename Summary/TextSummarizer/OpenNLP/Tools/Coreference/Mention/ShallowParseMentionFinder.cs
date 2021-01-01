@@ -33,38 +33,36 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary> 
+    /// <summary> 
     /// Finds mentions from shallow np-chunking based parses. 
     /// </summary>
-	public sealed class ShallowParseMentionFinder : AbstractMentionFinder
-	{
-		private static ShallowParseMentionFinder mInstance;
-		
-		private ShallowParseMentionFinder(IHeadFinder headFinder)
-		{
-			HeadFinder = headFinder;
-			PrenominalNamedEntitiesCollection = true;
-			CoordinatedNounPhrasesCollection = true;
-		}
-		
-		public static ShallowParseMentionFinder GetInstance(IHeadFinder headFinder)
-		{
-			if (mInstance == null)
-			{
-				mInstance = new ShallowParseMentionFinder(headFinder);
-			}
-			else if (mInstance.HeadFinder != headFinder)
-			{
-				mInstance = new ShallowParseMentionFinder(headFinder);
-			}
-			return mInstance;
-		}
-		
-		/*
+    public sealed class ShallowParseMentionFinder : AbstractMentionFinder
+    {
+        private static ShallowParseMentionFinder mInstance;
+
+        private ShallowParseMentionFinder(IHeadFinder headFinder)
+        {
+            HeadFinder = headFinder;
+            PrenominalNamedEntitiesCollection = true;
+            CoordinatedNounPhrasesCollection = true;
+        }
+
+        public static ShallowParseMentionFinder GetInstance(IHeadFinder headFinder)
+        {
+            if (mInstance == null)
+            {
+                mInstance = new ShallowParseMentionFinder(headFinder);
+            }
+            else if (mInstance.HeadFinder != headFinder)
+            {
+                mInstance = new ShallowParseMentionFinder(headFinder);
+            }
+            return mInstance;
+        }
+
+        /*
 		protected final List getNounPhrases(Parse p) {
 		List nps = p.getNounPhrases();
 		List basals = new ArrayList();
@@ -88,5 +86,5 @@ namespace OpenNLP.Tools.Coreference.Mention
 		return(basals);
 		}
 		*/
-	}
+    }
 }

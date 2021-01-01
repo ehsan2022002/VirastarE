@@ -33,22 +33,21 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections;
 
 namespace OpenNLP.Tools.Util
 {
-	/// <summary>
+    /// <summary>
     /// Creates an event stream out of a collection of events.
     /// </summary>
     public class CollectionEventReader : SharpEntropy.ITrainingEventReader
-	{
-		private readonly IEnumerator mCollection;
-		
-		public CollectionEventReader(ICollection c)
-		{
-			mCollection = c.GetEnumerator();
-		}
+    {
+        private readonly IEnumerator mCollection;
+
+        public CollectionEventReader(ICollection c)
+        {
+            mCollection = c.GetEnumerator();
+        }
 
         // ITrainingEventReader Members ------
 

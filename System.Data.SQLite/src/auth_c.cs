@@ -1,14 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
 namespace System.Data.SQLite
 {
-	using sqlite3_value = Sqlite3.Mem;
-
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2003 January 11
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -31,9 +25,9 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
-		/*
+        /*
 		** All of the code in this file may be omitted by defining a single
 		** macro.
 		*/
@@ -263,5 +257,5 @@ pContext->pParse = 0;
 }
 
 #endif //* SQLITE_OMIT_AUTHORIZATION */
-	}
+    }
 }

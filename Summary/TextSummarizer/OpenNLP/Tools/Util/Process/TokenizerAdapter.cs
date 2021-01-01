@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util.Process
 {
@@ -54,7 +50,7 @@ namespace OpenNLP.Tools.Util.Process
                     case StreamTokenizer.TtNumber:
                         return st.NumberValue.ToString();
                     default:
-                        char[] t = {(char) nextTok}; // (array initialization)
+                        char[] t = { (char)nextTok }; // (array initialization)
                         return new string(t);
                 }
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,15 +7,16 @@ using System.Threading;
 using System.Windows.Forms;
 using Balloon.NET;
 using BorzoyaSpell;
+using ImageOpration;
 using LDA;
 using NetOffice.OfficeApi;
 using NetOffice.OfficeApi.Tools;
 using NetOffice.Tools;
 using NetOffice.WordApi.Enums;
+using PdfiumViewerFile;
 using TextSummarize;
 using VirastarE.Forms;
 using COMAddin = NetOffice.WordApi.Tools.COMAddin;
-using ThreadState = System.Threading.ThreadState;
 
 namespace VirastarE
 {
@@ -31,8 +31,9 @@ namespace VirastarE
     [MultiRegister(RegisterIn.Word, RegisterIn.Outlook)]
     public class Addin : COMAddin
     {
-        private static object locksyncPuncThread = new object();
-        private static object locksyncSpellThread = new object();
+        private static readonly object LocksyncPuncThread = new object();
+        private static readonly object LocksyncSpellThread = new object();
+        private readonly Util _utilclass = new Util();
         private Thread _bgthread;
         private CheakSpell _chkSpell;
         private CPPPunctuation _cpuncForm;
@@ -44,7 +45,6 @@ namespace VirastarE
         private List<PunchPattern> _listpukPattern;
         private Thread _puncthread;
         private Thread _spellthread;
-        private readonly Util _utilclass = new Util();
 
         public Addin()
         {
@@ -71,42 +71,25 @@ namespace VirastarE
 
         public void btnOpticalC_Click(IRibbonControl control)
         {
-            Form imageopration = new ImageOpration.ImageSelector();
+            Form imageopration = new ImageSelector(_chkSpell);
             imageopration.ShowDialog();
-            string correctedSentance = string.Empty;
 
-            if (ImageOpration.Results.OcrResult.Trim().Length !=0)
-            {
-                Application.StatusBar = Util.UtilMessagesEnum.Processing;
-                if (ImageOpration.Results.AutoCorrect)
-                {
-                    var words = ImageOpration.Results.OcrResult.Split(' ' );
-             
-                    foreach (var word in words)
-                    {
-                        if (_chkSpell.Cheak_Spell(word) == false)
-                        {
-                            correctedSentance += " " +_chkSpell.SuggestOne(word);
-                        }
-                        else
-                        {
-                            correctedSentance += " " + word;
-                        }
-                    }
-                }
-                else
-                {
-                    correctedSentance = ImageOpration.Results.OcrResult;
-                }
+            var currentdoc = GlobalClass.myword.ActiveDocument;
 
-                var currentdoc = GlobalClass.myword.ActiveDocument;
-                currentdoc.Content.Text += Environment.NewLine + correctedSentance;
+            currentdoc.Paragraphs.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
 
-                ImageOpration.Results.OcrResult = string.Empty;
-                Application.StatusBar = Util.UtilMessagesEnum.ProcessingCompilite;
-            }
+            currentdoc.Content.Text += Results.OcrResult;
+            Results.OcrResult = string.Empty;
+            Application.StatusBar = Util.UtilMessagesEnum.ProcessingCompilite;
         }
 
+        public void btnConvertPDFA_Click(IRibbonControl control)
+        {
+            var convertToImage = new MainForm();
+            convertToImage.Show();
+
+            Application.StatusBar = Util.UtilMessagesEnum.ProcessingCompilite;
+        }
 
         public void btnPunctuation_Click(IRibbonControl control)
         {
@@ -114,7 +97,7 @@ namespace VirastarE
                 _puncthread.ThreadState != ThreadState.Running &&
                 _puncthread.ThreadState != ThreadState.WaitSleepJoin
             )
-                lock (locksyncPuncThread)
+                lock (LocksyncPuncThread)
                 {
                     _puncthread = new Thread(PunchDoWork) {IsBackground = true};
                     _puncthread.Start();
@@ -132,7 +115,7 @@ namespace VirastarE
         {
             var frmlda = new frmLDA();
             frmlda.Show();
-            Application.StatusBar = Util.UtilMessagesEnum.ToolbarMessageLDA;
+            Application.StatusBar = Util.UtilMessagesEnum.ToolbarMessageLda;
         }
 
         public void btnSpell_Click(IRibbonControl control)
@@ -141,7 +124,7 @@ namespace VirastarE
                 _spellthread.ThreadState != ThreadState.Running &&
                 _spellthread.ThreadState != ThreadState.WaitSleepJoin
             )
-                lock (locksyncSpellThread)
+                lock (LocksyncSpellThread)
                 {
                     _spellthread = new Thread(SpellDoWork) {IsBackground = true};
                     _spellthread.Start();
@@ -153,7 +136,9 @@ namespace VirastarE
             var textToSend = string.Empty;
             var currntDoc = GlobalClass.myword.ActiveDocument;
 
-            textToSend = currntDoc.ActiveWindow.Selection.Text.Trim().Length > 0 ? currntDoc.ActiveWindow.Selection.Text : currntDoc.Content.Text;
+            textToSend = currntDoc.ActiveWindow.Selection.Text.Trim().Length > 0
+                ? currntDoc.ActiveWindow.Selection.Text
+                : currntDoc.Content.Text;
 
             Form frmSummary = new Summary(textToSend);
             frmSummary.Show();
@@ -165,14 +150,14 @@ namespace VirastarE
             {
                 Thread.Sleep(8000);
 
-                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkRecSpell)
+                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.ChkRecSpell)
                         .Equals(Util.UtilSystemEnum.OnKey)
                     && !_isrunningSpellThread)
                     btnSpell_Click(null);
 
                 Thread.Sleep(8000);
 
-                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkPunkRec)
+                if (RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.ChkPunkRec)
                         .Equals(Util.UtilSystemEnum.OnKey)
                     && !_isrunningPuncThread)
                     btnPunctuation_Click(null);
@@ -230,14 +215,14 @@ namespace VirastarE
 
                 try
                 {
-                    NagScreen nagScreen = new NagScreen();
-                    nagScreen.StartPosition= FormStartPosition.Manual;
+                    var nagScreen = new NagScreen();
+                    nagScreen.StartPosition = FormStartPosition.Manual;
 
                     var mySecondScreen = Screen.AllScreens.FirstOrDefault();
 
                     if (mySecondScreen != null)
                     {
-                        nagScreen.Left = mySecondScreen.Bounds.Right - nagScreen.Width -10;
+                        nagScreen.Left = mySecondScreen.Bounds.Right - nagScreen.Width - 10;
                         nagScreen.Top = mySecondScreen.Bounds.Bottom - nagScreen.Width - 10;
                     }
 
@@ -460,15 +445,15 @@ namespace VirastarE
 
             _chkSpell = new CheakSpell
             {
-                IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkIgnoreEnglish) ==
+                IgnoreEnglish = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.ChkIgnoreEnglish) ==
                                 Util.UtilSystemEnum.OnKey
                     ? true
                     : false,
-                CheakSteem = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.chkStemSpell) ==
+                CheakSteem = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.ChkStemSpell) ==
                              Util.UtilSystemEnum.OnKey
                     ? true
                     : false,
-                IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.txtIgnoreList)
+                IgnoreChars = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.TxtIgnoreList)
             };
         }
 

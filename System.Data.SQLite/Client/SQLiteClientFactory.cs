@@ -26,62 +26,60 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-using System;
-using System.Data;
 using System.Data.Common;
 
 namespace System.Data.SQLite
 {
-	public partial class SQLiteClientFactory : DbProviderFactory
-	{
-		public static readonly SQLiteClientFactory Instance = new SQLiteClientFactory();
-		//public static object lockStatic = new object();
+    public partial class SQLiteClientFactory : DbProviderFactory
+    {
+        public static readonly SQLiteClientFactory Instance = new SQLiteClientFactory();
+        //public static object lockStatic = new object();
 
-		private SQLiteClientFactory()
-		{
-		}
+        private SQLiteClientFactory()
+        {
+        }
 
-		public override bool CanCreateDataSourceEnumerator
-		{
-			get
-			{
-				return false;
-			}
-		}
+        public override bool CanCreateDataSourceEnumerator
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-		public override DbCommand CreateCommand()
-		{
-			return new SQLiteCommand();
-		}
+        public override DbCommand CreateCommand()
+        {
+            return new SQLiteCommand();
+        }
 
-		public override DbCommandBuilder CreateCommandBuilder()
-		{
-			return new SQLiteCommandBuilder();
-		}
+        public override DbCommandBuilder CreateCommandBuilder()
+        {
+            return new SQLiteCommandBuilder();
+        }
 
-		public override DbConnection CreateConnection()
-		{
-			return new SQLiteConnection();
-		}
+        public override DbConnection CreateConnection()
+        {
+            return new SQLiteConnection();
+        }
 
-		public override DbDataAdapter CreateDataAdapter()
-		{
-			return new SQLiteDataAdapter();
-		}
+        public override DbDataAdapter CreateDataAdapter()
+        {
+            return new SQLiteDataAdapter();
+        }
 
-		public override DbDataSourceEnumerator CreateDataSourceEnumerator()
-		{
-			return new SQLiteDataSourceEnumerator();
-		}
+        public override DbDataSourceEnumerator CreateDataSourceEnumerator()
+        {
+            return new SQLiteDataSourceEnumerator();
+        }
 
-		public override DbParameter CreateParameter()
-		{
-			return new SQLiteParameter();
-		}
+        public override DbParameter CreateParameter()
+        {
+            return new SQLiteParameter();
+        }
 
-		public override DbConnectionStringBuilder CreateConnectionStringBuilder()
-		{
-			return new SQLiteConnectionStringBuilder();
-		}
-	}
+        public override DbConnectionStringBuilder CreateConnectionStringBuilder()
+        {
+            return new SQLiteConnectionStringBuilder();
+        }
+    }
 }

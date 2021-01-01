@@ -33,20 +33,19 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	/// <summary>
+    /// <summary>
     /// Class which models the gender of a particular mentions and entities made up of mentions.
     /// </summary>
-	/// <author> 
-	/// Tom Morton
-	/// </author>
-	public class GenderModel : ITestGenderModel, ITrainSimilarityModel
-	{
+    /// <author> 
+    /// Tom Morton
+    /// </author>
+    public class GenderModel : ITestGenderModel, ITrainSimilarityModel
+    {
         private int mMaleIndex;
         private int mFemaleIndex;
         private int mNeuterIndex;
@@ -72,7 +71,7 @@ namespace OpenNLP.Tools.Coreference.Similarity
             else
             {
                 mTestModel = new SharpEntropy.GisModel(new SharpEntropy.IO.BinaryGisModelReader(modelName + mModelExtension));
-                
+
                 mMaleIndex = mTestModel.GetOutcomeIndex(GenderEnum.Male.ToString());
                 mFemaleIndex = mTestModel.GetOutcomeIndex(GenderEnum.Female.ToString());
                 mNeuterIndex = mTestModel.GetOutcomeIndex(GenderEnum.Neuter.ToString());
@@ -136,7 +135,7 @@ namespace OpenNLP.Tools.Coreference.Similarity
             var eunuches = new List<Context>();
             //coref entities
             foreach (int key in entities.Keys)
-           {
+            {
                 List<Context> entityContexts = entities[key];
                 GenderEnum gender = GetGender(entityContexts);
                 if (gender != null)
@@ -147,7 +146,7 @@ namespace OpenNLP.Tools.Coreference.Similarity
                     }
                     else if (gender == GenderEnum.Female)
                     {
-                       females.AddRange(entityContexts);
+                        females.AddRange(entityContexts);
                     }
                     else if (gender == GenderEnum.Neuter)
                     {
@@ -172,17 +171,17 @@ namespace OpenNLP.Tools.Coreference.Similarity
                     eunuches.Add(entityContext);
                 }
             }
-            
+
             foreach (Context entityContext in males)
             {
                 AddEvent(GenderEnum.Male.ToString(), entityContext);
             }
-            
+
             foreach (Context entityContext in females)
             {
                 AddEvent(GenderEnum.Female.ToString(), entityContext);
             }
-            
+
             foreach (Context entityContext in eunuches)
             {
                 AddEvent(GenderEnum.Neuter.ToString(), entityContext);
@@ -194,7 +193,7 @@ namespace OpenNLP.Tools.Coreference.Similarity
             if (mDebugOn)
             {
                 StreamWriter writer = new StreamWriter(mModelName + ".events", false, System.Text.Encoding.Default);
-               foreach (SharpEntropy.TrainingEvent currentEvent in mEvents)
+                foreach (SharpEntropy.TrainingEvent currentEvent in mEvents)
                 {
                     writer.Write(currentEvent.ToString() + "\n");
                 }
@@ -209,141 +208,141 @@ namespace OpenNLP.Tools.Coreference.Similarity
 
         #endregion
 
-		public static ITestGenderModel TestModel(string name)
-		{
-			var genderModel = new GenderModel(name, false);
-			return genderModel;
-		}
-		
-		public static ITrainSimilarityModel TrainModel(string name)
-		{
+        public static ITestGenderModel TestModel(string name)
+        {
+            var genderModel = new GenderModel(name, false);
+            return genderModel;
+        }
+
+        public static ITrainSimilarityModel TrainModel(string name)
+        {
             var genderModel = new GenderModel(name, true);
             return genderModel;
-		}
+        }
 
         private Util.Set<string> ReadNames(string nameFile)
-		{
-			Util.Set<string> names = new Util.HashSet<string>();
-			
-            var nameReader = new StreamReader(nameFile, System.Text.Encoding.Default);
-			for (string line = nameReader.ReadLine(); line != null; line = nameReader.ReadLine())
-			{
-				names.Add(line);
-			}
-			return names;
-		}
+        {
+            Util.Set<string> names = new Util.HashSet<string>();
 
-		private List<string> GetFeatures(Context nounPhrase)
-		{
+            var nameReader = new StreamReader(nameFile, System.Text.Encoding.Default);
+            for (string line = nameReader.ReadLine(); line != null; line = nameReader.ReadLine())
+            {
+                names.Add(line);
+            }
+            return names;
+        }
+
+        private List<string> GetFeatures(Context nounPhrase)
+        {
             var features = new List<string>();
-			features.Add("default");
-			for (int tokenIndex = 0; tokenIndex < nounPhrase.HeadTokenIndex; tokenIndex++)
-			{
-				features.Add("mw=" + nounPhrase.Tokens[tokenIndex].ToString());
-			}
-			features.Add("hw=" + nounPhrase.HeadTokenText);
+            features.Add("default");
+            for (int tokenIndex = 0; tokenIndex < nounPhrase.HeadTokenIndex; tokenIndex++)
+            {
+                features.Add("mw=" + nounPhrase.Tokens[tokenIndex].ToString());
+            }
+            features.Add("hw=" + nounPhrase.HeadTokenText);
             features.Add("n=" + nounPhrase.NameType);
             if (nounPhrase.NameType != null && nounPhrase.NameType == "person")
-			{
-				object[] tokens = nounPhrase.Tokens;
-				for (int tokenIndex = 0; tokenIndex < nounPhrase.HeadTokenIndex || tokenIndex == 0; tokenIndex++)
-				{
-					string name = tokens[tokenIndex].ToString().ToLower();
-					if (mFemaleNames.Contains(name))
-					{
-						features.Add("fem");
-					}
-					if (mMaleNames.Contains(name))
-					{
-						features.Add("mas");
-					}
-				}
-			}
-			
+            {
+                object[] tokens = nounPhrase.Tokens;
+                for (int tokenIndex = 0; tokenIndex < nounPhrase.HeadTokenIndex || tokenIndex == 0; tokenIndex++)
+                {
+                    string name = tokens[tokenIndex].ToString().ToLower();
+                    if (mFemaleNames.Contains(name))
+                    {
+                        features.Add("fem");
+                    }
+                    if (mMaleNames.Contains(name))
+                    {
+                        features.Add("mas");
+                    }
+                }
+            }
+
             foreach (string synset in nounPhrase.Synsets)
             {
                 features.Add("ss=" + synset);
             }
-            
-			return features;
-		}
-		
-		private void AddEvent(string outcome, Context nounPhrase)
-		{
-			List<string> features = GetFeatures(nounPhrase);
+
+            return features;
+        }
+
+        private void AddEvent(string outcome, Context nounPhrase)
+        {
+            List<string> features = GetFeatures(nounPhrase);
             mEvents.Add(new SharpEntropy.TrainingEvent(outcome, features.ToArray()));
-		}
-		
-		/// <summary>
+        }
+
+        /// <summary>
         /// Heuristic computation of gender for a mention context using pronouns and honorifics.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention whose gender is to be computed.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// The heuristically determined gender or unknown.
-		/// </returns>
-		private GenderEnum GetGender(Context mention)
-		{
-			if (Linker.MalePronounPattern.IsMatch(mention.HeadTokenText))
-			{
-				return GenderEnum.Male;
-			}
+        /// </returns>
+        private GenderEnum GetGender(Context mention)
+        {
+            if (Linker.MalePronounPattern.IsMatch(mention.HeadTokenText))
+            {
+                return GenderEnum.Male;
+            }
             else if (Linker.FemalePronounPattern.IsMatch(mention.HeadTokenText))
-			{
-				return GenderEnum.Female;
-			}
+            {
+                return GenderEnum.Female;
+            }
             else if (Linker.NeuterPronounPattern.IsMatch(mention.HeadTokenText))
-			{
-				return GenderEnum.Neuter;
-			}
-			object[] mentionTokens = mention.Tokens;
-			for (int tokenIndex = 0, tokenLength = mentionTokens.Length - 1; tokenIndex < tokenLength; tokenIndex++)
-			{
-				string token = mentionTokens[tokenIndex].ToString();
-				if (token == "Mr." || token == "Mr")
-				{
-					return GenderEnum.Male;
-				}
-				else if (token == "Mrs." || token == "Mrs" || token == "Ms." || token == "Ms")
-				{
-					return GenderEnum.Female;
-				}
-			}
-			return GenderEnum.Unknown;
-		}
+            {
+                return GenderEnum.Neuter;
+            }
+            object[] mentionTokens = mention.Tokens;
+            for (int tokenIndex = 0, tokenLength = mentionTokens.Length - 1; tokenIndex < tokenLength; tokenIndex++)
+            {
+                string token = mentionTokens[tokenIndex].ToString();
+                if (token == "Mr." || token == "Mr")
+                {
+                    return GenderEnum.Male;
+                }
+                else if (token == "Mrs." || token == "Mrs" || token == "Ms." || token == "Ms")
+                {
+                    return GenderEnum.Female;
+                }
+            }
+            return GenderEnum.Unknown;
+        }
 
         private GenderEnum GetGender(List<Context> entity)
-		{
-			foreach (Context entityContext in entity)
-           {
-				GenderEnum gender = GetGender(entityContext);
-				if (gender != GenderEnum.Unknown)
-				{
-					return gender;
-				}
-			}
-			return GenderEnum.Unknown;
-		}
+        {
+            foreach (Context entityContext in entity)
+            {
+                GenderEnum gender = GetGender(entityContext);
+                if (gender != GenderEnum.Unknown)
+                {
+                    return gender;
+                }
+            }
+            return GenderEnum.Unknown;
+        }
 
         //Usage: GenderModel modelName < tiger/NN bear/NN
-		public static string GenderMain(string modelName, string line)
-		{
-			GenderModel model = new GenderModel(modelName, false);
-			
-			string[] words = line.Split(' ');
-			double[] dist = model.GenderDistribution(Context.ParseContext(words[0]));
-			string output = "m=" + dist[model.MaleIndex] + " f=" + dist[model.FemaleIndex] + " n=" + dist[model.NeuterIndex] + " " + string.Join(",", (model.GetFeatures(Context.ParseContext(words[0])).ToArray()));
-           			
+        public static string GenderMain(string modelName, string line)
+        {
+            GenderModel model = new GenderModel(modelName, false);
+
+            string[] words = line.Split(' ');
+            double[] dist = model.GenderDistribution(Context.ParseContext(words[0]));
+            string output = "m=" + dist[model.MaleIndex] + " f=" + dist[model.FemaleIndex] + " n=" + dist[model.NeuterIndex] + " " + string.Join(",", (model.GetFeatures(Context.ParseContext(words[0])).ToArray()));
+
             return output;
-		}
-		
-		
+        }
 
 
 
 
 
-        
+
+
+
     }
 }

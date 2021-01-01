@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>Word</code> object acts as a Label by containing a string.
@@ -22,14 +16,14 @@ namespace OpenNLP.Tools.Ling
 
         /// <summary>Word representation of an empty</summary>
         public static readonly Word Empty = new Word(EmptyString);
-        
+
         /// <summary>
         /// Construct a new word with a <code>null</code> value.
         /// </summary>
         public Word() : base()
         {
         }
-        
+
         /// <summary>
         /// Construct a new word, with the given value.
         /// </summary>

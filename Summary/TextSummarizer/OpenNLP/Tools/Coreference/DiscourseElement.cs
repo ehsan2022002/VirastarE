@@ -33,25 +33,24 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OpenNLP.Tools.Coreference
 {
-	/// <summary>
+    /// <summary>
     /// Represents an item in which can be put into the discourse model.  Object which are
-	/// to be placed in the discourse model should extend this class.
-	/// </summary>
-	/// <seealso cref="OpenNLP.Tools.Coreference.DiscourseModel">
-	/// </seealso>
-	public abstract class DiscourseElement
-	{
+    /// to be placed in the discourse model should extend this class.
+    /// </summary>
+    /// <seealso cref="OpenNLP.Tools.Coreference.DiscourseModel">
+    /// </seealso>
+    public abstract class DiscourseElement
+    {
         private List<Mention.MentionContext> mExtents;
         private int mElementId = -1;
         private Mention.MentionContext mLastExtent;
 
-		/// <summary>
+        /// <summary>
         /// An iterator over the mentions which iteratates through them based on which were most recently mentioned.
         /// </summary>
         public virtual IEnumerable<Mention.MentionContext> RecentMentions
@@ -65,7 +64,7 @@ namespace OpenNLP.Tools.Coreference
             }
         }
 
-		/// <summary>
+        /// <summary>
         /// An iterator over the mentions which iteratates through them based on their occurance in the document.
         /// </summary>
         public virtual IEnumerable<Mention.MentionContext> Mentions
@@ -79,71 +78,71 @@ namespace OpenNLP.Tools.Coreference
             }
         }
 
-		/// <summary>
+        /// <summary>
         /// The number of mentions in this element.
         /// </summary>
-		public virtual int MentionCount
-		{
-			get
-			{
-				return mExtents.Count;
-			}
-		}
+        public virtual int MentionCount
+        {
+            get
+            {
+                return mExtents.Count;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// The last mention for this element.  For appositives this will be the
-		/// first part of the appositive.
-		/// </summary>
+        /// first part of the appositive.
+        /// </summary>
         public virtual Mention.MentionContext LastExtent
-		{
-			get
-			{
-				return mLastExtent;
-			}	
-		}
-		
+        {
+            get
+            {
+                return mLastExtent;
+            }
+        }
+
         /// <summary>
         /// The id associated with this element.
         /// </summary>
-		public virtual int Id
-		{
-			get
-			{
-				return mElementId;
-			}
-			set
-			{
-				mElementId = value;
-			}
-		}
+        public virtual int Id
+        {
+            get
+            {
+                return mElementId;
+            }
+            set
+            {
+                mElementId = value;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Creates a new discourse element which contains the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention which begins this discourse element.
-		/// </param>
+        /// </param>
         protected DiscourseElement(Mention.MentionContext mention)
-		{
-			mExtents = new List<Mention.MentionContext>(1);
-			mLastExtent = mention;
-			mExtents.Add(mention);
-		}
-		
-		/// <summary>
+        {
+            mExtents = new List<Mention.MentionContext>(1);
+            mLastExtent = mention;
+            mExtents.Add(mention);
+        }
+
+        /// <summary>
         /// Adds the specified mention to this discourse element.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention to be added.
-		/// </param>
+        /// </param>
         public virtual void AddMention(Mention.MentionContext mention)
-		{
-			mExtents.Add(mention);
-			mLastExtent = mention;
-		}
-		
-		public override string ToString()
-		{
+        {
+            mExtents.Add(mention);
+            mLastExtent = mention;
+        }
+
+        public override string ToString()
+        {
             StringBuilder buffer = new StringBuilder();
             buffer.Append("[ ").Append(mExtents[0].ToText()); //.append("<").append(ex.getHeadText()).append(">");
             for (int currentExtent = 1; currentExtent < mExtents.Count; currentExtent++)
@@ -152,6 +151,6 @@ namespace OpenNLP.Tools.Coreference
             }
             buffer.Append(" ]");
             return buffer.ToString();
-		}
-	}
+        }
+    }
 }

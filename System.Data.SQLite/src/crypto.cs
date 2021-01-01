@@ -1,21 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
-using u8 = System.Byte;
-using u16 = System.UInt16;
-using Pgno = System.UInt32;
-
 namespace System.Data.SQLite
 {
-	using sqlite3_int64 = System.Int64;
-	using sqlite3_stmt = Sqlite3.Vdbe;
-	using System.Security.Cryptography;
-	using System.IO;
-
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		*************************************************************************
 		**  Included in SQLite3 port to C#-SQLite;  2010 Noah B Hart, Diego Torres
 		**  C#-SQLite is an independent reimplementation of the SQLite software library
@@ -23,7 +10,7 @@ namespace System.Data.SQLite
 		*************************************************************************
 		*/
 
-		/*
+        /*
 		** SQLCipher
 		** crypto.c developed by Stephen Lombardo (Zetetic LLC)
 		** sjlombardo at zetetic dot net
@@ -55,7 +42,7 @@ namespace System.Data.SQLite
 		** SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		**
 		*/
-		/* BEGIN CRYPTO */
+        /* BEGIN CRYPTO */
 #if SQLITE_HAS_CODEC
 
 	//#include <assert.h>
@@ -754,8 +741,8 @@ static void CODEC_TRACE( string T, params object[] ap ) { if ( sqlite3PagerTrace
 	}
 	/* END CRYPTO */
 #endif
-		const int SQLITE_ENCRYPT_WRITE_CTX = 6; /* Encode page */
-		const int SQLITE_ENCRYPT_READ_CTX = 7; /* Encode page */
-		const int SQLITE_DECRYPT = 3; /* Decode page */
-	}
+        const int SQLITE_ENCRYPT_WRITE_CTX = 6; /* Encode page */
+        const int SQLITE_ENCRYPT_READ_CTX = 7; /* Encode page */
+        const int SQLITE_DECRYPT = 3; /* Decode page */
+    }
 }

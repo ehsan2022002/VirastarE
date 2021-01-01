@@ -7,9 +7,9 @@ using Wal = System.Object;
 
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2010 February 1
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -32,114 +32,114 @@ namespace System.Data.SQLite
 		*************************************************************************
 		*/
 
-		//#if !_WAL_H_
-		//#define _WAL_H_
+        //#if !_WAL_H_
+        //#define _WAL_H_
 
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
 #if SQLITE_OMIT_WAL
 
-		//# define sqlite3WalOpen(x,y,z)                 0
-		static int sqlite3WalOpen(sqlite3_vfs x, sqlite3_file y, string z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalOpen(x,y,z)                 0
+        static int sqlite3WalOpen(sqlite3_vfs x, sqlite3_file y, string z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalLimit(x,y)
-		static void sqlite3WalLimit(sqlite3_vfs x, long y)
-		{
-		}
+        //# define sqlite3WalLimit(x,y)
+        static void sqlite3WalLimit(sqlite3_vfs x, long y)
+        {
+        }
 
-		//# define sqlite3WalClose(w,x,y,z)              0
-		static int sqlite3WalClose(Wal w, int x, int y, u8 z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalClose(w,x,y,z)              0
+        static int sqlite3WalClose(Wal w, int x, int y, u8 z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalBeginReadTransaction(y,z)   0
-		static int sqlite3WalBeginReadTransaction(Wal y, int z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalBeginReadTransaction(y,z)   0
+        static int sqlite3WalBeginReadTransaction(Wal y, int z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalEndReadTransaction(z)
-		static void sqlite3WalEndReadTransaction(Wal z)
-		{
-		}
+        //# define sqlite3WalEndReadTransaction(z)
+        static void sqlite3WalEndReadTransaction(Wal z)
+        {
+        }
 
-		//# define sqlite3WalRead(v,w,x,y,z)             0
-		static int sqlite3WalRead(Wal v, Pgno w, ref int x, int y, u8[] z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalRead(v,w,x,y,z)             0
+        static int sqlite3WalRead(Wal v, Pgno w, ref int x, int y, u8[] z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalDbsize(y) 0
-		static Pgno sqlite3WalDbsize(Wal y)
-		{
-			return 0;
-		}
+        //# define sqlite3WalDbsize(y) 0
+        static Pgno sqlite3WalDbsize(Wal y)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalBeginWriteTransaction(y)    0
-		static int sqlite3WalBeginWriteTransaction(Wal y)
-		{
-			return 0;
-		}
+        //# define sqlite3WalBeginWriteTransaction(y)    0
+        static int sqlite3WalBeginWriteTransaction(Wal y)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalEndWriteTransaction(x)      0
-		static int sqlite3WalEndWriteTransaction(Wal x)
-		{
-			return 0;
-		}
+        //# define sqlite3WalEndWriteTransaction(x)      0
+        static int sqlite3WalEndWriteTransaction(Wal x)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalUndo(x,y,z)                 0
-		static int sqlite3WalUndo(Wal x, int y, object z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalUndo(x,y,z)                 0
+        static int sqlite3WalUndo(Wal x, int y, object z)
+        {
+            return 0;
+        }
 
 
-		//# define sqlite3WalSavepoint(y,z)
-		static void sqlite3WalSavepoint(Wal y, object z)
-		{
-		}
+        //# define sqlite3WalSavepoint(y,z)
+        static void sqlite3WalSavepoint(Wal y, object z)
+        {
+        }
 
-		//# define sqlite3WalSavepointUndo(y,z)          0
-		static int sqlite3WalSavepointUndo(Wal y, object z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalSavepointUndo(y,z)          0
+        static int sqlite3WalSavepointUndo(Wal y, object z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalFrames(u,v,w,x,y,z)         0
-		static int sqlite3WalFrames(Wal u, int v, PgHdr w, Pgno x, int y, int z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalFrames(u,v,w,x,y,z)         0
+        static int sqlite3WalFrames(Wal u, int v, PgHdr w, Pgno x, int y, int z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalCheckpoint(r,s,t,u,v,w,x,y,z)         0
-		static int sqlite3WalCheckpoint(Wal r, int s, int t, u8[] u, int v, int w, u8[] x, ref int y, ref int z)//r,s,t,u,v,w,x,y,z
-		{
-			y = 0;
-			z = 0;
-			return 0;
-		}
+        //# define sqlite3WalCheckpoint(r,s,t,u,v,w,x,y,z)         0
+        static int sqlite3WalCheckpoint(Wal r, int s, int t, u8[] u, int v, int w, u8[] x, ref int y, ref int z)//r,s,t,u,v,w,x,y,z
+        {
+            y = 0;
+            z = 0;
+            return 0;
+        }
 
-		//# define sqlite3WalCallback(z)                 0
-		static int sqlite3WalCallback(Wal z)
-		{
-			return 0;
-		}
+        //# define sqlite3WalCallback(z)                 0
+        static int sqlite3WalCallback(Wal z)
+        {
+            return 0;
+        }
 
-		//# define sqlite3WalExclusiveMode(y,z)          0
-		static bool sqlite3WalExclusiveMode(Wal y, int z)
-		{
-			return false;
-		}
+        //# define sqlite3WalExclusiveMode(y,z)          0
+        static bool sqlite3WalExclusiveMode(Wal y, int z)
+        {
+            return false;
+        }
 
-		//# define sqlite3WalHeapMemory(z)               0
-		static bool sqlite3WalHeapMemory(Wal z)
-		{
-			return false;
-		}
+        //# define sqlite3WalHeapMemory(z)               0
+        static bool sqlite3WalHeapMemory(Wal z)
+        {
+            return false;
+        }
 
 #else
 
@@ -224,6 +224,6 @@ int sqlite3WalExclusiveMode(Wal *pWal, int op);
 int sqlite3WalHeapMemory(Wal *pWal);
 
 #endif //* ifndef SQLITE_OMIT_WAL */
-		//#endif //* _WAL_H_ */
-	}
+        //#endif //* _WAL_H_ */
+    }
 }

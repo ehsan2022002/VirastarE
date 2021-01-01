@@ -35,132 +35,130 @@
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using System;
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
-using Linker = OpenNLP.Tools.Coreference.ILinker;
-using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 using System.Collections.Generic;
+using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> Resolves pronouns specific to quoted speech such as "you", "me", and "I".  </summary>
-	public class SpeechPronounResolver:MaximumEntropyResolver
-	{
-		
-		public SpeechPronounResolver(string projectName, ResolverMode mode):base(projectName, "fmodel", mode, 30)
-		{
-			NumberSentencesBack = 0;
-			ShowExclusions = false;
-			PreferFirstReferent = true;
-		}
+
+    /// <summary> Resolves pronouns specific to quoted speech such as "you", "me", and "I".  </summary>
+    public class SpeechPronounResolver : MaximumEntropyResolver
+    {
+
+        public SpeechPronounResolver(string projectName, ResolverMode mode) : base(projectName, "fmodel", mode, 30)
+        {
+            NumberSentencesBack = 0;
+            ShowExclusions = false;
+            PreferFirstReferent = true;
+        }
 
         public SpeechPronounResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver)
             : base(projectName, "fmodel", mode, 30, nonReferentialResolver)
-		{
-			ShowExclusions = false;
-			PreferFirstReferent = true;
-		}
+        {
+            ShowExclusions = false;
+            PreferFirstReferent = true;
+        }
 
 
         protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
-		{
+        {
             List<string> features = base.GetFeatures(mention, entity);
-			
-			if (entity != null)
-			{
-				features.AddRange(GetPronounMatchFeatures(mention, entity));
-				List<string> contexts = GetContextFeatures(mention);
-				MentionContext cec = entity.LastExtent;
-				if (PartsOfSpeech.IsPersOrPossPronoun(mention.HeadTokenTag) && PartsOfSpeech.IsPersOrPossPronoun(cec.HeadTokenTag))
-				{
-					features.Add(mention.HeadTokenText + "," + cec.HeadTokenText);
-				}
-				else if (PartsOfSpeech.IsProperNoun(mention.HeadTokenText))
-				{
-					for (int ci = 0, cl = contexts.Count; ci < cl; ci++)
-					{
-						features.Add(contexts[ci]);
-					}
-					features.Add(mention.NameType + "," + cec.HeadTokenText);
-				}
-				else
-				{
-					List<string> ccontexts = GetContextFeatures(cec);
-					for (int ci = 0, cl = ccontexts.Count; ci < cl; ci++)
-					{
-						features.Add(ccontexts[ci]);
-					}
+
+            if (entity != null)
+            {
+                features.AddRange(GetPronounMatchFeatures(mention, entity));
+                List<string> contexts = GetContextFeatures(mention);
+                MentionContext cec = entity.LastExtent;
+                if (PartsOfSpeech.IsPersOrPossPronoun(mention.HeadTokenTag) && PartsOfSpeech.IsPersOrPossPronoun(cec.HeadTokenTag))
+                {
+                    features.Add(mention.HeadTokenText + "," + cec.HeadTokenText);
+                }
+                else if (PartsOfSpeech.IsProperNoun(mention.HeadTokenText))
+                {
+                    for (int ci = 0, cl = contexts.Count; ci < cl; ci++)
+                    {
+                        features.Add(contexts[ci]);
+                    }
+                    features.Add(mention.NameType + "," + cec.HeadTokenText);
+                }
+                else
+                {
+                    List<string> ccontexts = GetContextFeatures(cec);
+                    for (int ci = 0, cl = ccontexts.Count; ci < cl; ci++)
+                    {
+                        features.Add(ccontexts[ci]);
+                    }
                     features.Add(cec.NameType + "," + mention.HeadTokenText);
-				}
-			}
-			return (features);
-		}
-		
-		protected internal override bool IsOutOfRange(MentionContext mention, DiscourseEntity entity)
-		{
-			MentionContext cec = entity.LastExtent;
-			return (mention.SentenceNumber - cec.SentenceNumber > NumberSentencesBack);
-		}
-		
-		public override bool CanResolve(MentionContext mention)
-		{
-			string tag = mention.HeadTokenTag;
-			bool fpp = tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SpeechPronounPattern.IsMatch(mention.HeadTokenText);
-			bool pn = tag != null && PartsOfSpeech.IsProperNoun(tag);
-			return (fpp || pn);
-		}
-		
-		//UPGRADE_NOTE: Access modifiers of method 'excluded' were changed to 'public'. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1204'"
+                }
+            }
+            return (features);
+        }
+
+        protected internal override bool IsOutOfRange(MentionContext mention, DiscourseEntity entity)
+        {
+            MentionContext cec = entity.LastExtent;
+            return (mention.SentenceNumber - cec.SentenceNumber > NumberSentencesBack);
+        }
+
+        public override bool CanResolve(MentionContext mention)
+        {
+            string tag = mention.HeadTokenTag;
+            bool fpp = tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SpeechPronounPattern.IsMatch(mention.HeadTokenText);
+            bool pn = tag != null && PartsOfSpeech.IsProperNoun(tag);
+            return (fpp || pn);
+        }
+
+        //UPGRADE_NOTE: Access modifiers of method 'excluded' were changed to 'public'. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1204'"
         protected internal override bool IsExcluded(MentionContext mention, DiscourseEntity entity)
-		{
-			if (base.IsExcluded(mention, entity))
-			{
-				return true;
-			}
-			MentionContext cec = entity.LastExtent;
-			if (!CanResolve(cec))
-			{
-				return true;
-			}
-			if (PartsOfSpeech.IsProperNoun(mention.HeadTokenTag))
-			{
-				//mention is a propernoun
-				if (PartsOfSpeech.IsProperNoun(cec.HeadTokenTag))
-				{
-					return true; // both NNP
-				}
-				else
-				{
-					if (entity.MentionCount > 1)
-					{
-						return true;
-					}
-					return !CanResolve(cec);
-				}
-			}
-			else if (PartsOfSpeech.IsPersOrPossPronoun(mention.HeadTokenTag))
-			{
-				// mention is a speech pronoun
-				// cec can be either a speech pronoun or a propernoun
-				if (PartsOfSpeech.IsProperNoun(cec.HeadTokenTag))
-				{
-					//exclude antecedents not in the same sentence when they are not pronoun 
-					return (mention.SentenceNumber - cec.SentenceNumber != 0);
-				}
-				else if (PartsOfSpeech.IsPersOrPossPronoun(cec.HeadTokenTag))
-				{
-					return false;
-				}
-				else
-				{
-					Console.Error.WriteLine("Unexpected candidate exluded: " + cec.ToText());
-					return true;
-				}
-			}
-			else
-			{
-				Console.Error.WriteLine("Unexpected mention exluded: " + mention.ToText());
-				return true;
-			}
-		}
-	}
+        {
+            if (base.IsExcluded(mention, entity))
+            {
+                return true;
+            }
+            MentionContext cec = entity.LastExtent;
+            if (!CanResolve(cec))
+            {
+                return true;
+            }
+            if (PartsOfSpeech.IsProperNoun(mention.HeadTokenTag))
+            {
+                //mention is a propernoun
+                if (PartsOfSpeech.IsProperNoun(cec.HeadTokenTag))
+                {
+                    return true; // both NNP
+                }
+                else
+                {
+                    if (entity.MentionCount > 1)
+                    {
+                        return true;
+                    }
+                    return !CanResolve(cec);
+                }
+            }
+            else if (PartsOfSpeech.IsPersOrPossPronoun(mention.HeadTokenTag))
+            {
+                // mention is a speech pronoun
+                // cec can be either a speech pronoun or a propernoun
+                if (PartsOfSpeech.IsProperNoun(cec.HeadTokenTag))
+                {
+                    //exclude antecedents not in the same sentence when they are not pronoun 
+                    return (mention.SentenceNumber - cec.SentenceNumber != 0);
+                }
+                else if (PartsOfSpeech.IsPersOrPossPronoun(cec.HeadTokenTag))
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.Error.WriteLine("Unexpected candidate exluded: " + cec.ToText());
+                    return true;
+                }
+            }
+            else
+            {
+                Console.Error.WriteLine("Unexpected mention exluded: " + mention.ToText());
+                return true;
+            }
+        }
+    }
 }

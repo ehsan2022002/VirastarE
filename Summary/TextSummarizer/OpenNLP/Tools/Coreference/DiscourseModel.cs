@@ -38,118 +38,118 @@ using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Coreference
 {
-	/// <summary>
+    /// <summary>
     /// Represents the elements which are part of a discourse.
     /// </summary>
-	public class DiscourseModel
-	{
+    public class DiscourseModel
+    {
         private List<DiscourseEntity> mEntities;
         private int mNextEntityId = 1;
 
-		/// <summary>
+        /// <summary>
         /// The number of entities in this discourse model
         /// </summary>
-		public virtual int EntityCount
-		{
-			get
-			{
-				return mEntities.Count;
-			}	
-		}
+        public virtual int EntityCount
+        {
+            get
+            {
+                return mEntities.Count;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// The entities in the discourse model
         /// </summary>
-		public virtual DiscourseEntity[] Entities
-		{
-			get
-			{
+        public virtual DiscourseEntity[] Entities
+        {
+            get
+            {
                 return mEntities.ToArray();
-			}
-		}
+            }
+        }
 
-		/// <summary> 
-		/// Creates a new discourse model.
-		/// </summary>
-		public DiscourseModel()
-		{
+        /// <summary> 
+        /// Creates a new discourse model.
+        /// </summary>
+        public DiscourseModel()
+        {
             mEntities = new List<DiscourseEntity>();
-		}
-		
-		/// <summary>
+        }
+
+        /// <summary>
         /// Indicates that the specified entity has been mentioned.</summary>
         /// <param name="entity">
         /// The entity which has been mentioned.
-		/// </param>
-		public virtual void MentionEntity(DiscourseEntity entity)
-		{
-			bool isContained;
-			isContained = mEntities.Contains(entity);
-			mEntities.Remove(entity);
-			if (isContained)
-			{
-				mEntities.Insert(0, entity);
-			}
-			else
-			{
-				throw new InvalidOperationException("DiscourseModel.MentionEntity: failed to remove " + entity);
-			}
-		}
-		
-		/// <summary>
+        /// </param>
+        public virtual void MentionEntity(DiscourseEntity entity)
+        {
+            bool isContained;
+            isContained = mEntities.Contains(entity);
+            mEntities.Remove(entity);
+            if (isContained)
+            {
+                mEntities.Insert(0, entity);
+            }
+            else
+            {
+                throw new InvalidOperationException("DiscourseModel.MentionEntity: failed to remove " + entity);
+            }
+        }
+
+        /// <summary>
         /// Returns the entity at the specified index.
         /// </summary>
-		/// <param name="index">
+        /// <param name="index">
         /// the index of the entity to be returned.
-		/// </param>
-		/// <returns>
+        /// </param>
+        /// <returns>
         /// the entity at the specified index.
-		/// </returns>
-		public virtual DiscourseEntity GetEntity(int index)
-		{
-			return mEntities[index];
-		}
-		
-		/// <summary>
+        /// </returns>
+        public virtual DiscourseEntity GetEntity(int index)
+        {
+            return mEntities[index];
+        }
+
+        /// <summary>
         /// Adds the specified entity to this discourse model.
         /// </summary>
         /// <param name="entity">
         /// the entity to be added to the model. 
-		/// </param>
-		public virtual void AddEntity(DiscourseEntity entity)
-		{
-			entity.Id = mNextEntityId;
-			mNextEntityId++;
-			mEntities.Insert(0, entity);
-		}
-		
-		/// <summary>
+        /// </param>
+        public virtual void AddEntity(DiscourseEntity entity)
+        {
+            entity.Id = mNextEntityId;
+            mNextEntityId++;
+            mEntities.Insert(0, entity);
+        }
+
+        /// <summary>
         /// Merges the specified entities into a single entity with the specified confidence.
         /// </summary>
         /// <param name="firstEntity">
         /// The first entity. 
-		/// </param>
+        /// </param>
         /// <param name="secondEntity">
         /// The second entity.
-		/// </param>
-		/// <param name="confidence">
+        /// </param>
+        /// <param name="confidence">
         /// The confidence.
-		/// </param>
-		public virtual void MergeEntities(DiscourseEntity firstEntity, DiscourseEntity secondEntity, float confidence)
-		{
-			foreach (Mention.MentionContext mc in secondEntity.Mentions)
+        /// </param>
+        public virtual void MergeEntities(DiscourseEntity firstEntity, DiscourseEntity secondEntity, float confidence)
+        {
+            foreach (Mention.MentionContext mc in secondEntity.Mentions)
             {
-				firstEntity.AddMention(mc);
-			}
-			mEntities.Remove(secondEntity);
-		}
-		
-		/// <summary>
+                firstEntity.AddMention(mc);
+            }
+            mEntities.Remove(secondEntity);
+        }
+
+        /// <summary>
         /// Removes all elements from this discourse model.
         /// </summary>
-		public virtual void Clear()
-		{
-			mEntities.Clear();
-		}
-	}
+        public virtual void Clear()
+        {
+            mEntities.Clear();
+        }
+    }
 }

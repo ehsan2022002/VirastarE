@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Tokenize
 {
@@ -12,7 +8,7 @@ namespace OpenNLP.Tools.Tokenize
     {
         private readonly Dictionary<string, DetokenizationOperation> _tokenToDetokenizationOperation;
 
-        
+
         // Constructors -----------------
 
         public DictionaryDetokenizer()
@@ -52,7 +48,7 @@ namespace OpenNLP.Tools.Tokenize
             this._tokenToDetokenizationOperation = dict;
         }
 
-        
+
         // Methods ---------------------
 
         private readonly static Regex WordRegex = new Regex(@"^\w+$", RegexOptions.Compiled);
@@ -70,7 +66,7 @@ namespace OpenNLP.Tools.Tokenize
                     operations[i] = DetokenizationOperation.NO_OPERATION;
                     continue;
                 }
-                
+
                 DetokenizationOperation dictOperation = _tokenToDetokenizationOperation[tokens[i]];
 
                 if (dictOperation == DetokenizationOperation.MERGE_TO_LEFT
@@ -81,7 +77,8 @@ namespace OpenNLP.Tools.Tokenize
                 }
                 else if (dictOperation == DetokenizationOperation.MERGE_BOTH_IF_SURROUNDED_BY_WORDS)
                 {
-                    if(0 < i && i < tokens.Length - 1 && WordRegex.IsMatch(tokens[i-1]) && WordRegex.IsMatch(tokens[i+1])){
+                    if (0 < i && i < tokens.Length - 1 && WordRegex.IsMatch(tokens[i - 1]) && WordRegex.IsMatch(tokens[i + 1]))
+                    {
                         operations[i] = DetokenizationOperation.MERGE_BOTH;
                     }
                     else

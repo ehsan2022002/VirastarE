@@ -6,30 +6,40 @@ using System.Linq;
 using System.Windows.Forms;
 using BorzoyaSpell;
 
-
 namespace VirastarE.Forms
 {
     public partial class Setting : Form
     {
         private readonly CheakSpell _cheakSpell;
-        private List<string> _items = new List<string>();
 
         private readonly string valid = @"!:\.،؛؟»\]\)\}«\[\(\{-_&^#";
+        private List<string> _items = new List<string>();
 
         public Setting(CheakSpell cheakSpell)
         {
             InitializeComponent();
-            Util util = new Util();
+            var util = new Util();
             _cheakSpell = cheakSpell;
 
-            chkRecSpell.Checked = RegistaryApplicationSetting.GetRegistaryKey(chkRecSpell.Name) == Util.UtilSystemEnum.OnKey ? true : false;
-            
-            chkStemSpell.Checked = RegistaryApplicationSetting.GetRegistaryKey(chkStemSpell.Name) == Util.UtilSystemEnum.OnKey ? true : false;
-            chkPunkRec.Checked = RegistaryApplicationSetting.GetRegistaryKey(chkPunkRec.Name) == Util.UtilSystemEnum.OnKey ? true : false;
-            chkIgnoreEnglish.Checked =
-                RegistaryApplicationSetting.GetRegistaryKey(chkIgnoreEnglish.Name) == Util.UtilSystemEnum.OnKey ? true : false;
+            chkRecSpell.Checked =
+                RegistaryApplicationSetting.GetRegistaryKey(chkRecSpell.Name) == Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false;
 
-            txtIgnoreList.Text = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.txtIgnoreList);
+            chkStemSpell.Checked =
+                RegistaryApplicationSetting.GetRegistaryKey(chkStemSpell.Name) == Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false;
+            chkPunkRec.Checked =
+                RegistaryApplicationSetting.GetRegistaryKey(chkPunkRec.Name) == Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false;
+            chkIgnoreEnglish.Checked =
+                RegistaryApplicationSetting.GetRegistaryKey(chkIgnoreEnglish.Name) == Util.UtilSystemEnum.OnKey
+                    ? true
+                    : false;
+
+            txtIgnoreList.Text = RegistaryApplicationSetting.GetRegistaryKey(Util.UtilSystemEnum.TxtIgnoreList);
 
 
             var screenWidth = Screen.PrimaryScreen.Bounds.Width.ToString();
@@ -45,8 +55,6 @@ namespace VirastarE.Forms
                                                              os.VersionString + @" " + os.Platform + " " + ver.Major;
         }
 
-
-       
 
         private void Button1_Click(object sender, EventArgs e)
         {
@@ -80,7 +88,7 @@ namespace VirastarE.Forms
 
         private void chkRecSpell_CheckedChanged(object sender, EventArgs e)
         {
-            var value = chkRecSpell.Checked ? Util.UtilSystemEnum.OnKey: Util.UtilSystemEnum.OffKey;
+            var value = chkRecSpell.Checked ? Util.UtilSystemEnum.OnKey : Util.UtilSystemEnum.OffKey;
 
             RegistaryApplicationSetting.SetRegistaryKey(chkRecSpell.Name, value);
         }
@@ -108,8 +116,6 @@ namespace VirastarE.Forms
             _cheakSpell.IgnoreEnglish = chkIgnoreEnglish.Checked;
         }
 
-        
-
 
         private void txtIgnoreList_TextChanged(object sender, EventArgs e)
         {
@@ -123,7 +129,8 @@ namespace VirastarE.Forms
 
             if (!bol.Any())
             {
-                RegistaryApplicationSetting.SetRegistaryKey(Util.UtilSystemEnum.txtIgnoreList, txtIgnoreList.Text.Trim());
+                RegistaryApplicationSetting.SetRegistaryKey(Util.UtilSystemEnum.TxtIgnoreList,
+                    txtIgnoreList.Text.Trim());
                 _cheakSpell.IgnoreChars = txtIgnoreList.Text.Trim();
             }
             else

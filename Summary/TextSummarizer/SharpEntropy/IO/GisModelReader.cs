@@ -38,38 +38,38 @@ using System.Collections.Generic;
 
 namespace SharpEntropy.IO
 {
-	/// <summary>
-	/// Abstract parent class for readers of GIS models.
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>
-	/// based on GISModelReader.java, $Revision: 1.5 $, $Date: 2004/06/11 20:51:36 $
-	/// </version>
-	public abstract class GisModelReader : IGisModelReader
-	{
-		private char[] _spaces;
-		private int _correctionConstant;
-		private double _correctionParameter;
-		private string[] _outcomeLabels;
-		private int[][] _outcomePatterns;
-		private int _predicateCount;
-		private Dictionary<string, PatternedPredicate> _predicates;
+    /// <summary>
+    /// Abstract parent class for readers of GIS models.
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>
+    /// based on GISModelReader.java, $Revision: 1.5 $, $Date: 2004/06/11 20:51:36 $
+    /// </version>
+    public abstract class GisModelReader : IGisModelReader
+    {
+        private char[] _spaces;
+        private int _correctionConstant;
+        private double _correctionParameter;
+        private string[] _outcomeLabels;
+        private int[][] _outcomePatterns;
+        private int _predicateCount;
+        private Dictionary<string, PatternedPredicate> _predicates;
 
-		/// <summary>
-		/// The number of predicates contained in the model.
-		/// </summary>
-		protected int PredicateCount
-		{
-			get
-			{
-				return _predicateCount;
-			}
-		}
+        /// <summary>
+        /// The number of predicates contained in the model.
+        /// </summary>
+        protected int PredicateCount
+        {
+            get
+            {
+                return _predicateCount;
+            }
+        }
 
         /// <summary>
 		/// Retrieve a model from disk.
@@ -103,225 +103,225 @@ namespace SharpEntropy.IO
 		/// <p>4c. predicate parameters (double values)</p>
 		/// </remarks>
 		protected virtual void ReadModel()
-		{
-			_spaces = new char[] {' '}; //cached constant to improve performance
-			CheckModelType();
-			_correctionConstant = ReadCorrectionConstant();
-			_correctionParameter = ReadCorrectionParameter();
-			_outcomeLabels = ReadOutcomes();
-			ReadPredicates(out _outcomePatterns, out _predicates);
-		}
-	
-		/// <summary>
-		/// Checks the model file being read from begins with the sequence of characters
-		/// "GIS".
-		/// </summary>
-		protected virtual void CheckModelType()
-		{
-			string modelType = ReadString();
-			if (modelType != "GIS") 
-			{
-				throw new ApplicationException("Error: attempting to load a " + modelType + " model as a GIS model." + " You should expect problems.");
-			}
-		}
+        {
+            _spaces = new char[] { ' ' }; //cached constant to improve performance
+            CheckModelType();
+            _correctionConstant = ReadCorrectionConstant();
+            _correctionParameter = ReadCorrectionParameter();
+            _outcomeLabels = ReadOutcomes();
+            ReadPredicates(out _outcomePatterns, out _predicates);
+        }
 
-		/// <summary>
-		/// Reads the correction constant from the model file.
-		/// </summary>
-		protected virtual int ReadCorrectionConstant()
-		{
-			return ReadInt32();
-		}
-	
-		/// <summary>
-		/// Reads the correction constant parameter from the model file.
-		/// </summary>
-		protected virtual double ReadCorrectionParameter()
-		{
-			return ReadDouble();
-		}
-		
-		/// <summary>
-		/// Reads the outcome names from the model file.
-		/// </summary>
-		protected virtual string[] ReadOutcomes()
-		{
-			int outcomeCount = ReadInt32();
-			var outcomeLabels = new string[outcomeCount];
-			for (int currentLabel = 0; currentLabel < outcomeCount; currentLabel++)
-			{
-				outcomeLabels[currentLabel] = ReadString();
-			}
-			return outcomeLabels;
-		}
+        /// <summary>
+        /// Checks the model file being read from begins with the sequence of characters
+        /// "GIS".
+        /// </summary>
+        protected virtual void CheckModelType()
+        {
+            string modelType = ReadString();
+            if (modelType != "GIS")
+            {
+                throw new ApplicationException("Error: attempting to load a " + modelType + " model as a GIS model." + " You should expect problems.");
+            }
+        }
 
-		/// <summary>
-		/// Reads the predicate information from the model file, placing the data in two
-		/// structures - an array of outcome patterns, and a Dictionary of predicates
-		/// keyed by predicate name.
-		/// </summary>
+        /// <summary>
+        /// Reads the correction constant from the model file.
+        /// </summary>
+        protected virtual int ReadCorrectionConstant()
+        {
+            return ReadInt32();
+        }
+
+        /// <summary>
+        /// Reads the correction constant parameter from the model file.
+        /// </summary>
+        protected virtual double ReadCorrectionParameter()
+        {
+            return ReadDouble();
+        }
+
+        /// <summary>
+        /// Reads the outcome names from the model file.
+        /// </summary>
+        protected virtual string[] ReadOutcomes()
+        {
+            int outcomeCount = ReadInt32();
+            var outcomeLabels = new string[outcomeCount];
+            for (int currentLabel = 0; currentLabel < outcomeCount; currentLabel++)
+            {
+                outcomeLabels[currentLabel] = ReadString();
+            }
+            return outcomeLabels;
+        }
+
+        /// <summary>
+        /// Reads the predicate information from the model file, placing the data in two
+        /// structures - an array of outcome patterns, and a Dictionary of predicates
+        /// keyed by predicate name.
+        /// </summary>
         protected virtual void ReadPredicates(out int[][] outcomePatterns, out Dictionary<string, PatternedPredicate> predicates)
-		{
-			outcomePatterns = ReadOutcomePatterns();
-			string[] asPredicateLabels = ReadPredicateLabels();
-			predicates = ReadParameters(outcomePatterns, asPredicateLabels);
-		}
+        {
+            outcomePatterns = ReadOutcomePatterns();
+            string[] asPredicateLabels = ReadPredicateLabels();
+            predicates = ReadParameters(outcomePatterns, asPredicateLabels);
+        }
 
-		/// <summary>
-		/// Reads the outcome pattern information from the model file.
-		/// </summary>
-		protected virtual int[][] ReadOutcomePatterns()
-		{
-			//get the number of outcome patterns (that is, the number of unique combinations of outcomes in the model)
-			int outcomePatternCount = ReadInt32();
-			//initialize an array of outcome patterns.  Each outcome pattern is itself an array of integers
-			var outcomePatterns = new int[outcomePatternCount][];
-			//for each outcome pattern
-			for (int currentOutcomePattern = 0; currentOutcomePattern < outcomePatternCount; currentOutcomePattern++)
-			{
-				//read a space delimited string from the model file containing the information for the integer array.
-				//The first value in the integer array is the number of predicates related to this outcome pattern; the
-				//other values make up the outcome IDs for this pattern.
-				string[] tokens = ReadString().Split(_spaces);
-				//convert this string to the array of integers required for the pattern
-				var patternData = new int[tokens.Length];
-				for (int currentPatternValue = 0; currentPatternValue < tokens.Length; currentPatternValue++) 
-				{
-					patternData[currentPatternValue] = int.Parse(tokens[currentPatternValue], System.Globalization.CultureInfo.InvariantCulture);
-				}
-				outcomePatterns[currentOutcomePattern] = patternData;
-			}
-			return outcomePatterns;
-		}
-	
-		/// <summary>
-		/// Reads the outcome labels from the model file.
-		/// </summary>
-		protected virtual string[] ReadPredicateLabels()
-		{
-			_predicateCount = ReadInt32();
-			var predicateLabels = new string[_predicateCount];
-			for (int currentPredicate = 0; currentPredicate < _predicateCount; currentPredicate++)
-			{
-				predicateLabels[currentPredicate] = ReadString();
-			}
-			return predicateLabels;
-		}
+        /// <summary>
+        /// Reads the outcome pattern information from the model file.
+        /// </summary>
+        protected virtual int[][] ReadOutcomePatterns()
+        {
+            //get the number of outcome patterns (that is, the number of unique combinations of outcomes in the model)
+            int outcomePatternCount = ReadInt32();
+            //initialize an array of outcome patterns.  Each outcome pattern is itself an array of integers
+            var outcomePatterns = new int[outcomePatternCount][];
+            //for each outcome pattern
+            for (int currentOutcomePattern = 0; currentOutcomePattern < outcomePatternCount; currentOutcomePattern++)
+            {
+                //read a space delimited string from the model file containing the information for the integer array.
+                //The first value in the integer array is the number of predicates related to this outcome pattern; the
+                //other values make up the outcome IDs for this pattern.
+                string[] tokens = ReadString().Split(_spaces);
+                //convert this string to the array of integers required for the pattern
+                var patternData = new int[tokens.Length];
+                for (int currentPatternValue = 0; currentPatternValue < tokens.Length; currentPatternValue++)
+                {
+                    patternData[currentPatternValue] = int.Parse(tokens[currentPatternValue], System.Globalization.CultureInfo.InvariantCulture);
+                }
+                outcomePatterns[currentOutcomePattern] = patternData;
+            }
+            return outcomePatterns;
+        }
 
-		/// <summary>
-		/// Reads the predicate parameter information from the model file.
-		/// </summary>
+        /// <summary>
+        /// Reads the outcome labels from the model file.
+        /// </summary>
+        protected virtual string[] ReadPredicateLabels()
+        {
+            _predicateCount = ReadInt32();
+            var predicateLabels = new string[_predicateCount];
+            for (int currentPredicate = 0; currentPredicate < _predicateCount; currentPredicate++)
+            {
+                predicateLabels[currentPredicate] = ReadString();
+            }
+            return predicateLabels;
+        }
+
+        /// <summary>
+        /// Reads the predicate parameter information from the model file.
+        /// </summary>
         protected virtual Dictionary<string, PatternedPredicate> ReadParameters(int[][] outcomePatterns, string[] predicateLabels)
-		{
+        {
             var predicates = new Dictionary<string, PatternedPredicate>(predicateLabels.Length);
-			int parameterIndex = 0;
-	
-			for (int currentOutcomePattern = 0; currentOutcomePattern < outcomePatterns.Length; currentOutcomePattern++)
-			{
-				for (int currentOutcomeInfo = 0; currentOutcomeInfo < outcomePatterns[currentOutcomePattern][0]; currentOutcomeInfo++)
-				{
-					var parameters = new double[outcomePatterns[currentOutcomePattern].Length - 1];
-					for (int currentParameter = 0; currentParameter < outcomePatterns[currentOutcomePattern].Length - 1; currentParameter++)
-					{
-						parameters[currentParameter] = ReadDouble();
-					}
-					predicates.Add(predicateLabels[parameterIndex], new PatternedPredicate(currentOutcomePattern, parameters));
-					parameterIndex++;
-				}
-			}
-			return predicates;
-		}
+            int parameterIndex = 0;
 
-		/// <summary>
-		/// Implement as needed for the format the model is stored in.
-		/// </summary>
-		protected abstract int ReadInt32();
-			
-		/// <summary>
-		/// Implement as needed for the format the model is stored in.
-		/// </summary>
-		protected abstract double ReadDouble();
-			
-		/// <summary>
-		/// Implement as needed for the format the model is stored in.
-		/// </summary>
-		protected abstract string ReadString();
+            for (int currentOutcomePattern = 0; currentOutcomePattern < outcomePatterns.Length; currentOutcomePattern++)
+            {
+                for (int currentOutcomeInfo = 0; currentOutcomeInfo < outcomePatterns[currentOutcomePattern][0]; currentOutcomeInfo++)
+                {
+                    var parameters = new double[outcomePatterns[currentOutcomePattern].Length - 1];
+                    for (int currentParameter = 0; currentParameter < outcomePatterns[currentOutcomePattern].Length - 1; currentParameter++)
+                    {
+                        parameters[currentParameter] = ReadDouble();
+                    }
+                    predicates.Add(predicateLabels[parameterIndex], new PatternedPredicate(currentOutcomePattern, parameters));
+                    parameterIndex++;
+                }
+            }
+            return predicates;
+        }
 
-		/// <summary>
-		/// The model's correction constant.
-		/// </summary>
-		public int CorrectionConstant
-		{
-			get
-			{
-				return _correctionConstant;
-			}
-		}
-	
-		/// <summary>
-		/// The model's correction constant parameter.
-		/// </summary>
-		public double CorrectionParameter
-		{
-			get
-			{
-				return _correctionParameter;
-			}
-		}
-	
-		/// <summary>
-		/// Returns the labels for all the outcomes in the model.
-		/// </summary>
-		/// <returns>
-		/// string array containing outcome labels.
-		/// </returns>
-		public string[] GetOutcomeLabels()
-		{
-			return _outcomeLabels;
-		}
-	
-		/// <summary>
-		/// Returns the outcome patterns in the model.
-		/// </summary>
-		/// <returns>
-		/// Array of integer arrays containing the information for
-		/// each outcome pattern in the model.
-		/// </returns>
-		public int[][] GetOutcomePatterns()
-		{
-			return _outcomePatterns;
-		}
+        /// <summary>
+        /// Implement as needed for the format the model is stored in.
+        /// </summary>
+        protected abstract int ReadInt32();
 
-		/// <summary>
-		/// Returns the predicates in the model.
-		/// </summary>
-		/// <returns>
-		/// Dictionary containing PatternedPredicate objects keyed
-		/// by predicate label.
-		/// </returns>
+        /// <summary>
+        /// Implement as needed for the format the model is stored in.
+        /// </summary>
+        protected abstract double ReadDouble();
+
+        /// <summary>
+        /// Implement as needed for the format the model is stored in.
+        /// </summary>
+        protected abstract string ReadString();
+
+        /// <summary>
+        /// The model's correction constant.
+        /// </summary>
+        public int CorrectionConstant
+        {
+            get
+            {
+                return _correctionConstant;
+            }
+        }
+
+        /// <summary>
+        /// The model's correction constant parameter.
+        /// </summary>
+        public double CorrectionParameter
+        {
+            get
+            {
+                return _correctionParameter;
+            }
+        }
+
+        /// <summary>
+        /// Returns the labels for all the outcomes in the model.
+        /// </summary>
+        /// <returns>
+        /// string array containing outcome labels.
+        /// </returns>
+        public string[] GetOutcomeLabels()
+        {
+            return _outcomeLabels;
+        }
+
+        /// <summary>
+        /// Returns the outcome patterns in the model.
+        /// </summary>
+        /// <returns>
+        /// Array of integer arrays containing the information for
+        /// each outcome pattern in the model.
+        /// </returns>
+        public int[][] GetOutcomePatterns()
+        {
+            return _outcomePatterns;
+        }
+
+        /// <summary>
+        /// Returns the predicates in the model.
+        /// </summary>
+        /// <returns>
+        /// Dictionary containing PatternedPredicate objects keyed
+        /// by predicate label.
+        /// </returns>
         public Dictionary<string, PatternedPredicate> GetPredicates()
-		{
-			return _predicates;
-		}
+        {
+            return _predicates;
+        }
 
-		/// <summary>
-		/// Returns model information for a predicate, given the predicate label.
-		/// </summary>
-		/// <param name="predicateLabel">
-		/// The predicate label to fetch information for.
-		/// </param>
-		/// <param name="featureCounts">
-		/// Array to be passed in to the method; it should have a length equal to the number of outcomes
-		/// in the model.  The method increments the count of each outcome that is active in the specified
-		/// predicate.
-		/// </param>
-		/// <param name="outcomeSums">
-		/// Array to be passed in to the method; it should have a length equal to the number of outcomes
-		/// in the model.  The method adds the parameter values for each of the active outcomes in the
-		/// predicate.
-		/// </param>
-		public virtual void GetPredicateData(string predicateLabel, int[] featureCounts, double[] outcomeSums)
-		{
+        /// <summary>
+        /// Returns model information for a predicate, given the predicate label.
+        /// </summary>
+        /// <param name="predicateLabel">
+        /// The predicate label to fetch information for.
+        /// </param>
+        /// <param name="featureCounts">
+        /// Array to be passed in to the method; it should have a length equal to the number of outcomes
+        /// in the model.  The method increments the count of each outcome that is active in the specified
+        /// predicate.
+        /// </param>
+        /// <param name="outcomeSums">
+        /// Array to be passed in to the method; it should have a length equal to the number of outcomes
+        /// in the model.  The method adds the parameter values for each of the active outcomes in the
+        /// predicate.
+        /// </param>
+        public virtual void GetPredicateData(string predicateLabel, int[] featureCounts, double[] outcomeSums)
+        {
             try
             {
                 if (predicateLabel != null && _predicates.ContainsKey(predicateLabel))
@@ -341,7 +341,7 @@ namespace SharpEntropy.IO
             {
                 throw new ArgumentException(string.Format("Try to find key '{0}' in predicates dictionary ({1} entries)", predicateLabel, _predicates.Count), ex);
             }
-		}
-	
-	}
+        }
+
+    }
 }

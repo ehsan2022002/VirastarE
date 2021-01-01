@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -17,7 +13,7 @@ namespace OpenNLP.Tools.Util
             elements[0] = src;
             elements[1] = trgt;
         }
-        
+
         /// <summary>
         /// Return the first element of the pair
         /// </summary>
@@ -46,13 +42,13 @@ namespace OpenNLP.Tools.Util
             {
                 return false;
             }
-            var i = (IntPair) iO;
+            var i = (IntPair)iO;
             return elements[0] == i.Get(0) && elements[1] == i.Get(1);
         }
 
         public override int GetHashCode()
         {
-            return elements[0]*17 + elements[1];
+            return elements[0] * 17 + elements[1];
         }
     }
 }

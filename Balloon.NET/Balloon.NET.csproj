@@ -175,9 +175,6 @@
     <EmbeddedResource Include="BalloonWindow.resx">
       <DependentUpon>BalloonWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CPPPunctuation.resx">
-      <DependentUpon>CPPPunctuation.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CPPSPell.resx">
       <DependentUpon>CPPSPell.cs</DependentUpon>
     </EmbeddedResource>

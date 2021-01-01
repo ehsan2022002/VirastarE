@@ -1,15 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
-using Bitmask = System.UInt64;
-using u32 = System.UInt32;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2010 February 1
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -2966,5 +2959,5 @@ int sqlite3WalHeapMemory(Wal *pWal){
 }
 
 #endif //* #if !SQLITE_OMIT_WAL */
-	}
+    }
 }

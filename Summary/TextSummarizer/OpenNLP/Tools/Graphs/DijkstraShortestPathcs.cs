@@ -1,10 +1,6 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Graphs
 {
@@ -17,7 +13,7 @@ namespace OpenNLP.Tools.Graphs
             if (node1.Equals(node2))
             {
                 //return Collections.singletonList(node2);
-                return new List<V>() {node2};
+                return new List<V>() { node2 };
             }
 
             Set<V> visited = new Util.HashSet<V>();

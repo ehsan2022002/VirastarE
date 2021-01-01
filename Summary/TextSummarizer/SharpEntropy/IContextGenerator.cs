@@ -32,30 +32,29 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- 
-using System;
+
 
 namespace SharpEntropy
 {
-	/// <summary> 
-	/// Generate contexts for maximum entropy decisions.
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>
-	/// based on ContextGenerator.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
-	/// </version>
-	public interface IContextGenerator
-	{
-		/// <summary>
-		/// Builds up the list of contextual predicates given an object.
-		/// </summary>
-		string[] GetContext(object input);
-	}
+    /// <summary> 
+    /// Generate contexts for maximum entropy decisions.
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>
+    /// based on ContextGenerator.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
+    /// </version>
+    public interface IContextGenerator
+    {
+        /// <summary>
+        /// Builds up the list of contextual predicates given an object.
+        /// </summary>
+        string[] GetContext(object input);
+    }
 
     /// <summary> 
     /// Generate contexts for maximum entropy decisions.

@@ -33,30 +33,29 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> Enumerated type specifying the modes if a resolver. </summary>
-	public class ResolverMode
-	{
-		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'name '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
-		private string name;
-		
-		private ResolverMode(string name)
-		{
-			this.name = name;
-		}
-		
-		//UPGRADE_NOTE: Final was removed from the declaration of 'TEST '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
-		public static readonly ResolverMode Test = new ResolverMode("test");
-		//UPGRADE_NOTE: Final was removed from the declaration of 'TRAIN '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
-		public static readonly ResolverMode Train = new ResolverMode("train");
-		
-		public override string ToString()
-		{
-			return (name);
-		}
-	}
+
+    /// <summary> Enumerated type specifying the modes if a resolver. </summary>
+    public class ResolverMode
+    {
+
+        //UPGRADE_NOTE: Final was removed from the declaration of 'name '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
+        private string name;
+
+        private ResolverMode(string name)
+        {
+            this.name = name;
+        }
+
+        //UPGRADE_NOTE: Final was removed from the declaration of 'TEST '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
+        public static readonly ResolverMode Test = new ResolverMode("test");
+        //UPGRADE_NOTE: Final was removed from the declaration of 'TRAIN '. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1003'"
+        public static readonly ResolverMode Train = new ResolverMode("train");
+
+        public override string ToString()
+        {
+            return (name);
+        }
+    }
 }

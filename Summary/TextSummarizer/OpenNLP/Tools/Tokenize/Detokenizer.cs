@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Tokenize
 {
@@ -10,7 +7,7 @@ namespace OpenNLP.Tools.Tokenize
     /// An abstract for Detokenizers implementing the Detokenize method
     /// gluing back together tokens given a collection of DetokenizationOperations.
     /// </summary>
-    public abstract class Detokenizer: IDetokenizer
+    public abstract class Detokenizer : IDetokenizer
     {
         /// <summary>
         /// Computes a collection of detokenization operations given a collection of tokens.

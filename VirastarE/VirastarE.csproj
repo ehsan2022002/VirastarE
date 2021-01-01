@@ -147,6 +147,10 @@
       <Project>{5c457066-d488-4bc1-b7f8-1e90f2a80648}</Project>
       <Name>WordApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PDF\PdfiumViewerForm\PdfiumViewerForm.csproj">
+      <Project>{add131f6-17eb-4e42-932f-74cbe6dbeeb3}</Project>
+      <Name>PdfiumViewerForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Summary\TextSummarizer\TextSummarize\TextSummarize.csproj">
       <Project>{94c43c23-7d66-4657-a67f-34335223b190}</Project>
       <Name>TextSummarize</Name>

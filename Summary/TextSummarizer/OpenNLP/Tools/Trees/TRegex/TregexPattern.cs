@@ -1,11 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Parser;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -342,7 +338,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                 child.prettyPrint(pw, indent + 1);
             }
             }*/
-        
+
         public abstract List<TregexPattern> GetChildren();
 
         public abstract string LocalString();
@@ -444,24 +440,24 @@ namespace OpenNLP.Tools.Trees.TRegex
         /**
         * @return A single-line string representation of the pattern
         */
-            /*@Override
-        public abstract string ToString();*/
+        /*@Override
+    public abstract string ToString();*/
 
-            /*/**
-        * Print a multi-line representation
-        * of the pattern illustrating it's syntax.
-        #1#
-        public void prettyPrint(PrintWriter pw) {
-        prettyPrint(pw, 0);
-        }
+        /*/**
+    * Print a multi-line representation
+    * of the pattern illustrating it's syntax.
+    #1#
+    public void prettyPrint(PrintWriter pw) {
+    prettyPrint(pw, 0);
+    }
 
-        /**
-        * Print a multi-line representation
-        * of the pattern illustrating it's syntax.
-        #1#
-        public void prettyPrint(PrintStream ps) {
-        prettyPrint(new PrintWriter(new OutputStreamWriter(ps), true));
-        }*/
+    /**
+    * Print a multi-line representation
+    * of the pattern illustrating it's syntax.
+    #1#
+    public void prettyPrint(PrintStream ps) {
+    prettyPrint(new PrintWriter(new OutputStreamWriter(ps), true));
+    }*/
 
 
         private static readonly Regex CodePattern = new Regex("([0-9]+):([0-9]+)", RegexOptions.Compiled);
@@ -499,97 +495,97 @@ namespace OpenNLP.Tools.Trees.TRegex
 
         private static Treebank treebank; // used by main method, must be accessible*/
 
-            // not thread-safe, but only used by TregexPattern's main method
-            /*private static class TRegexTreeVisitor: TreeVisitor {
+        // not thread-safe, but only used by TregexPattern's main method
+        /*private static class TRegexTreeVisitor: TreeVisitor {
 
-        private static bool printNumMatchesToStdOut = false;
-        static bool printNonMatchingTrees = false;
-        static bool printSubtreeCode = false;
-        static bool printTree = false;
-        static bool printWholeTree = false;
-        static bool printMatches = true;
-        static bool printFilename = false;
-        static bool oneMatchPerRootNode = false;
-        static bool reportTreeNumbers = false;
+    private static bool printNumMatchesToStdOut = false;
+    static bool printNonMatchingTrees = false;
+    static bool printSubtreeCode = false;
+    static bool printTree = false;
+    static bool printWholeTree = false;
+    static bool printMatches = true;
+    static bool printFilename = false;
+    static bool oneMatchPerRootNode = false;
+    static bool reportTreeNumbers = false;
 
-        //static TreePrint tp;
-        //private PrintWriter pw;
+    //static TreePrint tp;
+    //private PrintWriter pw;
 
-        int treeNumber = 0;
+    int treeNumber = 0;
 
-        private readonly TregexPattern p;
-        string[] handles;
-        int numMatches;
-        
-        // todo: add an option to only print each tree once, regardless.  Most useful in conjunction with -w
-        public void visitTree(Tree t) {
-            treeNumber++;
-            if (printTree) {
-            pw.print(treeNumber+":");
-            pw.println("Next tree read:");
-            tp.printTree(t,pw);
-            }
-            TregexMatcher match = p.matcher(t);
-            if(printNonMatchingTrees) {
-            if(match.find())
-                numMatches++;
-            else
-                tp.printTree(t,pw);
-            return;
-            }
-            Tree lastMatchingRootNode = null;
-            while (match.find()) {
-            if(oneMatchPerRootNode) {
-                if(lastMatchingRootNode == match.getMatch())
-                continue;
-                else
-                lastMatchingRootNode = match.getMatch();
-            }
-            numMatches++;
-            if (printFilename && treebank instanceof DiskTreebank) {
-                DiskTreebank dtb = (DiskTreebank) treebank;
-                pw.print("# ");
-                pw.println(dtb.getCurrentFilename());
-            }
-            if(printSubtreeCode) {
-                pw.print(treeNumber);
-                pw.print(':');
-                pw.println(match.getMatch().nodeNumber(t));
-            }
-            if (printMatches) {
-                if(reportTreeNumbers) {
-                pw.print(treeNumber);
-                pw.print(": ");
-                }
-                if (printTree) {
-                pw.println("Found a full match:");
-                }
-                if (printWholeTree) {
-                tp.printTree(t,pw);
-                } else if (handles != null) {
-                if (printTree) {
-                    pw.println("Here's the node you were interested in:");
-                }
-                for (string handle : handles) {
-                    Tree labeledNode = match.getNode(handle);
-                    if (labeledNode != null) {
-                    tp.printTree(labeledNode,pw);
-                    }
-                }
-                } else {
-                tp.printTree(match.getMatch(),pw);
-                }
-                // pw.println();  // TreePrint already puts a blank line in
-            } // end if (printMatches)
-            } // end while match.find()
-        } // end visitTree
+    private readonly TregexPattern p;
+    string[] handles;
+    int numMatches;
 
-        public int numMatches() {
-            return numMatches;
+    // todo: add an option to only print each tree once, regardless.  Most useful in conjunction with -w
+    public void visitTree(Tree t) {
+        treeNumber++;
+        if (printTree) {
+        pw.print(treeNumber+":");
+        pw.println("Next tree read:");
+        tp.printTree(t,pw);
         }
+        TregexMatcher match = p.matcher(t);
+        if(printNonMatchingTrees) {
+        if(match.find())
+            numMatches++;
+        else
+            tp.printTree(t,pw);
+        return;
+        }
+        Tree lastMatchingRootNode = null;
+        while (match.find()) {
+        if(oneMatchPerRootNode) {
+            if(lastMatchingRootNode == match.getMatch())
+            continue;
+            else
+            lastMatchingRootNode = match.getMatch();
+        }
+        numMatches++;
+        if (printFilename && treebank instanceof DiskTreebank) {
+            DiskTreebank dtb = (DiskTreebank) treebank;
+            pw.print("# ");
+            pw.println(dtb.getCurrentFilename());
+        }
+        if(printSubtreeCode) {
+            pw.print(treeNumber);
+            pw.print(':');
+            pw.println(match.getMatch().nodeNumber(t));
+        }
+        if (printMatches) {
+            if(reportTreeNumbers) {
+            pw.print(treeNumber);
+            pw.print(": ");
+            }
+            if (printTree) {
+            pw.println("Found a full match:");
+            }
+            if (printWholeTree) {
+            tp.printTree(t,pw);
+            } else if (handles != null) {
+            if (printTree) {
+                pw.println("Here's the node you were interested in:");
+            }
+            for (string handle : handles) {
+                Tree labeledNode = match.getNode(handle);
+                if (labeledNode != null) {
+                tp.printTree(labeledNode,pw);
+                }
+            }
+            } else {
+            tp.printTree(match.getMatch(),pw);
+            }
+            // pw.println();  // TreePrint already puts a blank line in
+        } // end if (printMatches)
+        } // end while match.find()
+    } // end visitTree
 
-        } // end class TRegexTreeVisitor*/
-        
+    public int numMatches() {
+        return numMatches;
+    }
+
+    } // end class TRegexTreeVisitor*/
+
 
         /*public static class TRegexTreeReaderFactory: TreeReaderFactory {
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -51,7 +49,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             {
                 varsToStrings.Add(var, string1);
             }
-            if (oldString != null && ! oldString.Equals(string1))
+            if (oldString != null && !oldString.Equals(string1))
                 throw new SystemException("Error -- can't setVar to a different string -- old: " + oldString + " new: " +
                                           string1);
             //numVarsSet.incrementCount(var);

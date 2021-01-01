@@ -33,11 +33,10 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference
 {
-	
-	/// <summary>
+
+    /// <summary>
     /// Enumeration of modes in which a linker can run.
     /// </summary>
     public enum LinkerMode
@@ -49,7 +48,7 @@ namespace OpenNLP.Tools.Coreference
         /// <summary>
         /// Training mode, used to learn coreference relationships in annotated text.
         /// </summary>
-        Train, 
+        Train,
         /// <summary>
         /// Evaluation mode, used to evaluate identifed coreference relationships based on annotated text.
         /// </summary>

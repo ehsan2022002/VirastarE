@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -127,7 +122,7 @@ namespace OpenNLP.Tools.Trees
                 ILabel l = t.Label();
                 // Delete (return false for) empty/trace nodes (ones marked '-NONE-')
                 return
-                    ! ((l != null) && "-NONE-".Equals(l.Value()) && !t.IsLeaf() && kids.Length == 1 && kids[0].IsLeaf());
+                    !((l != null) && "-NONE-".Equals(l.Value()) && !t.IsLeaf() && kids.Length == 1 && kids[0].IsLeaf());
             }
 
         } // end class EmptyFilter
@@ -155,7 +150,7 @@ namespace OpenNLP.Tools.Trees
                     return true;
                 }
                 return
-                    ! (t.Label() != null && t.Label().Value() != null &&
+                    !(t.Label() != null && t.Label().Value() != null &&
                        t.Label().Value().Equals(t.GetChild(0).Label().Value()));
             }
 

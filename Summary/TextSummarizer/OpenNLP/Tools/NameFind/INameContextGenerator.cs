@@ -33,34 +33,33 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections.Generic;
 
 namespace OpenNLP.Tools.NameFind
 {
-	/// <summary>
-	/// Context generator for the name find tool.
-	/// </summary>
-	public interface INameContextGenerator : Util.IBeamSearchContextGenerator
-	{	
-		/// <summary>
-		/// Returns the contexts for chunking of the specified index.
-		/// </summary>
-		/// <param name="tokenIndex">
-		/// The index of the token in the specified tokens array for which the context should be constructed. 
-		/// </param>
-		/// <param name="tokens">
-		/// The tokens of the sentence.
-		/// </param>
-		/// <param name="previousDecisions">
+    /// <summary>
+    /// Context generator for the name find tool.
+    /// </summary>
+    public interface INameContextGenerator : Util.IBeamSearchContextGenerator
+    {
+        /// <summary>
+        /// Returns the contexts for chunking of the specified index.
+        /// </summary>
+        /// <param name="tokenIndex">
+        /// The index of the token in the specified tokens array for which the context should be constructed. 
+        /// </param>
+        /// <param name="tokens">
+        /// The tokens of the sentence.
+        /// </param>
+        /// <param name="previousDecisions">
         /// The previous decisions made in the tagging of this sequence.  Only indices less than tokenIndex will be examined.
-		/// </param>
-		/// <param name="previousTags">
-		/// A mapping between tokens and the previous outcome for these tokens. 
-		/// </param>
-		/// <returns>
-		/// An array of predictive contexts on which a model basis its decisions.
-		/// </returns>
-		string[] GetContext(int tokenIndex, List<string> tokens, List<string> previousDecisions, IDictionary<string, string> previousTags);
-	}
+        /// </param>
+        /// <param name="previousTags">
+        /// A mapping between tokens and the previous outcome for these tokens. 
+        /// </param>
+        /// <returns>
+        /// An array of predictive contexts on which a model basis its decisions.
+        /// </returns>
+        string[] GetContext(int tokenIndex, List<string> tokens, List<string> previousDecisions, IDictionary<string, string> previousTags);
+    }
 }

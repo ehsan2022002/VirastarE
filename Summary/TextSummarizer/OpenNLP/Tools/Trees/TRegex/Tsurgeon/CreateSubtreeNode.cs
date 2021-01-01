@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -24,7 +20,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 
         public CreateSubtreeNode(TsurgeonPattern start, TsurgeonPattern end, AuxiliaryTree tree) :
             base("combineSubtrees",
-                (end == null) ? new TsurgeonPattern[] {start} : new TsurgeonPattern[] {start, end})
+                (end == null) ? new TsurgeonPattern[] { start } : new TsurgeonPattern[] { start, end })
         {
 
             this.auxTree = tree;

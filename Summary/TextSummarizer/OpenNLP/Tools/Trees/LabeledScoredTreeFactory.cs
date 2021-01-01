@@ -1,9 +1,5 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -53,7 +49,7 @@ namespace OpenNLP.Tools.Trees
             return new LabeledScoredTreeNode(_lf.NewLabel(label));
         }
 
-        public override Tree NewTreeNode(string parent,List<Tree> children)
+        public override Tree NewTreeNode(string parent, List<Tree> children)
         {
             return new LabeledScoredTreeNode(_lf.NewLabel(parent), children);
         }

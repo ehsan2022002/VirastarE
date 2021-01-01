@@ -1,16 +1,14 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Tokenize
 {
     public abstract class AbstractTokenizer : ITokenizer
     {
         public abstract Span[] TokenizePositions(string input);
-        
+
         /// <summary>Tokenize a string</summary>
         /// <param name="input">The string to be tokenized</param>
         /// <returns>A string array containing individual tokens as elements</returns>

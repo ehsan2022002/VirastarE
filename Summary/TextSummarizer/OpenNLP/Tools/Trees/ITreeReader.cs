@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Trees
+﻿namespace OpenNLP.Tools.Trees
 {
     /// <summary>
     /// A <code>TreeReader</code> adds functionality to another <code>Reader</code>

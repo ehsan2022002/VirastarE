@@ -1,12 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2007 August 14
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -28,7 +24,7 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#include "sqliteInt.h"
+        //#include "sqliteInt.h"
 
 #if (SQLITE_DEBUG) && !(SQLITE_MUTEX_OMIT)
 /*
@@ -84,7 +80,7 @@ static int sqlite3MutexEnd(){
 	rc = sqlite3GlobalConfig.mutex.xMutexEnd();
   }
 
-#if  SQLITE_DEBUG
+#if SQLITE_DEBUG
   mutexIsInit = 0;//GLOBAL(int, mutexIsInit) = 0;
 #endif
 
@@ -167,5 +163,5 @@ static bool sqlite3_mutex_held(sqlite3_mutex p){
 #endif
 
 #endif //* SQLITE_MUTEX_OMIT */
-	}
+    }
 }

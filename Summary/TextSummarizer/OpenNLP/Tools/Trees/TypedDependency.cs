@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
+using System;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -28,7 +23,7 @@ namespace OpenNLP.Tools.Trees
         // would change the GrammaticalStructure because of the way that
         // object mutated its TypedDependency objects.
         public GrammaticalRelation Reln { get; set; }
-        public  IndexedWord Gov { get; set; }
+        public IndexedWord Gov { get; set; }
         public IndexedWord Dep { get; set; }
         public bool Extra { get; set; } // = false; // to code whether the dependency preserves the tree structure or not
         // cdm: todo: remove this field and use typing on reln?  Expand implementation of SEMANTIC_DEPENDENT
@@ -47,7 +42,7 @@ namespace OpenNLP.Tools.Trees
             this.Dep = other.Dep;
             this.Extra = other.Extra;
         }
-        
+
         public override bool Equals(Object o)
         {
             if (this == o)
@@ -59,7 +54,7 @@ namespace OpenNLP.Tools.Trees
                 return false;
             }
 
-            var typedDep = (TypedDependency) o;
+            var typedDep = (TypedDependency)o;
             if (Reln != null ? !Reln.Equals(typedDep.Reln) : typedDep.Reln != null)
             {
                 return false;
@@ -79,8 +74,8 @@ namespace OpenNLP.Tools.Trees
         public override int GetHashCode()
         {
             int result = (Reln != null ? Reln.GetHashCode() : 17);
-            result = 29*result + (Gov != null ? Gov.GetHashCode() : 0);
-            result = 29*result + (Dep != null ? Dep.GetHashCode() : 0);
+            result = 29 * result + (Gov != null ? Gov.GetHashCode() : 0);
+            result = 29 * result + (Dep != null ? Dep.GetHashCode() : 0);
             return result;
         }
 

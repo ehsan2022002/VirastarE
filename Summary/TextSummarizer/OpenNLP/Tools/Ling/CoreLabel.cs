@@ -1,10 +1,9 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Ling
 {
@@ -54,7 +53,7 @@ namespace OpenNLP.Tools.Ling
         /// type inference for selecting a constructor at compile-time.
         /// </summary>
         /// <param name="label">The CoreLabel to copy</param>
-        public CoreLabel(CoreLabel label) : this((ICoreMap) label)
+        public CoreLabel(CoreLabel label) : this((ICoreMap)label)
         {
         }
 
@@ -83,7 +82,7 @@ namespace OpenNLP.Tools.Ling
         {
             if (label is ICoreMap)
             {
-                var cl = (ICoreMap) label;
+                var cl = (ICoreMap)label;
                 SetCapacity(cl.Size());
                 foreach (var key in cl.KeySet())
                 {
@@ -94,7 +93,7 @@ namespace OpenNLP.Tools.Ling
             {
                 if (label is IHasWord)
                 {
-                    SetWord(((IHasWord) label).GetWord());
+                    SetWord(((IHasWord)label).GetWord());
                 }
                 SetValue(label.Value());
             }
@@ -197,7 +196,7 @@ namespace OpenNLP.Tools.Ling
             {
                 if (oldLabel is CoreLabel)
                 {
-                    return new CoreLabel((CoreLabel) oldLabel);
+                    return new CoreLabel((CoreLabel)oldLabel);
 
                 }
                 else
@@ -206,18 +205,18 @@ namespace OpenNLP.Tools.Ling
                     //Don't need to worry about HasIndex, which doesn't appear in any legacy code
                     var label = new CoreLabel();
                     if (oldLabel is IHasWord)
-                        label.SetWord(((IHasWord) oldLabel).GetWord());
+                        label.SetWord(((IHasWord)oldLabel).GetWord());
                     if (oldLabel is IHasTag)
-                        label.SetTag(((IHasTag) oldLabel).Tag());
+                        label.SetTag(((IHasTag)oldLabel).Tag());
                     if (oldLabel is IHasOffset)
                     {
-                        label.SetBeginPosition(((IHasOffset) oldLabel).BeginPosition());
-                        label.SetEndPosition(((IHasOffset) oldLabel).EndPosition());
+                        label.SetBeginPosition(((IHasOffset)oldLabel).BeginPosition());
+                        label.SetEndPosition(((IHasOffset)oldLabel).EndPosition());
                     }
                     if (oldLabel is IHasCategory)
-                        label.SetCategory(((IHasCategory) oldLabel).Category());
+                        label.SetCategory(((IHasCategory)oldLabel).Category());
                     if (oldLabel is IHasIndex)
-                        label.SetIndex(((IHasIndex) oldLabel).Index());
+                        label.SetIndex(((IHasIndex)oldLabel).Index());
 
                     label.SetValue(oldLabel.Value());
 
@@ -260,7 +259,7 @@ namespace OpenNLP.Tools.Ling
         /// </returns>
         public /*<KEY extends Key<string>>*/ string GetString(Type key)
         {
-            string value = (string) Get(key);
+            string value = (string)Get(key);
             if (value == null)
             {
                 return "";
@@ -272,9 +271,9 @@ namespace OpenNLP.Tools.Ling
         /**
    * {@inheritDoc}
    */
-//  public int size() {
-//    return map.size();
-//  }
+        //  public int size() {
+        //    return map.size();
+        //  }
 
         public void SetFromString(string labelStr)
         {
@@ -283,12 +282,12 @@ namespace OpenNLP.Tools.Ling
 
         public void SetValue(string value)
         {
-            Set(typeof (CoreAnnotations.ValueAnnotation), value);
+            Set(typeof(CoreAnnotations.ValueAnnotation), value);
         }
 
         public string Value()
         {
-            return (string) Get(typeof (CoreAnnotations.ValueAnnotation));
+            return (string)Get(typeof(CoreAnnotations.ValueAnnotation));
         }
 
         /// <summary>
@@ -298,174 +297,174 @@ namespace OpenNLP.Tools.Ling
         /// <param name="word"></param>
         public void SetWord(string word)
         {
-            var originalWord = (string) Get(typeof (CoreAnnotations.TextAnnotation));
-            Set(typeof (CoreAnnotations.TextAnnotation), word);
+            var originalWord = (string)Get(typeof(CoreAnnotations.TextAnnotation));
+            Set(typeof(CoreAnnotations.TextAnnotation), word);
             // pado feb 09: if you change the word, delete the lemma.
             // gabor dec 2012: check if there was a real change -- this remove is actually rather expensive if it gets called a lot
-            if (word != null && !word.Equals(originalWord) && ContainsKey(typeof (CoreAnnotations.LemmaAnnotation)))
+            if (word != null && !word.Equals(originalWord) && ContainsKey(typeof(CoreAnnotations.LemmaAnnotation)))
             {
-                Remove(typeof (CoreAnnotations.LemmaAnnotation));
+                Remove(typeof(CoreAnnotations.LemmaAnnotation));
             }
         }
 
         public string GetWord()
         {
-            return (string) Get(typeof (CoreAnnotations.TextAnnotation));
+            return (string)Get(typeof(CoreAnnotations.TextAnnotation));
         }
 
         public void SetTag(string tag)
         {
-            Set(typeof (CoreAnnotations.PartOfSpeechAnnotation), tag);
+            Set(typeof(CoreAnnotations.PartOfSpeechAnnotation), tag);
         }
 
         public string Tag()
         {
-            return (string) Get(typeof (CoreAnnotations.PartOfSpeechAnnotation));
+            return (string)Get(typeof(CoreAnnotations.PartOfSpeechAnnotation));
         }
 
         public void SetCategory(string category)
         {
-            Set(typeof (CoreAnnotations.CategoryAnnotation), category);
+            Set(typeof(CoreAnnotations.CategoryAnnotation), category);
         }
 
         public string Category()
         {
-            return (string) Get(typeof (CoreAnnotations.CategoryAnnotation));
+            return (string)Get(typeof(CoreAnnotations.CategoryAnnotation));
         }
 
         public void SetAfter(string after)
         {
-            Set(typeof (CoreAnnotations.AfterAnnotation), after);
+            Set(typeof(CoreAnnotations.AfterAnnotation), after);
         }
 
         public string After()
         {
-            return GetString(typeof (CoreAnnotations.AfterAnnotation));
+            return GetString(typeof(CoreAnnotations.AfterAnnotation));
         }
 
         public void SetBefore(string before)
         {
-            Set(typeof (CoreAnnotations.BeforeAnnotation), before);
+            Set(typeof(CoreAnnotations.BeforeAnnotation), before);
         }
 
         public string Before()
         {
-            return GetString(typeof (CoreAnnotations.BeforeAnnotation));
+            return GetString(typeof(CoreAnnotations.BeforeAnnotation));
         }
 
         public void SetOriginalText(string originalText)
         {
-            Set(typeof (CoreAnnotations.OriginalTextAnnotation), originalText);
+            Set(typeof(CoreAnnotations.OriginalTextAnnotation), originalText);
         }
 
         public string OriginalText()
         {
-            return GetString(typeof (CoreAnnotations.OriginalTextAnnotation));
+            return GetString(typeof(CoreAnnotations.OriginalTextAnnotation));
         }
 
         public string DocId()
         {
-            return (string) Get(typeof (CoreAnnotations.DocIdAnnotation));
+            return (string)Get(typeof(CoreAnnotations.DocIdAnnotation));
         }
 
         public void SetDocId(string docId)
         {
             //set(CoreAnnotations.DocIDAnnotation.class, docID);
         }
-        
+
         /// <summary>
         /// Returns the named entity class of the label (or null if none).
         /// </summary>
         public string Ner()
         {
-            return (string) Get(typeof (CoreAnnotations.NamedEntityTagAnnotation));
+            return (string)Get(typeof(CoreAnnotations.NamedEntityTagAnnotation));
         }
 
         public void SetNer(string ner)
         {
-            Set(typeof (CoreAnnotations.NamedEntityTagAnnotation), ner);
+            Set(typeof(CoreAnnotations.NamedEntityTagAnnotation), ner);
         }
 
         public string Lemma()
         {
-            return (string) Get(typeof (CoreAnnotations.LemmaAnnotation));
+            return (string)Get(typeof(CoreAnnotations.LemmaAnnotation));
         }
 
         public void SetLemma(string lemma)
         {
-            Set(typeof (CoreAnnotations.LemmaAnnotation), lemma);
+            Set(typeof(CoreAnnotations.LemmaAnnotation), lemma);
         }
 
         public int Index()
         {
-            var n = Get(typeof (CoreAnnotations.IndexAnnotation));
+            var n = Get(typeof(CoreAnnotations.IndexAnnotation));
             if (n == null)
             {
                 return -1;
             }
             else
             {
-                return (int) n;
+                return (int)n;
             }
         }
 
         public void SetIndex(int index)
         {
-            Set(typeof (CoreAnnotations.IndexAnnotation), index);
+            Set(typeof(CoreAnnotations.IndexAnnotation), index);
         }
 
         public int SentIndex()
         {
-            var n = Get(typeof (CoreAnnotations.SentenceIndexAnnotation));
+            var n = Get(typeof(CoreAnnotations.SentenceIndexAnnotation));
             if (n == null)
                 return -1;
             else
-                return (int) n;
+                return (int)n;
         }
 
         public void SetSentIndex(int sentIndex)
         {
-            Set(typeof (CoreAnnotations.SentenceIndexAnnotation), sentIndex);
+            Set(typeof(CoreAnnotations.SentenceIndexAnnotation), sentIndex);
         }
 
         public int BeginPosition()
         {
-            var i = Get(typeof (CoreAnnotations.CharacterOffsetBeginAnnotation));
+            var i = Get(typeof(CoreAnnotations.CharacterOffsetBeginAnnotation));
             if (i != null)
-                return (int) i;
+                return (int)i;
             else
                 return -1;
         }
 
         public int EndPosition()
         {
-            var i = Get(typeof (CoreAnnotations.CharacterOffsetEndAnnotation));
+            var i = Get(typeof(CoreAnnotations.CharacterOffsetEndAnnotation));
             if (i != null)
-                return (int) i;
+                return (int)i;
             else return -1;
         }
 
         public void SetBeginPosition(int beginPos)
         {
-            Set(typeof (CoreAnnotations.CharacterOffsetBeginAnnotation), beginPos);
+            Set(typeof(CoreAnnotations.CharacterOffsetBeginAnnotation), beginPos);
         }
 
         public void SetEndPosition(int endPos)
         {
-            Set(typeof (CoreAnnotations.CharacterOffsetEndAnnotation), endPos);
+            Set(typeof(CoreAnnotations.CharacterOffsetEndAnnotation), endPos);
         }
 
         public int CopyCount()
         {
-            var copy = Get(typeof (CoreAnnotations.CopyAnnotation));
+            var copy = Get(typeof(CoreAnnotations.CopyAnnotation));
             if (copy == null)
                 return 0;
-            else return (int) copy;
+            else return (int)copy;
         }
 
         public void SetCopyCount(int count)
         {
-            Set(typeof (CoreAnnotations.CopyAnnotation), count);
+            Set(typeof(CoreAnnotations.CopyAnnotation), count);
         }
 
         /// <summary>Tag separator to use by default</summary>
@@ -486,7 +485,7 @@ namespace OpenNLP.Tools.Ling
 
         public static readonly OutputFormat DEFAULT_FORMAT = OutputFormat.VALUE_INDEX;
 
-        
+
         public override string ToString()
         {
             return ToString(DEFAULT_FORMAT);
@@ -522,108 +521,108 @@ namespace OpenNLP.Tools.Ling
                     buf.Append(Value());
                     break;
                 case OutputFormat.MAP:
-                {
-                    var map2 = new Dictionary<string, object>();
-                    foreach (var key in this.KeySet())
                     {
-                        map2.Add(key.Name, Get(key));
-                    }
-                    buf.Append(map2);
-                    break;
-                }
-                case OutputFormat.VALUE_MAP:
-                {
-                    buf.Append(Value());
-                    var map2 = new Dictionary<Type, object>(AsClassComparator);
-                    foreach (var key in this.KeySet())
-                    {
-                        map2.Add(key, Get(key));
-                    }
-                    map2.Remove(typeof (CoreAnnotations.ValueAnnotation));
-                    buf.Append(map2);
-                    break;
-                }
-                case OutputFormat.VALUE_INDEX:
-                {
-                    buf.Append(Value());
-                    var index = this.Get(typeof (CoreAnnotations.IndexAnnotation));
-                    if (index != null)
-                    {
-                        buf.Append('-').Append((int) index);
-                    }
-                    buf.Append(ToPrimes());
-                    break;
-                }
-                case OutputFormat.VALUE_TAG:
-                {
-                    buf.Append(Value());
-                    buf.Append(ToPrimes());
-                    string ltag = Tag();
-                    if (ltag != null)
-                    {
-                        buf.Append(TagSeparator).Append(ltag);
-                    }
-                    break;
-                }
-                case OutputFormat.VALUE_TAG_INDEX:
-                {
-                    buf.Append(Value());
-                    string ltag = Tag();
-                    if (ltag != null)
-                    {
-                        buf.Append(TagSeparator).Append(ltag);
-                    }
-                    var index = this.Get(typeof (CoreAnnotations.IndexAnnotation));
-                    if (index != null)
-                    {
-                        buf.Append('-').Append((int) index);
-                    }
-                    buf.Append(ToPrimes());
-                    break;
-                }
-                case OutputFormat.VALUE_INDEX_MAP:
-                {
-                    buf.Append(Value());
-                    var index = this.Get(typeof (CoreAnnotations.IndexAnnotation));
-                    if (index != null)
-                    {
-                        buf.Append('-').Append((int) index);
-                    }
-                    var map2 = new Dictionary<string, Object>();
-                    foreach (var key in this.KeySet())
-                    {
-                        string cls = key.Name;
-                        // special shortening of all the Annotation classes
-                        int idx = cls.IndexOf('$');
-                        if (idx >= 0)
+                        var map2 = new Dictionary<string, object>();
+                        foreach (var key in this.KeySet())
                         {
-                            cls = cls.Substring(idx + 1);
+                            map2.Add(key.Name, Get(key));
                         }
-                        map2.Add(cls, this.Get(key));
-                    }
-                    map2.Remove("IndexAnnotation");
-                    map2.Remove("ValueAnnotation");
-                    if (map2.Any())
-                    {
                         buf.Append(map2);
+                        break;
                     }
-                    break;
-                }
+                case OutputFormat.VALUE_MAP:
+                    {
+                        buf.Append(Value());
+                        var map2 = new Dictionary<Type, object>(AsClassComparator);
+                        foreach (var key in this.KeySet())
+                        {
+                            map2.Add(key, Get(key));
+                        }
+                        map2.Remove(typeof(CoreAnnotations.ValueAnnotation));
+                        buf.Append(map2);
+                        break;
+                    }
+                case OutputFormat.VALUE_INDEX:
+                    {
+                        buf.Append(Value());
+                        var index = this.Get(typeof(CoreAnnotations.IndexAnnotation));
+                        if (index != null)
+                        {
+                            buf.Append('-').Append((int)index);
+                        }
+                        buf.Append(ToPrimes());
+                        break;
+                    }
+                case OutputFormat.VALUE_TAG:
+                    {
+                        buf.Append(Value());
+                        buf.Append(ToPrimes());
+                        string ltag = Tag();
+                        if (ltag != null)
+                        {
+                            buf.Append(TagSeparator).Append(ltag);
+                        }
+                        break;
+                    }
+                case OutputFormat.VALUE_TAG_INDEX:
+                    {
+                        buf.Append(Value());
+                        string ltag = Tag();
+                        if (ltag != null)
+                        {
+                            buf.Append(TagSeparator).Append(ltag);
+                        }
+                        var index = this.Get(typeof(CoreAnnotations.IndexAnnotation));
+                        if (index != null)
+                        {
+                            buf.Append('-').Append((int)index);
+                        }
+                        buf.Append(ToPrimes());
+                        break;
+                    }
+                case OutputFormat.VALUE_INDEX_MAP:
+                    {
+                        buf.Append(Value());
+                        var index = this.Get(typeof(CoreAnnotations.IndexAnnotation));
+                        if (index != null)
+                        {
+                            buf.Append('-').Append((int)index);
+                        }
+                        var map2 = new Dictionary<string, Object>();
+                        foreach (var key in this.KeySet())
+                        {
+                            string cls = key.Name;
+                            // special shortening of all the Annotation classes
+                            int idx = cls.IndexOf('$');
+                            if (idx >= 0)
+                            {
+                                cls = cls.Substring(idx + 1);
+                            }
+                            map2.Add(cls, this.Get(key));
+                        }
+                        map2.Remove("IndexAnnotation");
+                        map2.Remove("ValueAnnotation");
+                        if (map2.Any())
+                        {
+                            buf.Append(map2);
+                        }
+                        break;
+                    }
                 case OutputFormat.WORD:
                     // TODO: we should unify word() and value()
                     buf.Append(GetWord());
                     break;
                 case OutputFormat.WORD_INDEX:
-                {
-                    buf.Append(this.Get(typeof (CoreAnnotations.TextAnnotation)));
-                    var index = this.Get(typeof (CoreAnnotations.IndexAnnotation));
-                    if (index != null)
                     {
-                        buf.Append('-').Append((int) index);
+                        buf.Append(this.Get(typeof(CoreAnnotations.TextAnnotation)));
+                        var index = this.Get(typeof(CoreAnnotations.IndexAnnotation));
+                        if (index != null)
+                        {
+                            buf.Append('-').Append((int)index);
+                        }
+                        buf.Append(ToPrimes());
+                        break;
                     }
-                    buf.Append(ToPrimes());
-                    break;
-                }
                 default:
                     throw new InvalidDataException("Unknown format " + format);
             }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
     public class ReplaceNode : TsurgeonPattern
     {
         public ReplaceNode(TsurgeonPattern oldNode, TsurgeonPattern[] newNodes) :
-            base("replace", new TsurgeonPattern[] {oldNode}.Union(newNodes).ToArray())
+            base("replace", new TsurgeonPattern[] { oldNode }.Union(newNodes).ToArray())
         {
         }
 

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
+using OpenNLP.Tools.Util.Process;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
-using OpenNLP.Tools.Util.Process;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -36,7 +34,7 @@ namespace OpenNLP.Tools.Trees
         private readonly ITokenizer<string> tokenizer;
         private readonly TreeNormalizer treeNormalizer;
         private readonly ITreeFactory treeFactory;
-        
+
         private Tree currentTree;
         // misuse a list as a stack, since we want to avoid the synchronized and old Stack, but don't need the power and JDK 1.6 dependency of a Deque
         private List<Tree> stack;
@@ -54,7 +52,7 @@ namespace OpenNLP.Tools.Trees
         {
         }
 
-                /// <summary>
+        /// <summary>
         /// Read parse trees from a <code>Reader</code>.
         /// </summary>
         /// <param name="input">the Reader</param>
@@ -178,7 +176,7 @@ namespace OpenNLP.Tools.Trees
                         string label = (tokenizer.Peek().Equals(LeftParen)) ? null : tokenizer.Next();
                         if (RightParen.Equals(label))
                         {
-//Skip past empty trees
+                            //Skip past empty trees
                             continue;
                         }
                         else if (treeNormalizer != null)
@@ -237,12 +235,12 @@ namespace OpenNLP.Tools.Trees
                         Tree leaf = treeFactory.NewLeaf(terminal);
                         if (leaf.Label() is IHasIndex)
                         {
-                            var hi = (IHasIndex) leaf.Label();
+                            var hi = (IHasIndex)leaf.Label();
                             hi.SetIndex(wordIndex);
                         }
                         if (leaf.Label() is IHasWord)
                         {
-                            var hw = (IHasWord) leaf.Label();
+                            var hw = (IHasWord)leaf.Label();
                             hw.SetWord(leaf.Label().Value());
                         }
                         wordIndex++;
@@ -252,7 +250,7 @@ namespace OpenNLP.Tools.Trees
                         break;
                 }
             }
-            post_while_label:
+        post_while_label:
             {
             }
 

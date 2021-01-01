@@ -33,42 +33,40 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary>
+    /// <summary>
     /// Finds mentions from Penn Treebank style parses.
     /// </summary>
-	public sealed class PennTreebankMentionFinder : AbstractMentionFinder
-	{
-		private static PennTreebankMentionFinder mInstance = null;
-		
-		/// <summary>
+    public sealed class PennTreebankMentionFinder : AbstractMentionFinder
+    {
+        private static PennTreebankMentionFinder mInstance = null;
+
+        /// <summary>
         /// Creates a new mention finder with the specified head finder.
         /// </summary>
         /// <param name="headFinder">
         /// The head finder.
-		/// </param>
-		private PennTreebankMentionFinder(IHeadFinder headFinder)
-		{
-			PrenominalNamedEntitiesCollection = false;
-			CoordinatedNounPhrasesCollection = true;
-			HeadFinder = headFinder;
-		}
-		
-		public static PennTreebankMentionFinder GetInstance(IHeadFinder headFinder)
-		{
-			if (mInstance == null)
-			{
-				mInstance = new PennTreebankMentionFinder(headFinder);
-			}
-			else if (mInstance.HeadFinder != headFinder)
-			{
-				mInstance = new PennTreebankMentionFinder(headFinder);
-			}
-			return mInstance;
-		}
-		
-	}
+        /// </param>
+        private PennTreebankMentionFinder(IHeadFinder headFinder)
+        {
+            PrenominalNamedEntitiesCollection = false;
+            CoordinatedNounPhrasesCollection = true;
+            HeadFinder = headFinder;
+        }
+
+        public static PennTreebankMentionFinder GetInstance(IHeadFinder headFinder)
+        {
+            if (mInstance == null)
+            {
+                mInstance = new PennTreebankMentionFinder(headFinder);
+            }
+            else if (mInstance.HeadFinder != headFinder)
+            {
+                mInstance = new PennTreebankMentionFinder(headFinder);
+            }
+            return mInstance;
+        }
+
+    }
 }

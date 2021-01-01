@@ -1,14 +1,8 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-
 namespace System.Data.SQLite
 {
-	using sqlite3_value = Sqlite3.Mem;
-
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2008 June 13
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -31,37 +25,37 @@ namespace System.Data.SQLite
 		*/
 
 #if SQLITE_ASCII
-		/// <summary>
-		/// The following 256 byte lookup table is used to support SQLites built-in
-		/// equivalents to the following standard library functions:
-		/// 
-		///   isspace()                        0x01
-		///   isalpha()                        0x02
-		///   isdigit()                        0x04
-		///   isalnum()                        0x06
-		///   isxdigit()                       0x08
-		///   toupper()                        0x20
-		///   SQLite identifier character      0x40
-		/// 
-		/// Bit 0x20 is set if the mapped character requires translation to upper
-		/// case. i.e. if the character is a lower-case ASCII character.
-		/// If x is a lower-case ASCII character, then its upper-case equivalent
-		/// is (x - 0x20). Therefore toupper() can be implemented as:
-		/// 
-		///   (x & ~(map[x]&0x20))
-		/// 
-		/// Standard function tolower() is implemented using the sqlite3UpperToLower[]
-		/// array. tolower() is used more often than toupper() by SQLite.
-		/// 
-		/// Bit 0x40 is set if the character non-alphanumeric and can be used in an 
-		/// SQLite identifier.  Identifiers are alphanumerics, "_", "$", and any
-		/// non-ASCII UTF character. Hence the test for whether or not a character is
-		/// part of an identifier is 0x46.
-		/// 
-		/// SQLite's versions are identical to the standard versions assuming a
-		/// locale of "C". They are implemented as macros in sqliteInt.h.
-		/// </summary>
-		static byte[] sqlite3CtypeMap = new byte[] {
+        /// <summary>
+        /// The following 256 byte lookup table is used to support SQLites built-in
+        /// equivalents to the following standard library functions:
+        /// 
+        ///   isspace()                        0x01
+        ///   isalpha()                        0x02
+        ///   isdigit()                        0x04
+        ///   isalnum()                        0x06
+        ///   isxdigit()                       0x08
+        ///   toupper()                        0x20
+        ///   SQLite identifier character      0x40
+        /// 
+        /// Bit 0x20 is set if the mapped character requires translation to upper
+        /// case. i.e. if the character is a lower-case ASCII character.
+        /// If x is a lower-case ASCII character, then its upper-case equivalent
+        /// is (x - 0x20). Therefore toupper() can be implemented as:
+        /// 
+        ///   (x & ~(map[x]&0x20))
+        /// 
+        /// Standard function tolower() is implemented using the sqlite3UpperToLower[]
+        /// array. tolower() is used more often than toupper() by SQLite.
+        /// 
+        /// Bit 0x40 is set if the character non-alphanumeric and can be used in an 
+        /// SQLite identifier.  Identifiers are alphanumerics, "_", "$", and any
+        /// non-ASCII UTF character. Hence the test for whether or not a character is
+        /// part of an identifier is 0x46.
+        /// 
+        /// SQLite's versions are identical to the standard versions assuming a
+        /// locale of "C". They are implemented as macros in sqliteInt.h.
+        /// </summary>
+        static byte[] sqlite3CtypeMap = new byte[] {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* 00..07    ........ */
   0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00,  /* 08..0f    ........ */
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  /* 10..17    ........ */
@@ -103,90 +97,90 @@ namespace System.Data.SQLite
 #if SQLITE_USE_URI
 	const bool SQLITE_USE_URI = true;
 #else
-		const bool SQLITE_USE_URI = false;
+        const bool SQLITE_USE_URI = false;
 #endif
 
-		/*
+        /*
 ** The following singleton contains the global configuration for
 ** the SQLite library.
 */
-		static Sqlite3Config sqlite3Config = new Sqlite3Config(
-		SQLITE_DEFAULT_MEMSTATUS, /* bMemstat */
-		1,                        /* bCoreMutex */
-		SQLITE_THREADSAFE != 0,   /* bFullMutex */
-		SQLITE_USE_URI,           /* bOpenUri */
-		0x7ffffffe,               /* mxStrlen */
-		100,                      /* szLookaside */
-		500,                      /* nLookaside */
-		new sqlite3_mem_methods(),   /* m */
-		new sqlite3_mutex_methods(null, null, null, null, null, null, null, null, null), /* mutex */
-		new sqlite3_pcache_methods(),/* pcache */
-		null,                      /* pHeap */
-		0,                         /* nHeap */
-		0, 0,                      /* mnHeap, mxHeap */
-		null,                      /* pScratch */
-		0,                         /* szScratch */
-		0,                         /* nScratch */
-		null,                      /* pPage */
-		SQLITE_DEFAULT_PAGE_SIZE,  /* szPage */
-		0,                         /* nPage */
-		0,                         /* mxParserStack */
-		false,                     /* sharedCacheEnabled */
-			/* All the rest should always be initialized to zero */
-		0,                         /* isInit */
-		0,                         /* inProgress */
-		0,                         /* isMutexInit */
-		0,                         /* isMallocInit */
-		0,                         /* isPCacheInit */
-		null,                      /* pInitMutex */
-		0,                         /* nRefInitMutex */
-		null,                      /* xLog */
-		0,                         /* pLogArg */
-		false                      /* bLocaltimeFault */
-	   );
+        static Sqlite3Config sqlite3Config = new Sqlite3Config(
+        SQLITE_DEFAULT_MEMSTATUS, /* bMemstat */
+        1,                        /* bCoreMutex */
+        SQLITE_THREADSAFE != 0,   /* bFullMutex */
+        SQLITE_USE_URI,           /* bOpenUri */
+        0x7ffffffe,               /* mxStrlen */
+        100,                      /* szLookaside */
+        500,                      /* nLookaside */
+        new sqlite3_mem_methods(),   /* m */
+        new sqlite3_mutex_methods(null, null, null, null, null, null, null, null, null), /* mutex */
+        new sqlite3_pcache_methods(),/* pcache */
+        null,                      /* pHeap */
+        0,                         /* nHeap */
+        0, 0,                      /* mnHeap, mxHeap */
+        null,                      /* pScratch */
+        0,                         /* szScratch */
+        0,                         /* nScratch */
+        null,                      /* pPage */
+        SQLITE_DEFAULT_PAGE_SIZE,  /* szPage */
+        0,                         /* nPage */
+        0,                         /* mxParserStack */
+        false,                     /* sharedCacheEnabled */
+        /* All the rest should always be initialized to zero */
+        0,                         /* isInit */
+        0,                         /* inProgress */
+        0,                         /* isMutexInit */
+        0,                         /* isMallocInit */
+        0,                         /* isPCacheInit */
+        null,                      /* pInitMutex */
+        0,                         /* nRefInitMutex */
+        null,                      /* xLog */
+        0,                         /* pLogArg */
+        false                      /* bLocaltimeFault */
+       );
 
-		/*
+        /*
 		** Hash table for global functions - functions common to all
 		** database connections.  After initialization, this table is
 		** read-only.
 		*/
-		static FuncDefHash sqlite3GlobalFunctions;
-		/*
+        static FuncDefHash sqlite3GlobalFunctions;
+        /*
 		** Constant tokens for values 0 and 1.
 		*/
-		static Token[] sqlite3IntTokens =  {
+        static Token[] sqlite3IntTokens =  {
    new Token( "0", 1 ),
    new Token( "1", 1 )
 };
 
 #if !SQLITE_OMIT_WSD
-		/// <summary>
-		/// The value of the "pending" byte must be 0x40000000 (1 byte past the
-		/// 1-gibabyte boundary) in a compatible database.  SQLite never uses
-		/// the database page that contains the pending byte.  It never attempts
-		/// to read or write that page.  The pending byte page is set assign
-		/// for use by the VFS layers as space for managing file locks.
-		/// 
-		/// During testing, it is often desirable to move the pending byte to
-		/// a different position in the file.  This allows code that has to
-		/// deal with the pending byte to run on files that are much smaller
-		/// than 1 GiB.  The sqlite3_test_control() interface can be used to
-		/// move the pending byte.
-		/// 
-		/// IMPORTANT:  Changing the pending byte to any value other than
-		/// 0x40000000 results in an incompatible database file format!
-		/// Changing the pending byte during operating results in undefined
-		/// and dileterious behavior.
-		/// </summary>
-		static int sqlite3PendingByte = 0x40000000;
+        /// <summary>
+        /// The value of the "pending" byte must be 0x40000000 (1 byte past the
+        /// 1-gibabyte boundary) in a compatible database.  SQLite never uses
+        /// the database page that contains the pending byte.  It never attempts
+        /// to read or write that page.  The pending byte page is set assign
+        /// for use by the VFS layers as space for managing file locks.
+        /// 
+        /// During testing, it is often desirable to move the pending byte to
+        /// a different position in the file.  This allows code that has to
+        /// deal with the pending byte to run on files that are much smaller
+        /// than 1 GiB.  The sqlite3_test_control() interface can be used to
+        /// move the pending byte.
+        /// 
+        /// IMPORTANT:  Changing the pending byte to any value other than
+        /// 0x40000000 results in an incompatible database file format!
+        /// Changing the pending byte during operating results in undefined
+        /// and dileterious behavior.
+        /// </summary>
+        static int sqlite3PendingByte = 0x40000000;
 #endif
 
-		/// </summary>
-		/// Properties of opcodes.  The OPFLG_INITIALIZER macro is
-		/// created by mkopcodeh.awk during compilation.  Data is obtained
-		/// from the comments following the "case OP_xxxx:" statements in
-		/// the vdbe.c file.  
-		/// </summary>
-		public static int[] sqlite3OpcodeProperty;
-	}
+        /// </summary>
+        /// Properties of opcodes.  The OPFLG_INITIALIZER macro is
+        /// created by mkopcodeh.awk during compilation.  Data is obtained
+        /// from the comments following the "case OP_xxxx:" statements in
+        /// the vdbe.c file.  
+        /// </summary>
+        public static int[] sqlite3OpcodeProperty;
+    }
 }

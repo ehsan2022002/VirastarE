@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
+﻿using OpenNLP.Tools.Util;
+using System;
 
 namespace OpenNLP.Tools.Ling
 {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
+﻿using OpenNLP.Tools.Util;
+using System;
 
 namespace OpenNLP.Tools.Ling
 {
@@ -33,7 +29,7 @@ namespace OpenNLP.Tools.Ling
 
         private readonly CoreLabel label;
 
-        
+
         /// <summary>
         /// Default constructor; uses {@link CoreLabel} default constructor
         /// </summary>
@@ -52,7 +48,7 @@ namespace OpenNLP.Tools.Ling
         {
             if (w is CoreLabel)
             {
-                this.label = (CoreLabel) w;
+                this.label = (CoreLabel)w;
             }
             else
             {
@@ -75,7 +71,7 @@ namespace OpenNLP.Tools.Ling
         {
             label = w;
         }
-        
+
         /// <summary>
         /// Constructor for setting docID, sentenceIndex, and
         /// index without any other annotations.
@@ -86,9 +82,9 @@ namespace OpenNLP.Tools.Ling
         public IndexedWord(string docId, int sentenceIndex, int index)
         {
             label = new CoreLabel();
-            label.Set(typeof (CoreAnnotations.DocIdAnnotation), docId);
-            label.Set(typeof (CoreAnnotations.SentenceIndexAnnotation), sentenceIndex);
-            label.Set(typeof (CoreAnnotations.IndexAnnotation), index);
+            label.Set(typeof(CoreAnnotations.DocIdAnnotation), docId);
+            label.Set(typeof(CoreAnnotations.SentenceIndexAnnotation), sentenceIndex);
+            label.Set(typeof(CoreAnnotations.IndexAnnotation), index);
         }
 
         public IndexedWord MakeCopy(int count)
@@ -282,37 +278,37 @@ namespace OpenNLP.Tools.Ling
             if (!(o is IndexedWord)) return false;
 
             //now compare on appropriate keys
-            var otherWord = (IndexedWord) o;
-            var myInd = Get(typeof (CoreAnnotations.IndexAnnotation));
-            var otherInd = otherWord.Get(typeof (CoreAnnotations.IndexAnnotation));
+            var otherWord = (IndexedWord)o;
+            var myInd = Get(typeof(CoreAnnotations.IndexAnnotation));
+            var otherInd = otherWord.Get(typeof(CoreAnnotations.IndexAnnotation));
             if (myInd == null)
             {
                 if (otherInd != null)
                     return false;
             }
-            else if (! ((int) myInd).Equals((int) otherInd))
+            else if (!((int)myInd).Equals((int)otherInd))
             {
                 return false;
             }
-            var mySentInd = Get(typeof (CoreAnnotations.SentenceIndexAnnotation));
-            var otherSentInd = otherWord.Get(typeof (CoreAnnotations.SentenceIndexAnnotation));
+            var mySentInd = Get(typeof(CoreAnnotations.SentenceIndexAnnotation));
+            var otherSentInd = otherWord.Get(typeof(CoreAnnotations.SentenceIndexAnnotation));
             if (mySentInd == null)
             {
                 if (otherSentInd != null)
                     return false;
             }
-            else if (! ((int) mySentInd).Equals((int) otherSentInd))
+            else if (!((int)mySentInd).Equals((int)otherSentInd))
             {
                 return false;
             }
-            string myDocId = GetString(typeof (CoreAnnotations.DocIdAnnotation));
-            string otherDocId = otherWord.GetString(typeof (CoreAnnotations.DocIdAnnotation));
+            string myDocId = GetString(typeof(CoreAnnotations.DocIdAnnotation));
+            string otherDocId = otherWord.GetString(typeof(CoreAnnotations.DocIdAnnotation));
             if (myDocId == null)
             {
                 if (otherDocId != null)
                     return false;
             }
-            else if (! myDocId.Equals(otherDocId))
+            else if (!myDocId.Equals(otherDocId))
             {
                 return false;
             }
@@ -330,19 +326,19 @@ namespace OpenNLP.Tools.Ling
         {
             bool sensible = false;
             int result = 0;
-            if (Get(typeof (CoreAnnotations.DocIdAnnotation)) != null)
+            if (Get(typeof(CoreAnnotations.DocIdAnnotation)) != null)
             {
-                result = Get(typeof (CoreAnnotations.DocIdAnnotation)).GetHashCode();
+                result = Get(typeof(CoreAnnotations.DocIdAnnotation)).GetHashCode();
                 sensible = true;
             }
-            if (Has(typeof (CoreAnnotations.SentenceIndexAnnotation)))
+            if (Has(typeof(CoreAnnotations.SentenceIndexAnnotation)))
             {
-                result = 29*result + Get(typeof (CoreAnnotations.SentenceIndexAnnotation)).GetHashCode();
+                result = 29 * result + Get(typeof(CoreAnnotations.SentenceIndexAnnotation)).GetHashCode();
                 sensible = true;
             }
-            if (Has(typeof (CoreAnnotations.IndexAnnotation)))
+            if (Has(typeof(CoreAnnotations.IndexAnnotation)))
             {
-                result = 29*result + Get(typeof (CoreAnnotations.IndexAnnotation)).GetHashCode();
+                result = 29 * result + Get(typeof(CoreAnnotations.IndexAnnotation)).GetHashCode();
                 sensible = true;
             }
             return result;
@@ -378,8 +374,8 @@ namespace OpenNLP.Tools.Ling
                 return 1;
             }
 
-            string docId = this.GetString(typeof (CoreAnnotations.DocIdAnnotation));
-            int docComp = docId.CompareTo(w.GetString(typeof (CoreAnnotations.DocIdAnnotation)));
+            string docId = this.GetString(typeof(CoreAnnotations.DocIdAnnotation));
+            int docComp = docId.CompareTo(w.GetString(typeof(CoreAnnotations.DocIdAnnotation)));
             if (docComp != 0) return docComp;
 
             int sentComp = SentIndex() - w.SentIndex();

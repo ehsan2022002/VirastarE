@@ -1,5 +1,4 @@
 ﻿#if SYSTEM_DRAWING_SUPPORT
-
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -37,7 +36,8 @@ namespace Tesseract
                 }
 
                 // transfer data
-                imgData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadOnly, img.PixelFormat);
+                imgData =
+ img.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadOnly, img.PixelFormat);
                 pixData = pix.GetData();
 
                 if (imgData.PixelFormat == PixelFormat.Format32bppArgb) {

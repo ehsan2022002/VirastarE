@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -43,7 +40,7 @@ namespace OpenNLP.Tools.Util
             }
 
             this.immutableKeys = new Set<Type>(hashkey.Keys);
-            this.hashcode = keyHashcode*31 + valueHashcode;
+            this.hashcode = keyHashcode * 31 + valueHashcode;
         }
 
         /**
@@ -93,7 +90,7 @@ namespace OpenNLP.Tools.Util
         {
             if (o is HashableCoreMap)
             {
-                var other = (HashableCoreMap) o;
+                var other = (HashableCoreMap)o;
                 if (!other.immutableKeys.Equals(this.immutableKeys))
                 {
                     return false;

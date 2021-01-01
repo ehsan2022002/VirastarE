@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -17,7 +13,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         /// Top should evaluate to a node that dominates bottom, but this is not checked!
         /// </summary>
         public ExciseNode(TsurgeonPattern top, TsurgeonPattern bottom) :
-            base("excise", new TsurgeonPattern[] {top, bottom})
+            base("excise", new TsurgeonPattern[] { top, bottom })
         {
         }
 
@@ -25,7 +21,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         /// Excises only the directed node
         /// </summary>
         public ExciseNode(TsurgeonPattern node) :
-            base("excise", new TsurgeonPattern[] {node, node})
+            base("excise", new TsurgeonPattern[] { node, node })
         {
         }
 

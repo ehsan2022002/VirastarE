@@ -1,13 +1,12 @@
-﻿using System;
+﻿using OpenNLP.Tools.Graphs;
+using OpenNLP.Tools.Ling;
+using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Graphs;
-using OpenNLP.Tools.Ling;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -167,7 +166,7 @@ namespace OpenNLP.Tools.Trees
             }
             return startIndex;
         }
-        
+
         /// <summary>
         /// Assign sequential integer indices to all nodes of the subtree
         /// rooted at this <code>TreeGraphNode</code>, beginning with
@@ -236,7 +235,7 @@ namespace OpenNLP.Tools.Trees
                 string.Format("Dependencies should be for the format 'type(arg-idx, arg-idx)'. Could not parse '{0}'",
                     dep));
         }
-        
+
         /// <summary>
         /// Create a grammatical structure from its string representation.
         /// Like buildCoNLLXGrammaticalStructure, this method fakes up the parts 
@@ -255,7 +254,7 @@ namespace OpenNLP.Tools.Trees
 
             var rootLabel = new CoreLabel();
             rootLabel.SetValue(AbstractCollinsHeadFinder.ROOT);
-            var nodeWords = new List<IndexedWord>(tgPOSNodes.Count + 1) {new IndexedWord(rootLabel)};
+            var nodeWords = new List<IndexedWord>(tgPOSNodes.Count + 1) { new IndexedWord(rootLabel) };
 
             var headFinder = new SemanticHeadFinder();
 
@@ -275,7 +274,7 @@ namespace OpenNLP.Tools.Trees
                 var pos = new TreeGraphNode(tagLabel);
                 tgWordNodes.Add(word);
                 tgPOSNodes.Add(pos);
-                TreeGraphNode[] childArr = {word};
+                TreeGraphNode[] childArr = { word };
                 pos.SetChildren(childArr);
                 word.SetParent(pos);
                 pos.PercolateHeads(headFinder);
@@ -312,7 +311,7 @@ namespace OpenNLP.Tools.Trees
                 if (parentDash == -1) ThrowDepFormatException(depString);
                 int childDash = childArg.LastIndexOf('-');
                 if (childDash == -1) ThrowDepFormatException(depString);
-                
+
                 int parentIdx = int.Parse(parentArg.Substring(parentDash + 1).Replace("'", ""));
 
                 int childIdx = int.Parse(childArg.Substring(childDash + 1).Replace("'", ""));
@@ -488,7 +487,7 @@ namespace OpenNLP.Tools.Trees
                     {
                         throw new InvalidDataException("Leaves should be TreeGraphNodes");
                     }
-                    rootDep = (TreeGraphNode) leaf;
+                    rootDep = (TreeGraphNode)leaf;
                     if (rootDep.HeadWordNode() != null)
                     {
                         rootDep = rootDep.HeadWordNode();
@@ -797,7 +796,7 @@ namespace OpenNLP.Tools.Trees
         // todo [cdm 2012]: The semantics of this method is the opposite of the others.
         // The other no argument methods correspond to includeExtras being
         // true, but for this one it is false.  This should probably be made uniform.
-        
+
         /// <summary>
         /// Get the typed dependencies after mostly collapsing them, but keep a tree
         /// structure.  In order to do this, the code does:
@@ -948,7 +947,7 @@ namespace OpenNLP.Tools.Trees
             }
             return roots;
         }
-        
+
         private class NameComparator<X> : IComparer<X>
         {
             public int Compare(X o1, X o2)

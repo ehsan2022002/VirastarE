@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Util
+﻿namespace OpenNLP.Tools.Util
 {
-    
+
     /// <summary>
     /// Base type for all annotatable core objects. Should usually be instantiated as
     /// {@link ArrayCoreMap}. Many common key definitions live in

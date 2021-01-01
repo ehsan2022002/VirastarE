@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -91,7 +87,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
             {
                 for (int i = 0; i < children.Length; ++i)
                 {
-                    var n = (SimpleNode) children[i];
+                    var n = (SimpleNode)children[i];
                     if (n != null)
                     {
                         n.Dump(prefix + " ");

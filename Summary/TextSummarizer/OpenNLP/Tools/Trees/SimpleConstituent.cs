@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
+﻿using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -93,7 +88,7 @@ namespace OpenNLP.Tools.Trees
                 return new SimpleConstituent(0, 0);
             }
 
-            public ILabel NewLabel(string labelStr,int options)
+            public ILabel NewLabel(string labelStr, int options)
             {
                 return NewLabel(labelStr);
             }

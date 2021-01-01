@@ -33,14 +33,13 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	
-	/// <summary> Enumeration of number types. </summary>
-	public class NumberEnum
-	{
-		private string mName;
+
+    /// <summary> Enumeration of number types. </summary>
+    public class NumberEnum
+    {
+        private string mName;
 
         private NumberEnum(string name)
         {
@@ -52,17 +51,17 @@ namespace OpenNLP.Tools.Coreference.Similarity
             return mName;
         }
 
-		/// <summary>
+        /// <summary>
         /// Singular number type. 
         /// </summary>
-		public static readonly NumberEnum Singular = new NumberEnum("singular");
-		/// <summary>
+        public static readonly NumberEnum Singular = new NumberEnum("singular");
+        /// <summary>
         /// Plural number type.
         /// </summary>
-		public static readonly NumberEnum Plural = new NumberEnum("plural");
-		/// <summary>
+        public static readonly NumberEnum Plural = new NumberEnum("plural");
+        /// <summary>
         /// Unknown number type. 
         /// </summary>
-		public static readonly NumberEnum Unknown = new NumberEnum("unknown");
-	}
+        public static readonly NumberEnum Unknown = new NumberEnum("unknown");
+    }
 }

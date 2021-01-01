@@ -14,7 +14,6 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Util
@@ -181,7 +180,7 @@ namespace OpenNLP.Tools.Util
             bool result = false;
 
             IEnumerator<T> enumerator = collection.GetEnumerator();
-            var currentSet = (Set<T>) collection;
+            var currentSet = (Set<T>)collection;
             while (enumerator.MoveNext())
                 if (!currentSet.Contains(enumerator.Current))
                 {

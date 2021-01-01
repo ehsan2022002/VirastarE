@@ -1,16 +1,13 @@
-﻿using System;
+﻿using PageRank.Graph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using PageRank.Graph;
 
 namespace TextRank.Helpers
 {
     internal sealed class GraphUtil
     {
-        private GraphUtil(){}
+        private GraphUtil() { }
 
         public static GraphUtil GraphInstance { get; } = new GraphUtil();
 
@@ -32,7 +29,7 @@ namespace TextRank.Helpers
             }).ToList();
         }
 
-        private static UnDirectedGraph<string> GetDirectedGraph(IList<Tuple<string,string>> uniqueKeys)
+        private static UnDirectedGraph<string> GetDirectedGraph(IList<Tuple<string, string>> uniqueKeys)
         {
             var levDistance = new LevenhteinDistance();
             IList<Tuple<string, string, int>> graph = uniqueKeys.Select(x =>
@@ -48,7 +45,7 @@ namespace TextRank.Helpers
             return directedGraph;
         }
 
-        public UnDirectedGraph<string> BuildPOSGraph<T>(IList<Tuple<string,string>> taggedList)
+        public UnDirectedGraph<string> BuildPOSGraph<T>(IList<Tuple<string, string>> taggedList)
         {
             var uniqueWords = GraphInstance.BuildGraph(ExtractUtil.instance.GetNormalizedUniqueWordList(taggedList));
 

@@ -1,5 +1,4 @@
 ﻿#if SYSTEM_DRAWING_SUPPORT
-
 using System;
 using System.Drawing;
 
@@ -36,7 +35,8 @@ namespace Tesseract
         /// <param name="inputName">Sets the input file's name, only needed for training or loading a uzn file.</param>
         /// <param name="pageSegMode">The page segmentation mode.</param>
         /// <returns></returns>
-        public static Page Process(this TesseractEngine engine, Bitmap image, string inputName, PageSegMode? pageSegMode = null)
+        public static Page Process(this TesseractEngine engine, Bitmap image, string inputName, PageSegMode? pageSegMode
+ = null)
         {
             return engine.Process(image, inputName, new Rect(0, 0, image.Width, image.Height), pageSegMode);
         }
@@ -53,7 +53,8 @@ namespace Tesseract
         /// <param name="region">The region of the image to process.</param>
         /// <param name="pageSegMode">The page segmentation mode.</param>
         /// <returns></returns>
-        public static Page Process(this TesseractEngine engine, Bitmap image, Rect region, PageSegMode? pageSegMode = null)
+        public static Page Process(this TesseractEngine engine, Bitmap image, Rect region, PageSegMode? pageSegMode =
+ null)
         {
             return engine.Process(image, null, region, pageSegMode);
         }
@@ -71,7 +72,8 @@ namespace Tesseract
         /// <param name="region">The region of the image to process.</param>
         /// <param name="pageSegMode">The page segmentation mode.</param>
         /// <returns></returns>
-        public static Page Process(this TesseractEngine engine, Bitmap image, string inputName, Rect region, PageSegMode? pageSegMode = null)
+        public static Page Process(this TesseractEngine engine, Bitmap image, string inputName, Rect region, PageSegMode? pageSegMode
+ = null)
         {
             var pix = PixConverter.ToPix(image);
             var page = engine.Process(pix, inputName, region, pageSegMode);

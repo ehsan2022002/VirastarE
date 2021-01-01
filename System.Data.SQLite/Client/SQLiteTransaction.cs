@@ -24,139 +24,137 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-using System;
-using System.Data;
 using System.Data.Common;
 
 namespace System.Data.SQLite
 {
-	public sealed class SQLiteTransaction : DbTransaction
-	{
-		#region Fields
-		private IsolationLevel _isolationLevel;
-		private SQLiteConnection _connection;
-		private bool _open;
-		#endregion
-		#region Contructors and destructors
-		internal SQLiteTransaction()
-		{
-			_open = true;
-		}
-		#endregion
-		#region Public Properties
-		protected override DbConnection DbConnection
-		{
-			get { return _connection; } 
-		}
+    public sealed class SQLiteTransaction : DbTransaction
+    {
+        #region Fields
+        private IsolationLevel _isolationLevel;
+        private SQLiteConnection _connection;
+        private bool _open;
+        #endregion
+        #region Contructors and destructors
+        internal SQLiteTransaction()
+        {
+            _open = true;
+        }
+        #endregion
+        #region Public Properties
+        protected override DbConnection DbConnection
+        {
+            get { return _connection; }
+        }
 
-		public override IsolationLevel IsolationLevel
-		{
-			get { return _isolationLevel; }
-		}
+        public override IsolationLevel IsolationLevel
+        {
+            get { return _isolationLevel; }
+        }
 
-		internal void SetConnection(DbConnection conn)
-		{
-			_connection = (SQLiteConnection)conn;
-		}
+        internal void SetConnection(DbConnection conn)
+        {
+            _connection = (SQLiteConnection)conn;
+        }
 
-		internal void SetIsolationLevel(IsolationLevel level)
-		{
-			_isolationLevel = level;
-		}
-		#endregion
-		#region Public Methods
-		public override void Commit()
-		{
-			if(_connection == null || _connection.State != ConnectionState.Open)
-				throw new InvalidOperationException("Connection must be valid and open to commit transaction");
-			if(!_open)
-				throw new InvalidOperationException("Transaction has already been committed or is not pending");
-			try
-			{
-				SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
-				cmd.CommandText = "COMMIT";
-				cmd.ExecuteNonQuery();
-				_open = false;
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
-		}
+        internal void SetIsolationLevel(IsolationLevel level)
+        {
+            _isolationLevel = level;
+        }
+        #endregion
+        #region Public Methods
+        public override void Commit()
+        {
+            if (_connection == null || _connection.State != ConnectionState.Open)
+                throw new InvalidOperationException("Connection must be valid and open to commit transaction");
+            if (!_open)
+                throw new InvalidOperationException("Transaction has already been committed or is not pending");
+            try
+            {
+                SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
+                cmd.CommandText = "COMMIT";
+                cmd.ExecuteNonQuery();
+                _open = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-		public override void Rollback()
-		{
-			if(_connection == null || _connection.State != ConnectionState.Open)
-				throw new InvalidOperationException("Connection must be valid and open to commit transaction");
-			if(!_open)
-				throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
-			try
-			{
-				SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
-				cmd.CommandText = "ROLLBACK";
-				cmd.ExecuteNonQuery();
-				_open = false;
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
-		}
+        public override void Rollback()
+        {
+            if (_connection == null || _connection.State != ConnectionState.Open)
+                throw new InvalidOperationException("Connection must be valid and open to commit transaction");
+            if (!_open)
+                throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
+            try
+            {
+                SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
+                cmd.CommandText = "ROLLBACK";
+                cmd.ExecuteNonQuery();
+                _open = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-		public void SavePoint(string savepointName)
-		{
-			if(_connection == null || _connection.State != ConnectionState.Open)
-				throw new InvalidOperationException("Connection must be valid and open to commit transaction");
-			if(!_open)
-				throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
-			try
-			{
-				SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
-				cmd.CommandText = string.Format("SAVEPOINT {0}", savepointName);
-				cmd.ExecuteNonQuery();
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
-		}
+        public void SavePoint(string savepointName)
+        {
+            if (_connection == null || _connection.State != ConnectionState.Open)
+                throw new InvalidOperationException("Connection must be valid and open to commit transaction");
+            if (!_open)
+                throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
+            try
+            {
+                SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
+                cmd.CommandText = string.Format("SAVEPOINT {0}", savepointName);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-		public void Release(string savepointName)
-		{
-      
-			if(_connection == null || _connection.State != ConnectionState.Open)
-				throw new InvalidOperationException("Connection must be valid and open to commit transaction");
-			if(!_open)
-				throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
-			try
-			{
-				SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
-				cmd.CommandText = string.Format("RELEASE SAVEPOINT {0}", savepointName);
-				cmd.ExecuteNonQuery();
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
-		}
+        public void Release(string savepointName)
+        {
 
-		public void Rollback(string savepointName)
-		{
-			if(_connection == null || _connection.State != ConnectionState.Open)
-				throw new InvalidOperationException("Connection must be valid and open to commit transaction");
-			if(!_open)
-				throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
-			try
-			{
-				SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
-				cmd.CommandText = string.Format("ROLLBACK TO SAVEPOINT {0}", savepointName);
-				cmd.ExecuteNonQuery();
-			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
-		}
-		#endregion
-	}
+            if (_connection == null || _connection.State != ConnectionState.Open)
+                throw new InvalidOperationException("Connection must be valid and open to commit transaction");
+            if (!_open)
+                throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
+            try
+            {
+                SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
+                cmd.CommandText = string.Format("RELEASE SAVEPOINT {0}", savepointName);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void Rollback(string savepointName)
+        {
+            if (_connection == null || _connection.State != ConnectionState.Open)
+                throw new InvalidOperationException("Connection must be valid and open to commit transaction");
+            if (!_open)
+                throw new InvalidOperationException("Transaction has already been rolled back or is not pending");
+            try
+            {
+                SQLiteCommand cmd = (SQLiteCommand)_connection.CreateCommand();
+                cmd.CommandText = string.Format("ROLLBACK TO SAVEPOINT {0}", savepointName);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+    }
 }

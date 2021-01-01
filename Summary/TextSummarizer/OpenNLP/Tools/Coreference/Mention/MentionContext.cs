@@ -33,213 +33,213 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections.Generic;
 
 namespace OpenNLP.Tools.Coreference.Mention
 {
-	/// <summary>
+    /// <summary>
     /// Data structure representation of a mention with additional contextual information.  The contextual
-	/// information is used in performing coreference resolution.
-	/// </summary>
+    /// information is used in performing coreference resolution.
+    /// </summary>
     public class MentionContext : Similarity.Context
-	{
-		/// <summary>
+    {
+        /// <summary>
         /// Returns the parse of the head token for this mention.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// the parse of the head token for this mention.
-		/// </returns>
-		public virtual IParse HeadTokenParse
-		{
-			get
-			{
-				return mHeadToken;
-			}
-		}
+        /// </returns>
+        public virtual IParse HeadTokenParse
+        {
+            get
+            {
+                return mHeadToken;
+            }
+        }
 
-		public virtual string HeadText
-		{
-			get
-			{
-				var headText = new System.Text.StringBuilder();
-				for (int tokenIndex = 0; tokenIndex < Tokens.Length; tokenIndex++)
-				{
-					headText.Append(" ").Append(Tokens[tokenIndex].ToString());
-				}
-				return headText.ToString().Substring(1);
-			}
-		}
+        public virtual string HeadText
+        {
+            get
+            {
+                var headText = new System.Text.StringBuilder();
+                for (int tokenIndex = 0; tokenIndex < Tokens.Length; tokenIndex++)
+                {
+                    headText.Append(" ").Append(Tokens[tokenIndex].ToString());
+                }
+                return headText.ToString().Substring(1);
+            }
+        }
 
-		public IParse Head { get; private set; }
+        public IParse Head { get; private set; }
 
-		public int NonDescriptorStart { get; set; }
+        public int NonDescriptorStart { get; set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns a sentence-based token span for this mention.  If this mention consist
-		/// of the third, fourth, and fifth token, then this span will be 2..4.   
-		/// </summary>
-		/// <returns>
+        /// of the third, fourth, and fifth token, then this span will be 2..4.   
+        /// </summary>
+        /// <returns>
         /// a sentence-based token span for this mention.
-		/// </returns>
+        /// </returns>
         public Util.Span IndexSpan { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the index of the noun phrase for this mention in a sentence.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// the index of the noun phrase for this mention in a sentence.
-		/// </returns>
-		public int NounPhraseSentenceIndex { get; private set; }
+        /// </returns>
+        public int NounPhraseSentenceIndex { get; private set; }
 
-		/// <summary> 
+        /// <summary> 
         /// Returns the index of the noun phrase for this mention in a document.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// the index of the noun phrase for this mention in a document.
-		/// </returns>
-		public int NounPhraseDocumentIndex { get; private set; }
+        /// </returns>
+        public int NounPhraseDocumentIndex { get; private set; }
 
-		/// <summary> 
+        /// <summary> 
         /// Returns the index of the last noun phrase in the sentence containing this mention.
-		/// This is one less than the number of noun phrases in the sentence which contains this mention. 
-		/// </summary>
-		/// <returns> 
+        /// This is one less than the number of noun phrases in the sentence which contains this mention. 
+        /// </summary>
+        /// <returns> 
         /// the index of the last noun phrase in the sentence containing this mention.
-		/// </returns>
-		public int MaxNounPhraseSentenceIndex { get; private set; }
+        /// </returns>
+        public int MaxNounPhraseSentenceIndex { get; private set; }
 
-		public IParse NextTokenBasal { get; private set; }
+        public IParse NextTokenBasal { get; private set; }
 
-		public IParse PreviousToken { get; private set; }
+        public IParse PreviousToken { get; private set; }
 
-		public IParse NextToken { get; private set; }
+        public IParse NextToken { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the index of the sentence which contains this mention.
         /// </summary>
-		/// <returns>
+        /// <returns>
         /// the index of the sentence which contains this mention.
-		/// </returns>
-		public int SentenceNumber { get; private set; }
+        /// </returns>
+        public int SentenceNumber { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the parse for the first token in this mention.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// The parse for the first token in this mention.
-		/// </returns>
-		public IParse FirstToken { get; private set; }
+        /// </returns>
+        public IParse FirstToken { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the text for the first token of the mention.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// The text for the first token of the mention.
-		/// </returns>
-		public string FirstTokenText { get; private set; }
+        /// </returns>
+        public string FirstTokenText { get; private set; }
 
-		/// <summary> 
+        /// <summary> 
         /// Returns the pos-tag of the first token of this mention. 
         /// </summary>
-		/// <returns>
+        /// <returns>
         /// the pos-tag of the first token of this mention.
-		/// </returns>
-		public string FirstTokenTag { get; private set; }
+        /// </returns>
+        public string FirstTokenTag { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the parses for the tokens which are contained in this mention.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// An array of parses, in order, for each token contained in this mention.
-		/// </returns>
-		public IParse[] TokenParses
-		{
-			get
-			{
-				return (IParse[]) Tokens;
-			}
-		}
+        /// </returns>
+        public IParse[] TokenParses
+        {
+            get
+            {
+                return (IParse[])Tokens;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Returns the probability associated with the gender assignment.
         /// </summary>
-		/// <returns> 
+        /// <returns> 
         /// The probability associated with the gender assignment.
-		/// </returns>
-		public double GenderProbability { get; private set; }
+        /// </returns>
+        public double GenderProbability { get; private set; }
 
-		/// <summary>
+        /// <summary>
         /// Returns the probability associated with the number assignment.
         /// </summary>
-		/// <returns>
+        /// <returns>
         /// The probability associated with the number assignment.
-		/// </returns>
-		public double NumberProbability { get; private set; }
-        
-		/// <summary>
+        /// </returns>
+        public double NumberProbability { get; private set; }
+
+        /// <summary>
         /// The parse of the mention's head word. 
         /// </summary>
-		private IParse mHeadToken;
+        private IParse mHeadToken;
 
-		/// <summary>
+        /// <summary>
         /// The gender assigned to this mention. 
         /// </summary>
         private Similarity.GenderEnum mGender;
 
-		/// <summary>
+        /// <summary>
         /// The number assigned to this mention. 
         /// </summary>
         private Similarity.NumberEnum _number;
 
 
-        public MentionContext(Util.Span span, Util.Span headSpan, int entityId, IParse parse, string extentType, string nameType, 
-            int mentionIndex, int mentionsInSentence, int mentionIndexInDocument, int sentenceIndex, IHeadFinder headFinder): 
+        public MentionContext(Util.Span span, Util.Span headSpan, int entityId, IParse parse, string extentType, string nameType,
+            int mentionIndex, int mentionsInSentence, int mentionIndexInDocument, int sentenceIndex, IHeadFinder headFinder) :
             base(span, headSpan, entityId, parse, extentType, nameType, headFinder)
-		{
+        {
             NounPhraseSentenceIndex = mentionIndex;
             MaxNounPhraseSentenceIndex = mentionsInSentence;
             NounPhraseDocumentIndex = mentionIndexInDocument;
-			SentenceNumber = sentenceIndex;
-			IndexSpan = parse.Span;
-			PreviousToken = parse.PreviousToken;
-			NextToken = parse.NextToken;
-			Head = headFinder.GetLastHead(parse);
-			List<IParse> headTokens = Head.Tokens;
+            SentenceNumber = sentenceIndex;
+            IndexSpan = parse.Span;
+            PreviousToken = parse.PreviousToken;
+            NextToken = parse.NextToken;
+            Head = headFinder.GetLastHead(parse);
+            List<IParse> headTokens = Head.Tokens;
             Tokens = headTokens.ToArray();
-			NextTokenBasal = Head.NextToken;
-			//mNonDescriptorStart = 0;
-			InitializeHeads(headFinder.GetHeadIndex(Head));
+            NextTokenBasal = Head.NextToken;
+            //mNonDescriptorStart = 0;
+            InitializeHeads(headFinder.GetHeadIndex(Head));
             mGender = Similarity.GenderEnum.Unknown;
-			GenderProbability = 0d;
+            GenderProbability = 0d;
             _number = Similarity.NumberEnum.Unknown;
-			NumberProbability = 0d;
-		}
+            NumberProbability = 0d;
+        }
 
-		/// <summary> 
+        /// <summary> 
         /// Constructs context information for the specified mention.
         /// </summary>
-		/// <param name="mention">
+        /// <param name="mention">
         /// The mention object on which this object is based.
-		/// </param>
-		/// <param name="mentionIndexInSentence">
+        /// </param>
+        /// <param name="mentionIndexInSentence">
         /// The mention's position in the sentence.
-		/// </param>
-		/// <param name="mentionsInSentence">
+        /// </param>
+        /// <param name="mentionsInSentence">
         /// The number of mentions in the sentence.
-		/// </param>
-		/// <param name="mentionIndexInDocument">
+        /// </param>
+        /// <param name="mentionIndexInDocument">
         /// The index of this mention with respect to the document.
-		/// </param>
-		/// <param name="sentenceIndex">
+        /// </param>
+        /// <param name="sentenceIndex">
         /// The index of the sentence which contains this mention.
-		/// </param>
-		/// <param name="headFinder">
+        /// </param>
+        /// <param name="headFinder">
         /// An object which provides head information.
-		/// </param>
-		public MentionContext(Mention mention, int mentionIndexInSentence, int mentionsInSentence, int mentionIndexInDocument, int sentenceIndex, IHeadFinder headFinder):
-            this(mention.Span, mention.HeadSpan, mention.Id, mention.Parse, mention.Type, mention.NameType, mentionIndexInSentence, 
-            mentionsInSentence, mentionIndexInDocument, sentenceIndex, headFinder){}
+        /// </param>
+        public MentionContext(Mention mention, int mentionIndexInSentence, int mentionsInSentence, int mentionIndexInDocument, int sentenceIndex, IHeadFinder headFinder) :
+            this(mention.Span, mention.HeadSpan, mention.Id, mention.Parse, mention.Type, mention.NameType, mentionIndexInSentence,
+            mentionsInSentence, mentionIndexInDocument, sentenceIndex, headFinder)
+        { }
 
         /*/// <summary>
         /// Constructs context information for the specified mention.
@@ -295,27 +295,27 @@ namespace OpenNLP.Tools.Coreference.Mention
         }
         */
 
-        private void  InitializeHeads(int headIndex)
-		{
-			HeadTokenIndex = headIndex;
-			mHeadToken = (IParse) Tokens[HeadTokenIndex];
-			HeadTokenText = mHeadToken.ToString();
-			HeadTokenTag = mHeadToken.SyntacticType;
-			FirstToken = (IParse) Tokens[0];
-			FirstTokenTag = FirstToken.SyntacticType;
-			FirstTokenText = FirstToken.ToString();
-		}
-		
-		/// <summary> 
+        private void InitializeHeads(int headIndex)
+        {
+            HeadTokenIndex = headIndex;
+            mHeadToken = (IParse)Tokens[HeadTokenIndex];
+            HeadTokenText = mHeadToken.ToString();
+            HeadTokenTag = mHeadToken.SyntacticType;
+            FirstToken = (IParse)Tokens[0];
+            FirstTokenTag = FirstToken.SyntacticType;
+            FirstTokenText = FirstToken.ToString();
+        }
+
+        /// <summary> 
         /// Returns the text of this mention. 
         /// </summary>
-		/// <returns>
+        /// <returns>
         /// A space-delimited string of the tokens of this mention.
-		/// </returns>
-		public virtual string ToText()
-		{
-			return Parse.ToString();
-		}
+        /// </returns>
+        public virtual string ToText()
+        {
+            return Parse.ToString();
+        }
 
         /*
         private static string[] getLemmas(MentionContext xec) {
@@ -347,42 +347,42 @@ namespace OpenNLP.Tools.Coreference.Mention
         /// The probability assosicated with the gender assignment.
 		/// </param>
         public virtual void SetGender(Similarity.GenderEnum gender, double probability)
-		{
-			mGender = gender;
-			GenderProbability = probability;
-		}
-		
-		/// <summary>
+        {
+            mGender = gender;
+            GenderProbability = probability;
+        }
+
+        /// <summary>
         /// Returns the gender of this mention.</summary>
-		/// <returns> 
+        /// <returns> 
         /// The gender of this mention.
-		/// </returns>
+        /// </returns>
         public virtual Similarity.GenderEnum GetGender()
-		{
-			return mGender;
-		}
-		
-		/// <summary> 
+        {
+            return mGender;
+        }
+
+        /// <summary> 
         /// Assigns the specified number with the specified probability to this mention.
         /// </summary>
-		/// <param name="number">
+        /// <param name="number">
         /// The number to be given to this mention.
-		/// </param>
-		/// <param name="probability">
+        /// </param>
+        /// <param name="probability">
         /// The probability assosicated with the number assignment.
-		/// </param>
+        /// </param>
         public virtual void SetNumber(Similarity.NumberEnum number, double probability)
-		{
-			_number = number;
-			NumberProbability = probability;
-		}
-		
-		/// <summary> Returns the number of this mention.</summary>
-		/// <returns> The number of this mention.
-		/// </returns>
+        {
+            _number = number;
+            NumberProbability = probability;
+        }
+
+        /// <summary> Returns the number of this mention.</summary>
+        /// <returns> The number of this mention.
+        /// </returns>
         public virtual Similarity.NumberEnum GetNumber()
-		{
-			return _number;
-		}
-	}
+        {
+            return _number;
+        }
+    }
 }

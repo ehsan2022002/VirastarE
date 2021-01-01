@@ -14,37 +14,36 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 using System.Collections.Generic;
 
 namespace SharpWordNet
 {
-	/// <summary>
-	/// Summary description for WordNetEngine.
-	/// </summary>
-	public abstract class WordNetEngine
-	{
+    /// <summary>
+    /// Summary description for WordNetEngine.
+    /// </summary>
+    public abstract class WordNetEngine
+    {
         private Morph.IOperation[] mDefaultOperations;
- 
+
         protected string[] mEmpty = new string[0];
 
-		public abstract string[] GetPartsOfSpeech();
+        public abstract string[] GetPartsOfSpeech();
 
-		public abstract string[] GetPartsOfSpeech(string lemma);
+        public abstract string[] GetPartsOfSpeech(string lemma);
 
         public abstract IndexWord[] GetAllIndexWords(string partOfSpeech);
 
         public abstract IndexWord GetIndexWord(string lemma, string partOfSpeech);
 
-		public abstract Synset[] GetSynsets(string lemma);
+        public abstract Synset[] GetSynsets(string lemma);
 
         public abstract Synset[] GetSynsets(string lemma, string partOfSpeech);
 
-		public abstract RelationType[] GetRelationTypes(string lemma, string partOfSpeech);
+        public abstract RelationType[] GetRelationTypes(string lemma, string partOfSpeech);
 
-		public abstract Synset GetSynset(string lemma, string partOfSpeech, int senseNumber);
+        public abstract Synset GetSynset(string lemma, string partOfSpeech, int senseNumber);
 
-        public delegate void MorphologicalProcessOperation (string lemma, string partOfSpeech, List<string>baseForms);
+        public delegate void MorphologicalProcessOperation(string lemma, string partOfSpeech, List<string> baseForms);
 
         public string[] GetBaseForms(string lemma, string partOfSpeech, MorphologicalProcessOperation morphologicalProcess)
         {
@@ -117,7 +116,7 @@ namespace SharpWordNet
         {
             get
             {
-                return delegate(string lemma, string partOfSpeech, List<string> baseForms)
+                return delegate (string lemma, string partOfSpeech, List<string> baseForms)
                 {
                     string[] exceptionForms = GetExceptionForms(lemma, partOfSpeech);
                     foreach (string exceptionForm in exceptionForms)
@@ -135,7 +134,7 @@ namespace SharpWordNet
         {
             get
             {
-                return delegate(string lemma, string partOfSpeech, List<string> baseForms)
+                return delegate (string lemma, string partOfSpeech, List<string> baseForms)
                 {
                     if (!baseForms.Contains(lemma) && GetIndexWord(lemma, partOfSpeech) != null)
                     {
@@ -145,7 +144,7 @@ namespace SharpWordNet
             }
         }
 
-		protected internal abstract Synset CreateSynset(string partOfSpeech, int synsetOffset);
+        protected internal abstract Synset CreateSynset(string partOfSpeech, int synsetOffset);
         protected internal abstract string[] GetExceptionForms(string lemma, string partOfSpeech);
-	}
+    }
 }

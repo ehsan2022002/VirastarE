@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Trees.TRegex;
+﻿using OpenNLP.Tools.Trees.TRegex;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -22,7 +17,7 @@ namespace OpenNLP.Tools.Trees
     /// </summary>
     public class DateTreeTransformer : ITreeTransformer
     {
-        private const string MonthRegex = 
+        private const string MonthRegex =
             "January|February|March|April|May|June|July|August|September|October|November|December|Jan\\.|Feb\\.|Mar\\.|Apr\\.|Aug\\.|Sep\\.|Sept\\.|Oct\\.|Nov\\.|Dec\\.";
 
         private static readonly TregexPattern TregexMonthYear =
@@ -41,7 +36,7 @@ namespace OpenNLP.Tools.Trees
                 Tree root = matcher.GetNode("root");
                 Tree month = matcher.GetNode("month");
                 Tree year = matcher.GetNode("year");
-                var children = new Tree[] {month, year};
+                var children = new Tree[] { month, year };
                 root.SetChildren(children);
                 matcher = TregexMonthYear.Matcher(t);
             }
@@ -53,7 +48,7 @@ namespace OpenNLP.Tools.Trees
                 Tree day = matcher.GetNode("day");
                 Tree comma = matcher.GetNode("comma");
                 Tree year = matcher.GetNode("year");
-                var children = new Tree[] {month, day, comma, year};
+                var children = new Tree[] { month, day, comma, year };
                 root.SetChildren(children);
                 matcher = TregexMonthDayYear.Matcher(t);
             }

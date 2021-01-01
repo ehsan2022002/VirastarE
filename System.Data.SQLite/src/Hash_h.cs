@@ -1,11 +1,10 @@
-using u8 = System.Byte;
 using u32 = System.UInt32;
 
 namespace System.Data.SQLite
 {
-	public partial class Sqlite3
-	{
-		/*
+    public partial class Sqlite3
+    {
+        /*
 		** 2001 September 22
 		**
 		** The author disclaims copyright to this source code.  In place of
@@ -26,14 +25,14 @@ namespace System.Data.SQLite
 		**
 		*************************************************************************
 		*/
-		//#if !_SQLITE_HASH_H_
-		//#define _SQLITE_HASH_H_
+        //#if !_SQLITE_HASH_H_
+        //#define _SQLITE_HASH_H_
 
-		/* Forward declarations of structures. */
-		//typedef struct Hash Hash;
-		//typedef struct HashElem HashElem;
+        /* Forward declarations of structures. */
+        //typedef struct Hash Hash;
+        //typedef struct HashElem HashElem;
 
-		/* A complete hash table is an instance of the following structure.
+        /* A complete hash table is an instance of the following structure.
 		** The internals of this structure are intended to be opaque -- client
 		** code should not attempt to access or modify the fields of this structure
 		** directly.  Change this structure only by using the routines below.
@@ -54,54 +53,54 @@ namespace System.Data.SQLite
 		** in the table, it is faster to do a linear search than to manage
 		** the hash table.
 		*/
-		public class _ht
-		{            /* the hash table */
-			public int count;               /* Number of entries with this hash */
-			public HashElem chain;         /* Pointer to first entry with this hash */
-		};
+        public class _ht
+        {            /* the hash table */
+            public int count;               /* Number of entries with this hash */
+            public HashElem chain;         /* Pointer to first entry with this hash */
+        };
 
-		public class Hash
-		{
-			public u32 htsize = 31;     /* Number of buckets in the hash table */
-			public u32 count;           /* Number of entries in this table */
-			public HashElem first;      /* The first element of the array */
-			public _ht[] ht;
-			public Hash Copy()
-			{
-				if (this == null)
-					return null;
-				else
-				{
-					Hash cp = (Hash)MemberwiseClone();
-					return cp;
-				}
-			}
-		};
+        public class Hash
+        {
+            public u32 htsize = 31;     /* Number of buckets in the hash table */
+            public u32 count;           /* Number of entries in this table */
+            public HashElem first;      /* The first element of the array */
+            public _ht[] ht;
+            public Hash Copy()
+            {
+                if (this == null)
+                    return null;
+                else
+                {
+                    Hash cp = (Hash)MemberwiseClone();
+                    return cp;
+                }
+            }
+        };
 
-		/* Each element in the hash table is an instance of the following
+        /* Each element in the hash table is an instance of the following
 		** structure.  All elements are stored on a single doubly-linked list.
 		**
 		** Again, this structure is intended to be opaque, but it can't really
 		** be opaque because it is used by macros.
 		*/
-		public class HashElem
-		{
-			public HashElem next;
-			public HashElem prev;          /* Next and previous elements in the table */
-			public object data;            /* Data associated with this element */
-			public string pKey;
-			public int nKey;               /* Key associated with this element */
-		};
+        public class HashElem
+        {
+            public HashElem next;
+            public HashElem prev;          /* Next and previous elements in the table */
+            public object data;            /* Data associated with this element */
+            public string pKey;
+            public int nKey;               /* Key associated with this element */
+        };
 
-		/*
+        /*
 		** Access routines.  To delete, insert a NULL pointer.
 		*/
-		//void sqlite3HashInit(Hash);
-		//void *sqlite3HashInsert(Hash*, string pKey, int nKey, object  *pData);
-		//void *sqlite3HashFind(const Hash*, string pKey, int nKey);
-		//void sqlite3HashClear(Hash);
+        //void sqlite3HashInit(Hash);
+        //void *sqlite3HashInsert(Hash*, string pKey, int nKey, object  *pData);
+        //void *sqlite3HashFind(const Hash*, string pKey, int nKey);
+        //void sqlite3HashClear(Hash);
 
-		/*
+        /*
 		** Macros for looping over all elements of a hash table.  The idiom is
 		** like this:
 		**
@@ -113,29 +112,29 @@ namespace System.Data.SQLite
 		**     // do something with pData
 		**   }
 		*/
-		//#define sqliteHashFirst(H)  ((H).first)
-		static HashElem sqliteHashFirst(Hash H)
-		{
-			return H.first;
-		}
-		//#define sqliteHashNext(E)   ((E).next)
-		static HashElem sqliteHashNext(HashElem E)
-		{
-			return E.next;
-		}
-		//#define sqliteHashData(E)   ((E).data)
-		static object sqliteHashData(HashElem E)
-		{
-			return E.data;
-		}
-		/* #define sqliteHashKey(E)    ((E)->pKey) // NOT USED */
-		/* #define sqliteHashKeysize(E) ((E)->nKey)  // NOT USED */
+        //#define sqliteHashFirst(H)  ((H).first)
+        static HashElem sqliteHashFirst(Hash H)
+        {
+            return H.first;
+        }
+        //#define sqliteHashNext(E)   ((E).next)
+        static HashElem sqliteHashNext(HashElem E)
+        {
+            return E.next;
+        }
+        //#define sqliteHashData(E)   ((E).data)
+        static object sqliteHashData(HashElem E)
+        {
+            return E.data;
+        }
+        /* #define sqliteHashKey(E)    ((E)->pKey) // NOT USED */
+        /* #define sqliteHashKeysize(E) ((E)->nKey)  // NOT USED */
 
-		/*
+        /*
 		** Number of entries in a hash table
 		*/
-		/* #define sqliteHashCount(H)  ((H)->count) // NOT USED */
+        /* #define sqliteHashCount(H)  ((H)->count) // NOT USED */
 
-		//#endif // * _SQLITE_HASH_H_ */
-	}
+        //#endif // * _SQLITE_HASH_H_ */
+    }
 }

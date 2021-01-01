@@ -33,54 +33,51 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
 //UPGRADE_TODO: The type 'java.util.regex.Pattern' could not be found. If it was not included in the conversion, there may be compiler issues. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1262'"
-using System.Text.RegularExpressions;
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
-using Linker = OpenNLP.Tools.Coreference.ILinker;
-using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> This class resolver singlular pronouns such as "he", "she", "it" and their various forms. </summary>
-	public class SingularPronounResolver:MaximumEntropyResolver
-	{
-		
-		internal int Mode;
-		
-		internal Regex PronounPattern;
-		
-		public SingularPronounResolver(string projectName, ResolverMode mode):base(projectName, "pmodel", mode, 30)
-		{
-			NumberSentencesBack = 2;
-		}
-		
-		public SingularPronounResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver):base(projectName, "pmodel", mode, 30, nonReferentialResolver)
-		{
-			NumberSentencesBack = 2;
-		}
-		
-		public override bool CanResolve(MentionContext mention)
-		{
-			string tag = mention.HeadTokenTag;
-			return (tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SingularThirdPersonPronounPattern.IsMatch(mention.HeadTokenText));
-		}
-		
-		protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
-		{
+
+    /// <summary> This class resolver singlular pronouns such as "he", "she", "it" and their various forms. </summary>
+    public class SingularPronounResolver : MaximumEntropyResolver
+    {
+
+        internal int Mode;
+
+        internal Regex PronounPattern;
+
+        public SingularPronounResolver(string projectName, ResolverMode mode) : base(projectName, "pmodel", mode, 30)
+        {
+            NumberSentencesBack = 2;
+        }
+
+        public SingularPronounResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver) : base(projectName, "pmodel", mode, 30, nonReferentialResolver)
+        {
+            NumberSentencesBack = 2;
+        }
+
+        public override bool CanResolve(MentionContext mention)
+        {
+            string tag = mention.HeadTokenTag;
+            return (tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SingularThirdPersonPronounPattern.IsMatch(mention.HeadTokenText));
+        }
+
+        protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
+        {
             List<string> features = base.GetFeatures(mention, entity);
-			
-			if (entity != null)
-			{
-				//generate pronoun w/ referent features
-				MentionContext cec = entity.LastExtent;
-				//string gen = getPronounGender(pronoun);
+
+            if (entity != null)
+            {
+                //generate pronoun w/ referent features
+                MentionContext cec = entity.LastExtent;
+                //string gen = getPronounGender(pronoun);
                 features.AddRange(GetPronounMatchFeatures(mention, entity));
                 features.AddRange(GetContextFeatures(cec));
-				features.AddRange(GetDistanceFeatures(mention, entity));
-				features.Add(GetMentionCountFeature(entity));
-				/*
+                features.AddRange(GetDistanceFeatures(mention, entity));
+                features.Add(GetMentionCountFeature(entity));
+                /*
 				//lexical features
 				Set featureSet = new HashSet();
 				for (Iterator ei = entity.getExtents(); ei.hasNext();) {
@@ -113,45 +110,45 @@ namespace OpenNLP.Tools.Coreference.Resolver
 				features.add(f);
 				}
 				*/
-			}
-			return (features);
-		}
+            }
+            return (features);
+        }
 
         protected internal override bool IsExcluded(MentionContext mention, DiscourseEntity entity)
-		{
-			if (base.IsExcluded(mention, entity))
-			{
-				return (true);
-			}
-			string mentionGender = null;
-			
-			foreach (MentionContext entityMention in entity.Mentions)
+        {
+            if (base.IsExcluded(mention, entity))
             {
-				string tag = entityMention.HeadTokenTag;
-				if (tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SingularThirdPersonPronounPattern.IsMatch(mention.HeadTokenText))
-				{
-					if (mentionGender == null)
-					{
-						//lazy initilization
-						mentionGender = GetPronounGender(mention.HeadTokenText);
-					}
-					string entityGender = GetPronounGender(entityMention.HeadTokenText);
-					if (!entityGender.Equals("u") && !mentionGender.Equals(entityGender))
-					{
-						return (true);
-					}
-				}
-			}
-			return (false);
-		}
-		
-		protected internal override bool IsOutOfRange(MentionContext mention, DiscourseEntity entity)
-		{
-			MentionContext cec = entity.LastExtent;
-			return (mention.SentenceNumber - cec.SentenceNumber > NumberSentencesBack);
-		}
-		
-		/*
+                return (true);
+            }
+            string mentionGender = null;
+
+            foreach (MentionContext entityMention in entity.Mentions)
+            {
+                string tag = entityMention.HeadTokenTag;
+                if (tag != null && PartsOfSpeech.IsPersOrPossPronoun(tag) && Linker.SingularThirdPersonPronounPattern.IsMatch(mention.HeadTokenText))
+                {
+                    if (mentionGender == null)
+                    {
+                        //lazy initilization
+                        mentionGender = GetPronounGender(mention.HeadTokenText);
+                    }
+                    string entityGender = GetPronounGender(entityMention.HeadTokenText);
+                    if (!entityGender.Equals("u") && !mentionGender.Equals(entityGender))
+                    {
+                        return (true);
+                    }
+                }
+            }
+            return (false);
+        }
+
+        protected internal override bool IsOutOfRange(MentionContext mention, DiscourseEntity entity)
+        {
+            MentionContext cec = entity.LastExtent;
+            return (mention.SentenceNumber - cec.SentenceNumber > NumberSentencesBack);
+        }
+
+        /*
 		public boolean definiteArticle(string tok, string tag) {
 		tok = tok.toLowerCase();
 		if (tok.equals("the") || tok.equals("these")) {
@@ -161,5 +158,5 @@ namespace OpenNLP.Tools.Coreference.Resolver
 		return (false);
 		}
 		*/
-	}
+    }
 }

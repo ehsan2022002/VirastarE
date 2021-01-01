@@ -17,9 +17,7 @@
 //This file is based on the AbstractDelegatingOperation.java source file found in
 //the Java WordNet Library (JWNL).  That source file is licensed under BSD.
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SharpWordNet.Morph
 {
@@ -51,7 +49,7 @@ namespace SharpWordNet.Morph
             return mOperationSets.ContainsKey(key);
         }
 
-        protected internal virtual bool ExecuteDelegate(string lemma, string partOfSpeech, List<string>baseForms, string key)
+        protected internal virtual bool ExecuteDelegate(string lemma, string partOfSpeech, List<string> baseForms, string key)
         {
             IOperation[] operations = mOperationSets[key];
             bool result = false;

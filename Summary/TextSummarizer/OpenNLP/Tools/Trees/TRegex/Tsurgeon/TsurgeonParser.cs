@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Parser;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -13,7 +9,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         protected JjtTsurgeonParserState JjTree = new JjtTsurgeonParserState();
         private readonly ITreeFactory treeFactory = new LabeledScoredTreeFactory();
 
-        
+
         // TODO: this is wasteful in terms of creating TsurgeonPatternRoot.
         // Should separate that out into another production
         public TsurgeonPatternRoot Root()
@@ -40,12 +36,12 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     case AdjoinToHead:
                     case AdjoinToFoot:
                     case Coindex:
-                    {
-                        result = Operation();
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return new TsurgeonPatternRoot(result);
-                    }
+                        {
+                            result = Operation();
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return new TsurgeonPatternRoot(result);
+                        }
                     default:
                         jj_la1[1] = jj_gen;
                         Token name;
@@ -75,41 +71,41 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                             switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                             {
                                 case OpenBracket:
-                                {
-                                    //label_1:
-                                    while (true)
                                     {
-                                        Jj_consume_token(OpenBracket);
-                                        result = Root();
-                                        Jj_consume_token(CloseBracket);
-                                        if (results == null)
+                                        //label_1:
+                                        while (true)
                                         {
-                                            results = new List<TsurgeonPattern>();
-                                        }
-                                        foreach (TsurgeonPattern child in result.children)
-                                        {
-                                            results.Add(child);
-                                        }
-                                        switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
-                                        {
-                                            case OpenBracket:
+                                            Jj_consume_token(OpenBracket);
+                                            result = Root();
+                                            Jj_consume_token(CloseBracket);
+                                            if (results == null)
                                             {
-                                                ;
-                                                break;
+                                                results = new List<TsurgeonPattern>();
                                             }
-                                            default:
-                                                jj_la1[0] = jj_gen;
-                                                goto post_label_1;
+                                            foreach (TsurgeonPattern child in result.children)
+                                            {
+                                                results.Add(child);
+                                            }
+                                            switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
+                                            {
+                                                case OpenBracket:
+                                                    {
+                                                        ;
+                                                        break;
+                                                    }
+                                                default:
+                                                    jj_la1[0] = jj_gen;
+                                                    goto post_label_1;
+                                            }
+                                        }
+                                    post_label_1:
+                                        {
+                                            JjTree.CloseNodeScope(jjtn000, true);
+                                            jjtc000 = false;
+                                            var array = new TsurgeonPattern[results.Count];
+                                            return new TsurgeonPatternRoot(results.ToArray());
                                         }
                                     }
-                                    post_label_1:
-                                    {
-                                        JjTree.CloseNodeScope(jjtn000, true);
-                                        jjtc000 = false;
-                                        var array = new TsurgeonPattern[results.Count];
-                                        return new TsurgeonPatternRoot(results.ToArray());
-                                    }
-                                }
                                 default:
                                     jj_la1[2] = jj_gen;
                                     Jj_consume_token(-1);
@@ -164,30 +160,30 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                 {
                     case Delete:
-                    {
-                        operatorToken = Jj_consume_token(Delete);
-                        nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return new DeleteNode(nodeSelections);
-                    }
+                        {
+                            operatorToken = Jj_consume_token(Delete);
+                            nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return new DeleteNode(nodeSelections);
+                        }
                     case Prune:
-                    {
-                        operatorToken = Jj_consume_token(Prune);
-                        nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return new PruneNode(nodeSelections);
-                    }
+                        {
+                            operatorToken = Jj_consume_token(Prune);
+                            nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return new PruneNode(nodeSelections);
+                        }
                     case Excise:
-                    {
-                        operatorToken = Jj_consume_token(Excise);
-                        child1 = NodeSelection();
-                        child2 = NodeSelection();
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return new ExciseNode(child1, child2);
-                    }
+                        {
+                            operatorToken = Jj_consume_token(Excise);
+                            child1 = NodeSelection();
+                            child2 = NodeSelection();
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return new ExciseNode(child1, child2);
+                        }
                     default:
                         jj_la1[3] = jj_gen;
                         Token newLabel = null;
@@ -234,7 +230,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                             child2 = NodeSelection();
                             JjTree.CloseNodeScope(jjtn000, true);
                             jjtc000 = false;
-                            return new ReplaceNode(child1, new[] {child2});
+                            return new ReplaceNode(child1, new[] { child2 });
                         }
                         else if (Jj_2_8(3))
                         {
@@ -251,14 +247,14 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                             switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                             {
                                 case Move:
-                                {
-                                    operatorToken = Jj_consume_token(Move);
-                                    child1 = NodeSelection();
-                                    loc = Location();
-                                    JjTree.CloseNodeScope(jjtn000, true);
-                                    jjtc000 = false;
-                                    return new MoveNode(child1, loc);
-                                }
+                                    {
+                                        operatorToken = Jj_consume_token(Move);
+                                        child1 = NodeSelection();
+                                        loc = Location();
+                                        JjTree.CloseNodeScope(jjtn000, true);
+                                        jjtc000 = false;
+                                        return new MoveNode(child1, loc);
+                                    }
                                 default:
                                     jj_la1[4] = jj_gen;
                                     if (Jj_2_9(3))
@@ -287,63 +283,63 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                                             switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                                             {
                                                 case CreateSubtree:
-                                                {
-                                                    operatorToken = Jj_consume_token(CreateSubtree);
-                                                    tree = TreeRoot(false);
-                                                    nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
-                                                    JjTree.CloseNodeScope(jjtn000, true);
-                                                    jjtc000 = false;
-                                                    if (nodeSelections.Count == 1)
                                                     {
-                                                        return new CreateSubtreeNode(nodeSelections[0], tree);
+                                                        operatorToken = Jj_consume_token(CreateSubtree);
+                                                        tree = TreeRoot(false);
+                                                        nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
+                                                        JjTree.CloseNodeScope(jjtn000, true);
+                                                        jjtc000 = false;
+                                                        if (nodeSelections.Count == 1)
+                                                        {
+                                                            return new CreateSubtreeNode(nodeSelections[0], tree);
+                                                        }
+                                                        else if (nodeSelections.Count == 2)
+                                                        {
+                                                            return new CreateSubtreeNode(nodeSelections[0],
+                                                                nodeSelections[1], tree);
+                                                        }
+                                                        else
+                                                        {
+                                                            throw new ParseException(
+                                                                "Illegal number of nodes given to createSubtree (" +
+                                                                nodeSelections.Count + ")");
+                                                        }
                                                     }
-                                                    else if (nodeSelections.Count == 2)
-                                                    {
-                                                        return new CreateSubtreeNode(nodeSelections[0],
-                                                            nodeSelections[1], tree);
-                                                    }
-                                                    else
-                                                    {
-                                                        throw new ParseException(
-                                                            "Illegal number of nodes given to createSubtree (" +
-                                                            nodeSelections.Count + ")");
-                                                    }
-                                                }
                                                 case Adjoin:
-                                                {
-                                                    operatorToken = Jj_consume_token(Adjoin);
-                                                    tree = TreeRoot(true);
-                                                    child1 = NodeSelection();
-                                                    JjTree.CloseNodeScope(jjtn000, true);
-                                                    jjtc000 = false;
-                                                    return new AdjoinNode(tree, child1);
-                                                }
+                                                    {
+                                                        operatorToken = Jj_consume_token(Adjoin);
+                                                        tree = TreeRoot(true);
+                                                        child1 = NodeSelection();
+                                                        JjTree.CloseNodeScope(jjtn000, true);
+                                                        jjtc000 = false;
+                                                        return new AdjoinNode(tree, child1);
+                                                    }
                                                 case AdjoinToHead:
-                                                {
-                                                    operatorToken = Jj_consume_token(AdjoinToHead);
-                                                    tree = TreeRoot(true);
-                                                    child1 = NodeSelection();
-                                                    JjTree.CloseNodeScope(jjtn000, true);
-                                                    jjtc000 = false;
-                                                    return new AdjoinToHeadNode(tree, child1);
-                                                }
+                                                    {
+                                                        operatorToken = Jj_consume_token(AdjoinToHead);
+                                                        tree = TreeRoot(true);
+                                                        child1 = NodeSelection();
+                                                        JjTree.CloseNodeScope(jjtn000, true);
+                                                        jjtc000 = false;
+                                                        return new AdjoinToHeadNode(tree, child1);
+                                                    }
                                                 case AdjoinToFoot:
-                                                {
-                                                    operatorToken = Jj_consume_token(AdjoinToFoot);
-                                                    tree = TreeRoot(true);
-                                                    child1 = NodeSelection();
-                                                    JjTree.CloseNodeScope(jjtn000, true);
-                                                    jjtc000 = false;
-                                                    return new AdjoinToFootNode(tree, child1);
-                                                }
+                                                    {
+                                                        operatorToken = Jj_consume_token(AdjoinToFoot);
+                                                        tree = TreeRoot(true);
+                                                        child1 = NodeSelection();
+                                                        JjTree.CloseNodeScope(jjtn000, true);
+                                                        jjtc000 = false;
+                                                        return new AdjoinToFootNode(tree, child1);
+                                                    }
                                                 case Coindex:
-                                                {
-                                                    operatorToken = Jj_consume_token(Coindex);
-                                                    nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
-                                                    JjTree.CloseNodeScope(jjtn000, true);
-                                                    jjtc000 = false;
-                                                    return new CoindexNodes(nodeSelections.ToArray());
-                                                }
+                                                    {
+                                                        operatorToken = Jj_consume_token(Coindex);
+                                                        nodeSelections = NodeSelectionList(new List<TsurgeonPattern>());
+                                                        JjTree.CloseNodeScope(jjtn000, true);
+                                                        jjtc000 = false;
+                                                        return new CoindexNodes(nodeSelections.ToArray());
+                                                    }
                                                 default:
                                                     jj_la1[5] = jj_gen;
                                                     Jj_consume_token(-1);
@@ -445,10 +441,10 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                     {
                         case Identifier:
-                        {
-                            ;
-                            break;
-                        }
+                            {
+                                ;
+                                break;
+                            }
                         default:
                             jj_la1[6] = jj_gen;
                             //break label_2;
@@ -457,7 +453,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     result = NodeSelection();
                     l.Add(result);
                 }
-                post_label_2:
+            post_label_2:
                 {
                     JjTree.CloseNodeScope(jjtn000, true);
                     jjtc000 = false;
@@ -581,10 +577,10 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         case Identifier:
                         case TreeNodeTerminalLabel:
                         case TreeNodeNonterminalLabel:
-                        {
-                            ;
-                            break;
-                        }
+                            {
+                                ;
+                                break;
+                            }
                         default:
                             jj_la1[7] = jj_gen;
                             //break label_3;
@@ -593,7 +589,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     tree = TreeRoot(requiresFoot);
                     trees.Add(tree);
                 }
-                post_label_3:
+            post_label_3:
                 {
                     JjTree.CloseNodeScope(jjtn000, true);
                     jjtc000 = false;
@@ -687,27 +683,27 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                 switch ((jj_ntk == -1) ? Jj_ntk_f() : jj_ntk)
                 {
                     case TreeNodeNonterminalLabel:
-                    {
-                        label = Jj_consume_token(TreeNodeNonterminalLabel);
-                        List<Tree> dtrs = TreeDtrs(new List<Tree>());
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return treeFactory.NewTreeNode(label.Image.Substring(1), dtrs);
-                    }
+                        {
+                            label = Jj_consume_token(TreeNodeNonterminalLabel);
+                            List<Tree> dtrs = TreeDtrs(new List<Tree>());
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return treeFactory.NewTreeNode(label.Image.Substring(1), dtrs);
+                        }
                     case TreeNodeTerminalLabel:
-                    {
-                        label = Jj_consume_token(TreeNodeTerminalLabel);
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return treeFactory.NewTreeNode(label.Image, new List<Tree>());
-                    }
+                        {
+                            label = Jj_consume_token(TreeNodeTerminalLabel);
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return treeFactory.NewTreeNode(label.Image, new List<Tree>());
+                        }
                     case Identifier:
-                    {
-                        label = Jj_consume_token(Identifier);
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return treeFactory.NewTreeNode(label.Image, new List<Tree>());
-                    }
+                        {
+                            label = Jj_consume_token(Identifier);
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return treeFactory.NewTreeNode(label.Image, new List<Tree>());
+                        }
                     default:
                         jj_la1[8] = jj_gen;
                         Jj_consume_token(-1);
@@ -757,21 +753,21 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                     case Identifier:
                     case TreeNodeTerminalLabel:
                     case TreeNodeNonterminalLabel:
-                    {
-                        Tree tree = TreeNode();
-                        TreeDtrs(dtrs);
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        dtrs.Insert(0, tree);
-                        return dtrs;
-                    }
+                        {
+                            Tree tree = TreeNode();
+                            TreeDtrs(dtrs);
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            dtrs.Insert(0, tree);
+                            return dtrs;
+                        }
                     case CloseParen:
-                    {
-                        Jj_consume_token(CloseParen);
-                        JjTree.CloseNodeScope(jjtn000, true);
-                        jjtc000 = false;
-                        return dtrs;
-                    }
+                        {
+                            Jj_consume_token(CloseParen);
+                            JjTree.CloseNodeScope(jjtn000, true);
+                            jjtc000 = false;
+                            return dtrs;
+                        }
                     default:
                         jj_la1[9] = jj_gen;
                         Jj_consume_token(-1);
@@ -1174,7 +1170,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         };
 
         //private static int[] jj_la1_1;
-        private static readonly int[] jj_la1_1 = new int[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1,};
+        private static readonly int[] jj_la1_1 = new int[] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, };
 
         /*private static 
         {
@@ -1226,17 +1222,17 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         /*public void ReInit(java.io.InputStream stream) {
              ReInit(stream, null);
           }*/
-                /** Reinitialise. */
-                /*public void ReInit(java.io.InputStream stream, string encoding) {
-            try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new SystemException(e); }
-            token_source.ReInit(jj_input_stream);
-            token = new Token();
-            jj_ntk = -1;
-            jjtree.reset();
-            jj_gen = 0;
-            for (int i = 0; i < 10; i++) jj_la1[i] = -1;
-            for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
-          }*/
+        /** Reinitialise. */
+        /*public void ReInit(java.io.InputStream stream, string encoding) {
+    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new SystemException(e); }
+    token_source.ReInit(jj_input_stream);
+    token = new Token();
+    jj_ntk = -1;
+    jjtree.reset();
+    jj_gen = 0;
+    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+  }*/
 
         /// <summary>Constructor with TextReader</summary>
         public TsurgeonParser(TextReader stream)
@@ -1426,7 +1422,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
                         goto post_jj_entries_loop;
                     }
                 }
-                post_jj_entries_loop:
+            post_jj_entries_loop:
                 {
                     if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
                 }

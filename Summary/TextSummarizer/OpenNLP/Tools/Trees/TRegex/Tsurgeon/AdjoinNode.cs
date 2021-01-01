@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -21,7 +18,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         }
 
         public AdjoinNode(string name, AuxiliaryTree t, TsurgeonPattern p) :
-            base(name, new TsurgeonPattern[] {p})
+            base(name, new TsurgeonPattern[] { p })
         {
             if (t == null || p == null)
             {

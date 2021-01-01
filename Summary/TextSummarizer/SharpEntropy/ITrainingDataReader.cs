@@ -32,43 +32,42 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- 
-using System;
+
 
 namespace SharpEntropy
 {
-	/// <summary>
-	/// A interface for objects which can deliver a stream of training data to be
-	/// supplied to an ITrainingEventReader. It is not necessary to use a ITrainingDataReader in a
-	/// SharpEntropy application, but it can be used to support a wider variety of formats
-	/// in which your training data can be held.
-	/// </summary>
-	/// <author>
-	/// Jason Baldridge
-	/// </author>
-	/// <author>
-	/// Richard J. Northedge
-	/// </author>
-	/// <version>
-	/// based on DataStream.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
-	/// </version>
-	public interface ITrainingDataReader<T>
-	{
-		/// <summary> 
-		/// Returns the next slice of data held in this ITrainingDataReader.
-		/// </summary>
-		/// <returns>
-		/// the object representing the data which is next in this
-		/// ITrainingDataReader
-		/// </returns>
-		T NextToken();
-			
-		/// <summary> 
-		/// Test whether there are any training data items remaining in this ITrainingDataReader.
-		/// </summary>
-		/// <returns>
-		/// true if this ITrainingDataReader has more data tokens
-		/// </returns>
-		bool HasNext();
-	}
+    /// <summary>
+    /// A interface for objects which can deliver a stream of training data to be
+    /// supplied to an ITrainingEventReader. It is not necessary to use a ITrainingDataReader in a
+    /// SharpEntropy application, but it can be used to support a wider variety of formats
+    /// in which your training data can be held.
+    /// </summary>
+    /// <author>
+    /// Jason Baldridge
+    /// </author>
+    /// <author>
+    /// Richard J. Northedge
+    /// </author>
+    /// <version>
+    /// based on DataStream.java, $Revision: 1.1.1.1 $, $Date: 2001/10/23 14:06:53 $
+    /// </version>
+    public interface ITrainingDataReader<T>
+    {
+        /// <summary> 
+        /// Returns the next slice of data held in this ITrainingDataReader.
+        /// </summary>
+        /// <returns>
+        /// the object representing the data which is next in this
+        /// ITrainingDataReader
+        /// </returns>
+        T NextToken();
+
+        /// <summary> 
+        /// Test whether there are any training data items remaining in this ITrainingDataReader.
+        /// </summary>
+        /// <returns>
+        /// true if this ITrainingDataReader has more data tokens
+        /// </returns>
+        bool HasNext();
+    }
 }

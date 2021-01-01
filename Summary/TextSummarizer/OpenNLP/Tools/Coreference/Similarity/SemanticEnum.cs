@@ -17,13 +17,12 @@
 //This file is based on the SemanticEnum.java source file found in the
 //original java implementation of OpenNLP.  
 
-using System;
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	
-	public class SemanticEnum
-	{
-		private string mCompatibility;
+
+    public class SemanticEnum
+    {
+        private string mCompatibility;
 
         private SemanticEnum(string compatibility)
         {
@@ -35,21 +34,21 @@ namespace OpenNLP.Tools.Coreference.Similarity
             return mCompatibility;
         }
 
-		/// <summary>
+        /// <summary>
         /// Semantically compatible. 
         /// </summary>
-		public static readonly SemanticEnum Compatible = new SemanticEnum("compatible");
-		
+        public static readonly SemanticEnum Compatible = new SemanticEnum("compatible");
+
         /// <summary>
         /// Semantically incompatible.
         /// </summary>
-		public static readonly SemanticEnum Incompatible = new SemanticEnum("incompatible");
-		
+        public static readonly SemanticEnum Incompatible = new SemanticEnum("incompatible");
+
         /// <summary>
         /// Semantic compatibility Unknown. 
         /// </summary>
-		public static readonly SemanticEnum Unknown = new SemanticEnum("unknown");
-		
-		
-	}
+        public static readonly SemanticEnum Unknown = new SemanticEnum("unknown");
+
+
+    }
 }

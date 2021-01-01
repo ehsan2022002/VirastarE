@@ -1,11 +1,10 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Trees.TRegex
 {
@@ -348,7 +347,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             }
             else
             {
-                return new List<TregexPattern>() {child};
+                return new List<TregexPattern>() { child };
             }
         }
 
@@ -381,7 +380,7 @@ namespace OpenNLP.Tools.Trees.TRegex
             /// The Tree node that this DescriptionMatcher node is trying to match on
             /// </summary>
             private Tree nextTreeNodeMatchCandidate;
-            
+
             /// <summary>
             /// when finished = true, it means I have exhausted my potential tree node match candidates
             /// </summary>
@@ -570,7 +569,7 @@ namespace OpenNLP.Tools.Trees.TRegex
                     // I successfully matched.
                     //Console.WriteLine("!finished");
                     ResetChild();
-                        // reset my unique TregexMatcher child based on the Tree node I successfully matched at.
+                    // reset my unique TregexMatcher child based on the Tree node I successfully matched at.
                     // cdm bugfix jul 2009: on next line need to check for descPattern not null, or else this is a backreference or a link to an already named node, and the map should _not_ be updated
                     if ((myNode.descriptionMode != null || myNode.isLink) && myNode.name != null)
                     {

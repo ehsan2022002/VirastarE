@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Trees
+﻿namespace OpenNLP.Tools.Trees
 {
     /// <summary>
     /// This is a simple interface for a function that alters a

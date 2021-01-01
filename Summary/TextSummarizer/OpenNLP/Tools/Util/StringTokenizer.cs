@@ -14,8 +14,6 @@
 // License along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Util
 {
     /// <summary>
@@ -25,7 +23,7 @@ namespace OpenNLP.Tools.Util
     public class StringTokenizer
     {
         private const string Delimiters = " \t\n\r";
-            //The tokenizer uses the default delimiter set: the space character, the tab character, the newline character, and the carriage-return character	
+        //The tokenizer uses the default delimiter set: the space character, the tab character, the newline character, and the carriage-return character	
 
         private readonly string[] _tokens;
         private int _position;

@@ -1,10 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Util;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Util;
 
 namespace OpenNLP.Tools.Ling
 {
@@ -47,7 +44,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -60,7 +57,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -72,7 +69,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -84,7 +81,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -100,7 +97,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -112,7 +109,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -125,7 +122,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -138,7 +135,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<CoreLabel>);
+                return typeof(List<CoreLabel>);
             }
         }
 
@@ -151,7 +148,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<ICoreMap>);
+                return typeof(List<ICoreMap>);
             }
         }
 
@@ -163,7 +160,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<ICoreMap>);
+                return typeof(List<ICoreMap>);
             }
         }
 
@@ -175,7 +172,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<ICoreMap>);
+                return typeof(List<ICoreMap>);
             }
         }
 
@@ -188,7 +185,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -201,7 +198,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -213,12 +210,12 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Calendar);
+                return typeof(Calendar);
             }
         }
 
         /* These are the keys hashed on by IndexedWord */
-        
+
         /// <summary>
         /// This refers to the unique identifier for a "document", 
         /// where document may vary based on your application.
@@ -227,7 +224,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -244,7 +241,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -260,7 +257,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -275,7 +272,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -290,7 +287,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -304,7 +301,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -315,7 +312,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -328,7 +325,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -339,7 +336,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -347,7 +344,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -360,7 +357,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -372,7 +369,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -385,7 +382,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -396,7 +393,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -407,10 +404,10 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (ICoreMap);
+                return typeof(ICoreMap);
             }
         }
-        
+
         /// <summary>
         /// CoNLL SRL/dep parsing - whether the word is a predicate
         /// </summary>
@@ -418,7 +415,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -430,7 +427,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Dictionary<int, string>);
+                return typeof(Dictionary<int, string>);
             }
         }
 
@@ -441,7 +438,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -452,7 +449,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -463,12 +460,12 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Double);
+                return typeof(Double);
             }
         }
 
         /* Keys from AbstractMapLabel (descriptions taken from that class) */
-        
+
         /// <summary>
         /// The standard key for storing a projected category in the map, as a string.
         /// For any word (leaf node), the projected category is the syntactic category
@@ -478,7 +475,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -489,7 +486,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -500,7 +497,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -511,7 +508,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -522,7 +519,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -533,7 +530,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -544,7 +541,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -555,7 +552,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -566,7 +563,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -585,7 +582,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (SRL_ID);
+                return typeof(SRL_ID);
             }
         }
 
@@ -598,7 +595,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -610,7 +607,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -621,7 +618,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -629,7 +626,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -640,7 +637,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (IntPair);
+                return typeof(IntPair);
             }
         }
 
@@ -651,10 +648,10 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
-        
+
         /// <summary>
         /// The standard key for gold answer which is a String
         /// </summary>
@@ -662,7 +659,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -673,10 +670,10 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
-        
+
         /// <summary>
         /// The standard key for the semantic interpretation
         /// </summary>
@@ -684,7 +681,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -695,7 +692,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -706,10 +703,10 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<string>);
+                return typeof(List<string>);
             }
         }
-        
+
         /// <summary>
         /// Morphological stem of the word this label represents
         /// </summary>
@@ -717,7 +714,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -725,7 +722,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -733,7 +730,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -741,7 +738,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -749,7 +746,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -757,7 +754,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -768,7 +765,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -776,7 +773,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -784,7 +781,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -796,7 +793,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -809,7 +806,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -822,10 +819,10 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
-        
+
         /// <summary>
         /// Key for relative value of a word - used in RTE
         /// </summary>
@@ -833,7 +830,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Double);
+                return typeof(Double);
             }
         }
 
@@ -841,7 +838,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -858,7 +855,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -869,7 +866,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (ILabel);
+                return typeof(ILabel);
             }
         }
 
@@ -882,7 +879,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -890,7 +887,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -898,7 +895,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -910,7 +907,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -918,7 +915,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -927,7 +924,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -935,7 +932,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -943,7 +940,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -951,7 +948,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -959,7 +956,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -967,7 +964,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -975,7 +972,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -983,7 +980,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -991,7 +988,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -999,7 +996,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1007,7 +1004,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1015,7 +1012,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1023,7 +1020,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1031,7 +1028,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1039,7 +1036,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1049,7 +1046,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1057,7 +1054,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1065,7 +1062,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<ICoreMap>);
+                return typeof(List<ICoreMap>);
             }
         }
 
@@ -1073,7 +1070,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1083,7 +1080,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1091,7 +1088,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1101,7 +1098,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1111,7 +1108,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1119,7 +1116,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -1127,7 +1124,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1138,7 +1135,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1149,7 +1146,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1160,7 +1157,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1171,7 +1168,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (ICoreMap);
+                return typeof(ICoreMap);
             }
         }
 
@@ -1182,7 +1179,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1190,7 +1187,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1198,7 +1195,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1206,7 +1203,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1216,7 +1213,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1224,7 +1221,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1232,7 +1229,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Object);
+                return typeof(Object);
             }
         }
 
@@ -1243,7 +1240,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1251,7 +1248,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1259,7 +1256,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1270,7 +1267,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1284,7 +1281,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<Tuple<string, string>>);
+                return typeof(List<Tuple<string, string>>);
             }
         }
 
@@ -1293,7 +1290,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<Tuple<Tuple<string, String, string>, string>>);
+                return typeof(List<Tuple<Tuple<string, String, string>, string>>);
             }
         }
 
@@ -1301,7 +1298,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1309,7 +1306,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1317,7 +1314,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1325,7 +1322,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<Tuple<string, string>>);
+                return typeof(List<Tuple<string, string>>);
             }
         }
 
@@ -1336,7 +1333,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1344,7 +1341,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1355,7 +1352,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1363,7 +1360,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1371,7 +1368,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1379,7 +1376,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1387,7 +1384,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1395,7 +1392,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1403,7 +1400,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1414,7 +1411,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1427,7 +1424,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (CoreLabel);
+                return typeof(CoreLabel);
             }
         }
 
@@ -1438,7 +1435,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1449,7 +1446,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1460,7 +1457,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1471,7 +1468,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1482,7 +1479,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1493,7 +1490,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1504,7 +1501,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1515,7 +1512,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1526,7 +1523,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1538,7 +1535,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1549,7 +1546,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1557,7 +1554,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1565,7 +1562,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1576,7 +1573,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Dictionary<string, Double>);
+                return typeof(Dictionary<string, Double>);
             }
         }
 
@@ -1584,7 +1581,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1592,7 +1589,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1600,7 +1597,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<IntPair>);
+                return typeof(List<IntPair>);
             }
         }
 
@@ -1609,7 +1606,7 @@ namespace OpenNLP.Tools.Ling
 
             public Type GetAnnotationType()
             {
-                return typeof (Tuple<string, Double>);
+                return typeof(Tuple<string, Double>);
             }
         }
 
@@ -1622,7 +1619,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -1634,7 +1631,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1647,7 +1644,7 @@ namespace OpenNLP.Tools.Ling
 
             public Type GetAnnotationType()
             {
-                return typeof (List<string>);
+                return typeof(List<string>);
             }
         }
 
@@ -1659,7 +1656,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1670,7 +1667,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1681,7 +1678,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1692,7 +1689,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<string>);
+                return typeof(List<string>);
             }
         }
 
@@ -1703,7 +1700,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1714,7 +1711,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1725,7 +1722,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1737,7 +1734,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1749,7 +1746,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1761,7 +1758,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1772,7 +1769,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1784,7 +1781,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1798,7 +1795,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1810,7 +1807,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Double);
+                return typeof(Double);
             }
         }
 
@@ -1821,7 +1818,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Object);
+                return typeof(Object);
             }
         }
 
@@ -1833,7 +1830,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Double);
+                return typeof(Double);
             }
         }
 
@@ -1845,7 +1842,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1856,7 +1853,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (object);
+                return typeof(object);
             }
         }
 
@@ -1864,7 +1861,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (List<ICoreMap>);
+                return typeof(List<ICoreMap>);
             }
         }
 
@@ -1875,7 +1872,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Boolean);
+                return typeof(Boolean);
             }
         }
 
@@ -1886,7 +1883,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -1897,7 +1894,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1908,7 +1905,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (int);
+                return typeof(int);
             }
         }
 
@@ -1929,7 +1926,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (System.Collections.Generic.SortedSet<Tuple<CoreLabel, string>>);
+                return typeof(System.Collections.Generic.SortedSet<Tuple<CoreLabel, string>>);
             }
         }
 
@@ -1951,7 +1948,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
 
@@ -1959,7 +1956,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (Double);
+                return typeof(Double);
             }
         }
 
@@ -1967,7 +1964,7 @@ namespace OpenNLP.Tools.Ling
         {
             public Type GetAnnotationType()
             {
-                return typeof (string);
+                return typeof(string);
             }
         }
     }

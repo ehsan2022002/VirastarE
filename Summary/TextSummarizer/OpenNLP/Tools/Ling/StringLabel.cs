@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Ling
+﻿namespace OpenNLP.Tools.Ling
 {
     /// <summary>
     /// A <code>StringLabel</code> object acts as a Label by containing a
@@ -66,7 +60,7 @@ namespace OpenNLP.Tools.Ling
             this.str = label.Value();
             if (label is IHasOffset)
             {
-                var ofs = (IHasOffset) label;
+                var ofs = (IHasOffset)label;
                 SetBeginPosition(ofs.BeginPosition());
                 SetEndPosition(ofs.EndPosition());
             }

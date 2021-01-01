@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
+﻿namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
     /// <summary>
     /// Token literal values and constants.

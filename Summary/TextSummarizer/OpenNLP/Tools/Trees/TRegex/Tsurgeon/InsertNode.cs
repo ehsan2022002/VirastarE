@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
 {
@@ -14,7 +11,7 @@ namespace OpenNLP.Tools.Trees.TRegex.Tsurgeon
         private readonly bool needsCopy = true;
 
         public InsertNode(TsurgeonPattern child, TreeLocation l) :
-            base("insert", new TsurgeonPattern[] {child})
+            base("insert", new TsurgeonPattern[] { child })
         {
             this.location = l;
         }

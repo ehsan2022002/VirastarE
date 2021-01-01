@@ -34,49 +34,47 @@
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using System;
-using DiscourseEntity = OpenNLP.Tools.Coreference.DiscourseEntity;
-using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
-using Parse = OpenNLP.Tools.Coreference.Mention.IParse;
 using System.Collections.Generic;
+using MentionContext = OpenNLP.Tools.Coreference.Mention.MentionContext;
 namespace OpenNLP.Tools.Coreference.Resolver
 {
-	
-	/// <summary> Resolves coreference between definite noun-phrases. </summary>
-	public class DefiniteNounResolver:MaximumEntropyResolver
-	{
-		
-		public DefiniteNounResolver(string projectName, ResolverMode mode):base(projectName, "defmodel", mode, 80)
-		{
-			//preferFirstReferent = true;
-		}
+
+    /// <summary> Resolves coreference between definite noun-phrases. </summary>
+    public class DefiniteNounResolver : MaximumEntropyResolver
+    {
+
+        public DefiniteNounResolver(string projectName, ResolverMode mode) : base(projectName, "defmodel", mode, 80)
+        {
+            //preferFirstReferent = true;
+        }
 
         public DefiniteNounResolver(string projectName, ResolverMode mode, INonReferentialResolver nonReferentialResolver)
             : base(projectName, "defmodel", mode, 80, nonReferentialResolver)
-		{
-			//preferFirstReferent = true;
-		}
-		
-		
-		public override bool CanResolve(MentionContext mention)
-		{
-			Object[] mtokens = mention.Tokens;
-			
-			string firstTok = mention.FirstTokenText.ToLower();
-			bool rv = mtokens.Length > 1 && !PartsOfSpeech.IsProperNoun(mention.HeadTokenTag) && IsDefiniteArticle(firstTok, mention.FirstTokenTag);
-			return (rv);
-		}
-		
-		protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
-		{
+        {
+            //preferFirstReferent = true;
+        }
+
+
+        public override bool CanResolve(MentionContext mention)
+        {
+            Object[] mtokens = mention.Tokens;
+
+            string firstTok = mention.FirstTokenText.ToLower();
+            bool rv = mtokens.Length > 1 && !PartsOfSpeech.IsProperNoun(mention.HeadTokenTag) && IsDefiniteArticle(firstTok, mention.FirstTokenTag);
+            return (rv);
+        }
+
+        protected internal override List<string> GetFeatures(MentionContext mention, DiscourseEntity entity)
+        {
             List<string> features = base.GetFeatures(mention, entity);
-			
-			if (entity != null)
-			{
+
+            if (entity != null)
+            {
                 features.AddRange(GetContextFeatures(mention));
                 features.AddRange(GetStringMatchFeatures(mention, entity));
                 features.AddRange(GetDistanceFeatures(mention, entity));
-			}
-			return features;
-		}
-	}
+            }
+            return features;
+        }
+    }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenNLP.Tools.Util
 {
@@ -34,7 +32,7 @@ namespace OpenNLP.Tools.Util
 
         // the IdentityHashMap which backs this set
         private readonly IdentityDictionary<T, Boolean> map;
-        
+
 
         // CONSTRUCTORS ---------------------------------------------------------
 
@@ -57,7 +55,7 @@ namespace OpenNLP.Tools.Util
         /*public IdentityHashSet(int expectedMaxSize) {
     map = new IdentityDictionary<T, Boolean>(expectedMaxSize);
   }*/
-        
+
         /// <summary>
         /// Construct a new IdentityHashSet with the same elements as the supplied
         /// Collection (eliminating any duplicates, of course); the backing

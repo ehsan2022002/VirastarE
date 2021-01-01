@@ -33,25 +33,23 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-
 namespace OpenNLP.Tools.Coreference.Similarity
 {
-	/// <summary> 
+    /// <summary> 
     /// Interface for training a similarity, gender, or number model. 
     /// </summary>
-	public interface ITrainSimilarityModel
-	{
-		/// <summary>
+    public interface ITrainSimilarityModel
+    {
+        /// <summary>
         /// Creates similarity training pairs based on the specified extents.
-		/// Extents are considered compatible if they are in the same coreference chain,
-		/// have the same named-entity tag, or share a common head word.  Incompatible extents are chosen at random 
-		/// from the set of extents which don't meet this criteria.
-		/// </summary>
-		/// <param name="extents">
-		/// </param>
+        /// Extents are considered compatible if they are in the same coreference chain,
+        /// have the same named-entity tag, or share a common head word.  Incompatible extents are chosen at random 
+        /// from the set of extents which don't meet this criteria.
+        /// </summary>
+        /// <param name="extents">
+        /// </param>
         void SetExtents(Context[] extents);
-		
-		void TrainModel();
-	}
+
+        void TrainModel();
+    }
 }

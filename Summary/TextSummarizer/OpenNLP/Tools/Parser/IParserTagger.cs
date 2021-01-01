@@ -33,17 +33,14 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Collections;
-
 namespace OpenNLP.Tools.Parser
 {
-	/// <summary>
-	/// Interface that a pos-tagger used by the parser must implement.
-	/// </summary>
-	public interface IParserTagger : PosTagger.IPosTagger
-	{		
-		/*Util.Sequence[] TopKSequences(ArrayList sentence);*/
-		Util.Sequence[] TopKSequences(string[] sentence);
-	}
+    /// <summary>
+    /// Interface that a pos-tagger used by the parser must implement.
+    /// </summary>
+    public interface IParserTagger : PosTagger.IPosTagger
+    {
+        /*Util.Sequence[] TopKSequences(ArrayList sentence);*/
+        Util.Sequence[] TopKSequences(string[] sentence);
+    }
 }

@@ -33,152 +33,153 @@
 //License along with this program; if not, write to the Free Software
 //Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-using System;
-using System.Collections;
 using OpenNLP.Tools.Util;
+using System.Collections;
 
 namespace OpenNLP.Tools.NameFind
 {
-	/// <summary>
-	/// Class for creating a maximum-entropy-based name finder.
-	/// </summary>
-	public class MaximumEntropyNameFinder : INameFinder
-	{
-		private SharpEntropy.IMaximumEntropyModel mModel;
-		private INameContextGenerator mContextGenerator;
-		private Sequence mBestSequence;
-		private BeamSearch mBeam;
-		
-		public const string Start = "start";
-		public const string Continue = "cont";
-		public const string Other = "other";
-		
-        
+    /// <summary>
+    /// Class for creating a maximum-entropy-based name finder.
+    /// </summary>
+    public class MaximumEntropyNameFinder : INameFinder
+    {
+        private SharpEntropy.IMaximumEntropyModel mModel;
+        private INameContextGenerator mContextGenerator;
+        private Sequence mBestSequence;
+        private BeamSearch mBeam;
+
+        public const string Start = "start";
+        public const string Continue = "cont";
+        public const string Other = "other";
+
+
         // Constructors ----------------------------------------------
 
-		/// <summary>
-		/// Creates a new name finder with the specified model.
-		/// </summary>
-		/// <param name="model">
-		/// The model to be used to find names.
-		/// </param>
-		public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model):
-            this(model, new DefaultNameContextGenerator(10), 10){ }
-		
-		/// <summary>
-		/// Creates a new name finder with the specified model and context generator.
-		/// </summary>
-		/// <param name="model">
-		/// The model to be used to find names.
-		/// </param>
-		/// <param name="contextGenerator">
-		/// The context generator to be used with this name finder.
-		/// </param>
-		public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model, INameContextGenerator contextGenerator):
-            this(model, contextGenerator, 10){}
-		
-		/// <summary>
-		/// Creates a new name finder with the specified model and context generator.
-		/// </summary>
-		/// <param name="model">
-		/// The model to be used to find names.
-		/// </param>
-		/// <param name="contextGenerator">
-		/// The context generator to be used with this name finder.
-		/// </param>
-		/// <param name="beamSize">
-		/// The size of the beam to be used in decoding this model.
-		/// </param>
-		public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model, INameContextGenerator contextGenerator, int beamSize)
-		{
-			mModel = model;
-			mContextGenerator = contextGenerator;
-			mBeam = new NameBeamSearch(this, beamSize, contextGenerator, model, beamSize);
-		}
+        /// <summary>
+        /// Creates a new name finder with the specified model.
+        /// </summary>
+        /// <param name="model">
+        /// The model to be used to find names.
+        /// </param>
+        public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model) :
+            this(model, new DefaultNameContextGenerator(10), 10)
+        { }
+
+        /// <summary>
+        /// Creates a new name finder with the specified model and context generator.
+        /// </summary>
+        /// <param name="model">
+        /// The model to be used to find names.
+        /// </param>
+        /// <param name="contextGenerator">
+        /// The context generator to be used with this name finder.
+        /// </param>
+        public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model, INameContextGenerator contextGenerator) :
+            this(model, contextGenerator, 10)
+        { }
+
+        /// <summary>
+        /// Creates a new name finder with the specified model and context generator.
+        /// </summary>
+        /// <param name="model">
+        /// The model to be used to find names.
+        /// </param>
+        /// <param name="contextGenerator">
+        /// The context generator to be used with this name finder.
+        /// </param>
+        /// <param name="beamSize">
+        /// The size of the beam to be used in decoding this model.
+        /// </param>
+        public MaximumEntropyNameFinder(SharpEntropy.IMaximumEntropyModel model, INameContextGenerator contextGenerator, int beamSize)
+        {
+            mModel = model;
+            mContextGenerator = contextGenerator;
+            mBeam = new NameBeamSearch(this, beamSize, contextGenerator, model, beamSize);
+        }
 
 
         // Methods --------------------------
-		
-		public virtual string[] Find(string[] tokens, IDictionary previousTags)
-		{
-			mBestSequence = mBeam.BestSequence(tokens, new object[]{previousTags});
-			return mBestSequence.Outcomes.ToArray();
-		}
-		
-		/// <summary>
-		/// This method determines wheter the outcome is valid for the preceding sequence.  
-		/// This can be used to implement constraints on what sequences are valid.  
-		/// </summary>
-		/// <param name="outcome">
-		/// The outcome.
-		/// </param>
-		/// <param name="sequence">
-		/// The preceding sequence of outcome assignments. 
-		/// </param>
-		/// <returns>
-		/// true is the outcome is valid for the sequence, false otherwise.
-		/// </returns>
-		protected internal virtual bool ValidOutcome(string outcome, Sequence sequence)
-		{
-			if (outcome == Continue)
-			{
-				string[] tags = sequence.Outcomes.ToArray();
-				int lastTag = tags.Length - 1;
-				if (lastTag == -1)
-				{
-					return false;
-				}
-				else if (tags[lastTag] == Other)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		/// <summary>
-		/// Populates the specified array with the probabilities of the last decoded sequence.  The
-		/// sequence was determined based on the previous call to <code>chunk</code>.  The 
-		/// specified array should be at least as large as the numbe of tokens in the previous call to <code>chunk</code>.
-		/// </summary>
-		/// <param name="probabilities">
-		/// An array used to hold the probabilities of the last decoded sequence.
-		/// </param>
-		public virtual void GetProbabilities(double[] probabilities)
-		{
-			mBestSequence.GetProbabilities(probabilities);
-		}
-		
-		/// <summary>
-		/// Returns an array with the probabilities of the last decoded sequence.  The
-		/// sequence was determined based on the previous call to <code>chunk</code>.
-		/// </summary>
-		/// <returns>
-		/// An array with the same number of probabilities as tokens were sent to <code>chunk</code>
-		/// when it was last called.   
-		/// </returns>
-		public virtual double[] GetProbabilities()
-		{
-			return mBestSequence.GetProbabilities();
-		}
-		
-		private static SharpEntropy.GisModel Train(SharpEntropy.ITrainingEventReader eventReader, int iterations, int cutoff)
-		{
-			SharpEntropy.GisTrainer trainer = new SharpEntropy.GisTrainer();
-			trainer.TrainModel(iterations, new SharpEntropy.TwoPassDataIndexer(eventReader, cutoff));
-			return new SharpEntropy.GisModel(trainer);
-		}
-		
-		public static SharpEntropy.GisModel TrainModel(string trainingFile)
-		{
-			return TrainModel(trainingFile, 100, 5);
-		}
 
-		public static SharpEntropy.GisModel TrainModel(string trainingFile, int iterations, int cutoff)
-		{
-			SharpEntropy.ITrainingEventReader eventReader = new NameFinderEventReader(new SharpEntropy.PlainTextByLineDataReader(new System.IO.StreamReader(trainingFile)));
-			return Train(eventReader, iterations, cutoff);
-		}
+        public virtual string[] Find(string[] tokens, IDictionary previousTags)
+        {
+            mBestSequence = mBeam.BestSequence(tokens, new object[] { previousTags });
+            return mBestSequence.Outcomes.ToArray();
+        }
+
+        /// <summary>
+        /// This method determines wheter the outcome is valid for the preceding sequence.  
+        /// This can be used to implement constraints on what sequences are valid.  
+        /// </summary>
+        /// <param name="outcome">
+        /// The outcome.
+        /// </param>
+        /// <param name="sequence">
+        /// The preceding sequence of outcome assignments. 
+        /// </param>
+        /// <returns>
+        /// true is the outcome is valid for the sequence, false otherwise.
+        /// </returns>
+        protected internal virtual bool ValidOutcome(string outcome, Sequence sequence)
+        {
+            if (outcome == Continue)
+            {
+                string[] tags = sequence.Outcomes.ToArray();
+                int lastTag = tags.Length - 1;
+                if (lastTag == -1)
+                {
+                    return false;
+                }
+                else if (tags[lastTag] == Other)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Populates the specified array with the probabilities of the last decoded sequence.  The
+        /// sequence was determined based on the previous call to <code>chunk</code>.  The 
+        /// specified array should be at least as large as the numbe of tokens in the previous call to <code>chunk</code>.
+        /// </summary>
+        /// <param name="probabilities">
+        /// An array used to hold the probabilities of the last decoded sequence.
+        /// </param>
+        public virtual void GetProbabilities(double[] probabilities)
+        {
+            mBestSequence.GetProbabilities(probabilities);
+        }
+
+        /// <summary>
+        /// Returns an array with the probabilities of the last decoded sequence.  The
+        /// sequence was determined based on the previous call to <code>chunk</code>.
+        /// </summary>
+        /// <returns>
+        /// An array with the same number of probabilities as tokens were sent to <code>chunk</code>
+        /// when it was last called.   
+        /// </returns>
+        public virtual double[] GetProbabilities()
+        {
+            return mBestSequence.GetProbabilities();
+        }
+
+        private static SharpEntropy.GisModel Train(SharpEntropy.ITrainingEventReader eventReader, int iterations, int cutoff)
+        {
+            SharpEntropy.GisTrainer trainer = new SharpEntropy.GisTrainer();
+            trainer.TrainModel(iterations, new SharpEntropy.TwoPassDataIndexer(eventReader, cutoff));
+            return new SharpEntropy.GisModel(trainer);
+        }
+
+        public static SharpEntropy.GisModel TrainModel(string trainingFile)
+        {
+            return TrainModel(trainingFile, 100, 5);
+        }
+
+        public static SharpEntropy.GisModel TrainModel(string trainingFile, int iterations, int cutoff)
+        {
+            SharpEntropy.ITrainingEventReader eventReader = new NameFinderEventReader(new SharpEntropy.PlainTextByLineDataReader(new System.IO.StreamReader(trainingFile)));
+            return Train(eventReader, iterations, cutoff);
+        }
 
 
         // Inner classes --------------------
@@ -208,7 +209,7 @@ namespace OpenNLP.Tools.NameFind
             /// <param name="beamSize">
             /// The size of the beam to use in searching.
             /// </param>
-            public NameBeamSearch(MaximumEntropyNameFinder nameFinder, int size, INameContextGenerator contextGenerator, SharpEntropy.IMaximumEntropyModel model, int beamSize):
+            public NameBeamSearch(MaximumEntropyNameFinder nameFinder, int size, INameContextGenerator contextGenerator, SharpEntropy.IMaximumEntropyModel model, int beamSize) :
                 base(size, contextGenerator, model, beamSize)
             {
                 _nameFinder = nameFinder;
@@ -219,6 +220,6 @@ namespace OpenNLP.Tools.NameFind
                 return _nameFinder.ValidOutcome(outcome, outcomeSequence);
             }
         }
-		
-	}
+
+    }
 }

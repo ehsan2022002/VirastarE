@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace PageRank.Graph
 {
@@ -16,7 +15,7 @@ namespace PageRank.Graph
         public void AddEdge(T source, T destination, double weight = 1.0)
         {
             base.AddEdges(source, destination, weight);
-            base.AddEdges(destination, source , weight);
+            base.AddEdges(destination, source, weight);
         }
 
         /// <summary>

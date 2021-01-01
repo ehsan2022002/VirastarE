@@ -1,9 +1,7 @@
-﻿using System;
+﻿using OpenNLP.Tools.Ling;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OpenNLP.Tools.Ling;
 
 namespace OpenNLP.Tools.Trees
 {
@@ -67,7 +65,7 @@ namespace OpenNLP.Tools.Trees
         /// </summary>
         public ICollection<ILabel> Labels()
         {
-            return new List<ILabel>() {Label()};
+            return new List<ILabel>() { Label() };
         }
 
 
@@ -141,7 +139,7 @@ namespace OpenNLP.Tools.Trees
             //      return true;
             if (obj is Constituent)
             {
-                var c = (Constituent) obj;
+                var c = (Constituent)obj;
                 if ((Start() == c.Start()) && (End() == c.End()))
                 {
                     ILabel lab1 = Label();
@@ -222,7 +220,7 @@ namespace OpenNLP.Tools.Trees
             return Start() <= c.Start() && End() >= c.End();
         }
 
-        
+
         // -- below here is stuff to implement the Label interface
 
         /// <summary>
