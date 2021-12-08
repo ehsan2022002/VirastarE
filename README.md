@@ -14,7 +14,7 @@
 <a href="https://drive.google.com/drive/folders/1c2RWBh_fSDccuryOnqa8Bwzn6sMdLJNO?usp=sharing"> جهت دانلود برنامه نصب از گوگل درایو کلیک کنید</a>  
 نسخه فعلی جهت دانلود(10-10-21)  R4
 <br>
- <a href="https://logo.saramad.ir/verify.aspx?CodeShamad=1-1-789258-62-0-1"> جهت مشاهده مشخصات ثبت نرم افزار کلیک کنید</a> 
+ <a href="https://logo.saramad.ir/verify.aspx?CodeShamad=1-1-789258-62-0-1"> جهت مشاهده مشخصات ثبت نرم افزار در سامانه ارشاد کلیک کنید</a> 
 <br><br>
 <img src="https://github.com/ehsan2022002/VirastarE/blob/master/screenshot3.png" alt="virstarE">
 <br>
